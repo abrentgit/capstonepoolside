@@ -1,2 +1,9 @@
 language: node_js
 node_js: node
+deploy:
+  provider: heroku
+  api_key:
+    secure: F6ddBJW4TYAjtxKxovPZacNYhAKmC9iAg0QHPKOAtT2ruAKY6dkA3Oqsvy8wQ9SlFh0AAqv1iUtXnAQ5L8CT/soCm+NB/2WKlf+r8t1F2e4XMSgwNqMgGc0i2Vgz+b1Vx1wlrvLT+AeiE29nQz7rtwrPft1R9Ncd0XKJKRImNHFaOt/zWUOTB4BC2SOGCke8DtdnBGrPFp9nqDOPSla6K1ZltdY09qWQG40US/rEgZdRjWmrDg/HEOCKTf8VTjgRDpWZUAf0H80w2Omy2RlxGeMuMfs4qkE/9tZVtQ+jZ/nhE+TPoxLoXHZgOYXfUWdrpl8fgqY0gTajQvJBLy+kF0XYwt0tPdb2MIX5wp5C9kXnfH0KrajJ6BzbZLQL0vqnXLhjueU7nfTNL3fzdGIOrthzODtfLzWs5XZBhg/IZVnykeTjByIZ70B0YZuXdhJNC/O/9PjHFt/FARk9stD/HnbUnpOvWZMxBs+6or4C6ukFxqXonzGI3d0zf3ATYyxxNt0FH/IPxW9rDhSO/1w2xCsSNdLSc3VJJ9teLO2ealq2yBrsF2iMk96IW1WHZ/6s/1tgfJCoI1VHt0/S+uvZl2SetUq5bMXMWkyZZiCQAMeLFRBz4c74cuNwO66rUjuuy8nU82c0WuAyRe/9CGJ/nfRMr4bwb3y5e/AYwjfDty8=
+  app: 'whispering-anchorage-66421'
+  on:
+    repo: abrentgit/capstonepoolside
