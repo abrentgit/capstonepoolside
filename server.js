@@ -31,7 +31,7 @@ app.get("/orders", (req, res) => {
   // user POST  order request - CREATE new order
 
 app.post("/orders", (req, res) => {
-    const requiredFields = ['guest','dish','beverage','delivery','location'];
+    const requiredFields = ['guests','dishes','beverages','deliveryTime','location', 'notes'];
     for (let i = 0; i < requiredFields.length; i++) {
       const field = requiredFields[i];
       if (!(field in req.body)) {
@@ -43,13 +43,14 @@ app.post("/orders", (req, res) => {
 
     Order
     .create({
-      guest: req.body.guest,
-      dish: req.body.dish,
-      beverage: req.body.beverage,
-      delivery: req.body.delivery,
-      location: req.body.location
+      guests: req.body.guests,
+      dishes: req.body.dishes,
+      beverages: req.body.beverages,
+      deliveryTime: req.body.deliveryTime,
+      location: req.body.location,
+      notes: req.body.notes
     })
-    .then(order => res.status(201).json(blogPost.serialize()))
+    .then(order => res.status(201).json(Order.serialize()))
     .catch(err => {
       console.error(err);
       res.status(500).json({ error: 'Something went wrong' });
@@ -67,7 +68,7 @@ app.put('/orders/:id', (req, res) => {
     }
   
     const updated = {};
-    const updateableFields = ['dish','beverage','delivery','location'];
+    const updateableFields = ['dishes','beverages','deliveryTime','location', 'notes'];
     updateableFields.forEach(field => {
       if (field in req.body) {
         updated[field] = req.body[field];
@@ -75,13 +76,13 @@ app.put('/orders/:id', (req, res) => {
     });
   
     Order
-      .findByIdAndUpdate(req.params.id, { $set: updated }, { new: true })
+      .findByIdAndUpdate(req.params.id, {upsert: true})
       .then(updatedOrder => res.status(204).end())
       .catch(err => res.status(500).json({ message: 'Something went wrong' }));
   });
   
   app.delete("/orders/:id", (req, res) => {
-    Orders.findByIdAndRemove(req.params.id)
+    Orders.findByIdAndRemove(req.params.id, { upsert : true, new : true })
       .then(order => res.status(204).end())
       .catch(err => res.status(500).json({ message: "Internal server error" }));
   });
