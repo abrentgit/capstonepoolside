@@ -98,15 +98,23 @@ app.put('/orders/:id', (req, res) => {
 
 // MANAGERS CAN:
 
-// get request for an order/ all orders
+// get a menu
 
-// get request by id or guest? 
+// delete a menu
 
-// delete order
+// delete a menu by id
 
-// POST NEW MENU item 
+// delete menu dish
 
-// PUT REQUEST  - update menu item
+// delete menu beverage
 
-// delete menu item 
+// post menu dish
+
+// post menu beverage
+
+// put menu dish id
+
+// put menu beverage id
+
+
 
