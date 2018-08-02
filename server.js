@@ -80,20 +80,20 @@ app.put('/orders/:id', (req, res) => {
       .then(updatedOrder => res.status(204).end())
       .catch(err => res.status(500).json({ message: 'Something went wrong' }));
   });
-  
+
   app.delete("/orders/:id", (req, res) => {
     Orders.findByIdAndRemove(req.params.id, { upsert : true, new : true })
       .then(order => res.status(204).end())
       .catch(err => res.status(500).json({ message: "Internal server error" }));
   });
 
-  app.delete("/orders/:dishes/id", (req, res) => {
+  app.delete("/orders/:id/dishes", (req, res) => {
     Orders.findByIdAndRemove(req.params.id)
     .then(order => res.status(204).end())
     .catch(err => res.status(500).json({ message: "Internal server error" }));
  });
 
- app.delete("/orders/:beverages/id", (req, res) => {
+ app.delete("/orders/:id/beverages", (req, res) => {
     Orders.findByIdAndRemove(req.params.id)
     .then(order => res.status(204).end())
     .catch(err => res.status(500).json({ message: "Internal server error" }));
