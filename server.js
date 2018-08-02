@@ -86,6 +86,18 @@ app.put('/orders/:id', (req, res) => {
       .then(order => res.status(204).end())
       .catch(err => res.status(500).json({ message: "Internal server error" }));
   });
+
+  app.delete("/orders/:dishes/id", (req, res) => {
+    Orders.findByIdAndRemove(req.params.id)
+    .then(order => res.status(204).end())
+    .catch(err => res.status(500).json({ message: "Internal server error" }));
+ });
+
+ app.delete("/orders/:beverages/id", (req, res) => {
+    Orders.findByIdAndRemove(req.params.id)
+    .then(order => res.status(204).end())
+    .catch(err => res.status(500).json({ message: "Internal server error" }));
+ });
   
   app.use("*", function(req, res) {
     res.status(404).json({ message: "Not Found" });
