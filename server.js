@@ -119,10 +119,6 @@ app.put('/orders/:id', (req, res) => {
     .then(order => res.status(204).end())
     .catch(err => res.status(500).json({ message: "Internal server error" }));
  });
-  
-  app.use("*", function(req, res) {
-    res.status(404).json({ message: "Not Found" });
-  });
 
 // PUT ORDER - BEVERAGE
 
@@ -429,43 +425,6 @@ app.post("/menus/:id/dishes", (req, res) => {
 
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-// user PUT request update order - fields = delivery time, dish, drink, location
-
-// DELETE order request
-
-
-// MANAGERS CAN:
-
-// get a menu
-
-// delete a menu
-
-// delete a menu by id
-
-// delete menu dish
-
-// delete menu beverage
-
-// post menu dish
-
-// post menu beverage
-
-// put menu dish id
-
-// put menu beverage id
-
-
-
+app.use("*", function(req, res) {
+  res.status(404).json({ message: "Not Found" });
+});
