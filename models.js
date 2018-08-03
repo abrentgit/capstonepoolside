@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 const menuSchema = mongoose.Schema({
+    name: String, 
     dishes: [dishSchema],
     beverages: [beverageSchema],
 });
@@ -48,7 +49,7 @@ const staffSchema = mongoose.Schema({
 orderSchema.methods.serialize = function() {
     return {
       id: this._id,
-      guest: this.guest,
+      guests: this.guest,
       dishes: this.dishes,
       beverages: this.beverages,
       location: this.location,
@@ -58,8 +59,19 @@ orderSchema.methods.serialize = function() {
     };
 };
 
+menuSchema.methods.serialize = function() {
+    return {
+        id: this._id,
+        name: this.name,
+        dishes: this.dishes,
+        beverages: this.beverages,
+    }
+}
+
 const Order = mongoose.model('Order', orderSchema);
+const Menu = mongoose.model('Menu', menuSchema);
 
 module.exports = { Order };
+module.exports = { Menu };
 
 
