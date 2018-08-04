@@ -19,7 +19,7 @@ app.use(express.json());
 
 app.get("/orders", (req, res) => {
     Order.find()
-      .limit(10)
+      .limit(1)
       .then(orders => {
         res.json({
           orders: orders.map(Order => Order.serialize())
@@ -428,3 +428,45 @@ app.post("/menus/:id/dishes", (req, res) => {
 app.use("*", function(req, res) {
   res.status(404).json({ message: "Not Found" });
 });
+
+let server;
+
+function runServer(databaseUrl, port = PORT) {
+  return new Promise((resolve, reject) => {
+    mongoose.connect(databaseUrl, err => {
+      if (err) {
+        return reject(err);
+      }
+      server = app.listen(port, () => {
+        console.log(`Your app is listening on port ${port}`);
+        resolve();
+      })
+        .on('error', err => {
+          mongoose.disconnect();
+          reject(err);
+        });
+    });
+  });
+}
+
+
+function closeServer() {
+  return mongoose.disconnect().then(() => {
+    return new Promise((resolve, reject) => {
+      console.log('Closing server');
+      server.close(err => {
+        if (err) {
+          return reject(err);
+        }
+        resolve();
+      });
+    });
+  });
+}
+
+
+if (require.main === module) {
+  runServer(DATABASE_URL).catch(err => console.error(err));
+}
+
+module.exports = { runServer, app, closeServer };

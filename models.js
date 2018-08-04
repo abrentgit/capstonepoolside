@@ -3,22 +3,6 @@
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
-const menuSchema = mongoose.Schema({
-    name: String, 
-    dishes: [dishSchema],
-    beverages: [beverageSchema],
-});
-
-const orderSchema = mongoose.Schema({
-    guestNames: [guestSchema],required: true,
-    dishes: [dishSchema], required: true,
-    beverages: [beverageSchema], required: true,
-    created_at: Date,
-    deliveryTime: Date, required: true,
-    location: String, required: true,
-    notes: String
-});
-
 const dishSchema = mongoose.Schema({
     name: String, required: true,
     description: String, required: true,
@@ -46,6 +30,22 @@ const staffSchema = mongoose.Schema({
     role: String,
 });
 
+const menuSchema = mongoose.Schema({
+    name: String, 
+    dishes: [dishSchema],
+    beverages: [beverageSchema],
+});
+
+const orderSchema = mongoose.Schema({
+    guestNames: [guestSchema],required: true,
+    dishes: [dishSchema], required: true,
+    beverages: [beverageSchema], required: true,
+    created_at: Date,
+    deliveryTime: Date, required: true,
+    location: String, required: true,
+    notes: String
+});
+
 orderSchema.methods.serialize = function() {
     return {
       id: this._id,
@@ -69,9 +69,9 @@ menuSchema.methods.serialize = function() {
 }
 
 const Order = mongoose.model('Order', orderSchema);
-const Menu = mongoose.model('Menu', menuSchema);
+const Menu = mongoose.model('Menu', menuSchema); 
 
-module.exports = { Order };
-module.exports = { Menu };
+module.exports = {Order, Menu};
+
 
 
