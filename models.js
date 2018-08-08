@@ -70,8 +70,13 @@ menuSchema.methods.serialize = function() {
 
 const Order = mongoose.model('Order', orderSchema);
 const Menu = mongoose.model('Menu', menuSchema); 
+const Beverage = mongoose.model('Beverage', beverageSchema);
+const Dish = mongoose.model('Dish', dishSchema);
+const Guest = mongoose.model('Guest', guestSchema);
+const StaffUser = mongoose.model('StaffUser', staffSchema);
 
-module.exports = {Order, Menu};
+
+module.exports = {Order, Menu, Beverage, Dish, Guest, StaffUser};
 
 
 

@@ -8,6 +8,10 @@ mongoose.Promise = global.Promise;
 const { DATABASE_URL, PORT } = require('./config');
 const { Order } = require('./models');
 const { Menu } = require('./models');
+const { Beverage } = require('./models');
+const { Dish } = require('./models');
+const { Guest } = require('./models');
+const { StaffUser } = require('./models');
 
 app.use(morgan('common'));
 app.use(express.json());
@@ -61,7 +65,6 @@ app.post("/orders", (req, res) => {
       guests: req.body.guests,
       dishes: req.body.dishes,
       beverages: req.body.beverages,
-      created_at: req.body.created_at,
       deliveryTime: req.body.deliveryTime,
       location: req.body.location,
       notes: req.body.notes
@@ -92,7 +95,7 @@ app.put('/orders/:id', (req, res) => {
     });
   
     Order
-      .findByIdAndUpdate(req.params.id, {upsert: true})
+      .findByIdAndUpdate(req.params.id, updated)// add 
       .then(updatedOrder => res.status(204).end())
       .catch(err => res.status(500).json({ message: 'Something went wrong' }));
   });
@@ -100,7 +103,7 @@ app.put('/orders/:id', (req, res) => {
 // DELETE ORDER BY ID
 
  app.delete("/orders/:id", (req, res) => {
-    Orders.findByIdAndRemove(req.params.id, { upsert : true, new : true })
+    Orders.findByIdAndRemove(req.params.id)
       .then(order => res.status(204).end())
       .catch(err => res.status(500).json({ message: "Internal server error" }));
   });
@@ -108,13 +111,13 @@ app.put('/orders/:id', (req, res) => {
 // DELETE DISH ORDER BY ID
  app.delete("/orders/:id/dishes/:id", (req, res) => {
     dishes.findByIdAndRemove(req.params.id)
-    .then(order => res.status(204).end())
+    .then(order => res.status(204).end()) // no content
     .catch(err => res.status(500).json({ message: "Internal server error" }));
  });
 
 // DELETE BEVERAGE ORDER BY ID
 
- app.delete("/orders/:id/beverages/:id", (req, res) => {
+ app.delete("/orders/:id/beverages/:beverageid", (req, res) => {  ///beverage
     beverages.findByIdAndRemove(req.params.id)
     .then(order => res.status(204).end())
     .catch(err => res.status(500).json({ message: "Internal server error" }));
@@ -292,7 +295,7 @@ app.put('/menus/dishes/:id', (req, res) => {
   });
 
   dishes
-    .findByIdAndUpdate(req.params.id, {upsert: true})
+    .findByIdAndUpdate(req.params.id)
     .then(updatedDish => res.status(204).end())
     .catch(err => res.status(500).json({ message: 'Something went wrong' }));
 });
