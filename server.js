@@ -21,7 +21,7 @@ app.use(express.json());
 
 // get all orders
 
-app.get("/orders", (req, res) => {
+app.get('/orders', (req, res) => {
     Order.find()
       .limit(1)
       .then(orders => {
@@ -172,7 +172,7 @@ app.put('/orders/:id/dishes/:id', (req, res) => {
 
 // get menus 
 
-app.get("/menus", (req, res) => {
+app.get('/menus', (req, res) => {
   Menu.find()
     .limit(3)
     .then(orders => {
@@ -349,7 +349,7 @@ app.delete("/menus/:id/beverages/:id", (req, res) => {
 
 // POST MENU 
 
-app.post("/menus", (req, res) => {
+app.post('/menus', (req, res) => {
   const requiredFields = ['name','dishes','beverages'];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
