@@ -66,6 +66,44 @@ menuSchema.methods.serialize = function() {
         dishes: this.dishes,
         beverages: this.beverages,
     }
+};
+
+beverageSchema.methods.serialize = function() {
+    return {
+        id: this._id,
+        name: this.name,
+        description: this.description,
+        price: this.price
+    }
+};
+
+dishSchema.methods.serialize = function() {
+    return {
+        id: this._id,
+        name: this.name,
+        description: this.description,
+        price: this.price
+    }
+}
+
+guestSchema.methods.serialize = function() {
+    return {
+        id: this._id,
+        name: this.name,
+        password: this.password,
+        email: this.email,
+        phone: this.phone,
+    }
+}
+
+staffSchema.methods.serialize = function() {
+    return {
+        id: this._id,
+        name: this.name,
+        email: this.email,
+        password: this.password,
+        role: this.role
+    }
 }
 
 const Order = mongoose.model('Order', orderSchema);

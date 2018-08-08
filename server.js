@@ -69,7 +69,7 @@ app.post("/orders", (req, res) => {
       location: req.body.location,
       notes: req.body.notes
     })
-    .then(order => res.status(201).json(Order.serialize()))
+    .then(order => res.status(201).json(order.serialize()))
     .catch(err => {
       console.error(err);
       res.status(500).json({ error: 'Something went wrong' });
@@ -109,7 +109,7 @@ app.put('/orders/:id', (req, res) => {
   });
 
 // DELETE DISH ORDER BY ID
- app.delete("/orders/:id/dishes/:id", (req, res) => {
+ app.delete("/orders/:id/dishes/:dishid", (req, res) => {
     dishes.findByIdAndRemove(req.params.id)
     .then(order => res.status(204).end()) // no content
     .catch(err => res.status(500).json({ message: "Internal server error" }));
@@ -125,7 +125,7 @@ app.put('/orders/:id', (req, res) => {
 
 // PUT ORDER - BEVERAGE
 
-app.put('/orders/:id/beverages/:id', (req, res) => {
+app.put('/orders/:id/beverages/:beverageid', (req, res) => {
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
     res.status(400).json({
       error: 'Request path id and request body id values must match'
@@ -141,14 +141,16 @@ app.put('/orders/:id/beverages/:id', (req, res) => {
   });
 
   beverages
-    .findByIdAndUpdate(req.params.id, {upsert: true})
+    .findByIdAndUpdate(req.params.id, updated)
     .then(updatedOrder => res.status(204).end())
     .catch(err => res.status(500).json({ message: 'Something went wrong' }));
 });
 
 // PUT ORDER DISHES
 
-app.put('/orders/:id/dishes/:id', (req, res) => {
+/// make sure you check for dishid match
+
+app.put('/orders/:id/dishes/:dishid', (req, res) => {
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
     res.status(400).json({
       error: 'Request path id and request body id values must match'
@@ -164,7 +166,7 @@ app.put('/orders/:id/dishes/:id', (req, res) => {
   });
 
   dishes
-    .findByIdAndUpdate(req.params.id, {upsert: true})
+    .findByIdAndUpdate(req.params.id, updated)
     .then(updatedOrder => res.status(204).end())
     .catch(err => res.status(500).json({ message: 'Something went wrong' }));
 });
@@ -272,7 +274,7 @@ app.put('/menus/:id', (req, res) => {
   });
 
   Menu
-    .findByIdAndUpdate(req.params.id, {upsert: true})
+    .findByIdAndUpdate(req.params.id, updated)
     .then(updatedMenu => res.status(204).end())
     .catch(err => res.status(500).json({ message: 'Something went wrong' }));
 });
@@ -295,7 +297,7 @@ app.put('/menus/dishes/:id', (req, res) => {
   });
 
   dishes
-    .findByIdAndUpdate(req.params.id)
+    .findByIdAndUpdate(req.params.id, updated)
     .then(updatedDish => res.status(204).end())
     .catch(err => res.status(500).json({ message: 'Something went wrong' }));
 });
@@ -318,7 +320,7 @@ app.put('/menus/beverages/:id', (req, res) => {
   });
 
   beverages
-    .findByIdAndUpdate(req.params.id, {upsert: true})
+    .findByIdAndUpdate(req.params.id)
     .then(updatedBeverage => res.status(204).end())
     .catch(err => res.status(500).json({ message: 'Something went wrong' }));
 });
@@ -327,13 +329,13 @@ app.put('/menus/beverages/:id', (req, res) => {
 // DELETE MENU BY ID
 
 app.delete("/menus/:id", (req, res) => {
-  Menus.findByIdAndRemove(req.params.id, { upsert : true, new : true })
+  Menus.findByIdAndRemove(req.params.id)
     .then(menu => res.status(204).end())
     .catch(err => res.status(500).json({ message: "Internal server error" }));
 });
 
 // DELETE MENU DISH BY ID
-app.delete("/menus/:id/dishes/:id", (req, res) => {
+app.delete("/menus/:id/dishes/:dishid", (req, res) => {
   dishes.findByIdAndRemove(req.params.id)
   .then(dish => res.status(204).end())
   .catch(err => res.status(500).json({ message: "Internal server error" }));
@@ -341,7 +343,7 @@ app.delete("/menus/:id/dishes/:id", (req, res) => {
 
 // DELETE MENU BEVERAGE BY ID
 
-app.delete("/menus/:id/beverages/:id", (req, res) => {
+app.delete("/menus/:id/beverages/:beverageid", (req, res) => {
   beverages.findByIdAndRemove(req.params.id)
   .then(beverage => res.status(204).end())
   .catch(err => res.status(500).json({ message: "Internal server error" }));
@@ -366,7 +368,7 @@ app.post('/menus', (req, res) => {
     dishes: req.body.dishes,
     beverages: req.body.beverages,
   })
-  .then(menu => res.status(201).json(Menu.serialize()))
+  .then(menu => res.status(201).json(menu.serialize()))
   .catch(err => {
     console.error(err);
     res.status(500).json({ error: 'Something went wrong' });
@@ -393,7 +395,7 @@ app.post("/menus/:id/beverages", (req, res) => {
     description: req.body.description,
     price: req.body.price
   })
-  .then(beverage => res.status(201).json(Beverage.serialize()))
+  .then(beverage => res.status(201).json(beverage.serialize()))
   .catch(err => {
     console.error(err);
     res.status(500).json({ error: 'Something went wrong' });
@@ -420,7 +422,7 @@ app.post("/menus/:id/dishes", (req, res) => {
     description: req.body.description,
     price: req.body.price
   })
-  .then(dish => res.status(201).json(Dish.serialize()))
+  .then(dish => res.status(201).json(dish.serialize()))
   .catch(err => {
     console.error(err);
     res.status(500).json({ error: 'Something went wrong' });
