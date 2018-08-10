@@ -4,51 +4,52 @@ const mongoose = require('Mongoose');
 mongoose.Promise = global.Promise;
 
 const dishSchema = mongoose.Schema({
-    name: {type: String, required: true},
-    description: {type: String, required: true},
-    price: {type: Number, required: true}
+    name: { type: String, required: true },
+    description: { type: String, required: true },
+    price: { type: Number, required: true }
 });
 
 const beverageSchema = mongoose.Schema({
-    name: {type: String, required: true},
-    description: {type: String, required: true},
-    price: {type: Number, required: true}
+    name: { type: String, required: true },
+    description: { type: String, required: true },
+    price: { type: Number, required: true }
 });
 
 const guestSchema = mongoose.Schema({
-    name: {type: String, required: true},
-    password: {type: String, required: true},
-    phone: {type: String, required: true},
-    email: {type: String, required: true, unique: true},
-    room: {type: String, required: true}
+    name: { type: String, required: true },
+    password: { type: String, required: true },
+    phone: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    room: { type: String, required: true }
 });
 
 const staffSchema = mongoose.Schema({
-    name: {type: String, required: true},
-    email: {type: String, required: true, unique: true}, 
-    password: {type: String, required: true},
-    role: String,
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true }, 
+    password: { type: String, required: true },
+    role: { type: String }
 });
 
 // dishes and beverages are arrays of objects
+// need to add required trues at some point
 
 const menuSchema = mongoose.Schema({
-    name: String, 
-    dishes: [dishSchema], // fix nested
-    beverages: [beverageSchema], //fix nested
+    name: { type: String }, 
+    dishes: [{ type: mongoose.Schema.ObjectId, ref: "Dish" }], 
+    beverages: [{ type: mongoose.Schema.ObjectId, ref: "Beverage" }], 
 });
 
 // dishes guests and beverages are an array of objects
-// NEEED TO ADD REQUIRED TRUE soon
+// NEED TO ADD REQUIRED TRUES
 
 const orderSchema = mongoose.Schema({
-    guests: {type: mongoose.Schema.ObjectId, ref: "Guest"},
-    dishes: {type: mongoose.Schema.ObjectId, ref: "Dish"},
-    beverages: {type: mongoose.Schema.ObjectId, ref: "Beverage"}, // FIX NESTED 
-    created_at: Date,
-    deliveryTime: Date, required: true,
-    location: String, required: true,
-    notes: String
+    guests: [{ type: mongoose.Schema.ObjectId, ref: "Guest" }],
+    dishes: [{ type: mongoose.Schema.ObjectId, ref: "Dish" }],
+    beverages: [{ type: mongoose.Schema.ObjectId, ref: "Beverage" }], 
+    created_at: { type: Date },
+    deliveryTime: { type: Date, required: true},
+    location: { type: String, required: true},
+    notes: {type: String }
 });
 
 orderSchema.methods.serialize = function() {
@@ -116,10 +117,10 @@ const Menu = mongoose.model('Menu', menuSchema);
 const Beverage = mongoose.model('Beverage', beverageSchema);
 const Dish = mongoose.model('Dish', dishSchema);
 const Guest = mongoose.model('Guest', guestSchema);
-const StaffUser = mongoose.model('StaffUser', staffSchema);
+const Staff = mongoose.model('StaffUser', staffSchema);
 
 
-module.exports = {Order, Menu, Beverage, Dish, Guest, StaffUser};
+module.exports = {Order, Menu, Beverage, Dish, Guest, Staff};
 
 
 

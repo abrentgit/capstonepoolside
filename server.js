@@ -1,17 +1,13 @@
 'use strict';
 
 const express = require('express');
+const app = express();
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 const { DATABASE_URL, PORT } = require('./config');
-const { Order } = require('./models');
-const { Menu } = require('./models');
-const { Beverages } = require('./models');
-const { Dishes } = require('./models');
-const { Guest } = require('./models');
-const { StaffUser } = require('./models');
+const { Order, Menu, Beverage, Dish, Guest, Staff } = require('./models');
 
 app.use(morgan('common'));
 app.use(express.json());
@@ -110,7 +106,7 @@ app.put('/orders/:id', (req, res) => {
 
 // DELETE DISH ORDER BY ID
  app.delete("/orders/:id/dishes/:dishid", (req, res) => {
-    Dishes.findByIdAndRemove(req.params.id)
+    Dish.findByIdAndRemove(req.params.id)
     .then(order => res.status(204).end()) // no content
     .catch(err => res.status(500).json({ message: "Internal server error" }));
  });
@@ -118,7 +114,7 @@ app.put('/orders/:id', (req, res) => {
 // DELETE BEVERAGE ORDER BY ID
 
  app.delete("/orders/:id/beverages/:beverageid", (req, res) => {  ///beverage
-    Beverages.findByIdAndRemove(req.params.id)
+    Beverage.findByIdAndRemove(req.params.id)
     .then(order => res.status(204).end())
     .catch(err => res.status(500).json({ message: "Internal server error" }));
  });
@@ -146,7 +142,7 @@ app.put('/orders/:id/beverages/:beverageid', (req, res) => {
     }
   });
 
-  Beverages
+  Beverage
     .findByIdAndUpdate(req.params.id, updated)
     .then(updatedOrder => res.status(204).end())
     .catch(err => res.status(500).json({ message: 'Something went wrong' }));
@@ -156,31 +152,34 @@ app.put('/orders/:id/beverages/:beverageid', (req, res) => {
 
 /// make sure you check for dishid match
 
-app.put('/orders/:id/dishes/:dishid', (req, res) => {
+app.put('/orders/:id/dishes/:dish_id', (req, res) => {
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
     res.status(400).json({
       error: 'Request path id and request body id values must match'
     });
   }
 
-  if (!(req.params.dish.id && req.body.dish.id && req.params.dish.id === req.body.dish.id)) {
+  if (!(req.params.dish_id && req.body.dish_id && req.params.dish_id === req.body.dish_id)) {
     res.status(400).json({
       error: 'Request path id and request body id values must match'
     });
   }
 
-  const updated = {};
-  const updateableFields = ['dishes'];
-  updateableFields.forEach(field => {
-    if (field in req.body) {
-      updated[field] = req.body[field];
-    }
+  Order.findById(req.params.id, function(errOrder, order) {
+    if(!errOrder) {
+      Dish.findById(req.params.dish_id, function(errDish, dish) {
+        if(!errDish) {
+          order.dishes.push(dish);
+          order.update();
+          res.status(200).json(order); 
+        } else {
+          res.status(404).json({ message: 'Could not find dish' });
+        }
+      }) 
+    } else {
+      res.status(404).json({ message: 'Could not find order' });
+    } 
   });
-
-  Dishes
-    .findByIdAndUpdate(req.params.id, updated)
-    .then(updatedOrder => res.status(204).end())
-    .catch(err => res.status(500).json({ message: 'Something went wrong' }));
 });
 
 
@@ -215,7 +214,7 @@ app.get('/menus/:id', (req, res) => {
 // get all menu dishes
 
 app.get("/menus/dishes", (req, res) => {
-  Dishes.find()
+  Dish.find()
     .limit(10)
     .then(dishes => {
       res.json({
@@ -231,7 +230,7 @@ app.get("/menus/dishes", (req, res) => {
 // get all menu beverages
 
 app.get("/menus/beverages", (req, res) => {
-  Beverages.find()
+  Beverage.find()
     .limit(10)
     .then(beverages => {
       res.json({
@@ -247,7 +246,7 @@ app.get("/menus/beverages", (req, res) => {
 // get all menu dishes by id
 
 app.get('/menus/id:/dishes/:dishid', (req, res) => {
-  Dishes
+  Dish
     .findById(req.params.id)
     .then(menu => res.json(menu.serialize()))
     .catch(err => {
@@ -259,7 +258,7 @@ app.get('/menus/id:/dishes/:dishid', (req, res) => {
 // get all menu beverages by id
 
 app.get('/menus/beverages/:id', (req, res) => {
-  Beverages
+  Beverage
     .findById(req.params.id)
     .then(beverages => res.json(beverages.serialize()))
     .catch(err => {
@@ -300,7 +299,7 @@ app.put('/menus/:id/dishes/:dishid', (req, res) => {
     });
   }
 
-  (!(req.params.dish.id && req.body.dish.id && req.params.dish.id === req.body.dish.id)) {
+  if (!(req.params.dish.id && req.body.dish.id && req.params.dish.id === req.body.dish.id)) {
     res.status(400).json({
       error: 'Request path id and request body id values must match'
     });
@@ -314,7 +313,7 @@ app.put('/menus/:id/dishes/:dishid', (req, res) => {
     }
   });
 
-  Dishes
+  Dish
     .findByIdAndUpdate(req.params.id, updated)
     .then(updatedDish => res.status(204).end())
     .catch(err => res.status(500).json({ message: 'Something went wrong' }));
@@ -337,7 +336,7 @@ app.put('/menus/beverages/:id', (req, res) => {
     }
   });
 
-  Beverages
+  Beverage
     .findByIdAndUpdate(req.params.id)
     .then(updatedBeverage => res.status(204).end())
     .catch(err => res.status(500).json({ message: 'Something went wrong' }));
@@ -354,7 +353,7 @@ app.delete("/menus/:id", (req, res) => {
 
 // DELETE MENU DISH BY ID
 app.delete("/menus/:id/dishes/:dishid", (req, res) => {
-  Dishes.findByIdAndRemove(req.params.dish.id) //refer to dish id 
+  Dish.findByIdAndRemove(req.params.dish.id) //refer to dish id 
   .then(dish => res.status(204).end())
   .catch(err => res.status(500).json({ message: "Internal server error" }));
 });
@@ -362,7 +361,7 @@ app.delete("/menus/:id/dishes/:dishid", (req, res) => {
 // DELETE MENU BEVERAGE BY ID
 
 app.delete("/menus/:id/beverages/:beverageid", (req, res) => {
-  Beverages.findByIdAndRemove(req.params.beverages.id) //refer to beverage.id
+  Beverage.findByIdAndRemove(req.params.beverages.id) //refer to beverage.id
   .then(beverage => res.status(204).end())
   .catch(err => res.status(500).json({ message: "Internal server error" }));
 });
