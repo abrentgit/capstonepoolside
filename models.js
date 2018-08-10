@@ -4,37 +4,41 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 const dishSchema = mongoose.Schema({
-    name: String, required: true,
-    description: String, required: true,
-    price: Number, required: true
+    name: {type: String, required: true},
+    description: {type: String, required: true},
+    price: {type: Number, required: true}
 });
 
 const beverageSchema = mongoose.Schema({
-    name: String, required: true,
-    description: String, required: true,
-    price: Number, required: true
+    name: {type: String, required: true},
+    description: {type: String, required: true},
+    price: {type: Number, required: true}
 });
 
 const guestSchema = mongoose.Schema({
-    name: String, required: true,
-    password: String, required: true,
-    phone: String, required: true,
-    email: String, required: true, unique: true,
-    room: String, required: true
+    name: {type: String, required: true},
+    password: {type: String, required: true},
+    phone: {type: String, required: true},
+    email: {type: String, required: true, unique: true},
+    room: {type: String, required: true}
 });
 
 const staffSchema = mongoose.Schema({
-    name: String, required: true,
-    email: String, required: true, unique: true, 
-    password: String, required: true,
+    name: {type: String, required: true},
+    email: {type: String, required: true, unique: true}, 
+    password: {type: String, required: true},
     role: String,
 });
+
+// dishes and beverages are arrays of objects
 
 const menuSchema = mongoose.Schema({
     name: String, 
     dishes: [dishSchema],
     beverages: [beverageSchema],
 });
+
+// dishes guests and beverages are an array of objects
 
 const orderSchema = mongoose.Schema({
     guestNames: [guestSchema],required: true,
