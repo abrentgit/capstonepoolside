@@ -1,6 +1,6 @@
 'use strict'
 
-const mongoose = require('mongoose');
+const mongoose = require('Mongoose');
 mongoose.Promise = global.Promise;
 
 const dishSchema = mongoose.Schema({
@@ -34,16 +34,17 @@ const staffSchema = mongoose.Schema({
 
 const menuSchema = mongoose.Schema({
     name: String, 
-    dishes: [dishSchema],
-    beverages: [beverageSchema],
+    dishes: [dishSchema], // fix nested
+    beverages: [beverageSchema], //fix nested
 });
 
 // dishes guests and beverages are an array of objects
+// NEEED TO ADD REQUIRED TRUE soon
 
 const orderSchema = mongoose.Schema({
-    guestNames: [guestSchema],required: true,
-    dishes: [dishSchema], required: true,
-    beverages: [beverageSchema], required: true,
+    guests: {type: mongoose.Schema.ObjectId, ref: "Guest"},
+    dishes: {type: mongoose.Schema.ObjectId, ref: "Dish"},
+    beverages: {type: mongoose.Schema.ObjectId, ref: "Beverage"}, // FIX NESTED 
     created_at: Date,
     deliveryTime: Date, required: true,
     location: String, required: true,
@@ -112,13 +113,13 @@ staffSchema.methods.serialize = function() {
 
 const Order = mongoose.model('Order', orderSchema);
 const Menu = mongoose.model('Menu', menuSchema); 
-const Beverages = mongoose.model('Beverage', beverageSchema);
-const Dishes = mongoose.model('Dish', dishSchema);
+const Beverage = mongoose.model('Beverage', beverageSchema);
+const Dish = mongoose.model('Dish', dishSchema);
 const Guest = mongoose.model('Guest', guestSchema);
 const StaffUser = mongoose.model('StaffUser', staffSchema);
 
 
-module.exports = {Order, Menu, Beverages, Dishes, Guest, StaffUser};
+module.exports = {Order, Menu, Beverage, Dish, Guest, StaffUser};
 
 
 
