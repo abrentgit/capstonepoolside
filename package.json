@@ -13,10 +13,14 @@
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
     "express": "^4.16.3",
-    "mocha": "^5.2.0",
     "mongo": "^0.1.0",
     "mongodb": "^3.1.1",
     "mongoose": "^5.2.6",
     "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "install": "^0.12.1",
+    "mocha": "^5.2.0",
+    "npm": "^6.3.0"
   }
 }
