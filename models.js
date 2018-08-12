@@ -97,8 +97,9 @@ guestSchema.methods.serialize = function() {
         id: this._id,
         name: this.name,
         password: this.password,
-        email: this.email,
         phone: this.phone,
+        email: this.email,
+        room: this.room
     }
 }
 
