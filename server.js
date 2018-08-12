@@ -46,7 +46,7 @@ app.get('/orders/:id', (req, res) => {
   //  POST  order 
 
 app.post("/orders", (req, res) => {
-    const requiredFields = ['guests','dishes','beverages','deliveryTime','location', 'notes'];
+    const requiredFields = ['guests','dishes','beverages','deliveryDate','location', 'notes'];
     for (let i = 0; i < requiredFields.length; i++) {
       const field = requiredFields[i];
       if (!(field in req.body)) {
@@ -61,7 +61,7 @@ app.post("/orders", (req, res) => {
       guests: req.body.guests,
       dishes: req.body.dishes,
       beverages: req.body.beverages,
-      deliveryTime: req.body.deliveryTime,
+      deliveryDate: req.body.deliveryDate,
       location: req.body.location,
       notes: req.body.notes
     })
@@ -83,7 +83,7 @@ app.put('/orders/:id', (req, res) => {
     }
   
     const updated = {};
-    const updateableFields = ['dishes','beverages','deliveryTime','location', 'notes'];
+    const updateableFields = ['dishes','beverages','deliveryDate','location', 'notes'];
     updateableFields.forEach(field => {
       if (field in req.body) {
         updated[field] = req.body[field];

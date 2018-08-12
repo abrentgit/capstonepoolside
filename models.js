@@ -47,7 +47,7 @@ const orderSchema = mongoose.Schema({
     dishes: [{ type: mongoose.Schema.ObjectId, ref: "Dish" }],
     beverages: [{ type: mongoose.Schema.ObjectId, ref: "Beverage" }], 
     created_at: { type: Date },
-    deliveryTime: { type: Date, required: true},
+    deliveryDate: { type: Date, required: true},
     location: { type: String, required: true},
     notes: {type: String }
 });
@@ -60,7 +60,7 @@ orderSchema.methods.serialize = function() {
       beverages: this.beverages,
       location: this.location,
       created_at: this.created_at,
-      deliveryTime: this.deliveryTime,
+      deliveryDate: this.deliveryDate,
       notes: this.notes
     };
 };
