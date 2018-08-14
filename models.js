@@ -112,7 +112,7 @@ guestSchema.methods.serialize = function() {
     return {
         id: this._id,
         name: this.name,
-        password: this.password,
+        // password: this.password,
         phone: this.phone,
         email: this.email,
         room: this.room
@@ -124,7 +124,7 @@ staffSchema.methods.serialize = function() {
         id: this._id,
         name: this.name,
         email: this.email,
-        password: this.password,
+        // password: this.password,
         role: this.role
     }
 }

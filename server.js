@@ -82,6 +82,8 @@ app.post("/orders", (req, res) => {
 
 // UPDATE AN ORDER BY ID
 
+// WORKS !
+
 app.put('/orders/:id', (req, res) => {
     if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
       res.status(400).json({
@@ -105,14 +107,18 @@ app.put('/orders/:id', (req, res) => {
 
 // DELETE ORDER BY ID
 
+/// GOOD
+
  app.delete("/orders/:id", (req, res) => {
     Order.findByIdAndRemove(req.params.id)
       .then(order => res.status(204).end())
       .catch(err => res.status(500).json({ message: "Internal server error" }));
   });
 
+// STILL SEE THE DISH?????
+
 // DELETE DISH ORDER BY ID
- app.delete("/orders/:id/dishes/:dishid", (req, res) => {
+ app.delete("/orders/:id/dishes/:dish_id", (req, res) => {
     Dish.findByIdAndRemove(req.params.id)
     .then(order => res.status(204).end()) // no content
     .catch(err => res.status(500).json({ message: "Internal server error" }));
@@ -120,7 +126,7 @@ app.put('/orders/:id', (req, res) => {
 
 // DELETE BEVERAGE ORDER BY ID
 
- app.delete("/orders/:id/beverages/:beverageid", (req, res) => {  ///beverage
+ app.delete("/orders/:id/beverages/:beverage_id", (req, res) => {  ///beverage
     Beverage.findByIdAndRemove(req.params.id)
     .then(order => res.status(204).end())
     .catch(err => res.status(500).json({ message: "Internal server error" }));
