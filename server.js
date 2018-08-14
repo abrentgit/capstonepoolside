@@ -17,6 +17,8 @@ app.use(express.json());
 
 // get all orders
 
+// WORKING 
+
 app.get('/orders', (req, res) => {
   Order.find()
       .limit(2)
@@ -26,16 +28,19 @@ app.get('/orders', (req, res) => {
         });
       })
       .catch(err => {
-        console.error(err);
+        console.error(err, 'hi');
         res.status(500).json({ message: "Internal server error" });
       });
   });
 
 // get orders by id
+// WORKING
 
 app.get('/orders/:id', (req, res) => {
-    Order
-      .findById(req.params.id)
+  if (req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+  // Yes, it's a valid ObjectId, proceed with `findById` call.
+  }   
+    Order.findById(req.params.id)
       .then(order => res.json(order.serialize()))
       .catch(err => {
         console.error(err);
@@ -43,7 +48,9 @@ app.get('/orders/:id', (req, res) => {
       });
   });
 
-  //  POST  order 
+  //  POST  ORDER
+
+  // WORKING 
 
 app.post("/orders", (req, res) => {
     const requiredFields = ['guests','dishes','beverages','deliveryDate','location', 'notes'];
@@ -186,10 +193,12 @@ app.put('/orders/:id/dishes/:dish_id', (req, res) => {
 
 // get menus 
 
+// I THINK THIS IS GOOD
+
 app.get('/menus', (req, res) => {
   Menu.find()
     .limit(3)
-    .then(orders => {
+    .then(menus => {
       res.json({
         menus: menus.map(menu => menu.serialize())
       });
@@ -212,7 +221,8 @@ app.get('/menus/:id', (req, res) => {
     });
 });
 
-// get all menu dishes
+// get all the dishes that exist
+// for a staff member
 
 app.get("/menus/dishes", (req, res) => {
   Dish.find()
@@ -228,7 +238,8 @@ app.get("/menus/dishes", (req, res) => {
     });
 });
 
-// get all menu beverages
+// get all beverages that exist
+// for a staff member
 
 app.get("/menus/beverages", (req, res) => {
   Beverage.find()
@@ -245,8 +256,9 @@ app.get("/menus/beverages", (req, res) => {
 });
 
 // get all menu dishes by id
+//find specific dish in menu
 
-app.get('/menus/id:/dishes/:dishid', (req, res) => {
+app.get('/menus/id:/dishes/:dish_id', (req, res) => {
   Dish
     .findById(req.params.id)
     .then(menu => res.json(menu.serialize()))
@@ -258,7 +270,7 @@ app.get('/menus/id:/dishes/:dishid', (req, res) => {
 
 // get all menu beverages by id
 
-app.get('/menus/beverages/:id', (req, res) => {
+app.get('/menus/id:/beverages/:beverage_id', (req, res) => {
   Beverage
     .findById(req.params.id)
     .then(beverages => res.json(beverages.serialize()))
@@ -466,8 +478,9 @@ app.use("*", function(req, res) {
 let server;
 
 function runServer(databaseUrl, port = PORT) {
+  console.log('server is running on', databaseUrl);
   return new Promise((resolve, reject) => {
-    mongoose.connect(databaseUrl, err => {
+    mongoose.connect(databaseUrl, { useNewUrlParser: true }, err => {
       if (err) {
         return reject(err);
       }

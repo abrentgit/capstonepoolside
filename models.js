@@ -1,6 +1,6 @@
 'use strict'
 
-const mongoose = require('Mongoose');
+const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 const dishSchema = mongoose.Schema({
@@ -33,28 +33,44 @@ const staffSchema = mongoose.Schema({
 // dishes and beverages are arrays of objects
 // need to add required trues at some point
 
+
 const menuSchema = mongoose.Schema({
     name: { type: String }, 
-    dishes: [{ type: mongoose.Schema.ObjectId, ref: "Dish" }], 
-    beverages: [{ type: mongoose.Schema.ObjectId, ref: "Beverage" }], 
+    dishes: [dishSchema],
+    beverages: [beverageSchema]
+    // dishes: [{ type: mongoose.Schema.ObjectId, ref: "Dish" }], 
+    // beverages: [{ type: mongoose.Schema.ObjectId, ref: "Beverage" }], 
+});
+
+menuSchema.pre('find', function(next) {
+    this.populate('Guest', 'Dish', 'Beverage');
+    next();
 });
 
 // dishes guests and beverages are an array of objects
 // NEED TO ADD REQUIRED TRUES
 
-const orderSchema = mongoose.Schema({
-    guests: [{ type: mongoose.Schema.ObjectId, ref: "Guest" }],
-    dishes: [{ type: mongoose.Schema.ObjectId, ref: "Dish" }],
-    beverages: [{ type: mongoose.Schema.ObjectId, ref: "Beverage" }], 
+const orderSchema = new mongoose.Schema({
+    guests: [guestSchema],
+    dishes: [dishSchema],
+    beverages: [beverageSchema],
+    // guests: [{ type: mongoose.Schema.ObjectId, ref: "Guest" }],
+    // dishes: [{ type: mongoose.Schema.ObjectId, ref: "Dish" }],
+    // beverages: [{ type: mongoose.Schema.ObjectId, ref: "Beverage" }], 
     created_at: { type: Date },
     deliveryDate: { type: Date, required: true},
     location: { type: String, required: true},
-    notes: {type: String }
+    notes: { type: String }
+});
+
+orderSchema.pre('find', function(next) {
+  this.populate('Guest', 'Dish', 'Beverage');
+  next();
 });
 
 orderSchema.methods.serialize = function() {
     return {
-      id: this._id,
+      _id: this._id,
       guests: this.guest,
       dishes: this.dishes,
       beverages: this.beverages,
@@ -121,7 +137,7 @@ const Guest = mongoose.model('Guest', guestSchema);
 const Staff = mongoose.model('StaffUser', staffSchema);
 
 
-module.exports = {Order, Menu, Beverage, Dish, Guest, Staff};
+module.exports = { Order, Menu, Beverage, Dish, Guest, Staff };
 
 
 
