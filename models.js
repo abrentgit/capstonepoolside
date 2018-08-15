@@ -83,7 +83,7 @@ orderSchema.methods.serialize = function() {
 
 menuSchema.methods.serialize = function() {
     return {
-        id: this._id,
+        _id: this._id,
         name: this.name,
         dishes: this.dishes,
         beverages: this.beverages,
@@ -92,7 +92,7 @@ menuSchema.methods.serialize = function() {
 
 beverageSchema.methods.serialize = function() {
     return {
-        id: this._id,
+        _id: this._id,
         name: this.name,
         description: this.description,
         price: this.price
@@ -101,7 +101,7 @@ beverageSchema.methods.serialize = function() {
 
 dishSchema.methods.serialize = function() {
     return {
-        id: this._id,
+        _id: this._id,
         name: this.name,
         description: this.description,
         price: this.price
@@ -110,7 +110,7 @@ dishSchema.methods.serialize = function() {
 
 guestSchema.methods.serialize = function() {
     return {
-        id: this._id,
+        _id: this._id,
         name: this.name,
         // password: this.password,
         phone: this.phone,
@@ -121,7 +121,7 @@ guestSchema.methods.serialize = function() {
 
 staffSchema.methods.serialize = function() {
     return {
-        id: this._id,
+        _id: this._id,
         name: this.name,
         email: this.email,
         // password: this.password,

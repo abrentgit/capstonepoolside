@@ -17,7 +17,7 @@ app.use(express.json());
 
 // get all orders
 
-// WORKING 
+// WORKING
 
 app.get('/orders', (req, res) => {
   Order.find()
@@ -39,7 +39,7 @@ app.get('/orders', (req, res) => {
 app.get('/orders/:id', (req, res) => {
   if (req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
   // Yes, it's a valid ObjectId, proceed with `findById` call.
-  }   
+  }
     Order.findById(req.params.id)
       .then(order => res.json(order.serialize()))
       .catch(err => {
@@ -50,7 +50,7 @@ app.get('/orders/:id', (req, res) => {
 
   //  POST  ORDER
 
-  // WORKING 
+  // WORKING
 
 app.post("/orders", (req, res) => {
     const requiredFields = ['guests','dishes','beverages','deliveryDate','location', 'notes'];
@@ -90,7 +90,7 @@ app.put('/orders/:id', (req, res) => {
         error: 'Request path id and request body id values must match'
       });
     }
-  
+
     const updated = {};
     const updateableFields = ['dishes','beverages','deliveryDate','location', 'notes'];
     updateableFields.forEach(field => {
@@ -98,9 +98,9 @@ app.put('/orders/:id', (req, res) => {
         updated[field] = req.body[field];
       }
     });
-  
+
     Order
-      .findByIdAndUpdate(req.params.id, updated)// add 
+      .findByIdAndUpdate(req.params.id, updated)// add
       .then(updatedOrder => res.status(204).end())
       .catch(err => res.status(500).json({ message: 'Something went wrong' }));
   });
@@ -109,16 +109,17 @@ app.put('/orders/:id', (req, res) => {
 
 /// GOOD
 
- app.delete("/orders/:id", (req, res) => {
+ app.delete('/orders/:id', (req, res) => {
     Order.findByIdAndRemove(req.params.id)
       .then(order => res.status(204).end())
       .catch(err => res.status(500).json({ message: "Internal server error" }));
   });
 
-// STILL SEE THE DISH?????
+
+// NOT WORKING
 
 // DELETE DISH ORDER BY ID
- app.delete("/orders/:id/dishes/:dish_id", (req, res) => {
+ app.delete('/orders/:id/dishes/:dish_id', (req, res) => {
     Dish.findByIdAndRemove(req.params.id)
     .then(order => res.status(204).end()) // no content
     .catch(err => res.status(500).json({ message: "Internal server error" }));
@@ -126,7 +127,7 @@ app.put('/orders/:id', (req, res) => {
 
 // DELETE BEVERAGE ORDER BY ID
 
- app.delete("/orders/:id/beverages/:beverage_id", (req, res) => {  ///beverage
+ app.delete('/orders/:id/beverages/:beverage_id', (req, res) => {  ///beverage
     Beverage.findByIdAndRemove(req.params.id)
     .then(order => res.status(204).end())
     .catch(err => res.status(500).json({ message: "Internal server error" }));
@@ -152,19 +153,24 @@ app.put('/orders/:id/beverages/:beverage_id', (req, res) => {
       Beverage.findById(req.params.beverage_id, function(errBeverage, beverage) {
         if(!errBeverage) {
           order.beverages.push(beverage);
-          order.update();
-          res.status(200).json(order); 
+          order.save(function(errSave, updateOrder) {
+            if (errSave) {
+              res.status(422).json({ message: 'Could not add beverage'});
+            } else {
+              res.status(200).json(updatedOrder);
+            }
+            });
         } else {
           res.status(404).json({ message: 'Could not find beverage' });
         }
-      }) 
+      })
     } else {
       res.status(404).json({ message: 'Could not find order' });
-    } 
+    }
   });
 });
 
-/// make sure you check for dishid match
+/// update a dish order by ID
 
 app.put('/orders/:id/dishes/:dish_id', (req, res) => {
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
@@ -175,7 +181,7 @@ app.put('/orders/:id/dishes/:dish_id', (req, res) => {
 
   if (!(req.params.dish_id && req.body.dish_id && req.params.dish_id === req.body.dish_id)) {
     res.status(400).json({
-      error: 'Request path id and request body id values must match'
+      error: 'Request path dish id and request body dish id values must match'
     });
   }
 
@@ -184,22 +190,27 @@ app.put('/orders/:id/dishes/:dish_id', (req, res) => {
       Dish.findById(req.params.dish_id, function(errDish, dish) {
         if(!errDish) {
           order.dishes.push(dish);
-          order.update();
-          res.status(200).json(order); 
+          order.save(function(errSave, updatedOrder) {
+            if (errSave) {
+              res.status(422).json({ message: 'Could not add dish' });
+            } else {
+              res.status(200).json(updatedOrder);
+            }
+          });
         } else {
           res.status(404).json({ message: 'Could not find dish' });
         }
-      }) 
+      })
     } else {
       res.status(404).json({ message: 'Could not find order' });
-    } 
+    }
   });
 });
 
 
-// get menus 
+// get menus
 
-// I THINK THIS IS GOOD
+// WORKS
 
 app.get('/menus', (req, res) => {
   Menu.find()
@@ -215,7 +226,9 @@ app.get('/menus', (req, res) => {
     });
 });
 
-// get menus by ID 
+// get menus by ID
+
+// WORKS
 
 app.get('/menus/:id', (req, res) => {
   Menu
@@ -230,38 +243,38 @@ app.get('/menus/:id', (req, res) => {
 // get all the dishes that exist
 // for a staff member
 
-app.get("/menus/dishes", (req, res) => {
-  Dish.find()
-    .limit(10)
-    .then(dishes => {
-      res.json({
-        dishes: dishes.map(dish => dish.serialize())
-      });
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({ message: "Internal server error" });
-    });
-});
+// app.get("/menus/dishes", (req, res) => {
+//   Dish.find()
+//     .limit(10)
+//     .then(dishes => {
+//       res.json({
+//         dishes: dishes.map(dish => dish.serialize())
+//       });
+//     })
+//     .catch(err => {
+//       console.error(err);
+//       res.status(500).json({ message: "Internal server error" });
+//     });
+// });
 
-// get all beverages that exist
-// for a staff member
+// // get all beverages that exist
+// // for a staff member
 
-app.get("/menus/beverages", (req, res) => {
-  Beverage.find()
-    .limit(10)
-    .then(beverages => {
-      res.json({
-        beverages: beverages.map(beverage => beverage.serialize())
-      });
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({ message: "Internal server error" });
-    });
-});
+// app.get("/menus/beverages", (req, res) => {
+//   Beverage.find()
+//     .limit(10)
+//     .then(beverages => {
+//       res.json({
+//         beverages: beverages.map(beverage => beverage.serialize())
+//       });
+//     })
+//     .catch(err => {
+//       console.error(err);
+//       res.status(500).json({ message: "Internal server error" });
+//     });
+// });
 
-// get all menu dishes by id
+// get menu dish by id
 //find specific dish in menu
 
 app.get('/menus/id:/dishes/:dish_id', (req, res) => {
@@ -286,7 +299,7 @@ app.get('/menus/id:/beverages/:beverage_id', (req, res) => {
     });
 });
 
-// put menus by ID 
+// put menus by ID
 
 app.put('/menus/:id', (req, res) => {
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
@@ -329,15 +342,15 @@ app.put('/menus/:id/dishes/:dish_id', (req, res) => {
       Dish.findById(req.params.dish_id, function(errDish, dish) {
         if(!errDish) {
           menu.dishes.push(dish);
-          menu.update();
-          res.status(200).json(menu); 
+          menu.save();
+          res.status(200).json(menu);
         } else {
           res.status(404).json({ message: 'Could not find dish' });
         }
-      }) 
+      })
     } else {
       res.status(404).json({ message: 'Could not find menu' });
-    } 
+    }
   });
 });
 
@@ -362,14 +375,14 @@ app.put('/menus/:id/beverages/:beverage_id', (req, res) => {
         if(!errBeverage) {
           menu.beverages.push(beverage);
           menu.update();
-          res.status(200).json(menu); 
+          res.status(200).json(menu);
         } else {
           res.status(404).json({ message: 'Could not find beverage' });
         }
-      }) 
+      })
     } else {
       res.status(404).json({ message: 'Could not find menu' });
-    } 
+    }
   });
 });
 
@@ -383,7 +396,7 @@ app.delete("/menus/:id", (req, res) => {
 
 // DELETE MENU DISH BY ID
 app.delete("/menus/:id/dishes/:dishid", (req, res) => {
-  Dish.findByIdAndRemove(req.params.dish.id) //refer to dish id 
+  Dish.findByIdAndRemove(req.params.dish.id) //refer to dish id
   .then(dish => res.status(204).end())
   .catch(err => res.status(500).json({ message: "Internal server error" }));
 });
@@ -396,7 +409,7 @@ app.delete("/menus/:id/beverages/:beverage_id", (req, res) => {
   .catch(err => res.status(500).json({ message: "Internal server error" }));
 });
 
-// POST MENU 
+// POST MENU
 
 app.post('/menus', (req, res) => {
   const requiredFields = ['name','dishes','beverages'];
