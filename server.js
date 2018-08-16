@@ -28,7 +28,6 @@ app.get('/orders', (req, res) => {
         });
       })
       .catch(err => {
-        console.error(err, 'hi');
         res.status(500).json({ message: "Internal server error" });
       });
   });
@@ -37,15 +36,12 @@ app.get('/orders', (req, res) => {
 // WORKING
 
 app.get('/orders/:id', (req, res) => {
-  if (req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
-  // Yes, it's a valid ObjectId, proceed with `findById` call.
-  }
     Order.findById(req.params.id)
       .then(order => res.json(order.serialize()))
       .catch(err => {
         console.error(err);
         res.status(500).json({ error: 'something went horribly awry' });
-      });
+    });
   });
 
   //  POST  ORDER
@@ -115,25 +111,30 @@ app.put('/orders/:id', (req, res) => {
       .catch(err => res.status(500).json({ message: "Internal server error" }));
   });
 
-
-// NOT WORKING
+// ?????
 
 // DELETE DISH ORDER BY ID
  app.delete('/orders/:id/dishes/:dish_id', (req, res) => {
     Dish.findByIdAndRemove(req.params.id)
-    .then(order => res.status(204).end()) // no content
+    .then(order => res.status(204).end())
     .catch(err => res.status(500).json({ message: "Internal server error" }));
  });
 
+ //?????
+
 // DELETE BEVERAGE ORDER BY ID
 
- app.delete('/orders/:id/beverages/:beverage_id', (req, res) => {  ///beverage
+ app.delete('/orders/:id/beverages/:beverage_id', (req, res) => {
     Beverage.findByIdAndRemove(req.params.id)
     .then(order => res.status(204).end())
     .catch(err => res.status(500).json({ message: "Internal server error" }));
  });
 
-// PUT ORDER - BEVERAGE
+
+
+// UPDATE ORDER - BEVERAGE
+
+// THIS WORKS!
 
 app.put('/orders/:id/beverages/:beverage_id', (req, res) => {
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
@@ -153,7 +154,7 @@ app.put('/orders/:id/beverages/:beverage_id', (req, res) => {
       Beverage.findById(req.params.beverage_id, function(errBeverage, beverage) {
         if(!errBeverage) {
           order.beverages.push(beverage);
-          order.save(function(errSave, updateOrder) {
+          order.save(function(errSave, updatedOrder) {
             if (errSave) {
               res.status(422).json({ message: 'Could not add beverage'});
             } else {
@@ -171,6 +172,8 @@ app.put('/orders/:id/beverages/:beverage_id', (req, res) => {
 });
 
 /// update a dish order by ID
+
+// THIS WORKS!
 
 app.put('/orders/:id/dishes/:dish_id', (req, res) => {
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
@@ -243,43 +246,49 @@ app.get('/menus/:id', (req, res) => {
 // get all the dishes that exist
 // for a staff member
 
-// app.get("/menus/dishes", (req, res) => {
-//   Dish.find()
-//     .limit(10)
-//     .then(dishes => {
-//       res.json({
-//         dishes: dishes.map(dish => dish.serialize())
-//       });
-//     })
-//     .catch(err => {
-//       console.error(err);
-//       res.status(500).json({ message: "Internal server error" });
-//     });
-// });
+/// NOT SURE IF I NEED
 
-// // get all beverages that exist
-// // for a staff member
+app.get("/menus/dishes", (req, res) => {
+  Dish.find()
+    .limit(10)
+    .then(dishes => {
+      res.json({
+        dishes: dishes.map(dish => dish.serialize())
+      });
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ message: "Internal server error" });
+    });
+});
 
-// app.get("/menus/beverages", (req, res) => {
-//   Beverage.find()
-//     .limit(10)
-//     .then(beverages => {
-//       res.json({
-//         beverages: beverages.map(beverage => beverage.serialize())
-//       });
-//     })
-//     .catch(err => {
-//       console.error(err);
-//       res.status(500).json({ message: "Internal server error" });
-//     });
-// });
+// get all beverages that exist
+// for a staff member
+
+// NOT SURE IF I NEED
+
+app.get("/menus/beverages", (req, res) => {
+  Beverage.find()
+    .limit(10)
+    .then(beverages => {
+      res.json({
+        beverages: beverages.map(beverage => beverage.serialize())
+      });
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ message: "Internal server error" });
+    });
+});
 
 // get menu dish by id
 //find specific dish in menu
 
+// NOT WORKING
+
 app.get('/menus/id:/dishes/:dish_id', (req, res) => {
   Dish
-    .findById(req.params.id)
+    .findById(req.params.dish_id)
     .then(menu => res.json(menu.serialize()))
     .catch(err => {
       console.error(err);
@@ -287,11 +296,13 @@ app.get('/menus/id:/dishes/:dish_id', (req, res) => {
     });
 });
 
-// get all menu beverages by id
+// get all menu beverage by id
+
+// DOESN'T WORK
 
 app.get('/menus/id:/beverages/:beverage_id', (req, res) => {
   Beverage
-    .findById(req.params.id)
+    .findById(req.params.beverage_id)
     .then(beverages => res.json(beverages.serialize()))
     .catch(err => {
       console.error(err);
@@ -299,7 +310,10 @@ app.get('/menus/id:/beverages/:beverage_id', (req, res) => {
     });
 });
 
-// put menus by ID
+// WORKS!
+
+// put menus by ID , can use to update individual items to menu
+
 
 app.put('/menus/:id', (req, res) => {
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
@@ -324,6 +338,8 @@ app.put('/menus/:id', (req, res) => {
 
 // update a MENU DISH BY ID
 
+// DOESN'T WORK ########
+
 app.put('/menus/:id/dishes/:dish_id', (req, res) => {
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
     res.status(400).json({
@@ -342,9 +358,14 @@ app.put('/menus/:id/dishes/:dish_id', (req, res) => {
       Dish.findById(req.params.dish_id, function(errDish, dish) {
         if(!errDish) {
           menu.dishes.push(dish);
-          menu.save();
-          res.status(200).json(menu);
-        } else {
+          menu.save(function(errSave, updatedMenu) {
+            if (errSave) {
+              res.status(422).json({ message: 'Could not add dish'});
+          } else {
+            res.status(200).json(updatedMenu);
+          }
+        });
+      } else {
           res.status(404).json({ message: 'Could not find dish' });
         }
       })
@@ -355,6 +376,8 @@ app.put('/menus/:id/dishes/:dish_id', (req, res) => {
 });
 
 // PUT update MENU BEVERAGES BY ID
+
+// WORKS!!
 
 app.put('/menus/:id/beverages/:beverage_id', (req, res) => {
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
@@ -374,9 +397,14 @@ app.put('/menus/:id/beverages/:beverage_id', (req, res) => {
       Beverage.findById(req.params.beverage_id, function(errBeverage, beverage) {
         if(!errBeverage) {
           menu.beverages.push(beverage);
-          menu.update();
-          res.status(200).json(menu);
-        } else {
+          menu.save(function(errSave, updatedMenu) {
+            if (errSave) {
+              res.status(422).json({ message: 'Could not add beverage'});
+          } else {
+            res.status(200).json(updatedMenu);
+          }
+        });
+      } else {
           res.status(404).json({ message: 'Could not find beverage' });
         }
       })
@@ -403,6 +431,8 @@ app.delete("/menus/:id/dishes/:dishid", (req, res) => {
 
 // DELETE MENU BEVERAGE BY ID
 
+// WORKS!!
+
 app.delete("/menus/:id/beverages/:beverage_id", (req, res) => {
   Beverage.findByIdAndRemove(req.params.beverages.id) //refer to beverage.id
   .then(beverage => res.status(204).end())
@@ -410,6 +440,8 @@ app.delete("/menus/:id/beverages/:beverage_id", (req, res) => {
 });
 
 // POST MENU
+
+// WORKS!
 
 app.post('/menus', (req, res) => {
   const requiredFields = ['name','dishes','beverages'];
@@ -436,7 +468,12 @@ app.post('/menus', (req, res) => {
 
 });
 
-// POST MENU BEVERAGE
+
+// WORKS!
+
+// POST A NEW BEVERAGE, but when it works, it doesnt go into a specified menu - is
+
+// must i rename route?
 
 app.post("/menus/:id/beverages", (req, res) => {
   const requiredFields = ['name', 'description', 'price'];
@@ -464,6 +501,10 @@ app.post("/menus/:id/beverages", (req, res) => {
 });
 
 // POST MENU DISH
+
+// WORKS!!
+
+// BUT JUST POSTS A NEW DISH
 
 app.post("/menus/:id/dishes", (req, res) => {
   const requiredFields = ['name', 'description', 'price'];

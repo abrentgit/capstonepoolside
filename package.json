@@ -2,7 +2,7 @@
   "name": "poolside_bedside",
   "version": "1.0.0",
   "description": "inter-hotel meal ordering app",
-  "main": "config.js",
+  "main": "server.js",
   "scripts": {
     "test": "mocha",
     "start": "node server.js"
