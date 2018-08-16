@@ -103,7 +103,7 @@ app.put('/orders/:id', (req, res) => {
 
 // DELETE ORDER BY ID
 
-/// GOOD
+/// WORKS!!
 
  app.delete('/orders/:id', (req, res) => {
     Order.findByIdAndRemove(req.params.id)
@@ -111,26 +111,37 @@ app.put('/orders/:id', (req, res) => {
       .catch(err => res.status(500).json({ message: "Internal server error" }));
   });
 
-// ?????
-
 // DELETE DISH ORDER BY ID
- app.delete('/orders/:id/dishes/:dish_id', (req, res) => {
-    Dish.findByIdAndRemove(req.params.id)
-    .then(order => res.status(204).end())
-    .catch(err => res.status(500).json({ message: "Internal server error" }));
- });
 
- //?????
+// NOT WORKING, I GET 204 BUT ITS STILL IN COLLECTION
+
+app.delete('/orders/:id/dishes/:dish_id', (req, res) => {
+  Order.findById(req.params.id, function(errOrder, order) {
+    if(errOrder) {
+      res.status(404).json({message: 'can not find order'});
+    } else {
+      Dish.findByIdAndRemove(req.params.dish_id)
+        .then(dish => res.status(204).end())
+        .catch(err => res.status(500).json({ message: "Internal server error" }));
+    }
+  });
+});
 
 // DELETE BEVERAGE ORDER BY ID
 
- app.delete('/orders/:id/beverages/:beverage_id', (req, res) => {
-    Beverage.findByIdAndRemove(req.params.id)
-    .then(order => res.status(204).end())
-    .catch(err => res.status(500).json({ message: "Internal server error" }));
- });
+// NOT WORKING, I GET 204 BUT ITS STILL IN COLLECTION
 
-
+app.delete('/orders/:id/beverages/:beverage_id', (req, res) => {
+  Order.findById(req.params.id, function(errOrder, order) {
+    if(errOrder) {
+      res.status(404).json({message: 'can not find order'});
+    } else {
+      Beverage.findByIdAndRemove(req.params.beverage_id)
+        .then(beverage => res.status(204).end())
+        .catch(err => res.status(500).json({ message: "Internal server error" }));
+    }
+  });
+});
 
 // UPDATE ORDER - BEVERAGE
 
@@ -243,12 +254,13 @@ app.get('/menus/:id', (req, res) => {
     });
 });
 
-// get all the dishes that exist
 // for a staff member
 
-/// NOT SURE IF I NEED
+// GET ALL DISHES IN A MENU
 
-app.get("/menus/dishes", (req, res) => {
+// WORKS !!
+
+app.get("/menus/:id/dishes", (req, res) => {
   Dish.find()
     .limit(10)
     .then(dishes => {
@@ -265,9 +277,9 @@ app.get("/menus/dishes", (req, res) => {
 // get all beverages that exist
 // for a staff member
 
-// NOT SURE IF I NEED
+// WORKS!!
 
-app.get("/menus/beverages", (req, res) => {
+app.get("/menus/:id/beverages", (req, res) => {
   Beverage.find()
     .limit(10)
     .then(beverages => {
@@ -281,15 +293,14 @@ app.get("/menus/beverages", (req, res) => {
     });
 });
 
-// get menu dish by id
-//find specific dish in menu
+// get one dish in a menu
 
 // NOT WORKING
 
 app.get('/menus/id:/dishes/:dish_id', (req, res) => {
   Dish
     .findById(req.params.dish_id)
-    .then(menu => res.json(menu.serialize()))
+    .then(dish => res.json(dish.serialize()))
     .catch(err => {
       console.error(err);
       res.status(500).json({ error: 'something went horribly awry' });
@@ -298,7 +309,7 @@ app.get('/menus/id:/dishes/:dish_id', (req, res) => {
 
 // get all menu beverage by id
 
-// DOESN'T WORK
+// NOT WORKING
 
 app.get('/menus/id:/beverages/:beverage_id', (req, res) => {
   Beverage
@@ -336,9 +347,9 @@ app.put('/menus/:id', (req, res) => {
     .catch(err => res.status(500).json({ message: 'Something went wrong' }));
 });
 
-// update a MENU DISH BY ID
+// UPDATE AND ADD A DISH BY ID TO MENU
 
-// DOESN'T WORK ########
+// WORKS!!
 
 app.put('/menus/:id/dishes/:dish_id', (req, res) => {
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
@@ -416,13 +427,18 @@ app.put('/menus/:id/beverages/:beverage_id', (req, res) => {
 
 // DELETE MENU BY ID
 
+// WORKS!
+
 app.delete("/menus/:id", (req, res) => {
   Menu.findByIdAndRemove(req.params.id)
     .then(menu => res.status(204).end())
     .catch(err => res.status(500).json({ message: "Internal server error" }));
 });
 
-// DELETE MENU DISH BY ID
+// DELETE DISH BY ID IN A MENU
+
+// WORKS!
+
 app.delete("/menus/:id/dishes/:dishid", (req, res) => {
   Dish.findByIdAndRemove(req.params.dish.id) //refer to dish id
   .then(dish => res.status(204).end())
@@ -471,9 +487,9 @@ app.post('/menus', (req, res) => {
 
 // WORKS!
 
-// POST A NEW BEVERAGE, but when it works, it doesnt go into a specified menu - is
+// POST A NEW BEVERAGE, but when it works, it doesnt go into a specified menu - must post after...
 
-// must i rename route?
+// does it still work?
 
 app.post("/menus/:id/beverages", (req, res) => {
   const requiredFields = ['name', 'description', 'price'];
@@ -504,7 +520,7 @@ app.post("/menus/:id/beverages", (req, res) => {
 
 // WORKS!!
 
-// BUT JUST POSTS A NEW DISH
+// BUT JUST POSTS A NEW DISH NOT INTO MENU COLLECTION
 
 app.post("/menus/:id/dishes", (req, res) => {
   const requiredFields = ['name', 'description', 'price'];
