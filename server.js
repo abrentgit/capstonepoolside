@@ -81,12 +81,25 @@ app.get('/orders/:id/dishes', (req, res) => {
 // NOT WORKING
 // get a dish in a order
 app.get('/orders/:id/dishes/:dish_id', (req, res) => {
-  Dish.findById(req.params.dish_id)
-    .then(dish => res.json(dish.serialize()))
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({ error: 'something went horribly awry' });
-    });
+  Order.findById(req.params.id), function(errOrder, order) {
+    if(errOrder) { // if there is an error in the order
+      res.status(404).json({ message: 'can not find order' });
+    } else {
+      let found = false;
+      order.dishes.find(function(dish) {
+        dish.id === req.params.dish_id;
+        found = true; 
+      });
+
+      if (found === false) {
+        res.status(422).json({ message: 'can not find dish' });
+      } else {
+        const filtered = order.dishes.filter(dish => dish.id === req.params.dish_id);
+        order.dishes = filtered;
+        res.status(200).json(filtered);
+      }
+    }
+  }
 });
 
 // NOT WORKING
