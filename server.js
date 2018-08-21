@@ -386,17 +386,7 @@ app.get("/menus/:id/beverages", (req, res) => {
     });
 });
 
-// get one dish in a menu
-
-// NOT WORKING
-// FIND THE MENU ID (ok)
-// SEE IF DISH ID IS INSIDE MENU.DISHES
-// IF ERROR, SEND DISH CAN NOT BE FOUND 
-
-// IF THERE IS A MATCH
-// SEND 200 STATUS
-
-// IF ERROR MENU, SEND CAN NOT FIND MENU
+// WORKING !!!!!
 
 app.get('/menus/:id/dishes/:dish_id', (req, res) => {
   Menu.findById(req.params.id, function(errMenu, menu) {
@@ -415,7 +405,7 @@ app.get('/menus/:id/dishes/:dish_id', (req, res) => {
         // we want to get the dish_id so filter it out 
       const filtered = menu.dishes.filter(dish => dish.id === req.params.dish_id); // filter out dishes that aren't the req. dish id
       menu.dishes = filtered;
-      res.status(201).json(filtered);       // its giving me all the DISHES BESIDES THE ONE I WANT 
+      res.status(200).json(filtered);       // its giving me all the DISHES BESIDES THE ONE I WANT 
       }
     } 
   });
