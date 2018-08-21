@@ -17,7 +17,7 @@ app.use(express.json());
 
 // get all orders
 
-// WORKING
+// WORKS!!
 
 app.get('/orders', (req, res) => {
   Order.find()
@@ -33,7 +33,7 @@ app.get('/orders', (req, res) => {
   });
 
 // get orders by id
-// WORKS!
+// WORKS!!
 
 app.get('/orders/:id', (req, res) => {
     Order.findById(req.params.id)
@@ -44,76 +44,101 @@ app.get('/orders/:id', (req, res) => {
     });
   });
 
-// WORKING - but showing a MENUS' beverages instead of ORDER BEVERAGES
+// SHOWING a MENUS' beverages instead of ORDER BEVERAGES
 // get an order's beverages
 
+// NOT WORKING PROPERLY
+// NEEDS TEST!
 
 app.get('/orders/:id/beverages', (req, res) => {
   Beverage.find()
-    .limit(10)
-    .then(beverages => {
-      res.json({
-        beverages: beverages.map(beverage => beverage.serialize())
-      });
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({ message: "Internal server error" });
+  .limit(10)
+  .then(beverages => {
+    res.json({
+      beverages: beverages.map(beverage => beverage.serialize())
     });
+  })
+  .catch(err => {
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
+  });
 });
 
-// WORKING - but showing a MENUS dishes instead of an order
+// NO WORK -  showing a MENUS dishes instead of an order
+// NEEDS TEST!
+
+// GET ALL DISHES IN AN ORDER 
 
 app.get('/orders/:id/dishes', (req, res) => {
-  Dish.find()
-    .limit(10)
-    .then(dishes => {
-      res.json({
-        dishes: dishes.map(dish => dish.serialize())
-      });
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({ message: "Internal server error" });
+  Order.findById(req.params.id, function(errOrder, order) {
+    if(errOrder) {
+      res.status(404).json({ message: 'can not find order' }); 
+    } else { 
+      order.dishes
+      .then(dishes => {
+        res.json({
+          dishes: dishes.map(dish => dish.serialize())
+        });
+        })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({ message: "Internal server error" });
+      });  
     });
+  }
 });
 
-// NOT WORKING
-// get a dish in a order
+// GET DISH BY ID IN ORDER
+
+// WORKS!!!!!
+
 app.get('/orders/:id/dishes/:dish_id', (req, res) => {
-  Order.findById(req.params.id), function(errOrder, order) {
-    if(errOrder) { // if there is an error in the order
-      res.status(404).json({ message: 'can not find order' });
-    } else {
+  Order.findById(req.params.id, function(errOrder, order) {
+    if(errOrder) {
+      res.status(404).json({ message: 'can not find order' }); 
+    } else { 
       let found = false;
       order.dishes.find(function(dish) {
         dish.id === req.params.dish_id;
         found = true; 
-      });
-
-      if (found === false) {
+      }); //confirm block 
+    
+      if (found === false) { 
         res.status(422).json({ message: 'can not find dish' });
-      } else {
-        const filtered = order.dishes.filter(dish => dish.id === req.params.dish_id);
-        order.dishes = filtered;
-        res.status(200).json(filtered);
+      } else { 
+      const filtered = order.dishes.filter(dish => dish.id === req.params.dish_id); 
+      order.dishes = filtered;
+      res.status(200).json(filtered);      
       }
-    }
-  }
+    } 
+  });
 });
 
-// NOT WORKING
 // get a beverage in a order
-app.get('/orders/:id/beverages/:beverage_id', (req, res) => {
-  Beverage
-    .findById(req.params.beverage_id)
-    .then(beverage => res.json(beverage.serialize()))
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({ error: 'something went horribly awry' });
-    });
-});
 
+// WORKS!!!!
+
+app.get('/orders/:id/beverages/:beverage_id', (req, res) => {
+  Order.findById(req.params.id, function(errOrder, order) {
+    if(errOrder) {
+      res.status(404).json({ message: 'can not find order' }); 
+    } else { 
+      let found = false;
+      order.beverages.find(function(beverage) {
+        beverage.id === req.params.beverage_id;
+        found = true; 
+      }); //confirm block 
+    
+      if (found === false) {  // if can't find the dish in the mneu
+        res.status(422).json({ message: 'can not find dish' });
+      } else { 
+      const filtered = order.beverages.filter(beverage => beverage.id === req.params.beverage_id); // filter out dishes that aren't the req. dish id
+      order.beverages = filtered;
+      res.status(200).json(filtered);       // its giving me all the DISHES BESIDES THE ONE I WANT 
+      }
+    } 
+  });
+});
 
   //  POST  ORDER
   // WORKING
@@ -251,7 +276,7 @@ app.delete('/orders/:id/beverages/:beverage_id', (req, res) => {
 
 // UPDATE ORDER - BEVERAGE
 
-// THIS WORKS!
+//  WORKS!!!
 
 app.put('/orders/:id/beverages/:beverage_id', (req, res) => {
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
@@ -424,18 +449,33 @@ app.get('/menus/:id/dishes/:dish_id', (req, res) => {
   });
 });
 
-// get all menu beverage by id
+// get menu beverage by id
 
-// NOT WORKING
+// WORKS!!!!
 
 app.get('/menus/:id/beverages/:beverage_id', (req, res) => {
-  Beverage.findById(req.params.beverage_id)
-    .then(beverages => res.json(beverages.serialize()))
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({ error: 'something went horribly awry' });
-    });
+  Menu.findById(req.params.id, function(errMenu, menu) {
+    if(errMenu) {
+      res.status(404).json({ message: 'can not find menu' }); // no menu found
+    } else { // if no error and menu exists, find the bev id in the menu
+      let found = false;
+      menu.beverages.find(function(beverage) { //find the bev in the menu bev array
+        beverage.id === req.params.beverage_id;
+        found = true; 
+      }); //confirm block 
+    
+      if (found === false) {  // if can't find the dish in the mneu
+        res.status(422).json({ message: 'can not find beverage' });
+      } else { 
+      const filtered = menu.beverages.filter(beverage => beverage.id === req.params.beverage_id); // filter out dishes that aren't the req. dish id
+      menu.beverages = filtered;
+      res.status(200).json(filtered);       // its giving me all the DISHES BESIDES THE ONE I WANT 
+      }
+    } 
+  });
 });
+
+
 
 // WORKS!
 
@@ -605,7 +645,7 @@ app.post('/menus', (req, res) => {
 
 // POST A NEW BEVERAGE, but when it works, it doesnt go into a specified menu - must post after...
 
-// does it still work?
+// NEEDS TESTING
 
 app.post("/menus/:id/beverages", (req, res) => {
   const requiredFields = ['name', 'description', 'price'];
@@ -634,7 +674,7 @@ app.post("/menus/:id/beverages", (req, res) => {
 
 // POST MENU DISH
 
-// WORKS!!
+// WORKS!!  // NEEDS TESTING
 
 // BUT JUST POSTS A NEW DISH NOT INTO MENU COLLECTION
 
