@@ -10,6 +10,7 @@
   "author": "AB",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^3.0.0",
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
     "express": "^4.16.3",
@@ -17,6 +18,7 @@
     "mongodb": "^3.1.1",
     "mongoose": "^5.2.6",
     "nodemon": "^1.18.3",
+    "passport": "^0.4.0",
     "uuid": "^3.3.2"
   },
   "devDependencies": {

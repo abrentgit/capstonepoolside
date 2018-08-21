@@ -25,7 +25,7 @@ const guestSchema = mongoose.Schema({
 
 const staffSchema = mongoose.Schema({
     name: { type: String, required: true },
-    email: { type: String, required: true, unique: true }, 
+    email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     role: { type: String }
 });
@@ -35,11 +35,11 @@ const staffSchema = mongoose.Schema({
 
 
 const menuSchema = mongoose.Schema({
-    name: { type: String }, 
+    name: { type: String },
     dishes: [dishSchema],
     beverages: [beverageSchema]
-    // dishes: [{ type: mongoose.Schema.ObjectId, ref: "Dish" }], 
-    // beverages: [{ type: mongoose.Schema.ObjectId, ref: "Beverage" }], 
+    // dishes: [{ type: mongoose.Schema.ObjectId, ref: "Dish" }],
+    // beverages: [{ type: mongoose.Schema.ObjectId, ref: "Beverage" }],
 });
 
 menuSchema.pre('find', function(next) {
@@ -54,9 +54,6 @@ const orderSchema = new mongoose.Schema({
     guests: [guestSchema],
     dishes: [dishSchema],
     beverages: [beverageSchema],
-    // guests: [{ type: mongoose.Schema.ObjectId, ref: "Guest" }],
-    // dishes: [{ type: mongoose.Schema.ObjectId, ref: "Dish" }],
-    // beverages: [{ type: mongoose.Schema.ObjectId, ref: "Beverage" }], 
     created_at: { type: Date },
     deliveryDate: { type: Date, required: true},
     location: { type: String, required: true},
@@ -130,7 +127,7 @@ staffSchema.methods.serialize = function() {
 }
 
 const Order = mongoose.model('Order', orderSchema);
-const Menu = mongoose.model('Menu', menuSchema); 
+const Menu = mongoose.model('Menu', menuSchema);
 const Beverage = mongoose.model('Beverage', beverageSchema);
 const Dish = mongoose.model('Dish', dishSchema);
 const Guest = mongoose.model('Guest', guestSchema);
@@ -138,6 +135,3 @@ const Staff = mongoose.model('StaffUser', staffSchema);
 
 
 module.exports = { Order, Menu, Beverage, Dish, Guest, Staff };
-
-
-

@@ -33,7 +33,7 @@ app.get('/orders', (req, res) => {
   });
 
 // get orders by id
-// WORKING
+// WORKS!
 
 app.get('/orders/:id', (req, res) => {
     Order.findById(req.params.id)
@@ -44,8 +44,65 @@ app.get('/orders/:id', (req, res) => {
     });
   });
 
-  //  POST  ORDER
+// WORKING - but showing a MENUS' beverages instead of ORDER BEVERAGES
+// get an order's beverages
 
+
+app.get('/orders/:id/beverages', (req, res) => {
+  Beverage.find()
+    .limit(10)
+    .then(beverages => {
+      res.json({
+        beverages: beverages.map(beverage => beverage.serialize())
+      });
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ message: "Internal server error" });
+    });
+});
+
+// WORKING - but showing a MENUS dishes instead of an order
+
+app.get('/orders/:id/dishes', (req, res) => {
+  Dish.find()
+    .limit(10)
+    .then(dishes => {
+      res.json({
+        dishes: dishes.map(dish => dish.serialize())
+      });
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ message: "Internal server error" });
+    });
+});
+
+// NOT WORKING
+// get a dish in a order
+app.get('/orders/:id/dishes/:dish_id', (req, res) => {
+  Dish.findById(req.params.dish_id)
+    .then(dish => res.json(dish.serialize()))
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: 'something went horribly awry' });
+    });
+});
+
+// NOT WORKING
+// get a beverage in a order
+app.get('/orders/:id/beverages/:beverage_id', (req, res) => {
+  Beverage
+    .findById(req.params.beverage_id)
+    .then(beverage => res.json(beverage.serialize()))
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: 'something went horribly awry' });
+    });
+});
+
+
+  //  POST  ORDER
   // WORKING
 
 app.post("/orders", (req, res) => {
@@ -113,34 +170,70 @@ app.put('/orders/:id', (req, res) => {
 
 // DELETE DISH ORDER BY ID
 
-// NOT WORKING, I GET 204 BUT ITS STILL IN COLLECTION
+// WORKING!!!!!!
 
 app.delete('/orders/:id/dishes/:dish_id', (req, res) => {
   Order.findById(req.params.id, function(errOrder, order) {
     if(errOrder) {
-      res.status(404).json({message: 'can not find order'});
-    } else {
-      Dish.findByIdAndRemove(req.params.dish_id)
-        .then(dish => res.status(204).end())
-        .catch(err => res.status(500).json({ message: "Internal server error" }));
-    }
-  });
+        res.status(404).json({message: 'can not find order'});
+      } else { // if no error try to see if dilet found = false; // found is false
+          let found = false;    
+          order.dishes.find(function(dish) {
+            dish.id === req.params.dish_id; //check if dish is in order
+            found = true;
+          }); 
+  
+         if (found === false) { 
+            res.status(422).json({ message: 'can not find dish' });
+        } else {
+          // now that we found it, we filter what is not the dish id from the array
+          const filtered = order.dishes.filter(dish => dish.id !== req.params.dish_id);
+          order.dishes = filtered; // new value of order.dishes is filtered array
+        }
+        // now we want to save the order
+          order.save(function(errSave, updatedOrder) {
+            if (errSave) {
+              res.status(422).json({ message: 'can not save order' }); // if err, can't save
+            } else {
+              res.status(200).json(updatedOrder); // if no error, we can send an updated order
+            }
+        });
+      }
+   });
 });
 
 // DELETE BEVERAGE ORDER BY ID
 
-// NOT WORKING, I GET 204 BUT ITS STILL IN COLLECTION
+// WORKS !!!! 
 
 app.delete('/orders/:id/beverages/:beverage_id', (req, res) => {
   Order.findById(req.params.id, function(errOrder, order) {
     if(errOrder) {
-      res.status(404).json({message: 'can not find order'});
+      res.status(404).json({ message: 'can not find order' });
     } else {
-      Beverage.findByIdAndRemove(req.params.beverage_id)
-        .then(beverage => res.status(204).end())
-        .catch(err => res.status(500).json({ message: "Internal server error" }));
-    }
-  });
+      let found = false;  
+      for (let i = 0; i < order.beverages.length; i++) {
+        if (order.beverages[i].id === req.params.beverage_id) {
+          found = true; 
+          break;
+        } 
+      }
+        if (found === false) {
+          res.status(422).json({ message: 'can not find beverage' });
+        } else {
+          const filtered = order.beverages.filter(beverage => beverage.id !== req.params.beverage_id); 
+          order.beverages = filtered; //filters the beverages that are not the id
+        }
+          
+        order.save(function(errSave, updatedOrder) { // related to order save 
+            if (errSave) {
+              res.status(422).json({ message: 'Could not save order' });
+          } else {
+              res.status(200).json(updatedOrder); // new order is saved and updated
+          }
+      });
+    } 
+  });  
 });
 
 // UPDATE ORDER - BEVERAGE
@@ -296,24 +389,44 @@ app.get("/menus/:id/beverages", (req, res) => {
 // get one dish in a menu
 
 // NOT WORKING
+// FIND THE MENU ID (ok)
+// SEE IF DISH ID IS INSIDE MENU.DISHES
+// IF ERROR, SEND DISH CAN NOT BE FOUND 
 
-app.get('/menus/id:/dishes/:dish_id', (req, res) => {
-  Dish
-    .findById(req.params.dish_id)
-    .then(dish => res.json(dish.serialize()))
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({ error: 'something went horribly awry' });
-    });
+// IF THERE IS A MATCH
+// SEND 200 STATUS
+
+// IF ERROR MENU, SEND CAN NOT FIND MENU
+
+app.get('/menus/:id/dishes/:dish_id', (req, res) => {
+  Menu.findById(req.params.id, function(errMenu, menu) {
+    if(errMenu) {
+      res.status(404).json({ message: 'can not find menu' }); // no menu found
+    } else { // if no error and menu exists, find the dish id in the menu
+      let found = false;
+      menu.dishes.find(function(dish) {
+        dish.id === req.params.dish_id;
+        found = true; 
+      }); //confirm block 
+    
+      if (found === false) {  // if can't find the dish in the mneu
+        res.status(422).json({ message: 'can not find dish' });
+      } else { // if you do find the dish in the menu
+        // we want to get the dish_id so filter it out 
+      const filtered = menu.dishes.filter(dish => dish.id === req.params.dish_id); // filter out dishes that aren't the req. dish id
+      menu.dishes = filtered;
+      res.status(201).json(filtered);       // its giving me all the DISHES BESIDES THE ONE I WANT 
+      }
+    } 
+  });
 });
 
 // get all menu beverage by id
 
 // NOT WORKING
 
-app.get('/menus/id:/beverages/:beverage_id', (req, res) => {
-  Beverage
-    .findById(req.params.beverage_id)
+app.get('/menus/:id/beverages/:beverage_id', (req, res) => {
+  Beverage.findById(req.params.beverage_id)
     .then(beverages => res.json(beverages.serialize()))
     .catch(err => {
       console.error(err);
