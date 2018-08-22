@@ -44,48 +44,37 @@ app.get('/orders/:id', (req, res) => {
     });
   });
 
-// SHOWING a MENUS' beverages instead of ORDER BEVERAGES
-// get an order's beverages
+// GET AN ORDER'S BEVS 
+// WORKS!!!!
 
-// NOT WORKING PROPERLY
-// NEEDS TEST!
 
 app.get('/orders/:id/beverages', (req, res) => {
-  Beverage.find()
-  .limit(10)
-  .then(beverages => {
-    res.json({
-      beverages: beverages.map(beverage => beverage.serialize())
-    });
-  })
-  .catch(err => {
-    console.error(err);
-    res.status(500).json({ message: "Internal server error" });
-  });
+  Order.findById(req.params.id, function(errOrder, order) {
+    if(errOrder) {
+      res.status(404).json({ message: 'can not find order' }); 
+    } else {
+       res.json({
+       	 beverages: order.beverages.map(beverage => beverage.serialize())
+   	});
+   	}  
+});
 });
 
-// NO WORK -  showing a MENUS dishes instead of an order
-// NEEDS TEST!
 
 // GET ALL DISHES IN AN ORDER 
+
+// WORKS!!!
 
 app.get('/orders/:id/dishes', (req, res) => {
   Order.findById(req.params.id, function(errOrder, order) {
     if(errOrder) {
       res.status(404).json({ message: 'can not find order' }); 
-    } else { 
-      order.dishes
-      .then(dishes => {
-        res.json({
-          dishes: dishes.map(dish => dish.serialize())
-        });
-        })
-      .catch(err => {
-        console.log(err);
-        res.status(500).json({ message: "Internal server error" });
-      });  
-    });
-  }
+    } else {
+       res.json({
+       	 dishes: order.dishes.map(dish => dish.serialize())
+   	});
+   	}  
+});
 });
 
 // GET DISH BY ID IN ORDER
@@ -101,10 +90,10 @@ app.get('/orders/:id/dishes/:dish_id', (req, res) => {
       order.dishes.find(function(dish) {
         dish.id === req.params.dish_id;
         found = true; 
-      }); //confirm block 
+      }); 
     
       if (found === false) { 
-        res.status(422).json({ message: 'can not find dish' });
+        res.status(404).json({ message: 'can not find dish' });
       } else { 
       const filtered = order.dishes.filter(dish => dish.id === req.params.dish_id); 
       order.dishes = filtered;
@@ -127,21 +116,21 @@ app.get('/orders/:id/beverages/:beverage_id', (req, res) => {
       order.beverages.find(function(beverage) {
         beverage.id === req.params.beverage_id;
         found = true; 
-      }); //confirm block 
+      }); 
     
-      if (found === false) {  // if can't find the dish in the mneu
-        res.status(422).json({ message: 'can not find dish' });
+      if (found === false) {  
+        res.status(404).json({ message: 'can not find dish' });
       } else { 
       const filtered = order.beverages.filter(beverage => beverage.id === req.params.beverage_id); // filter out dishes that aren't the req. dish id
       order.beverages = filtered;
-      res.status(200).json(filtered);       // its giving me all the DISHES BESIDES THE ONE I WANT 
+      res.status(200).json(filtered); 
       }
     } 
   });
 });
 
   //  POST  ORDER
-  // WORKING
+  // WORKS!!
 
 app.post("/orders", (req, res) => {
     const requiredFields = ['guests','dishes','beverages','deliveryDate','location', 'notes'];
@@ -424,7 +413,10 @@ app.get("/menus/:id/beverages", (req, res) => {
     });
 });
 
+// GET A MENU DISH BY ID
+
 // WORKING !!!!!
+
 
 app.get('/menus/:id/dishes/:dish_id', (req, res) => {
   Menu.findById(req.params.id, function(errMenu, menu) {
@@ -438,7 +430,7 @@ app.get('/menus/:id/dishes/:dish_id', (req, res) => {
       }); //confirm block 
     
       if (found === false) {  // if can't find the dish in the mneu
-        res.status(422).json({ message: 'can not find dish' });
+        res.status(404).json({ message: 'can not find dish' });
       } else { // if you do find the dish in the menu
         // we want to get the dish_id so filter it out 
       const filtered = menu.dishes.filter(dish => dish.id === req.params.dish_id); // filter out dishes that aren't the req. dish id
@@ -465,7 +457,7 @@ app.get('/menus/:id/beverages/:beverage_id', (req, res) => {
       }); //confirm block 
     
       if (found === false) {  // if can't find the dish in the mneu
-        res.status(422).json({ message: 'can not find beverage' });
+        res.status(404).json({ message: 'can not find beverage' });
       } else { 
       const filtered = menu.beverages.filter(beverage => beverage.id === req.params.beverage_id); // filter out dishes that aren't the req. dish id
       menu.beverages = filtered;
@@ -476,11 +468,8 @@ app.get('/menus/:id/beverages/:beverage_id', (req, res) => {
 });
 
 
-
-// WORKS!
-
+// WORKS!!
 // put menus by ID , can use to update individual items to menu
-
 
 app.put('/menus/:id', (req, res) => {
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
@@ -613,7 +602,7 @@ app.delete("/menus/:id/beverages/:beverage_id", (req, res) => {
 
 // POST MENU
 
-// WORKS!
+// WORKS!!
 
 app.post('/menus', (req, res) => {
   const requiredFields = ['name','dishes','beverages'];
@@ -640,14 +629,11 @@ app.post('/menus', (req, res) => {
 
 });
 
+// POST A NEW BEVERAGE
+// WORKS!!
 
-// WORKS!
 
-// POST A NEW BEVERAGE, but when it works, it doesnt go into a specified menu - must post after...
-
-// NEEDS TESTING
-
-app.post("/menus/:id/beverages", (req, res) => {
+app.post('/beverages', (req, res) => {
   const requiredFields = ['name', 'description', 'price'];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
@@ -669,16 +655,14 @@ app.post("/menus/:id/beverages", (req, res) => {
     console.error(err);
     res.status(500).json({ error: 'Something went wrong' });
   });
-
 });
 
-// POST MENU DISH
 
-// WORKS!!  // NEEDS TESTING
+// POST A NEW DISH
 
-// BUT JUST POSTS A NEW DISH NOT INTO MENU COLLECTION
+// WORKS!!
 
-app.post("/menus/:id/dishes", (req, res) => {
+app.post('/dishes', (req, res) => {
   const requiredFields = ['name', 'description', 'price'];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
@@ -700,7 +684,6 @@ app.post("/menus/:id/dishes", (req, res) => {
     console.error(err);
     res.status(500).json({ error: 'Something went wrong' });
   });
-
 });
 
 app.use("*", function(req, res) {
