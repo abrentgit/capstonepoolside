@@ -238,13 +238,12 @@ app.delete('/orders/:id/beverages/:beverage_id', (req, res) => {
     if(errOrder) {
       res.status(404).json({ message: 'can not find order' });
     } else {
-      let found = false;  
-      for (let i = 0; i < order.beverages.length; i++) {
-        if (order.beverages[i].id === req.params.beverage_id) {
-          found = true; 
-          break;
-        } 
-      }
+      let found = false;
+      order.beverages.find(function(beverage) {
+        beverage.id === req.params.beverage_id; //check if dish is in order
+        found = true;
+      });   
+      
         if (found === false) {
           res.status(422).json({ message: 'can not find beverage' });
         } else {
