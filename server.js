@@ -20,11 +20,12 @@ app.use(express.json());
 // WORKS!!
 
 app.get('/orders/:page', (req, res) => {
-  // let perPage = 10;
-  // let page = req.params.page || 1; 
+  let perPage = 5;
+  let page = req.params.page || 1; 
   
   Order.find()
-      .limit(2)
+      .skip((perPage * page) - perPage) //skipping the previous pages dependent on page number
+      .limit(perPage)
       .then(orders => {
         res.json({
           orders: orders.map(order => order.serialize())
@@ -35,15 +36,6 @@ app.get('/orders/:page', (req, res) => {
       });
   });
 
-// SAMPLE CODE TO WORK: 
-//   var pageOptions = {
-//     page: req.query.page || 0,
-//     limit: req.query.limit || 10
-// }
-
-// sexyModel.find()
-//     .skip(pageOptions.page*pageOptions.limit)
-//     .limit(pageOptions.limit)
 //     .exec(function (err, doc) {
 //         if(err) { res.status(500).json(err); return; };
 //         res.status(200).json(doc);
