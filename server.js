@@ -19,12 +19,15 @@ app.use(express.json());
 
 // WORKS!!
 
-app.get('/orders', (req, res) => {
+app.get('/orders/:page', (req, res) => {
+  // let perPage = 10;
+  // let page = req.params.page || 1; 
+  
   Order.find()
       .limit(2)
       .then(orders => {
         res.json({
-          orders: orders.map(Order => Order.serialize())
+          orders: orders.map(order => order.serialize())
         });
       })
       .catch(err => {
@@ -32,7 +35,23 @@ app.get('/orders', (req, res) => {
       });
   });
 
-// get orders by id
+// SAMPLE CODE TO WORK: 
+//   var pageOptions = {
+//     page: req.query.page || 0,
+//     limit: req.query.limit || 10
+// }
+
+// sexyModel.find()
+//     .skip(pageOptions.page*pageOptions.limit)
+//     .limit(pageOptions.limit)
+//     .exec(function (err, doc) {
+//         if(err) { res.status(500).json(err); return; };
+//         res.status(200).json(doc);
+//     })
+
+
+
+  // get orders by id
 // WORKS!!
 
 app.get('/orders/:id', (req, res) => {
@@ -44,36 +63,36 @@ app.get('/orders/:id', (req, res) => {
     });
   });
 
-// GET AN ORDER'S BEVS 
+// GET AN ORDER'S BEVS
 // WORKS!!!!
 
 
 app.get('/orders/:id/beverages', (req, res) => {
   Order.findById(req.params.id, function(errOrder, order) {
     if(errOrder) {
-      res.status(404).json({ message: 'can not find order' }); 
+      res.status(404).json({ message: 'can not find order' });
     } else {
        res.json({
        	 beverages: order.beverages.map(beverage => beverage.serialize())
    	});
-   	}  
+   	}
 });
 });
 
 
-// GET ALL DISHES IN AN ORDER 
+// GET ALL DISHES IN AN ORDER
 
 // WORKS!!!
 
 app.get('/orders/:id/dishes', (req, res) => {
   Order.findById(req.params.id, function(errOrder, order) {
     if(errOrder) {
-      res.status(404).json({ message: 'can not find order' }); 
+      res.status(404).json({ message: 'can not find order' });
     } else {
        res.json({
        	 dishes: order.dishes.map(dish => dish.serialize())
    	});
-   	}  
+   	}
 });
 });
 
@@ -84,22 +103,18 @@ app.get('/orders/:id/dishes', (req, res) => {
 app.get('/orders/:id/dishes/:dish_id', (req, res) => {
   Order.findById(req.params.id, function(errOrder, order) {
     if(errOrder) {
-      res.status(404).json({ message: 'can not find order' }); 
-    } else { 
-      let found = false;
-      order.dishes.find(function(dish) {
-        dish.id === req.params.dish_id;
-        found = true; 
-      }); 
-    
-      if (found === false) { 
+      res.status(404).json({ message: 'can not find order' });
+    } else {
+      let found = order.dishes.find(dish => dish.id === req.params.dish_id);
+
+      if (found === false) {
         res.status(404).json({ message: 'can not find dish' });
-      } else { 
-      const filtered = order.dishes.filter(dish => dish.id === req.params.dish_id); 
+      } else {
+      const filtered = order.dishes.filter(dish => dish.id === req.params.dish_id);
       order.dishes = filtered;
-      res.status(200).json(filtered);      
+      res.status(200).json(filtered);
       }
-    } 
+    }
   });
 });
 
@@ -110,30 +125,26 @@ app.get('/orders/:id/dishes/:dish_id', (req, res) => {
 app.get('/orders/:id/beverages/:beverage_id', (req, res) => {
   Order.findById(req.params.id, function(errOrder, order) {
     if(errOrder) {
-      res.status(404).json({ message: 'can not find order' }); 
-    } else { 
-      let found = false;
-      order.beverages.find(function(beverage) {
-        beverage.id === req.params.beverage_id;
-        found = true; 
-      }); 
-    
-      if (found === false) {  
+      res.status(404).json({ message: 'can not find order' });
+    } else {
+      let found = order.beverages.find(beverage => beverage.id === req.params.beverage_id);
+
+      if (found === false) {
         res.status(404).json({ message: 'can not find dish' });
-      } else { 
-      const filtered = order.beverages.filter(beverage => beverage.id === req.params.beverage_id); // filter out dishes that aren't the req. dish id
-      order.beverages = filtered;
-      res.status(200).json(filtered); 
+      } else {
+        const filtered = order.beverages.filter(beverage => beverage.id === req.params.beverage_id);
+          order.beverages = filtered;
+          res.status(200).json(filtered);
       }
-    } 
+    }
   });
-});
+}); 
 
   //  POST  ORDER
   // WORKS!!
 
 app.post("/orders", (req, res) => {
-    const requiredFields = ['guests','dishes','beverages','deliveryDate','location', 'notes'];
+    const requiredFields = ['guests','deliveryDate','location', 'notes'];
     for (let i = 0; i < requiredFields.length; i++) {
       const field = requiredFields[i];
       if (!(field in req.body)) {
@@ -146,8 +157,6 @@ app.post("/orders", (req, res) => {
     Order
     .create({
       guests: req.body.guests,
-      dishes: req.body.dishes,
-      beverages: req.body.beverages,
       deliveryDate: req.body.deliveryDate,
       location: req.body.location,
       notes: req.body.notes
@@ -172,7 +181,7 @@ app.put('/orders/:id', (req, res) => {
     }
 
     const updated = {};
-    const updateableFields = ['dishes','beverages','deliveryDate','location', 'notes'];
+    const updateableFields = ['deliveryDate','location', 'notes'];
     updateableFields.forEach(field => {
       if (field in req.body) {
         updated[field] = req.body[field];
@@ -180,7 +189,7 @@ app.put('/orders/:id', (req, res) => {
     });
 
     Order
-      .findByIdAndUpdate(req.params.id, updated)// add
+      .findByIdAndUpdate(req.params.id, updated)
       .then(updatedOrder => res.status(204).end())
       .catch(err => res.status(500).json({ message: 'Something went wrong' }));
   });
@@ -191,7 +200,7 @@ app.put('/orders/:id', (req, res) => {
 
  app.delete('/orders/:id', (req, res) => {
     Order.findByIdAndRemove(req.params.id)
-      .then(order => res.status(204).end())
+      .then(order => res.status(200).send())
       .catch(err => res.status(500).json({ message: "Internal server error" }));
   });
 
@@ -203,26 +212,20 @@ app.delete('/orders/:id/dishes/:dish_id', (req, res) => {
   Order.findById(req.params.id, function(errOrder, order) {
     if(errOrder) {
         res.status(404).json({message: 'can not find order'});
-      } else { // if no error try to see if dilet found = false; // found is false
-          let found = false;    
-          order.dishes.find(function(dish) {
-            dish.id === req.params.dish_id; //check if dish is in order
-            found = true;
-          }); 
-  
-         if (found === false) { 
-            res.status(422).json({ message: 'can not find dish' });
+      } else {
+         let found = order.dishes.find(dish => dish.id === req.params.dish_id);
+
+         if (found === false) {
+          res.status(422).json({ message: 'can not find dish' });
         } else {
-          // now that we found it, we filter what is not the dish id from the array
           const filtered = order.dishes.filter(dish => dish.id !== req.params.dish_id);
-          order.dishes = filtered; // new value of order.dishes is filtered array
+          order.dishes = filtered;
         }
-        // now we want to save the order
           order.save(function(errSave, updatedOrder) {
             if (errSave) {
-              res.status(422).json({ message: 'can not save order' }); // if err, can't save
+              res.status(422).json({ message: 'can not save order' }); //
             } else {
-              res.status(200).json(updatedOrder); // if no error, we can send an updated order
+              res.status(200).json(updatedOrder);
             }
         });
       }
@@ -231,35 +234,31 @@ app.delete('/orders/:id/dishes/:dish_id', (req, res) => {
 
 // DELETE BEVERAGE ORDER BY ID
 
-// WORKS !!!! 
+// WORKS !!!!
 
 app.delete('/orders/:id/beverages/:beverage_id', (req, res) => {
   Order.findById(req.params.id, function(errOrder, order) {
     if(errOrder) {
       res.status(404).json({ message: 'can not find order' });
     } else {
-      let found = false;
-      order.beverages.find(function(beverage) {
-        beverage.id === req.params.beverage_id; //check if dish is in order
-        found = true;
-      });   
-      
+      let found = order.beverages.find(beverage => beverage.id === req.params.beverage_id);  
+
         if (found === false) {
           res.status(422).json({ message: 'can not find beverage' });
         } else {
-          const filtered = order.beverages.filter(beverage => beverage.id !== req.params.beverage_id); 
+          const filtered = order.beverages.filter(beverage => beverage.id !== req.params.beverage_id);
           order.beverages = filtered; //filters the beverages that are not the id
         }
-          
-        order.save(function(errSave, updatedOrder) { // related to order save 
+
+        order.save(function(errSave, updatedOrder) { // related to order save
             if (errSave) {
               res.status(422).json({ message: 'Could not save order' });
           } else {
               res.status(200).json(updatedOrder); // new order is saved and updated
           }
       });
-    } 
-  });  
+    }
+  });
 });
 
 // UPDATE ORDER - BEVERAGE
@@ -275,7 +274,7 @@ app.put('/orders/:id/beverages/:beverage_id', (req, res) => {
 
   if(!(req.params.beverage_id && req.body.beverage_id && req.params.beverage_id === req.body.beverage_id)) {
     res.status(400).json({
-      error: 'Request path id and request body id values must match'
+      error: 'Request path beverage id and request beverage body id values must match'
     });
   }
 
@@ -416,27 +415,22 @@ app.get("/menus/:id/beverages", (req, res) => {
 
 // WORKING !!!!!
 
-
 app.get('/menus/:id/dishes/:dish_id', (req, res) => {
   Menu.findById(req.params.id, function(errMenu, menu) {
     if(errMenu) {
       res.status(404).json({ message: 'can not find menu' }); // no menu found
     } else { // if no error and menu exists, find the dish id in the menu
-      let found = false;
-      menu.dishes.find(function(dish) {
-        dish.id === req.params.dish_id;
-        found = true; 
-      }); //confirm block 
-    
+      let found = menu.dishes.find(dish => dish.id === req.params.dish_id);
+
       if (found === false) {  // if can't find the dish in the mneu
         res.status(404).json({ message: 'can not find dish' });
       } else { // if you do find the dish in the menu
-        // we want to get the dish_id so filter it out 
+        // we want to get the dish_id so filter it out
       const filtered = menu.dishes.filter(dish => dish.id === req.params.dish_id); // filter out dishes that aren't the req. dish id
       menu.dishes = filtered;
-      res.status(200).json(filtered);       // its giving me all the DISHES BESIDES THE ONE I WANT 
+      res.status(200).json(filtered);       // its giving me all the DISHES BESIDES THE ONE I WANT
       }
-    } 
+    }
   });
 });
 
@@ -449,20 +443,16 @@ app.get('/menus/:id/beverages/:beverage_id', (req, res) => {
     if(errMenu) {
       res.status(404).json({ message: 'can not find menu' }); // no menu found
     } else { // if no error and menu exists, find the bev id in the menu
-      let found = false;
-      menu.beverages.find(function(beverage) { //find the bev in the menu bev array
-        beverage.id === req.params.beverage_id;
-        found = true; 
-      }); //confirm block 
-    
+      let found = menu.beverages.find(beverage => beverage.id === req.params.beverage_id);
+
       if (found === false) {  // if can't find the dish in the mneu
         res.status(404).json({ message: 'can not find beverage' });
-      } else { 
+      } else {
       const filtered = menu.beverages.filter(beverage => beverage.id === req.params.beverage_id); // filter out dishes that aren't the req. dish id
       menu.beverages = filtered;
-      res.status(200).json(filtered);       // its giving me all the DISHES BESIDES THE ONE I WANT 
+      res.status(200).json(filtered);
       }
-    } 
+    }
   });
 });
 
@@ -478,7 +468,7 @@ app.put('/menus/:id', (req, res) => {
   }
 
   const updated = {};
-  const updateableFields = ['name','dishes', 'beverages'];
+  const updateableFields = ['name'];
   updateableFields.forEach(field => {
     if (field in req.body) {
       updated[field] = req.body[field];
@@ -504,7 +494,7 @@ app.put('/menus/:id/dishes/:dish_id', (req, res) => {
 
   if (!(req.params.dish_id && req.body.dish_id && req.params.dish_id === req.body.dish.id)) {
     res.status(400).json({
-      error: 'Request path id and request body id values must match'
+      error: 'Request dish path id and request body dish id values must match'
     });
   }
 
@@ -543,7 +533,7 @@ app.put('/menus/:id/beverages/:beverage_id', (req, res) => {
 
   if (!(req.params.beverage_id && req.body.beverage_id && req.params.beverage_id === req.body.beverage_id)) {
     res.status(400).json({
-      error: 'Request path id and request body id values must match'
+      error: 'Request path beverage id and request body beverage id values must match'
     });
   }
 
@@ -583,28 +573,26 @@ app.delete("/menus/:id", (req, res) => {
 
 // WORKS!
 
-app.delete("/menus/:id/dishes/:dishid", (req, res) => {
-  Dish.findByIdAndRemove(req.params.dish.id) //refer to dish id
+app.delete("/menus/:id/dishes/:dish_id", (req, res) => {
+  Dish.findByIdAndRemove(req.params.dish_id) //refer to dish id
   .then(dish => res.status(204).end())
   .catch(err => res.status(500).json({ message: "Internal server error" }));
 });
 
 // DELETE MENU BEVERAGE BY ID
-
 // WORKS!!
 
 app.delete("/menus/:id/beverages/:beverage_id", (req, res) => {
-  Beverage.findByIdAndRemove(req.params.beverages.id) //refer to beverage.id
+  Beverage.findByIdAndRemove(req.params.beverage_id) 
   .then(beverage => res.status(204).end())
   .catch(err => res.status(500).json({ message: "Internal server error" }));
 });
 
 // POST MENU
-
 // WORKS!!
 
 app.post('/menus', (req, res) => {
-  const requiredFields = ['name','dishes','beverages'];
+  const requiredFields = ['name'];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
     if (!(field in req.body)) {
@@ -616,9 +604,7 @@ app.post('/menus', (req, res) => {
 
   Menu
   .create({
-    name: req.body.name,
-    dishes: req.body.dishes,
-    beverages: req.body.beverages,
+    name: req.body.name
   })
   .then(menu => res.status(201).json(menu.serialize()))
   .catch(err => {
@@ -630,7 +616,6 @@ app.post('/menus', (req, res) => {
 
 // POST A NEW BEVERAGE
 // WORKS!!
-
 
 app.post('/beverages', (req, res) => {
   const requiredFields = ['name', 'description', 'price'];
