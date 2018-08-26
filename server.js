@@ -379,7 +379,7 @@ app.get("/menus/menu_id/:id", (req, res) => {
 app.get("/menus/:id/dishes/:page", (req, res, next) => {
   Menu.findById(req.params.id, function(errMenu, menu) {
     if (!errMenu) {
-      menu.dishes;
+      
       //   let perPage = 2;
       //   let page = req.params.page || 1;
 
