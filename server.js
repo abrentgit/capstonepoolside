@@ -18,13 +18,13 @@ app.use(express.json());
 
 // WORKS!!
 
-app.get("/orders/:page", (req, res) => {
-  let perPage = 3;
-  let page = req.params.page || 1;
+app.get("/orders", (req, res) => {
+  const perPage = 3;
+  const currentPage = req.query.page || 1;
 
   Order.find()
-    .skip(perPage * page - perPage) //skipping the previous pages dependent on page number
-    .limit(perPage) // limit it to per page number, then take orders and
+    .skip((perPage * currentPage) - perPage) //skipping the previous pages dependent on page number
+    .limit(perPage) // limit it to per page number, then take orders 
     .then(orders => {
       res.json({
         orders: orders.map(order => order.serialize())
@@ -339,12 +339,12 @@ app.put("/orders/:id/dishes/:dish_id", (req, res) => {
 
 // WORKS
 
-app.get("/menus/:page", (req, res) => {
-  let perPage = 2;
-  let page = req.params.page || 1;
+app.get("/menus", (req, res) => {
+  const perPage = 2;
+  const currentPage = req.query.page || 1;
 
   Menu.find()
-    .skip(perPage * page - perPage)
+    .skip((perPage * currentPage) - perPage)
     .limit(perPage)
     .then(menus => {
       res.json({
@@ -374,27 +374,20 @@ app.get("/menus/menu_id/:id", (req, res) => {
 
 // GET ALL DISHES IN A MENU
 
-//  NOT WORKING !
+// WORKS NOW
 
-app.get("/menus/:id/dishes/:page", (req, res, next) => {
+app.get("/menus/:id/dishes", (req, res) => {
   Menu.findById(req.params.id, function(errMenu, menu) {
     if (!errMenu) {
-      
-      //   let perPage = 2;
-      //   let page = req.params.page || 1;
+      const perPage = 2;
+      const currentPage = req.query.page || 1;
+      const skip = (perPage * currentPage) - perPage;
 
-      //   Dish.find()
-      //   .skip(perPage * page - perPage)
-      //   .limit(perPage)
-      //   .then(dishes => {
-      // 	res.json({
-      // 		dishes:dishes.map(dish => dish.serialize())
-      // 	  });
-      //   })
-      // .catch(err => {
-      // 	console.error(err);
-      // 	res.status(500).json({ message: 'Internal server error' });
-      // });
+      const dishes = menu.dishes.slice(skip, skip + perPage);
+  
+      res.json({
+      	dishes: dishes.map(dish => dish.serialize())
+      });
     } else {
       res.status(404).json({ message: "can not find menu" });
     }
@@ -404,20 +397,24 @@ app.get("/menus/:id/dishes/:page", (req, res, next) => {
 // get all beverages that exist
 // for a staff member
 
-// NOT WORKING!!
+// WORKING
 
 app.get("/menus/:id/beverages", (req, res) => {
-  Beverage.find()
-    .limit(10)
-    .then(beverages => {
+  Menu.findById(req.params.id, function(errMenu, menu) {
+    if (!errMenu) {
+      const perPage = 2;
+      const currentPage = req.query.page || 1;
+      const skip = (perPage * currentPage) - perPage;
+
+      const beverages = menu.beverages.slice(skip, skip + perPage);
+
       res.json({
         beverages: beverages.map(beverage => beverage.serialize())
       });
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({ message: "Internal server error" });
-    });
+    } else {
+      res.json(404).json({ message: "can not find menu" }); 
+    }  
+  });
 });
 
 // GET A MENU DISH BY ID
