@@ -16,7 +16,7 @@ app.use(express.json());
 
 // get all orders
 
-// WORKS!!
+// WORKS!!*
 
 app.get("/orders", (req, res) => {
   const perPage = 3;
@@ -36,9 +36,9 @@ app.get("/orders", (req, res) => {
 });
 
 // get orders by id
-// WORKS!!
+// WORKS!!*
 
-app.get("/orders/order_id/:id", (req, res) => {
+app.get("/orders/:id", (req, res) => {
   Order.findById(req.params.id)
     .then(order => res.json(order.serialize()))
     .catch(err => {
@@ -48,7 +48,7 @@ app.get("/orders/order_id/:id", (req, res) => {
 });
 
 // GET AN ORDER'S BEVS
-// WORKS!!!!
+// WORKS!!!*
 
 app.get("/orders/:id/beverages", (req, res) => {
   Order.findById(req.params.id, function(errOrder, order) {
@@ -64,7 +64,7 @@ app.get("/orders/:id/beverages", (req, res) => {
 
 // GET ALL DISHES IN AN ORDER
 
-// WORKS!!!
+// WORKS!!*
 
 app.get("/orders/:id/dishes", (req, res) => {
   Order.findById(req.params.id, function(errOrder, order) {
@@ -80,7 +80,7 @@ app.get("/orders/:id/dishes", (req, res) => {
 
 // GET DISH BY ID IN ORDER
 
-// WORKS!!!!!
+// WORKS!!!!*
 
 app.get("/orders/:id/dishes/:dish_id", (req, res) => {
   Order.findById(req.params.id, function(errOrder, order) {
@@ -104,7 +104,7 @@ app.get("/orders/:id/dishes/:dish_id", (req, res) => {
 
 // get a beverage in a order
 
-// WORKS!!!!
+// WORKS!!!!*
 
 app.get("/orders/:id/beverages/:beverage_id", (req, res) => {
   Order.findById(req.params.id, function(errOrder, order) {
@@ -129,7 +129,7 @@ app.get("/orders/:id/beverages/:beverage_id", (req, res) => {
 });
 
 //  POST  ORDER
-// WORKS!!
+// NOT WORKING!!!
 
 app.post("/orders", (req, res) => {
   const requiredFields = ["guests", "deliveryDate", "location", "notes"];
@@ -143,7 +143,7 @@ app.post("/orders", (req, res) => {
   }
 
   Order.create({
-    guests: req.body.guests,
+    guests: req.body.guests, 
     deliveryDate: req.body.deliveryDate,
     location: req.body.location,
     notes: req.body.notes
@@ -157,7 +157,7 @@ app.post("/orders", (req, res) => {
 
 // UPDATE AN ORDER BY ID
 
-// WORKS !
+// WORKS !!!*
 
 app.put("/orders/:id", (req, res) => {
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
@@ -181,7 +181,7 @@ app.put("/orders/:id", (req, res) => {
 
 // DELETE ORDER BY ID
 
-/// WORKS!!
+/// WORKS!!*
 
 app.delete("/orders/:id", (req, res) => {
   Order.findByIdAndRemove(req.params.id)
@@ -191,7 +191,7 @@ app.delete("/orders/:id", (req, res) => {
 
 // DELETE DISH ORDER BY ID
 
-// WORKING!!!!!!
+// WORKING!!!!!!*
 
 app.delete("/orders/:id/dishes/:dish_id", (req, res) => {
   Order.findById(req.params.id, function(errOrder, order) {
