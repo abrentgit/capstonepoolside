@@ -221,7 +221,7 @@ app.delete("/orders/:id/dishes/:dish_id", (req, res) => {
 
 // DELETE BEVERAGE ORDER BY ID
 
-// WORKS !!!!
+// WORKS !!!!*
 
 app.delete("/orders/:id/beverages/:beverage_id", (req, res) => {
   Order.findById(req.params.id, function(errOrder, order) {
@@ -253,8 +253,8 @@ app.delete("/orders/:id/beverages/:beverage_id", (req, res) => {
   });
 });
 
-// UPDATE ORDER - BEVERAGE
-
+// UPDATE ORDER WITH A BEVERAGE
+// CHECK AGAIN - MAKE A NEW BEV FIRST
 //  WORKS!!!
 
 app.put("/orders/:id/beverages/:beverage_id", (req, res) => {
@@ -297,7 +297,7 @@ app.put("/orders/:id/beverages/:beverage_id", (req, res) => {
 });
 
 /// update a dish order by ID
-
+// MAKE A NEW DISH FIRST - CHECK
 // THIS WORKS!
 
 app.put("/orders/:id/dishes/:dish_id", (req, res) => {
@@ -337,7 +337,7 @@ app.put("/orders/:id/dishes/:dish_id", (req, res) => {
 
 // get menus
 
-// WORKS
+// WORKS*
 
 app.get("/menus", (req, res) => {
   const perPage = 2;
@@ -359,7 +359,7 @@ app.get("/menus", (req, res) => {
 
 // get menus by ID
 
-// WORKS
+// WORKS*
 
 app.get("/menus/menu_id/:id", (req, res) => {
   Menu.findById(req.params.id)
@@ -374,7 +374,7 @@ app.get("/menus/menu_id/:id", (req, res) => {
 
 // GET ALL DISHES IN A MENU
 
-// WORKS NOW
+// WORKS*
 
 app.get("/menus/:id/dishes", (req, res) => {
   Menu.findById(req.params.id, function(errMenu, menu) {
