@@ -129,7 +129,7 @@ app.get("/orders/:id/beverages/:beverage_id", (req, res) => {
 });
 
 //  POST  ORDER
-// NOT WORKING!!!
+// WORKS!!
 
 app.post("/orders", (req, res) => {
   const requiredFields = ["guests", "deliveryDate", "location", "notes"];
@@ -254,8 +254,7 @@ app.delete("/orders/:id/beverages/:beverage_id", (req, res) => {
 });
 
 // UPDATE ORDER WITH A BEVERAGE
-// CHECK AGAIN - MAKE A NEW BEV FIRST
-//  WORKS!!!
+//  WORKS!!!***
 
 app.put("/orders/:id/beverages/:beverage_id", (req, res) => {
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
@@ -297,8 +296,7 @@ app.put("/orders/:id/beverages/:beverage_id", (req, res) => {
 });
 
 /// update a dish order by ID
-// MAKE A NEW DISH FIRST - CHECK
-// THIS WORKS!
+// THIS WORKS!***
 
 app.put("/orders/:id/dishes/:dish_id", (req, res) => {
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
@@ -374,7 +372,7 @@ app.get("/menus/menu_id/:id", (req, res) => {
 
 // GET ALL DISHES IN A MENU
 
-// WORKS*
+// WORKS ****
 
 app.get("/menus/:id/dishes", (req, res) => {
   Menu.findById(req.params.id, function(errMenu, menu) {
@@ -397,7 +395,7 @@ app.get("/menus/:id/dishes", (req, res) => {
 // get all beverages that exist
 // for a staff member
 
-// WORKING
+// WORKING***
 
 app.get("/menus/:id/beverages", (req, res) => {
   Menu.findById(req.params.id, function(errMenu, menu) {
@@ -419,7 +417,7 @@ app.get("/menus/:id/beverages", (req, res) => {
 
 // GET A MENU DISH BY ID
 
-// WORKING !!!!!
+// WORKING !!!!!***
 
 app.get("/menus/:id/dishes/:dish_id", (req, res) => {
   Menu.findById(req.params.id, function(errMenu, menu) {
@@ -447,7 +445,7 @@ app.get("/menus/:id/dishes/:dish_id", (req, res) => {
 
 // get menu beverage by id
 
-// WORKS!!!!
+// WORKS!!!!***
 
 app.get("/menus/:id/beverages/:beverage_id", (req, res) => {
   Menu.findById(req.params.id, function(errMenu, menu) {
@@ -473,7 +471,7 @@ app.get("/menus/:id/beverages/:beverage_id", (req, res) => {
   });
 });
 
-// WORKS!!
+// WORKS!!***
 // put menus by ID , can use to update individual items to menu
 
 app.put("/menus/:id", (req, res) => {
@@ -498,7 +496,8 @@ app.put("/menus/:id", (req, res) => {
 
 // UPDATE AND ADD A DISH BY ID TO MENU
 
-// WORKS!!
+// WORKS!! 
+// CHECK THIS ????? NOT WORKING
 
 app.put("/menus/:id/dishes/:dish_id", (req, res) => {
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
@@ -507,7 +506,7 @@ app.put("/menus/:id/dishes/:dish_id", (req, res) => {
     });
   }
 
-  if (!(req.params.dish_id &&req.body.dish_id && req.params.dish_id === req.body.dish.id)) {
+  if (!(req.params.dish_id && req.body.dish_id && req.params.dish_id === req.body.dish_id)) {
     res.status(400).json({
       error: "Request dish path id and request body dish id values must match"
     });
@@ -537,7 +536,7 @@ app.put("/menus/:id/dishes/:dish_id", (req, res) => {
 
 // PUT update MENU BEVERAGES BY ID
 
-// WORKS!!
+// WORKS!!**
 
 app.put("/menus/:id/beverages/:beverage_id", (req, res) => {
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
@@ -579,8 +578,7 @@ app.put("/menus/:id/beverages/:beverage_id", (req, res) => {
 });
 
 // DELETE MENU BY ID
-
-// WORKS!
+// WORKS!****
 
 app.delete("/menus/:id", (req, res) => {
   Menu.findByIdAndRemove(req.params.id)
@@ -590,25 +588,35 @@ app.delete("/menus/:id", (req, res) => {
 
 // DELETE DISH BY ID IN A MENU
 
-// WORKS!
+// NOT WORKING - find menu model first 
 
 app.delete("/menus/:id/dishes/:dish_id", (req, res) => {
   Dish.findByIdAndRemove(req.params.dish_id) //refer to dish id
+  // find method and filter method again
     .then(dish => res.status(204).end())
     .catch(err => res.status(500).json({ message: "Internal server error" }));
 });
 
 // DELETE MENU BEVERAGE BY ID
-// WORKS!!
+
+// NOT WORKING - find menu model first
 
 app.delete("/menus/:id/beverages/:beverage_id", (req, res) => {
+  Menu.findById(req.params.id, function(errMenu, menu) {
+    if(!errMenu) {
+      menu.beverages
+      // use find method to find beverage id in menu array
+      // if found .delete method on found beverage
+      // use .filter again to move the match
+    }
+  }
   Beverage.findByIdAndRemove(req.params.beverage_id)
     .then(beverage => res.status(204).end())
     .catch(err => res.status(500).json({ message: "Internal server error" }));
 });
 
 // POST MENU
-// WORKS!!
+// WORKS!!**
 
 app.post("/menus", (req, res) => {
   const requiredFields = ["name"];
@@ -632,7 +640,7 @@ app.post("/menus", (req, res) => {
 });
 
 // POST A NEW BEVERAGE
-// WORKS!!
+// WORKS!!**
 
 app.post("/beverages", (req, res) => {
   const requiredFields = ["name", "description", "price"];
@@ -659,7 +667,7 @@ app.post("/beverages", (req, res) => {
 
 // POST A NEW DISH
 
-// WORKS!!
+// WORKS!!**
 
 app.post("/dishes", (req, res) => {
   const requiredFields = ["name", "description", "price"];
