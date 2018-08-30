@@ -263,17 +263,8 @@ app.put("/orders/:id/beverages/:beverage_id", (req, res) => {
     });
   }
 
-  if (
-    !(
-      req.params.beverage_id &&
-      req.body.beverage_id &&
-      req.params.beverage_id === req.body.beverage_id
-    )
-  ) {
-    res.status(400).json({
-      error:
-        "Request path beverage id and request beverage body id values must match"
-    });
+  if (!(req.params.beverage_id && req.body.beverage_id && req.params.beverage_id === req.body.beverage_id)) {
+    res.status(400).json({error: "Request path beverage id and request beverage body id values must match"});
   }
 
   Order.findById(req.params.id, function(errOrder, order) {
@@ -311,16 +302,8 @@ app.put("/orders/:id/dishes/:dish_id", (req, res) => {
     });
   }
 
-  if (
-    !(
-      req.params.dish_id &&
-      req.body.dish_id &&
-      req.params.dish_id === req.body.dish_id
-    )
-  ) {
-    res.status(400).json({
-      error: "Request path dish id and request body dish id values must match"
-    });
+  if (!(req.params.dish_id && req.body.dish_id && req.params.dish_id === req.body.dish_id)) {
+    res.status(400).json({ error: "Request path dish id and request body dish id values must match" });
   }
 
   Order.findById(req.params.id, function(errOrder, order) {
@@ -518,13 +501,7 @@ app.put("/menus/:id/dishes/:dish_id", (req, res) => {
     });
   }
 
-  if (
-    !(
-      req.params.dish_id &&
-      req.body.dish_id &&
-      req.params.dish_id === req.body.dish_id
-    )
-  ) {
+  if (!(req.params.dish_id && req.body.dish_id && req.params.dish_id === req.body.dish_id)) {
     res.status(400).json({
       error: "Request dish path id and request body dish id values must match"
     });
@@ -558,22 +535,11 @@ app.put("/menus/:id/dishes/:dish_id", (req, res) => {
 
 app.put("/menus/:id/beverages/:beverage_id", (req, res) => {
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
-    res.status(400).json({
-      error: "Request path id and request body id values must match"
-    });
+    res.status(400).json({ error: "Request path id and request body id values must match" });
   }
 
-  if (
-    !(
-      req.params.beverage_id &&
-      req.body.beverage_id &&
-      req.params.beverage_id === req.body.beverage_id
-    )
-  ) {
-    res.status(400).json({
-      error:
-        "Request path beverage id and request body beverage id values must match"
-    });
+  if (!(req.params.beverage_id && req.body.beverage_id && req.params.beverage_id === req.body.beverage_id)) {
+    res.status(400).json({ error: "Request path beverage id and request body beverage id values must match" });
   }
 
   Menu.findById(req.params.id, function(errMenu, menu) {
