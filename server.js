@@ -640,32 +640,32 @@ app.delete("/menus/:id/dishes/:dish_id", (req, res) => {
 
 // DELETE MENU BEVERAGE BY ID
 
-// NOT WORKING - find menu model first
-
+// WORKING**
 app.delete("/menus/:id/beverages/:beverage_id", (req, res) => {
   Menu.findById(req.params.id, function(errMenu, menu) {
     if (errMenu) {
       res.status(404).json({ message: "can not find menu" });
     } else {
       let found = menu.beverages.find(
-        beverage => beverage.id === req.params.beverage_id
-      );
+        beverage => beverage.id === req.params.beverage_id);
 
       if (found === false) {
         // if no beverage found
-        res.status(404).json({ message: "beverage not found" });
+        res.status(422).json({ message: "beverage not found" });
       } else {
-        // if bev is found then I for loop the array
-        for (let i = 0; i < menu.beverages.length; i++) {
-          console.log(i);
-          // if (menu.beverages[i] === req.params.beverage_id) {
-          //   menu.beverages.splice(i, 1); /// remove element via splice
-          // }
-        }
-        res.status(204).end();
+        // if bev is found then I filter , if its not the bev id im trying to delete, put in new arr
+        const filtered = menu.beverages.filter(beverage => beverage.id !== req.params.beverage_id);
+        menu.beverages = filtered;
       }
-    }
-  });
+    menu.save(function(errSave, updatedOrder) { // save the new menu with non req bev items
+      if (errSave) {
+        res.status(422).json({ message: 'can not update order' }); 
+      } else {
+        res.status(200).json(updatedOrder); 
+      }
+    });
+  }
+});
 });
 
 // POST MENU
