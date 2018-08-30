@@ -23,8 +23,8 @@ app.get("/orders", (req, res) => {
   const currentPage = req.query.page || 1;
 
   Order.find()
-    .skip((perPage * currentPage) - perPage) //skipping the previous pages dependent on page number
-    .limit(perPage) // limit it to per page number, then take orders 
+    .skip(perPage * currentPage - perPage) //skipping the previous pages dependent on page number
+    .limit(perPage) // limit it to per page number, then take orders
     .then(orders => {
       res.json({
         orders: orders.map(order => order.serialize())
@@ -143,7 +143,7 @@ app.post("/orders", (req, res) => {
   }
 
   Order.create({
-    guests: req.body.guests, 
+    guests: req.body.guests,
     deliveryDate: req.body.deliveryDate,
     location: req.body.location,
     notes: req.body.notes
@@ -263,7 +263,13 @@ app.put("/orders/:id/beverages/:beverage_id", (req, res) => {
     });
   }
 
-  if (!(req.params.beverage_id && req.body.beverage_id && req.params.beverage_id === req.body.beverage_id)) {
+  if (
+    !(
+      req.params.beverage_id &&
+      req.body.beverage_id &&
+      req.params.beverage_id === req.body.beverage_id
+    )
+  ) {
     res.status(400).json({
       error:
         "Request path beverage id and request beverage body id values must match"
@@ -305,7 +311,13 @@ app.put("/orders/:id/dishes/:dish_id", (req, res) => {
     });
   }
 
-  if (!(req.params.dish_id &&req.body.dish_id && req.params.dish_id === req.body.dish_id)) {
+  if (
+    !(
+      req.params.dish_id &&
+      req.body.dish_id &&
+      req.params.dish_id === req.body.dish_id
+    )
+  ) {
     res.status(400).json({
       error: "Request path dish id and request body dish id values must match"
     });
@@ -342,7 +354,7 @@ app.get("/menus", (req, res) => {
   const currentPage = req.query.page || 1;
 
   Menu.find()
-    .skip((perPage * currentPage) - perPage)
+    .skip(perPage * currentPage - perPage)
     .limit(perPage)
     .then(menus => {
       res.json({
@@ -379,12 +391,12 @@ app.get("/menus/:id/dishes", (req, res) => {
     if (!errMenu) {
       const perPage = 2;
       const currentPage = req.query.page || 1;
-      const skip = (perPage * currentPage) - perPage;
+      const skip = perPage * currentPage - perPage;
 
       const dishes = menu.dishes.slice(skip, skip + perPage);
-  
+
       res.json({
-      	dishes: dishes.map(dish => dish.serialize())
+        dishes: dishes.map(dish => dish.serialize())
       });
     } else {
       res.status(404).json({ message: "can not find menu" });
@@ -402,7 +414,7 @@ app.get("/menus/:id/beverages", (req, res) => {
     if (!errMenu) {
       const perPage = 2;
       const currentPage = req.query.page || 1;
-      const skip = (perPage * currentPage) - perPage;
+      const skip = perPage * currentPage - perPage;
 
       const beverages = menu.beverages.slice(skip, skip + perPage);
 
@@ -410,8 +422,8 @@ app.get("/menus/:id/beverages", (req, res) => {
         beverages: beverages.map(beverage => beverage.serialize())
       });
     } else {
-      res.json(404).json({ message: "can not find menu" }); 
-    }  
+      res.json(404).json({ message: "can not find menu" });
+    }
   });
 });
 
@@ -496,7 +508,7 @@ app.put("/menus/:id", (req, res) => {
 
 // UPDATE AND ADD A DISH BY ID TO MENU
 
-// WORKS!! 
+// WORKS!!
 // CHECK THIS ????? NOT WORKING
 
 app.put("/menus/:id/dishes/:dish_id", (req, res) => {
@@ -506,7 +518,13 @@ app.put("/menus/:id/dishes/:dish_id", (req, res) => {
     });
   }
 
-  if (!(req.params.dish_id && req.body.dish_id && req.params.dish_id === req.body.dish_id)) {
+  if (
+    !(
+      req.params.dish_id &&
+      req.body.dish_id &&
+      req.params.dish_id === req.body.dish_id
+    )
+  ) {
     res.status(400).json({
       error: "Request dish path id and request body dish id values must match"
     });
@@ -545,7 +563,13 @@ app.put("/menus/:id/beverages/:beverage_id", (req, res) => {
     });
   }
 
-  if (!(req.params.beverage_id && req.body.beverage_id && req.params.beverage_id === req.body.beverage_id)) {
+  if (
+    !(
+      req.params.beverage_id &&
+      req.body.beverage_id &&
+      req.params.beverage_id === req.body.beverage_id
+    )
+  ) {
     res.status(400).json({
       error:
         "Request path beverage id and request body beverage id values must match"
@@ -588,14 +612,31 @@ app.delete("/menus/:id", (req, res) => {
 
 // DELETE DISH BY ID IN A MENU
 
-// NOT WORKING - find menu model first 
+// WORKING**
 
 app.delete("/menus/:id/dishes/:dish_id", (req, res) => {
-  Dish.findByIdAndRemove(req.params.dish_id) //refer to dish id
-  // find method and filter method again
-    .then(dish => res.status(204).end())
-    .catch(err => res.status(500).json({ message: "Internal server error" }));
+  Menu.findById(req.params.id, function(errMenu, menu) {
+    if (errMenu) {
+      res.status(404).json({ message: "can not find menu" });
+    } else {
+      let found = menu.dishes.find(dish => dish.id === req.params.dish_id);
+
+      if (found === false) {
+        res.status(422).json({ message: "can not find dish" });
+      } else {
+        const filtered = menu.dishes.filter(dish => dish.id !== req.params.dish_id);
+        menu.dishes = filtered;
+      }
+    menu.save(function(errSave, updatedOrder) {
+      if (errSave) {
+        res.status(422).json({ message: 'can not save order' });
+      } else {
+      } res.status(200).json(updatedOrder);
+    });
+  }
 });
+});
+  
 
 // DELETE MENU BEVERAGE BY ID
 
@@ -603,16 +644,28 @@ app.delete("/menus/:id/dishes/:dish_id", (req, res) => {
 
 app.delete("/menus/:id/beverages/:beverage_id", (req, res) => {
   Menu.findById(req.params.id, function(errMenu, menu) {
-    if(!errMenu) {
-      menu.beverages
-      // use find method to find beverage id in menu array
-      // if found .delete method on found beverage
-      // use .filter again to move the match
+    if (errMenu) {
+      res.status(404).json({ message: "can not find menu" });
+    } else {
+      let found = menu.beverages.find(
+        beverage => beverage.id === req.params.beverage_id
+      );
+
+      if (found === false) {
+        // if no beverage found
+        res.status(404).json({ message: "beverage not found" });
+      } else {
+        // if bev is found then I for loop the array
+        for (let i = 0; i < menu.beverages.length; i++) {
+          console.log(i);
+          // if (menu.beverages[i] === req.params.beverage_id) {
+          //   menu.beverages.splice(i, 1); /// remove element via splice
+          // }
+        }
+        res.status(204).end();
+      }
     }
-  }
-  Beverage.findByIdAndRemove(req.params.beverage_id)
-    .then(beverage => res.status(204).end())
-    .catch(err => res.status(500).json({ message: "Internal server error" }));
+  });
 });
 
 // POST MENU
@@ -701,7 +754,10 @@ let server;
 function runServer(databaseUrl, port = PORT) {
   console.log("server is running on", databaseUrl);
   return new Promise((resolve, reject) => {
-    mongoose.connect(databaseUrl,{ useNewUrlParser: true }, err => {
+    mongoose.connect(
+      databaseUrl,
+      { useNewUrlParser: true },
+      err => {
         if (err) {
           return reject(err);
         }
