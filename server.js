@@ -12,6 +12,31 @@ const { Order, Menu, Beverage, Dish, Guest, Staff } = require("./models");
 app.use(morgan("common"));
 app.use(express.json());
 
+// POST NEW GUEST
+// CAN ONLY POST ONE GUEST AT A TIME
+
+app.post("/guests", (req, res) => {
+  const requiredFields = ["name", "password"];
+  for (let i = 0; i < requiredFields.length; i++) {
+    const field = requiredFields[i];
+    if (!(field in req.body)) {
+      const message = `Missing \`${field}\` in request body`;
+      console.error(message);
+      return res.status(400).send(message);
+    }
+  }
+
+  Guest.create({
+    name: req.body.name,
+    password: req.body.password
+  })
+    .then(guest => res.status(201).json(guest.serialize()))
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: "Something went wrong" });
+    });
+});
+
 // GUESTS CAN:
 
 // get all orders
@@ -128,11 +153,11 @@ app.get("/orders/:id/beverages/:beverage_id", (req, res) => {
   });
 });
 
-//  POST  ORDER
+//  POST  ORDER W/ GUEST IMPLEMENTATION
 // WORKS!!
 
 app.post("/orders", (req, res) => {
-  const requiredFields = ["guests", "deliveryDate", "location", "notes"];
+  const requiredFields = ["guests","deliveryDate", "location", "notes"];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
     if (!(field in req.body)) {
@@ -142,17 +167,28 @@ app.post("/orders", (req, res) => {
     }
   }
 
-  Order.create({
-    guests: req.body.guests,
-    deliveryDate: req.body.deliveryDate,
-    location: req.body.location,
-    notes: req.body.notes
-  })
+  const firstGuestId = req.body.guests[0]; // array of guests
+
+
+  Guest.findById(firstGuestId, (err, guest) => {
+    if (err) {
+      res.status(404).send(message); // if menu not found
+    } else { // if no error
+    
+    Order.create({
+      guests: [guest],
+      deliveryDate: req.body.deliveryDate,
+      location: req.body.location,
+      notes: req.body.notes
+    })
+  
     .then(order => res.status(201).json(order.serialize()))
     .catch(err => {
       console.error(err);
       res.status(500).json({ error: "Something went wrong" });
     });
+  }
+});
 });
 
 // UPDATE AN ORDER BY ID
