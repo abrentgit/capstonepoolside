@@ -18,9 +18,9 @@ const beverageSchema = mongoose.Schema({
 const guestSchema = mongoose.Schema({
     name: { type: String, required: true },
     password: { type: String, required: true },
-    phone: { type: String, required: true },
+    phone: { type: String },
     email: { type: String, required: true, unique: true },
-    room: { type: String, required: true }
+    room: { type: String }
 });
 
 const staffSchema = mongoose.Schema({
@@ -31,7 +31,6 @@ const staffSchema = mongoose.Schema({
 });
 
 // dishes and beverages are arrays of objects
-// need to add required trues at some point
 
 
 const menuSchema = mongoose.Schema({
@@ -109,7 +108,7 @@ guestSchema.methods.serialize = function() {
     return {
         _id: this._id,
         name: this.name,
-        // password: this.password,
+        password: this.password,
         phone: this.phone,
         email: this.email,
         room: this.room

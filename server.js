@@ -16,7 +16,7 @@ app.use(express.json());
 // CAN ONLY POST ONE GUEST AT A TIME
 
 app.post("/guests", (req, res) => {
-  const requiredFields = ["name", "password"];
+  const requiredFields = ["name", "password", "email"];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
     if (!(field in req.body)) {
@@ -28,7 +28,8 @@ app.post("/guests", (req, res) => {
 
   Guest.create({
     name: req.body.name,
-    password: req.body.password
+    password: req.body.password,
+    email: req.body.email
   })
     .then(guest => res.status(201).json(guest.serialize()))
     .catch(err => {
@@ -154,7 +155,7 @@ app.get("/orders/:id/beverages/:beverage_id", (req, res) => {
 });
 
 //  POST  ORDER W/ GUEST IMPLEMENTATION
-// WORKS!!
+// WORKS!!**
 
 app.post("/orders", (req, res) => {
   const requiredFields = ["guests","deliveryDate", "location", "notes"];
@@ -168,7 +169,6 @@ app.post("/orders", (req, res) => {
   }
 
   const firstGuestId = req.body.guests[0]; // array of guests
-
 
   Guest.findById(firstGuestId, (err, guest) => {
     if (err) {
