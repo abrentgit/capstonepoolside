@@ -14,8 +14,8 @@ mongoose.Promise = global.Promise;
 const { DATABASE_URL, PORT } = require("./config");
 const { Order, Menu, Beverage, Dish, Guest, Staff } = require("./models");
 
-passport.use('localStrategy');
-passport.use(jwtStrategy); 
+// passport.use('localStrategy');
+// passport.use(jwtStrategy); 
 
 
 app.use(morgan("common"));
@@ -53,7 +53,7 @@ app.post("/guests", (req, res) => {
       if (count > 0) {
         return res.status(422).json( { error: "email taken" });
       } else {
-        let hash = bCrypt.hashSync(password, saltRounds);
+        let hash = bcrypt.hashSync(password, saltRounds);
       
         Guest.create({
           email, 
