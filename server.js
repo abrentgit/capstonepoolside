@@ -4,10 +4,19 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan");
 const mongoose = require("mongoose");
+
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
+
 mongoose.Promise = global.Promise;
 
 const { DATABASE_URL, PORT } = require("./config");
 const { Order, Menu, Beverage, Dish, Guest, Staff } = require("./models");
+
+passport.use('localStrategy');
+passport.use(jwtStrategy); 
+
 
 app.use(morgan("common"));
 app.use(express.json());
@@ -15,8 +24,18 @@ app.use(express.json());
 // POST NEW GUEST
 // CAN ONLY POST ONE GUEST AT A TIME
 
+// login
+
+// app.post("/login"
+
+// bcrypt.compareSync - compare user pass to mongodb pass if two passes matc
+
+
+
+// THIS IS REGISTER
+
 app.post("/guests", (req, res) => {
-  const requiredFields = ["name", "password", "email"];
+  const requiredFields = ["password", "email"];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
     if (!(field in req.body)) {
@@ -26,17 +45,40 @@ app.post("/guests", (req, res) => {
     }
   }
 
-  Guest.create({
-    name: req.body.name,
-    password: req.body.password,
-    email: req.body.email
-  })
-    .then(guest => res.status(201).json(guest.serialize()))
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({ error: "Something went wrong" });
-    });
+  let { email, password } = req.body; 
+
+  Guest.find({ email })
+    .estimatedDocumentCount() // check if email exists in db
+    .then(count => {
+      if (count > 0) {
+        return res.status(422).json( { error: "email taken" });
+      } else {
+        let hash = bCrypt.hashSync(password, saltRounds);
+      
+        Guest.create({
+          email, 
+          password: hash,
+      })
+        .then(guest => res.status(201).json(guest.serialize()))
+        .catch(err => {
+          console.error(err);
+          res.status(500).json({ error: "Something went wrong" });
+      });
+    }
+  });
 });
+    
+
+  // Guest.create({
+  //   name: req.body.name,
+  //   password: req.body.password,
+  //   email: req.body.email
+  // })
+  //   .then(guest => res.status(201).json(guest.serialize()))
+  //   .catch(err => {
+  //     console.error(err);
+  //     res.status(500).json({ error: "Something went wrong" });
+  //   });
 
 // GUESTS CAN:
 

@@ -3,6 +3,8 @@
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
+const bcrypt = require('bcryptjs'); // added b-crypt 
+
 const dishSchema = mongoose.Schema({
     name: { type: String, required: true },
     description: { type: String, required: true },
@@ -23,6 +25,14 @@ const guestSchema = mongoose.Schema({
     room: { type: String }
 });
 
+guestSchema.methods.validatePassword = function(password) { // instant validating password for each user in method object
+    return bcrypt.compare(password, this.password); // checks password given vs password in db
+  };
+  
+guestSchema.statics.hashPassword = function(password) {
+    return bcrypt.hash(password, 10); // auto gen a hash password of 10 charactersn
+  };
+
 const staffSchema = mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
@@ -37,14 +47,8 @@ const menuSchema = mongoose.Schema({
     name: { type: String },
     dishes: [dishSchema],
     beverages: [beverageSchema]
-    // dishes: [{ type: mongoose.Schema.ObjectId, ref: "Dish" }],
-    // beverages: [{ type: mongoose.Schema.ObjectId, ref: "Beverage" }],
 });
 
-menuSchema.pre('find', function(next) {
-    this.populate('Guest', 'Dish', 'Beverage');
-    next();
-});
 
 // dishes guests and beverages are an array of objects
 // NEED TO ADD REQUIRED TRUES
@@ -57,11 +61,6 @@ const orderSchema = new mongoose.Schema({
     deliveryDate: { type: Date, required: true},
     location: { type: String, required: true},
     notes: { type: String }
-});
-
-orderSchema.pre('find', function(next) {
-  this.populate('Guest', 'Dish', 'Beverage');
-  next();
 });
 
 orderSchema.methods.serialize = function() {
@@ -120,7 +119,7 @@ staffSchema.methods.serialize = function() {
         _id: this._id,
         name: this.name,
         email: this.email,
-        // password: this.password,
+        password: this.password,
         role: this.role
     }
 }
