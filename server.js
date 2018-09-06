@@ -1,18 +1,22 @@
 "use strict";
 
-const express = require("express");
+const express = require('express');
 const app = express();
-const morgan = require("morgan");
-const mongoose = require("mongoose");
+const morgan = require('morgan');
+const mongoose = require('mongoose');
+const config = require('./config');
+console.log('importing config', config); 
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+
+const jwt = require('jsonwebtoken');
 
 
 mongoose.Promise = global.Promise;
 
 const { DATABASE_URL, PORT } = require("./config");
-const { Order, Menu, Beverage, Dish, Guest, Staff } = require("./models");
+const { Order, Menu, Beverage, Dish, Guest, Staff } = require('./models');
 
 // passport.use('localStrategy');
 // passport.use(jwtStrategy); 
@@ -22,20 +26,21 @@ app.use(morgan("common"));
 app.use(express.json());
 
 // POST NEW GUEST
-// CAN ONLY POST ONE GUEST AT A TIME
-
-// login
-
-// app.post("/login"
-
-// bcrypt.compareSync - compare user pass to mongodb pass if two passes matc
-
-
-
 // THIS IS REGISTER
 
+// TWO ISSUES, NO RESPONSE IN POSTMAN, AND IMPLEMENTING TO CHECK IF EMAIL EXISTS FIRST NOT WORKING
+// BUT DB IS TAKING NEW USER WITH HASHED PASS
+
+const createAuthToken = function(guest) {
+  return jwt.sign({guest}, config.JWT_SECRET, {
+    subject: guest.email,  
+    expiresIn: config.JWT_EXPIRY,
+    algorithm: 'HS256'
+  });
+}
+
 app.post("/guests", (req, res) => {
-  const requiredFields = ["password", "email"];
+  const requiredFields = ["name","password", "email"];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
     if (!(field in req.body)) {
@@ -44,41 +49,43 @@ app.post("/guests", (req, res) => {
       return res.status(400).send(message);
     }
   }
-
-  let { email, password } = req.body; 
-
-  Guest.find({ email })
-    .estimatedDocumentCount() // check if email exists in db
-    .then(count => {
-      if (count > 0) {
-        return res.status(422).json( { error: "email taken" });
-      } else {
-        let hash = bcrypt.hashSync(password, saltRounds);
-      
+      let hashed = bcrypt.hashSync(req.body.password, saltRounds);
+        // create the guest object with the pass
         Guest.create({
-          email, 
-          password: hash,
-      })
-        .then(guest => res.status(201).json(guest.serialize()))
-        .catch(err => {
-          console.error(err);
-          res.status(500).json({ error: "Something went wrong" });
+          name: req.body.name,
+          email: req.body.email,
+          password: hashed,
+      }).then(guest => {
+        const authToken = createAuthToken(guest.serialize());
+        res.status(201).json({authToken}); 
+      }).catch(err => {
+        console.log(err);
+        res.status(422).json({ message: 'something went wrong' });
       });
-    }
-  });
-});
-    
+    });
+  
 
-  // Guest.create({
-  //   name: req.body.name,
-  //   password: req.body.password,
-  //   email: req.body.email
-  // })
-  //   .then(guest => res.status(201).json(guest.serialize()))
-  //   .catch(err => {
-  //     console.error(err);
-  //     res.status(500).json({ error: "Something went wrong" });
-  //   });
+
+// login
+
+app.post("/login"), (req, res) => {
+// required email and password
+
+Guest.find({email})
+// err, if no email found 
+
+find({ email: req.body.email })
+compareSync(req.body.password, guest.password)
+
+//compare sync
+// if matches
+// success
+// create auth token 
+
+}
+
+
+// bcrypt.compareSync - compare user pass to mongodb pass if two passes matc
 
 // GUESTS CAN:
 
