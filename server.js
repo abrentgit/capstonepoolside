@@ -5,6 +5,7 @@ const app = express();
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const config = require('./config');
+
 console.log('importing config', config); 
 
 const bcrypt = require('bcrypt');
@@ -68,10 +69,13 @@ app.post("/guests", (req, res) => {
 
 // GUEST USER login
 
+// do I need to add passport.authenticate
+
+
 app.post("/login", (req, res) => {
 
     Guest.findOne({ email: req.body.email }, function(err, guest) {
-          if (err) { //if no email
+          if (err) { //if error finding email
             res.status(500).json({ error: "Something went wrong" });
           }
 
@@ -88,8 +92,10 @@ app.post("/login", (req, res) => {
               res.status(201).json({ authToken });
             }
           }
-        });
-      });
+    });
+});
+
+      ///
 
 // GUESTS CAN:
 
