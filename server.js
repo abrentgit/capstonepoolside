@@ -32,15 +32,15 @@ app.use(express.json());
 // BUT DB IS TAKING NEW USER WITH HASHED PASS
 
 const createAuthToken = function(guest) {
-  return jwt.sign({guest}, config.JWT_SECRET, {
-    subject: guest.email,  
+  return jwt.sign({ guest }, config.JWT_SECRET, {
+    subject: guest.email,
     expiresIn: config.JWT_EXPIRY,
-    algorithm: 'HS256'
+    algorithm: "HS256"
   });
-}
+};
 
 app.post("/guests", (req, res) => {
-  const requiredFields = ["name","password", "email"];
+  const requiredFields = ["name", "password", "email"];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
     if (!(field in req.body)) {
@@ -49,43 +49,47 @@ app.post("/guests", (req, res) => {
       return res.status(400).send(message);
     }
   }
-      let hashed = bcrypt.hashSync(req.body.password, saltRounds);
-        // create the guest object with the pass
-        Guest.create({
-          name: req.body.name,
-          email: req.body.email,
-          password: hashed,
-      }).then(guest => {
-        const authToken = createAuthToken(guest.serialize());
-        res.status(201).json({authToken}); 
-      }).catch(err => {
-        console.log(err);
-        res.status(422).json({ message: 'something went wrong' });
-      });
+  let hashed = bcrypt.hashSync(req.body.password, saltRounds);
+
+  Guest.create({
+    name: req.body.name,
+    email: req.body.email,
+    password: hashed
+  })
+    .then(guest => {
+      const authToken = createAuthToken(guest.serialize());
+      res.status(201).json({ authToken });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(422).json({ message: "Something went wrong" });
     });
-  
+});
 
+// GUEST USER login
 
-// login
+app.post("/login", (req, res) => {
 
-app.post("/login"), (req, res) => {
-// required email and password
+    Guest.findOne({ email: req.body.email }, function(err, guest) {
+          if (err) { //if no email
+            res.status(500).json({ error: "Something went wrong" });
+          }
 
-Guest.find({email})
-// err, if no email found 
+          if (!guest) { // if no guest found
+            res.status(404).json({ error: "Invalid credentials" });
+          } else {
+            
+            let validPassword = bcrypt.compareSync(req.body.password, guest.password);
 
-find({ email: req.body.email })
-compareSync(req.body.password, guest.password)
-
-//compare sync
-// if matches
-// success
-// create auth token 
-
-}
-
-
-// bcrypt.compareSync - compare user pass to mongodb pass if two passes matc
+            if (!validPassword) { //if pass doesn't match
+              res.status(401).json({ error: "Invalid credentials" });
+            } else {
+              const authToken = createAuthToken(guest.serialize());
+              res.status(201).json({ authToken });
+            }
+          }
+        });
+      });
 
 // GUESTS CAN:
 
@@ -118,7 +122,7 @@ app.get("/orders/:id", (req, res) => {
     .then(order => res.json(order.serialize()))
     .catch(err => {
       console.error(err);
-      res.status(500).json({ error: "something went horribly awry" });
+      res.status(500).json({ error: "something went horribly wrong" });
     });
 });
 
