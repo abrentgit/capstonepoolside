@@ -8,17 +8,21 @@ const config = require('./config');
 
 console.log('importing config', config); 
 
+// BCRYPT
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
+// JWT STRATEGY
+const { jwtStrategy } = require('./strategies');
 const jwt = require('jsonwebtoken');
+
+const passport = require('passport');
+passport.use(jwtStrategy); 
 
 mongoose.Promise = global.Promise;
 
 const { DATABASE_URL, PORT } = require("./config");
 const { Order, Menu, Beverage, Dish, Guest, Staff } = require('./models');
-
-passport.use('jwtStrategy'); 
 
 app.use(morgan("common"));
 app.use(express.json());
@@ -69,8 +73,8 @@ app.post("/guests", (req, res) => {
 app.post("/login", (req, res) => {
   Guest.findOne({email: req.body.email}, function(err, guest) {
     if (err) { //if error finding email
-      res.status(500).json({
-        error: "Something went wrong"
+      res.status(401).json({
+        error: "Invalid credentials"
       });
     }
 
@@ -102,22 +106,45 @@ app.post("/login", (req, res) => {
 
 // WORKS!!*
 
-app.get("/orders", (req, res) => {
-  const perPage = 3;
-  const currentPage = req.query.page || 1;
+// ORIGINAL GET ORDERS 
+// app.get("/orders", (req, res) => {
+//   const perPage = 3;
+//   const currentPage = req.query.page || 1;
 
-  Order.find()
-    .skip(perPage * currentPage - perPage) //skipping the previous pages dependent on page number
-    .limit(perPage) // limit it to per page number, then take orders
-    .then(orders => {
-      res.json({
-        orders: orders.map(order => order.serialize())
+//   Order.find()
+//     .skip(perPage * currentPage - perPage) //skipping the previous pages dependent on page number
+//     .limit(perPage) // limit it to per page number, then take orders
+//     .then(orders => {
+//       res.json({
+//         orders: orders.map(order => order.serialize())
+//       });
+//     })
+//     .catch(err => {
+//       res.status(500).json({ message: "Internal server error" });
+//     });
+// });
+
+// PROTECTED GET ORDERS TEST IMPLEMENTATION
+
+const jwtAuth = passport.authenticate("jwt", { session: false });
+
+app.get("/orders", jwtAuth, (req, res) => {
+    const perPage = 3;
+    const currentPage = req.query.page || 1;
+  
+    Order.find()
+      .skip(perPage * currentPage - perPage) //skipping the previous pages dependent on page number
+      .limit(perPage) // limit it to per page number, then take orders
+      .then(orders => {
+        res.json({
+          orders: orders.map(order => order.serialize())
+        });
+      })
+      .catch(err => {
+        res.status(500).json({ message: "Internal server error" });
       });
-    })
-    .catch(err => {
-      res.status(500).json({ message: "Internal server error" });
-    });
-});
+  });
+
 
 // get orders by id
 // STAFF
