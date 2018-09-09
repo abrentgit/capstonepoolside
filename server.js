@@ -19,8 +19,8 @@ mongoose.Promise = global.Promise;
 const { DATABASE_URL, PORT } = require("./config");
 const { Order, Menu, Beverage, Dish, Guest, Staff } = require('./models');
 
-// passport.use('localStrategy');
-// passport.use(jwtStrategy); 
+passport.use('localStrategy');
+passport.use(jwtStrategy); 
 
 
 app.use(morgan("common"));
@@ -28,9 +28,6 @@ app.use(express.json());
 
 // POST NEW GUEST
 // THIS IS REGISTER
-
-// TWO ISSUES, NO RESPONSE IN POSTMAN, AND IMPLEMENTING TO CHECK IF EMAIL EXISTS FIRST NOT WORKING
-// BUT DB IS TAKING NEW USER WITH HASHED PASS
 
 const createAuthToken = function(guest) {
   return jwt.sign({ guest }, config.JWT_SECRET, {
