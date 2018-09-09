@@ -13,22 +13,21 @@ const saltRounds = 10;
 
 const jwt = require('jsonwebtoken');
 
-
 mongoose.Promise = global.Promise;
 
 const { DATABASE_URL, PORT } = require("./config");
 const { Order, Menu, Beverage, Dish, Guest, Staff } = require('./models');
 
-passport.use('localStrategy');
-passport.use(jwtStrategy); 
-
+passport.use('jwtStrategy'); 
 
 app.use(morgan("common"));
 app.use(express.json());
 
 // POST NEW GUEST
-// THIS IS REGISTER
 
+// THIS IS REGISTER FOR GUEST
+
+// CREATE TOKEN FOR GUEST
 const createAuthToken = function(guest) {
   return jwt.sign({ guest }, config.JWT_SECRET, {
     subject: guest.email,
@@ -65,38 +64,41 @@ app.post("/guests", (req, res) => {
 });
 
 // GUEST USER login
-
-// do I need to add passport.authenticate
-
+// FOR EVERYONE 
 
 app.post("/login", (req, res) => {
+  Guest.findOne({email: req.body.email}, function(err, guest) {
+    if (err) { //if error finding email
+      res.status(500).json({
+        error: "Something went wrong"
+      });
+    }
 
-    Guest.findOne({ email: req.body.email }, function(err, guest) {
-          if (err) { //if error finding email
-            res.status(500).json({ error: "Something went wrong" });
-          }
+    if (!guest) { // if no guest found
+      res.status(404).json({
+        error: "Invalid credentials"
+      });
+    } else {
 
-          if (!guest) { // if no guest found
-            res.status(404).json({ error: "Invalid credentials" });
-          } else {
-            
-            let validPassword = bcrypt.compareSync(req.body.password, guest.password);
+      let validPassword = bcrypt.compareSync(req.body.password, guest.password);
 
-            if (!validPassword) { //if pass doesn't match
-              res.status(401).json({ error: "Invalid credentials" });
-            } else {
-              const authToken = createAuthToken(guest.serialize());
-              res.status(201).json({ authToken });
-            }
-          }
-    });
+      if (!validPassword) { //if pass doesn't match
+        res.status(401).json({
+          error: "Invalid credentials"
+        });
+      } else {
+        const authToken = createAuthToken(guest.serialize());
+        res.status(201).json({authToken});
+      }
+    }
+  });
 });
 
-      ///
 
 // GUESTS CAN:
 
 // get all orders
+// STAFF ONLY++
 
 // WORKS!!*
 
@@ -118,6 +120,7 @@ app.get("/orders", (req, res) => {
 });
 
 // get orders by id
+// STAFF
 // WORKS!!*
 
 app.get("/orders/:id", (req, res) => {
@@ -130,6 +133,7 @@ app.get("/orders/:id", (req, res) => {
 });
 
 // GET AN ORDER'S BEVS
+// STAFF ONLY++ 
 // WORKS!!!*
 
 app.get("/orders/:id/beverages", (req, res) => {
@@ -145,7 +149,7 @@ app.get("/orders/:id/beverages", (req, res) => {
 });
 
 // GET ALL DISHES IN AN ORDER
-
+// STAFF
 // WORKS!!*
 
 app.get("/orders/:id/dishes", (req, res) => {
@@ -161,7 +165,7 @@ app.get("/orders/:id/dishes", (req, res) => {
 });
 
 // GET DISH BY ID IN ORDER
-
+// STAFF
 // WORKS!!!!*
 
 app.get("/orders/:id/dishes/:dish_id", (req, res) => {
@@ -185,7 +189,7 @@ app.get("/orders/:id/dishes/:dish_id", (req, res) => {
 });
 
 // get a beverage in a order
-
+// STAFF
 // WORKS!!!!*
 
 app.get("/orders/:id/beverages/:beverage_id", (req, res) => {
@@ -211,6 +215,7 @@ app.get("/orders/:id/beverages/:beverage_id", (req, res) => {
 });
 
 //  POST  ORDER W/ GUEST IMPLEMENTATION
+// GUEST ONLY 
 // WORKS!!**
 
 app.post("/orders", (req, res) => {
@@ -248,7 +253,7 @@ app.post("/orders", (req, res) => {
 });
 
 // UPDATE AN ORDER BY ID
-
+// GUEST 
 // WORKS !!!*
 
 app.put("/orders/:id", (req, res) => {
@@ -272,7 +277,7 @@ app.put("/orders/:id", (req, res) => {
 });
 
 // DELETE ORDER BY ID
-
+// GUEST ONLY? 
 /// WORKS!!*
 
 app.delete("/orders/:id", (req, res) => {
@@ -282,7 +287,7 @@ app.delete("/orders/:id", (req, res) => {
 });
 
 // DELETE DISH ORDER BY ID
-
+// STAFF ONLY++
 // WORKING!!!!!!*
 
 app.delete("/orders/:id/dishes/:dish_id", (req, res) => {
@@ -312,7 +317,7 @@ app.delete("/orders/:id/dishes/:dish_id", (req, res) => {
 });
 
 // DELETE BEVERAGE ORDER BY ID
-
+// STAFF ONLY
 // WORKS !!!!*
 
 app.delete("/orders/:id/beverages/:beverage_id", (req, res) => {
@@ -346,6 +351,7 @@ app.delete("/orders/:id/beverages/:beverage_id", (req, res) => {
 });
 
 // UPDATE ORDER WITH A BEVERAGE
+// GUEST ONLY 
 //  WORKS!!!***
 
 app.put("/orders/:id/beverages/:beverage_id", (req, res) => {
@@ -385,6 +391,7 @@ app.put("/orders/:id/beverages/:beverage_id", (req, res) => {
 });
 
 /// update a dish order by ID
+// GUEST ONLY 
 // THIS WORKS!***
 
 app.put("/orders/:id/dishes/:dish_id", (req, res) => {
@@ -421,7 +428,7 @@ app.put("/orders/:id/dishes/:dish_id", (req, res) => {
 });
 
 // get menus
-
+// STAFF ONLY++
 // WORKS*
 
 app.get("/menus", (req, res) => {
@@ -443,7 +450,7 @@ app.get("/menus", (req, res) => {
 });
 
 // get menus by ID
-
+// STAFF ONLY++
 // WORKS*
 
 app.get("/menus/menu_id/:id", (req, res) => {
@@ -458,7 +465,7 @@ app.get("/menus/menu_id/:id", (req, res) => {
 // for a staff member
 
 // GET ALL DISHES IN A MENU
-
+// BOTH? 
 // WORKS ****
 
 app.get("/menus/:id/dishes", (req, res) => {
@@ -479,8 +486,8 @@ app.get("/menus/:id/dishes", (req, res) => {
   });
 });
 
-// get all beverages that exist
-// for a staff member
+// get all beverages that exist in menu
+// BOTH?
 
 // WORKING***
 
@@ -503,6 +510,7 @@ app.get("/menus/:id/beverages", (req, res) => {
 });
 
 // GET A MENU DISH BY ID
+// BOTH?
 
 // WORKING !!!!!***
 
@@ -531,6 +539,7 @@ app.get("/menus/:id/dishes/:dish_id", (req, res) => {
 });
 
 // get menu beverage by id
+// BOTH? 
 
 // WORKS!!!!***
 
@@ -559,6 +568,7 @@ app.get("/menus/:id/beverages/:beverage_id", (req, res) => {
 });
 
 // WORKS!!***
+// STAFF ONLY++
 // put menus by ID , can use to update individual items to menu
 
 app.put("/menus/:id", (req, res) => {
@@ -583,8 +593,9 @@ app.put("/menus/:id", (req, res) => {
 
 // UPDATE AND ADD A DISH BY ID TO MENU
 
+// STAFF ONLY++
 // WORKS!!
-// CHECK THIS ????? NOT WORKING
+
 
 app.put("/menus/:id/dishes/:dish_id", (req, res) => {
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
@@ -622,7 +633,7 @@ app.put("/menus/:id/dishes/:dish_id", (req, res) => {
 });
 
 // PUT update MENU BEVERAGES BY ID
-
+// STAFF ONLY++
 // WORKS!!**
 
 app.put("/menus/:id/beverages/:beverage_id", (req, res) => {
@@ -660,6 +671,7 @@ app.put("/menus/:id/beverages/:beverage_id", (req, res) => {
 });
 
 // DELETE MENU BY ID
+// STAFF ONLY++
 // WORKS!****
 
 app.delete("/menus/:id", (req, res) => {
@@ -669,7 +681,7 @@ app.delete("/menus/:id", (req, res) => {
 });
 
 // DELETE DISH BY ID IN A MENU
-
+// STAFF ONLY++
 // WORKING**
 
 app.delete("/menus/:id/dishes/:dish_id", (req, res) => {
@@ -697,7 +709,7 @@ app.delete("/menus/:id/dishes/:dish_id", (req, res) => {
   
 
 // DELETE MENU BEVERAGE BY ID
-
+// STAFF ONLY++
 // WORKING**
 app.delete("/menus/:id/beverages/:beverage_id", (req, res) => {
   Menu.findById(req.params.id, function(errMenu, menu) {
@@ -727,6 +739,7 @@ app.delete("/menus/:id/beverages/:beverage_id", (req, res) => {
 });
 
 // POST MENU
+// STAFF ONLY++
 // WORKS!!**
 
 app.post("/menus", (req, res) => {
@@ -751,6 +764,7 @@ app.post("/menus", (req, res) => {
 });
 
 // POST A NEW BEVERAGE
+// STAFF ONLY++
 // WORKS!!**
 
 app.post("/beverages", (req, res) => {
@@ -777,7 +791,7 @@ app.post("/beverages", (req, res) => {
 });
 
 // POST A NEW DISH
-
+// STAFF ONLY++
 // WORKS!!**
 
 app.post("/dishes", (req, res) => {
