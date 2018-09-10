@@ -5,24 +5,21 @@ const app = express();
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const config = require('./config');
-
 console.log('importing config', config); 
+mongoose.Promise = global.Promise;
+
+const { DATABASE_URL, PORT } = require('./config');
+const { Order, Menu, Beverage, Dish, Guest, Staff } = require('./models');
 
 // BCRYPT
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 // JWT STRATEGY
-const { jwtStrategy } = require('./strategies');
-const jwt = require('jsonwebtoken');
-
 const passport = require('passport');
 passport.use(jwtStrategy); 
-
-mongoose.Promise = global.Promise;
-
-const { DATABASE_URL, PORT } = require('./config');
-const { Order, Menu, Beverage, Dish, Guest, Staff } = require('./models');
+const { jwtStrategy } = require('./strategies');
+const jwt = require('jsonwebtoken');
 
 app.use(morgan("common"));
 app.use(express.json());
