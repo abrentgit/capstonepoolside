@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
-const bcrypt = require('bcryptjs'); // added b-crypt 
+const bcrypt = require('bcryptjs'); // added b-crypt
 
 const dishSchema = mongoose.Schema({
     name: { type: String, required: true },
@@ -19,25 +19,16 @@ const beverageSchema = mongoose.Schema({
 
 const guestSchema = mongoose.Schema({
     name: { type: String, required: true },
-    password: { type: String, required: true },
+    password: { type: String, trim: true, required: true },
     phone: { type: String },
-    email: { type: String, required: true, unique: true },
+    email: { type: String, required: true, trim: true, unique: true },
     room: { type: String }
 });
 
-guestSchema.methods.validatePassword = function(password) { // instant validating password for each user in method object
-    return bcrypt.compare(password, this.password); // checks password given vs password in db
-  };
-  
-guestSchema.statics.hashPassword = function(password) {
-    return bcrypt.hash(password, 10); // auto gen a hash password of 10 charactersn
-  };
-
 const staffSchema = mongoose.Schema({
     name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    role: { type: String }
+    email: { type: String, required: true, trim: true, unique: true },
+    password: { type: String, required: true, trim: true },
 });
 
 // dishes and beverages are arrays of objects

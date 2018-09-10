@@ -21,7 +21,7 @@ passport.use(jwtStrategy);
 
 mongoose.Promise = global.Promise;
 
-const { DATABASE_URL, PORT } = require("./config");
+const { DATABASE_URL, PORT } = require('./config');
 const { Order, Menu, Beverage, Dish, Guest, Staff } = require('./models');
 
 app.use(morgan("common"));
