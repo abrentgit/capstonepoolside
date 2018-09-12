@@ -4,6 +4,8 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+const passport = require('passport');
+
 const config = require('./config');
 console.log('importing config', config); 
 mongoose.Promise = global.Promise;
@@ -16,9 +18,10 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 // JWT STRATEGY
-const passport = require('passport');
-passport.use(jwtStrategy); 
 const { jwtStrategy } = require('./strategies');
+
+passport.use(jwtStrategy); 
+
 const jwt = require('jsonwebtoken');
 
 app.use(morgan("common"));
@@ -121,11 +124,8 @@ app.post("/login", (req, res) => {
 //     });
 // });
 
-// PROTECTED GET ORDERS TEST IMPLEMENTATION
 
-const jwtAuth = passport.authenticate("jwt", { session: false });
-
-app.get("/orders", jwtAuth, (req, res) => {
+app.get("/orders", (req, res) => {
     const perPage = 3;
     const currentPage = req.query.page || 1;
   
@@ -238,11 +238,39 @@ app.get("/orders/:id/beverages/:beverage_id", (req, res) => {
   });
 });
 
-//  POST  ORDER W/ GUEST IMPLEMENTATION
+//  POST  ORDER W/ GUEST IMPLEMENTATION and protected endpoint implementation
 // GUEST ONLY 
 // WORKS!!**
 
-app.post("/orders", (req, res) => {
+const verifyUser = function (req, res, next) {
+  // console.log('middleware is verifying user');
+  // console.log(req.headers);
+  // USER SENDS NO CREDENTIALS
+
+  if(!req.headers.authorization) {
+    res.status(401).json({ message: 'Invalid credentials'});
+    return;
+  }
+
+  const tokenSplit = req.headers.authorization.split(' '); 
+  const token = tokenSplit[1]; 
+  // console.log(token);
+
+  if (token) {
+    jwt.verify(token, config.JWT_SECRET, function(error, decoded) {
+      if (!error) {
+        req.decoded = decoded; //set a decoded value into the object
+        console.log(decoded);
+        next();
+      } else {
+        res.status(401).json({ message: 'Invalid credentials'});
+      }
+    }
+  );
+}
+}
+
+app.post("/orders", verifyUser, (req, res) => {
   const requiredFields = ["guests","deliveryDate", "location", "notes"];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
@@ -275,6 +303,7 @@ app.post("/orders", (req, res) => {
   }
 });
 });
+
 
 // UPDATE AN ORDER BY ID
 // GUEST 
