@@ -4,7 +4,7 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-const passport = require('passport');
+// const passport = require('passport');
 
 const config = require('./config');
 console.log('importing config', config); 
@@ -18,9 +18,7 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 // JWT STRATEGY
-const { jwtStrategy } = require('./strategies');
-
-passport.use(jwtStrategy); 
+// const { jwtStrategy } = require('./strategies');
 
 const jwt = require('jsonwebtoken');
 
@@ -243,8 +241,8 @@ app.get("/orders/:id/beverages/:beverage_id", (req, res) => {
 // WORKS!!**
 
 const verifyUser = function (req, res, next) {
-  // console.log('middleware is verifying user');
-  // console.log(req.headers);
+  console.log('middleware is verifying user');
+  console.log(req.headers);
   // USER SENDS NO CREDENTIALS
 
   if(!req.headers.authorization) {
@@ -259,7 +257,7 @@ const verifyUser = function (req, res, next) {
   if (token) {
     jwt.verify(token, config.JWT_SECRET, function(error, decoded) {
       if (!error) {
-        req.decoded = decoded; //set a decoded value into the object
+        req.decoded = decoded; //set a decoded token value into the object
         console.log(decoded);
         next();
       } else {
