@@ -241,8 +241,8 @@ app.get("/orders/:id/beverages/:beverage_id", (req, res) => {
 // WORKS!!**
 
 const verifyUser = function (req, res, next) {
-  console.log('middleware is verifying user');
-  console.log(req.headers);
+  // console.log('middleware is verifying user');
+  // console.log(req.headers);
   // USER SENDS NO CREDENTIALS
 
   if(!req.headers.authorization) {
@@ -258,7 +258,7 @@ const verifyUser = function (req, res, next) {
     jwt.verify(token, config.JWT_SECRET, function(error, decoded) {
       if (!error) {
         req.decoded = decoded; //set a decoded token value into the object
-        console.log(decoded);
+        // console.log(decoded);
         next();
       } else {
         res.status(401).json({ message: 'Invalid credentials'});
@@ -269,7 +269,7 @@ const verifyUser = function (req, res, next) {
 }
 
 app.post("/orders", verifyUser, (req, res) => {
-  const requiredFields = ["guests","deliveryDate", "location", "notes"];
+  const requiredFields = ["guests", "deliveryDate", "location", "notes"];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
     if (!(field in req.body)) {
@@ -278,16 +278,18 @@ app.post("/orders", verifyUser, (req, res) => {
       return res.status(400).send(message);
     }
   }
-
-  const firstGuestId = req.body.guests[0]; // array of guests
+  console.log(req.body.guests.constructor);
+  const firstGuestId = req.body.guests.split(',')[0];
 
   Guest.findById(firstGuestId, (err, guest) => {
+    console.log('found user');
+    console.log(guest);
     if (err) {
       res.status(404).send(message); // if menu not found
     } else { // if no error
     
     Order.create({
-      guests: [guest],
+      guests: [guest._id],
       deliveryDate: req.body.deliveryDate,
       location: req.body.location,
       notes: req.body.notes
