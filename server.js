@@ -104,25 +104,6 @@ app.post("/login", (req, res) => {
 
 // WORKS!!*
 
-// ORIGINAL GET ORDERS 
-// app.get("/orders", (req, res) => {
-//   const perPage = 3;
-//   const currentPage = req.query.page || 1;
-
-//   Order.find()
-//     .skip(perPage * currentPage - perPage) //skipping the previous pages dependent on page number
-//     .limit(perPage) // limit it to per page number, then take orders
-//     .then(orders => {
-//       res.json({
-//         orders: orders.map(order => order.serialize())
-//       });
-//     })
-//     .catch(err => {
-//       res.status(500).json({ message: "Internal server error" });
-//     });
-// });
-
-
 app.get("/orders", (req, res) => {
     const perPage = 3;
     const currentPage = req.query.page || 1;
@@ -145,7 +126,7 @@ app.get("/orders", (req, res) => {
 // STAFF
 // WORKS!!*
 
-app.get("/orders/:id", (req, res) => {
+app.get("/orders/:id", verifyUser, (req, res) => {
   Order.findById(req.params.id)
     .then(order => res.json(order.serialize()))
     .catch(err => {
@@ -278,14 +259,14 @@ app.post("/orders", verifyUser, (req, res) => {
       return res.status(400).send(message);
     }
   }
-  console.log(req.body.guests.constructor);
+  // console.log(req.body.guests.constructor);
   const firstGuestId = req.body.guests.split(',')[0];
 
   Guest.findById(firstGuestId, (err, guest) => {
     console.log('found user');
     console.log(guest);
     if (err) {
-      res.status(404).send(message); // if menu not found
+      res.status(404).send({ message: 'can not find guest' }); // if menu not found
     } else { // if no error
     
     Order.create({

@@ -21,14 +21,14 @@ const guestSchema = mongoose.Schema({
     name: { type: String, required: true },
     password: { type: String, trim: true, required: true },
     phone: { type: String },
-    email: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
     room: { type: String }
 });
 
 const staffSchema = mongoose.Schema({
     name: { type: String, required: true },
-    email: { type: String, required: true, trim: true, unique: true },
-    password: { type: String, required: true, trim: true },
+    email: { type: String, required: true, unique: true }, //put back email unique: true
+    password: { type: String, required: true },
 });
 
 // dishes and beverages are arrays of objects
