@@ -154,7 +154,6 @@ app.post("/guests", (req, res) => {
 });
 
 // GUEST USER login
-// FOR EVERYONE 
 
 app.post("/login", (req, res) => {
   User.findOne({email: req.body.email}, function(err, user) {
@@ -249,7 +248,6 @@ app.get("/orders/:id", verifyUser, (req, res) => {
 });
 
 // GET AN ORDER'S BEVS
-// STAFF ONLY++ 
 // WORKS!!!*
 
 app.get("/orders/:id/beverages", verifyUser, (req, res) => {
@@ -332,7 +330,7 @@ app.get("/orders/:id/beverages/:beverage_id", verifyUser, (req, res) => {
 // GUEST ONLY 
 // WORKS!!**
 
-app.post("/orders", (req, res) => {
+app.post("/orders", verifyUser, (req, res) => {
   const requiredFields = ["guests", "deliveryDate", "location", "notes"];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
@@ -537,7 +535,7 @@ app.put("/orders/:id/dishes/:dish_id", verifyUser, (req, res) => {
 // get menus
 // WORKS*
 
-app.get("/menus", (req, res) => {
+app.get("/menus", verifyAdminUser, (req, res) => {
   const perPage = 2;
   const currentPage = req.query.page || 1;
 
@@ -558,7 +556,7 @@ app.get("/menus", (req, res) => {
 // get menus by ID
 // WORKS*
 
-app.get("/menus/menu_id/:id", (req, res) => {
+app.get("/menus/menu_id/:id", verifyUser, (req, res) => {
   Menu.findById(req.params.id)
     .then(menu => res.json(menu.serialize()))
     .catch(err => {
@@ -572,7 +570,7 @@ app.get("/menus/menu_id/:id", (req, res) => {
 // GET ALL DISHES IN A MENU
 // WORKS ****
 
-app.get("/menus/:id/dishes", (req, res) => {
+app.get("/menus/:id/dishes", verifyUser, (req, res) => {
   Menu.findById(req.params.id, function(errMenu, menu) {
     if (!errMenu) {
       const perPage = 2;
@@ -595,7 +593,7 @@ app.get("/menus/:id/dishes", (req, res) => {
 
 // WORKING***
 
-app.get("/menus/:id/beverages", (req, res) => {
+app.get("/menus/:id/beverages", verifyUser, (req, res) => {
   Menu.findById(req.params.id, function(errMenu, menu) {
     if (!errMenu) {
       const perPage = 2;
@@ -618,7 +616,7 @@ app.get("/menus/:id/beverages", (req, res) => {
 
 // WORKING !!!!!***
 
-app.get("/menus/:id/dishes/:dish_id", (req, res) => {
+app.get("/menus/:id/dishes/:dish_id", verifyUser, (req, res) => {
   Menu.findById(req.params.id, function(errMenu, menu) {
     if (errMenu) {
       res.status(404).json({ message: "can not find menu" }); // no menu found
@@ -647,7 +645,7 @@ app.get("/menus/:id/dishes/:dish_id", (req, res) => {
 
 // WORKS!!!!***
 
-app.get("/menus/:id/beverages/:beverage_id", (req, res) => {
+app.get("/menus/:id/beverages/:beverage_id", verifyUser, (req, res) => {
   Menu.findById(req.params.id, function(errMenu, menu) {
     if (errMenu) {
       res.status(404).json({ message: "can not find menu" }); // no menu found
@@ -675,7 +673,7 @@ app.get("/menus/:id/beverages/:beverage_id", (req, res) => {
 // STAFF ONLY++
 // put menus by ID , can use to update individual items to menu
 
-app.put("/menus/:id", (req, res) => {
+app.put("/menus/:id", verifyAdminUser, (req, res) => {
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
     res.status(400).json({
       error: "Request path id and request body id values must match"
@@ -701,7 +699,7 @@ app.put("/menus/:id", (req, res) => {
 // WORKS!!
 
 
-app.put("/menus/:id/dishes/:dish_id", (req, res) => {
+app.put("/menus/:id/dishes/:dish_id", verifyAdminUser, (req, res) => {
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
     res.status(400).json({
       error: "Request path id and request body id values must match"
@@ -740,7 +738,7 @@ app.put("/menus/:id/dishes/:dish_id", (req, res) => {
 // STAFF ONLY++
 // WORKS!!**
 
-app.put("/menus/:id/beverages/:beverage_id", (req, res) => {
+app.put("/menus/:id/beverages/:beverage_id", verifyAdminUser, (req, res) => {
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
     res.status(400).json({ error: "Request path id and request body id values must match" });
   }
@@ -778,7 +776,7 @@ app.put("/menus/:id/beverages/:beverage_id", (req, res) => {
 // STAFF ONLY++
 // WORKS!****
 
-app.delete("/menus/:id", (req, res) => {
+app.delete("/menus/:id", verifyAdminUser, (req, res) => {
   Menu.findByIdAndRemove(req.params.id)
     .then(menu => res.status(204).end())
     .catch(err => res.status(500).json({ message: "Internal server error" }));
@@ -788,7 +786,7 @@ app.delete("/menus/:id", (req, res) => {
 // STAFF ONLY++
 // WORKING**
 
-app.delete("/menus/:id/dishes/:dish_id", (req, res) => {
+app.delete("/menus/:id/dishes/:dish_id", verifyAdminUser, (req, res) => {
   Menu.findById(req.params.id, function(errMenu, menu) {
     if (errMenu) {
       res.status(404).json({ message: "can not find menu" });
@@ -815,7 +813,7 @@ app.delete("/menus/:id/dishes/:dish_id", (req, res) => {
 // DELETE MENU BEVERAGE BY ID
 // STAFF ONLY++
 // WORKING**
-app.delete("/menus/:id/beverages/:beverage_id", (req, res) => {
+app.delete("/menus/:id/beverages/:beverage_id", verifyAdminUser, (req, res) => {
   Menu.findById(req.params.id, function(errMenu, menu) {
     if (errMenu) {
       res.status(404).json({ message: "can not find menu" });
@@ -846,7 +844,7 @@ app.delete("/menus/:id/beverages/:beverage_id", (req, res) => {
 // STAFF ONLY++
 // WORKS!!**
 
-app.post("/menus", (req, res) => {
+app.post("/menus", verifyAdminUser, (req, res) => {
   const requiredFields = ["name"];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
@@ -871,7 +869,7 @@ app.post("/menus", (req, res) => {
 // STAFF ONLY++
 // WORKS!!**
 
-app.post("/beverages", (req, res) => {
+app.post("/beverages", verifyAdminUser, (req, res) => {
   const requiredFields = ["name", "description", "price"];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
@@ -898,7 +896,7 @@ app.post("/beverages", (req, res) => {
 // STAFF ONLY++
 // WORKS!!**
 
-app.post("/dishes", (req, res) => {
+app.post("/dishes", verifyAdminUser, (req, res) => {
   const requiredFields = ["name", "description", "price"];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
