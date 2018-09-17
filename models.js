@@ -3,8 +3,6 @@
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
-const bcrypt = require('bcryptjs'); // added b-crypt
-
 const dishSchema = mongoose.Schema({
     name: { type: String, required: true },
     description: { type: String, required: true },
@@ -17,22 +15,13 @@ const beverageSchema = mongoose.Schema({
     price: { type: Number, required: true }
 });
 
-const guestSchema = mongoose.Schema({
+const userSchema = mongoose.Schema({
     name: { type: String, required: true },
     password: { type: String, trim: true, required: true },
+    role: { type: String, default: 'Guest', required: true },
     phone: { type: String },
     email: { type: String, required: true, unique: true },
-    room: { type: String }
 });
-
-const staffSchema = mongoose.Schema({
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true }, //put back email unique: true
-    password: { type: String, required: true },
-});
-
-// dishes and beverages are arrays of objects
-
 
 const menuSchema = mongoose.Schema({
     name: { type: String },
@@ -40,12 +29,8 @@ const menuSchema = mongoose.Schema({
     beverages: [beverageSchema]
 });
 
-
-// dishes guests and beverages are an array of objects
-// NEED TO ADD REQUIRED TRUES
-
 const orderSchema = new mongoose.Schema({
-    guests: [{ type: mongoose.Schema.Types.ObjectId, ref: "Guest" }],
+    guests: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     dishes: [dishSchema],
     beverages: [beverageSchema],
     created_at: { type: Date },
@@ -94,18 +79,7 @@ dishSchema.methods.serialize = function() {
     }
 }
 
-guestSchema.methods.serialize = function() {
-    return {
-        _id: this._id,
-        name: this.name,
-        password: this.password,
-        phone: this.phone,
-        email: this.email,
-        room: this.room
-    }
-}
-
-staffSchema.methods.serialize = function() {
+userSchema.methods.serialize = function() {
     return {
         _id: this._id,
         name: this.name,
@@ -119,8 +93,7 @@ const Order = mongoose.model('Order', orderSchema);
 const Menu = mongoose.model('Menu', menuSchema);
 const Beverage = mongoose.model('Beverage', beverageSchema);
 const Dish = mongoose.model('Dish', dishSchema);
-const Guest = mongoose.model('Guest', guestSchema);
-const Staff = mongoose.model('StaffUser', staffSchema);
+const User = mongoose.model('User', userSchema);
 
 
-module.exports = { Order, Menu, Beverage, Dish, Guest, Staff };
+module.exports = { Order, Menu, Beverage, Dish, User };

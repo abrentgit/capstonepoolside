@@ -4,40 +4,127 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-// const passport = require('passport');
 
 const config = require('./config');
-console.log('importing config', config); 
+// console.log('importing config', config); 
 mongoose.Promise = global.Promise;
 
 const { DATABASE_URL, PORT } = require('./config');
-const { Order, Menu, Beverage, Dish, Guest, Staff } = require('./models');
+const { Order, Menu, Beverage, Dish, User } = require('./models');
 
 // BCRYPT
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
-
-// JWT STRATEGY
-// const { jwtStrategy } = require('./strategies');
 
 const jwt = require('jsonwebtoken');
 
 app.use(morgan("common"));
 app.use(express.json());
 
-// POST NEW GUEST
-
-// THIS IS REGISTER FOR GUEST
-
 // CREATE TOKEN FOR GUEST
-const createAuthToken = function(guest) {
-  return jwt.sign({ guest }, config.JWT_SECRET, {
-    subject: guest.email,
+const createAuthToken = function(user) {
+  return jwt.sign({ user }, config.JWT_SECRET, {
+    subject: user.email,
+    audience: user.role,
     expiresIn: config.JWT_EXPIRY,
     algorithm: "HS256"
   });
 };
 
+const createAuthAdminToken = function(user) {
+  return jwt.sign({ user }, config.JWT_SECRET, {
+    subject: user.email,
+    audience: "admin", 
+    expiresIn: config.JWT_EXPIRY,
+    algorithm: "HS256"
+  });
+};
+
+// MIDDLEWARE FOR GUEST AUTH
+const verifyUser = function (req, res, next) {
+  if(!req.headers.authorization) {
+    res.status(401).json({ message: 'Invalid credentials'});
+    return;
+  }
+
+  const tokenSplit = req.headers.authorization.split(' '); 
+  const token = tokenSplit[1]; 
+
+  if (token) {
+    jwt.verify(token, config.JWT_SECRET, function(error, decoded) {
+      if (!error) {
+        req.decoded = decoded;
+        if (req.decoded.aud === 'Guest') {
+        next();
+        }
+      } else {
+        res.status(401).json({ message: 'Invalid credentials'});
+      }
+    }
+  );
+}
+}
+
+// MIDDLEWARE FOR ADMIN
+
+const verifyAdminUser = function (req, res, next) {
+  if(!req.headers.authorization) {
+    res.status(401).json({ message: 'Invalid credentials'});
+    return;
+  }
+
+  const tokenSplit = req.headers.authorization.split(' '); 
+  const token = tokenSplit[1]; 
+
+  if (token) {
+    jwt.verify(token, config.JWT_SECRET, function(error, decoded) {
+      if (!error) {
+        req.decoded = decoded;
+        if (req.decoded.aud === 'admin') {
+          next();
+          console.log(req.decoded);
+        }
+      } else {
+        res.status(401).json({ message: 'Invalid credentials'});
+      }
+    }
+  );
+}
+}
+
+// REGISTER ADMIN 
+
+app.post("/admin", (req, res) => {
+  const requiredFields = ["name", "email", "password"];
+  for (let i = 0; i < requiredFields.length; i++) {
+    const field = requiredFields[i];
+    if (!(field in req.body)) {
+      const message = `Missing \`${field}\` in request body`;
+      console.error(message);
+      return res.status(400).send(message);
+    }
+  }
+
+  let hashed = bcrypt.hashSync(req.body.password, saltRounds);
+
+  User.create({
+    name: req.body.name,
+    email: req.body.email,
+    role: 'Admin',
+    password: hashed
+  })
+    .then(user => {
+      const authToken = createAuthAdminToken(user.serialize());
+      res.status(201).json({ authToken });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(422).json({ message: "Something went wrong" });
+    });
+});
+
+
+// REGISTER FOR GUEST
 app.post("/guests", (req, res) => {
   const requiredFields = ["name", "password", "email"];
   for (let i = 0; i < requiredFields.length; i++) {
@@ -48,9 +135,10 @@ app.post("/guests", (req, res) => {
       return res.status(400).send(message);
     }
   }
+
   let hashed = bcrypt.hashSync(req.body.password, saltRounds);
 
-  Guest.create({
+  User.create({
     name: req.body.name,
     email: req.body.email,
     password: hashed
@@ -69,42 +157,68 @@ app.post("/guests", (req, res) => {
 // FOR EVERYONE 
 
 app.post("/login", (req, res) => {
-  Guest.findOne({email: req.body.email}, function(err, guest) {
+  User.findOne({email: req.body.email}, function(err, user) {
     if (err) { //if error finding email
       res.status(401).json({
         error: "Invalid credentials"
       });
     }
 
-    if (!guest) { // if no guest found
+    if (!user) { // if no guest found
       res.status(404).json({
         error: "Invalid credentials"
       });
     } else {
 
-      let validPassword = bcrypt.compareSync(req.body.password, guest.password);
+      let validPassword = bcrypt.compareSync(req.body.password, user.password);
 
       if (!validPassword) { //if pass doesn't match
         res.status(401).json({
           error: "Invalid credentials"
         });
       } else {
-        const authToken = createAuthToken(guest.serialize());
+        const authToken = createAuthToken(user.serialize());
         res.status(201).json({authToken});
       }
     }
   });
 });
 
+// LOGIN ADMIN
 
-// GUESTS CAN:
+app.post("/login/admin", (req, res) => {
+  User.findOne({email: req.body.email}, function(err, user) {
+    if (err) { //if error finding email
+      res.status(401).json({
+        error: "Invalid credentials"
+      });
+    }
+
+    if (!user) { // if no guest found
+      res.status(404).json({
+        error: "Invalid credentials"
+      });
+    } else {
+
+      let validPassword = bcrypt.compareSync(req.body.password, user.password);
+
+      if (!validPassword) { //if pass doesn't match
+        res.status(401).json({
+          error: "Invalid credentials"
+        });
+      } else {
+        const authToken = createAuthAdminToken(user.serialize());
+        res.status(201).json({authToken});
+      }
+    }
+  });
+});
 
 // get all orders
-// STAFF ONLY++
-
+// FOR STAFF
 // WORKS!!*
 
-app.get("/orders", (req, res) => {
+app.get("/orders", verifyAdminUser, (req, res) => {
     const perPage = 3;
     const currentPage = req.query.page || 1;
   
@@ -123,7 +237,6 @@ app.get("/orders", (req, res) => {
 
 
 // get orders by id
-// STAFF
 // WORKS!!*
 
 app.get("/orders/:id", verifyUser, (req, res) => {
@@ -139,7 +252,7 @@ app.get("/orders/:id", verifyUser, (req, res) => {
 // STAFF ONLY++ 
 // WORKS!!!*
 
-app.get("/orders/:id/beverages", (req, res) => {
+app.get("/orders/:id/beverages", verifyUser, (req, res) => {
   Order.findById(req.params.id, function(errOrder, order) {
     if (errOrder) {
       res.status(404).json({ message: "can not find order" });
@@ -152,10 +265,9 @@ app.get("/orders/:id/beverages", (req, res) => {
 });
 
 // GET ALL DISHES IN AN ORDER
-// STAFF
 // WORKS!!*
 
-app.get("/orders/:id/dishes", (req, res) => {
+app.get("/orders/:id/dishes", verifyUser, (req, res) => {
   Order.findById(req.params.id, function(errOrder, order) {
     if (errOrder) {
       res.status(404).json({ message: "can not find order" });
@@ -171,7 +283,7 @@ app.get("/orders/:id/dishes", (req, res) => {
 // STAFF
 // WORKS!!!!*
 
-app.get("/orders/:id/dishes/:dish_id", (req, res) => {
+app.get("/orders/:id/dishes/:dish_id", verifyUser, (req, res) => {
   Order.findById(req.params.id, function(errOrder, order) {
     if (errOrder) {
       res.status(404).json({ message: "can not find order" });
@@ -192,10 +304,9 @@ app.get("/orders/:id/dishes/:dish_id", (req, res) => {
 });
 
 // get a beverage in a order
-// STAFF
 // WORKS!!!!*
 
-app.get("/orders/:id/beverages/:beverage_id", (req, res) => {
+app.get("/orders/:id/beverages/:beverage_id", verifyUser, (req, res) => {
   Order.findById(req.params.id, function(errOrder, order) {
     if (errOrder) {
       res.status(404).json({ message: "can not find order" });
@@ -221,35 +332,7 @@ app.get("/orders/:id/beverages/:beverage_id", (req, res) => {
 // GUEST ONLY 
 // WORKS!!**
 
-const verifyUser = function (req, res, next) {
-  // console.log('middleware is verifying user');
-  // console.log(req.headers);
-  // USER SENDS NO CREDENTIALS
-
-  if(!req.headers.authorization) {
-    res.status(401).json({ message: 'Invalid credentials'});
-    return;
-  }
-
-  const tokenSplit = req.headers.authorization.split(' '); 
-  const token = tokenSplit[1]; 
-  // console.log(token);
-
-  if (token) {
-    jwt.verify(token, config.JWT_SECRET, function(error, decoded) {
-      if (!error) {
-        req.decoded = decoded; //set a decoded token value into the object
-        // console.log(decoded);
-        next();
-      } else {
-        res.status(401).json({ message: 'Invalid credentials'});
-      }
-    }
-  );
-}
-}
-
-app.post("/orders", verifyUser, (req, res) => {
+app.post("/orders", (req, res) => {
   const requiredFields = ["guests", "deliveryDate", "location", "notes"];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
@@ -259,14 +342,12 @@ app.post("/orders", verifyUser, (req, res) => {
       return res.status(400).send(message);
     }
   }
-  // console.log(req.body.guests.constructor);
-  const firstGuestId = req.body.guests.split(',')[0];
 
-  Guest.findById(firstGuestId, (err, guest) => {
-    console.log('found user');
-    console.log(guest);
+  const firstGuestId = req.body.guests.split(',')[0]; //guests is a string, split to an array
+
+  User.findById(firstGuestId, (err, guest) => {
     if (err) {
-      res.status(404).send({ message: 'can not find guest' }); // if menu not found
+      res.status(404).send({ message: 'Can not find user' }); // if menu not found
     } else { // if no error
     
     Order.create({
@@ -290,7 +371,7 @@ app.post("/orders", verifyUser, (req, res) => {
 // GUEST 
 // WORKS !!!*
 
-app.put("/orders/:id", (req, res) => {
+app.put("/orders/:id", verifyUser, (req, res) => {
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
     res.status(400).json({
       error: "Request path id and request body id values must match"
@@ -311,20 +392,18 @@ app.put("/orders/:id", (req, res) => {
 });
 
 // DELETE ORDER BY ID
-// GUEST ONLY? 
 /// WORKS!!*
 
-app.delete("/orders/:id", (req, res) => {
+app.delete("/orders/:id", verifyUser, (req, res) => {
   Order.findByIdAndRemove(req.params.id)
     .then(order => res.status(200).send())
     .catch(err => res.status(500).json({ message: "Internal server error" }));
 });
 
 // DELETE DISH ORDER BY ID
-// STAFF ONLY++
 // WORKING!!!!!!*
 
-app.delete("/orders/:id/dishes/:dish_id", (req, res) => {
+app.delete("/orders/:id/dishes/:dish_id", verifyUser, (req, res) => {
   Order.findById(req.params.id, function(errOrder, order) {
     if (errOrder) {
       res.status(404).json({ message: "can not find order" });
@@ -351,10 +430,9 @@ app.delete("/orders/:id/dishes/:dish_id", (req, res) => {
 });
 
 // DELETE BEVERAGE ORDER BY ID
-// STAFF ONLY
 // WORKS !!!!*
 
-app.delete("/orders/:id/beverages/:beverage_id", (req, res) => {
+app.delete("/orders/:id/beverages/:beverage_id", verifyUser, (req, res) => {
   Order.findById(req.params.id, function(errOrder, order) {
     if (errOrder) {
       res.status(404).json({ message: "can not find order" });
@@ -364,7 +442,7 @@ app.delete("/orders/:id/beverages/:beverage_id", (req, res) => {
       );
 
       if (found === false) {
-        res.status(422).json({ message: "can not find beverage" });
+        res.status(422).json({ message: "Can not find beverage" });
       } else {
         const filtered = order.beverages.filter(
           beverage => beverage.id !== req.params.beverage_id
@@ -385,10 +463,9 @@ app.delete("/orders/:id/beverages/:beverage_id", (req, res) => {
 });
 
 // UPDATE ORDER WITH A BEVERAGE
-// GUEST ONLY 
 //  WORKS!!!***
 
-app.put("/orders/:id/beverages/:beverage_id", (req, res) => {
+app.put("/orders/:id/beverages/:beverage_id", verifyUser, (req, res) => {
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
     res.status(400).json({
       error: "Request path id and request body id values must match"
@@ -401,10 +478,7 @@ app.put("/orders/:id/beverages/:beverage_id", (req, res) => {
 
   Order.findById(req.params.id, function(errOrder, order) {
     if (!errOrder) {
-      Beverage.findById(req.params.beverage_id, function(
-        errBeverage,
-        beverage
-      ) {
+      Beverage.findById(req.params.beverage_id, function(errBeverage,beverage) {
         if (!errBeverage) {
           order.beverages.push(beverage);
           order.save(function(errSave, updatedOrder) {
@@ -424,11 +498,10 @@ app.put("/orders/:id/beverages/:beverage_id", (req, res) => {
   });
 });
 
-/// update a dish order by ID
-// GUEST ONLY 
+/// update a order with a dish
 // THIS WORKS!***
 
-app.put("/orders/:id/dishes/:dish_id", (req, res) => {
+app.put("/orders/:id/dishes/:dish_id", verifyUser, (req, res) => {
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
     res.status(400).json({
       error: "Request path id and request body id values must match"
@@ -462,7 +535,6 @@ app.put("/orders/:id/dishes/:dish_id", (req, res) => {
 });
 
 // get menus
-// STAFF ONLY++
 // WORKS*
 
 app.get("/menus", (req, res) => {
@@ -484,7 +556,6 @@ app.get("/menus", (req, res) => {
 });
 
 // get menus by ID
-// STAFF ONLY++
 // WORKS*
 
 app.get("/menus/menu_id/:id", (req, res) => {
@@ -499,7 +570,6 @@ app.get("/menus/menu_id/:id", (req, res) => {
 // for a staff member
 
 // GET ALL DISHES IN A MENU
-// BOTH? 
 // WORKS ****
 
 app.get("/menus/:id/dishes", (req, res) => {
