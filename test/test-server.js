@@ -1,107 +1,102 @@
 "use strict";
 
-const chai = require("chai");
-const chaiHttp = require("chai-http");
-const app = require("../server.js");
-const {runServer, closeServer} = require('../server.js');
-
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const mongoose = require('mongoose'); 
 const expect = chai.expect;
+
+const { TEST_DATABASE_URL, PORT } = require('../config');
+const { app, runServer, closeServer, createAuthToken } = require('../server');
+const { Order, User } = require('../models');
 
 chai.use(chaiHttp);
 
-// describe("index page", function() {
-//   it("should exist", function() {
-//     return chai
-//       .request(app)
-//       .get("/")
-//       .then(function(res) {
-//         expect(res).to.have.status(200);
-//       });
-//   });
-// });
+// TESTING ORDER RELATED POINTS
+// IMPLEMENT MIDDLEWARE IN TEST?????
 
-/// REQUEST TESTS
+// const adminCredentials = {
+//   "email": "tuck@see.com",
+// 	"password": "tucky09"
+// }
+
+// const guestCredentials = {
+// 	"email": "orlando@see.com",
+// 	"password": "otown09"
+// }
+
+// let authenticatedUser = 
+
+//GET ORDERS
 
 describe('orders', function() {
   before(function() {
-    return runServer();
+    return runServer(TEST_DATABASE_URL);
   });
+
+  // beforeEach(function() {
+  //   // add authorization here
+  // });
+
   after(function() {
     return closeServer();
   });
 
-  it('should list orders on GET', function() {
-    return chai.request(app)
-      .get('/orders')
-      .then(function(res) {
+  it('should return all existing orders on GET', async (done) => {
+    this.timeout(10000);
+    let res;
+    console.log('hello');
+    console.log(done);
+    let user = await User.create({
+      name: "Walter Brent",
+      email: "again9@gmail.com",
+      password: "kobe5rings"
+    });
+    const token = createAuthToken(user.serialize());
+    console.log(token);
+    return await chai.request(app)
+      .get('/orders') // endpoint for GET ORDERS
+      .set ('Authorization', 'Bearer ' + token)
+      .then(function(_res) {
+        res = _res;
+        // console.log(res.body);
+        expect(res.body.orders).to.have.lengthOf.at.least(1);
         expect(res).to.have.status(200);
-        expect(res).to.be.json;
-        expect(res.body).to.be.a('array');
-        expect(res.body.length).to.be.above(0);
-        res.body.forEach(function(item) {
-          expect(item).to.be.a('object');
-          expect(item).to.have.all.keys(
-            'id', 'guests', 'dishes', 'beverages', 'created_at', 'deliveryDate','notes');
-        });
+        return Order.countDocuments();
       });
+    }).finally(done);
   });
 
-// CREATE NEW ORDER
+  // it('should return orders with right fields', function() {
+  //   // Strategy: Get back all orders, and ensure they have expected keys
 
-  it('should add an order on POST', function() {
-     const newOrder = {guests: 'James Peter', dishes: 'Supreme Burger', beverages: 'Agave Lemonade', deliveryDate: '2015-11-12', location: 'Pool', notes: 'Extra Ketchup'};
-     return chai.request(app)
-       .post('/orders')
-       .send(newOrder)
-       .then(function(res) {
-         res.should.have.status(201);
-         res.should.be.json;
-         res.body.should.be.a('object'); // created at only in res?
-         res.body.should.include.keys('id', 'guests', 'dishes', 'beverages', 'created_at', 'deliveryDate', 'location', 'notes');
-         res.body.id.should.not.be.null;
-         // response should be deep equal to `newItem` from above if we assign
-         // `id` to it from `res.body.id`
-         res.body.should.deep.equal(Object.assign(newOrder, {id: res.body.id}));
-       });
-   });
+  //   let resRestaurant;
+  //   return chai.request(app)
+  //     .get('/restaurants')
+  //     .then(function(res) {
+  //       expect(res).to.have.status(200);
+  //       expect(res).to.be.json;
+  //       expect(res.body.restaurants).to.be.a('array');
+  //       expect(res.body.restaurants).to.have.lengthOf.at.least(1);
 
-// UPDATE ORDER
+  //       res.body.restaurants.forEach(function(restaurant) {
+  //         expect(restaurant).to.be.a('object');
+  //         expect(restaurant).to.include.keys(
+  //           'id', 'name', 'cuisine', 'borough', 'grade', 'address');
+  //       });
+  //       resRestaurant = res.body.restaurants[0];
+  //       return Restaurant.findById(resRestaurant.id);
+  //     })
+  //     .then(function(restaurant) {
 
-   it('should update orders on PUT', function() {
-       const updateData = {
-         dishes: ['Supreme Burger', 'Filet Mignon'],
-         beverages: 'Coffee',
-         deliveryDate: '2015-11-12',
-         notes: 'No pickles'
-       };
-       return chai.request(app)
-         // first have to get orders
-         .get('/orders')
-         .then(function(res) {
-           updateData.id = res.body[0].id;
-           return chai.request(app)
-             .put(`/orders/${updateData.id}`)
-             .send(updateData)
-         })
-         .then(function(res) {
-           expect(res).to.have.status(200);
-           expect(res).to.be.json;
-           expect(res.body).to.be.a('object');
-           expect(res.body).to.deep.equal(updateData);
-         });
-     });
+  //       expect(resRestaurant.id).to.equal(restaurant.id);
+  //       expect(resRestaurant.name).to.equal(restaurant.name);
+  //       expect(resRestaurant.cuisine).to.equal(restaurant.cuisine);
+  //       expect(resRestaurant.borough).to.equal(restaurant.borough);
+  //       expect(resRestaurant.address).to.contain(restaurant.address.building);
 
-// DELETE ORDER BY ID
+  //       expect(resRestaurant.grade).to.equal(restaurant.grade);
+  //     });
+  // });
 
-   it('should delete orders on DELETE', function() {
-       return chai.request(app)
-         .get('/orders')
-         .then(function(res) {
-           return chai.request(app)
-             .delete(`/orders/${res.body[0].id}`);
-         })
-         .then(function(res) {
-           expect(res).to.have.status(204);
-         });
-     });
-});
+
+module.exports = { app, runServer, closeServer };
