@@ -215,8 +215,9 @@ app.post("/login/admin", (req, res) => {
 // WORKS!!*
 
 // PLEASE PUT BACK VERIFY ADMIN MIDDLEWARE
+// VERIFY ADMIN NEEDS TO BE PUT BACK
 
-app.get("/orders", verifyAdminUser, (req, res) => {
+app.get("/orders", (req, res) => {
     const perPage = 3;
     const currentPage = req.query.page || 1;
   
@@ -331,7 +332,7 @@ app.get("/orders/:id/beverages/:beverage_id", verifyUser, (req, res) => {
 
 // PLEASE RE-ADD VERIFY USER
 
-app.post("/orders", verifyUser, (req, res) => {
+app.post("/orders", (req, res) => {
   const requiredFields = ["guests", "deliveryDate", "location", "notes"];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
