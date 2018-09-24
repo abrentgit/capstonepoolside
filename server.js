@@ -332,7 +332,7 @@ app.get("/orders/:id/beverages/:beverage_id", verifyUser, (req, res) => {
 
 // PLEASE RE-ADD VERIFY USER
 
-app.post("/orders", (req, res) => {
+app.post("/orders", verifyUser, (req, res) => {
   const requiredFields = ["guests", "deliveryDate", "location", "notes"];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
