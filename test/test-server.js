@@ -91,20 +91,7 @@ describe('Orders', function() {
   });
 
   describe('GET orders', function() {
-    
-    // it('should list users on GET', function() {
-    //   let res; 
-    //   return chai.request(app)
-    //     .get('/orders')
-    //     .then(function(_res) {
-    //       res = _res;
-    //       expect(res).to.have.status(200);
-    //       expect(res.body.orders).to.have.lengthOf.at.least(1);
-    //       return Order.countDocuments();
-    //   });
-    // });
-
-  // AUTH 
+  
   // can do before each function create user 
   // can do for admin just add role to that object 
   it('should return all existing orders on GET', (done) => {
@@ -126,11 +113,18 @@ describe('Orders', function() {
         });
     });
   });
-
-    it('should return orders with right fields', function() {
+    // RIGHT FIELDS TEST 
+    it('should return orders with right fields on GET orders', (done) => {
       let resOrder;
+      let user = User.create({
+        name: "Walter Brent",
+        email: "again9@gmail.com",
+        password: "kobe5rings"
+      }).then(user => {
+      const token = createAuthToken(user.serialize());
       return chai.request(app)
         .get('/orders')
+        .set ('Authorization', 'Bearer ' + token)
         .then(function(res) {
           expect(res).to.have.status(200);
           expect(res).to.be.json;
@@ -142,24 +136,24 @@ describe('Orders', function() {
           expect(order).to.include.keys(
           '_id', 'deliveryDate', 'location', 'notes', 'beverages', 'dishes');
         });
-        
-        // console.log(res.body.orders);
+
         resOrder = res.body.orders[0]; // one single order 
-        // console.log(resOrder._id);
         return Order.findById(resOrder._id); //return's first order's ID
     })
       .then(function(order) {  
         expect(resOrder._id).to.equal(order.id); // comparing order in database to the response order requested
-        // turn both into strings 
-        expect(new Date(resOrder.deliveryDate)).to.own.include(order.deliveryDate); // format is different, how to convert it to equal same value?
-        console.log(resOrder.deliveryDate);
+        expect(new Date(resOrder.deliveryDate)).to.own.include(order.deliveryDate); // own include, non-primitives with same information
         expect(resOrder.location).to.equal(order.location);
-        // expect(resOrder.notes).to.equal(order.notes);
-        // expect(resOrder.beverages).to.deep.include(order.beverages);
-        // expect(resOrder.dishes).to.equal(order.dishes);
-      
+        expect(resOrder.notes).to.equal(order.notes);
+        console.log(resOrder.dishes); // it is an array with an object inside
+        // an array with an index that is a dish object 
+        expect(resOrder.dishes).to.have.deep.members(order.dishes);
+        expect(resOrder.beverages).to.have.deep.members(order.beverages);
+        done();
+      });
+    });
+    done();
     });
   });
+});
 
-});
-});
