@@ -217,7 +217,7 @@ app.post("/login/admin", (req, res) => {
 // PLEASE PUT BACK VERIFY ADMIN MIDDLEWARE
 // VERIFY ADMIN NEEDS TO BE PUT BACK
 
-app.get("/orders", (req, res) => {
+app.get("/orders", verifyUser, (req, res) => {
     const perPage = 3;
     const currentPage = req.query.page || 1;
   

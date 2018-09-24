@@ -4,7 +4,7 @@
   "description": "inter-hotel meal ordering app",
   "main": "server.js",
   "scripts": {
-    "test": "mocha",
+    "test": "mocha --exit",
     "start": "node server.js"
   },
   "author": "AB",
