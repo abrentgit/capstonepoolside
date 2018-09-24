@@ -106,31 +106,28 @@ describe('Orders', function() {
     // });
 
   // AUTH 
-  it('should return all existing orders on GET', async (done) => {
-    this.timeout(10000);
+  // can do before each function create user 
+  // can do for admin just add role to that object 
+  it('should return all existing orders on GET', function(done) {
     let res;
-    console.log('hello');
-    console.log(done);
-    let user = await User.create({
+    let user = User.create({
       name: "Walter Brent",
       email: "again9@gmail.com",
       password: "kobe5rings"
+    }).then(user => {
+      const token = createAuthToken(user.serialize());
+      console.log(token);
+      return chai.request(app)
+        .get('/orders') // endpoint for GET ORDERS
+        .set ('Authorization', 'Bearer ' + token)
+        .then(function(_res) {
+          res = _res;
+          expect(res.body.orders).to.have.lengthOf.at.least(1);
+          expect(res).to.have.status(200);
+          done();
+        });
     });
-    const token = createAuthToken(user.serialize());
-    console.log(token);
-    return await chai.request(app)
-      .get('/orders') // endpoint for GET ORDERS
-      .set ('Authorization', 'Bearer ' + token)
-      .then(function(_res) {
-        res = _res;
-        // console.log(res.body);
-        expect(res.body.orders).to.have.lengthOf.at.least(1);
-        expect(res).to.have.status(200);
-        return Order.countDocuments();
-      });
-    // }).finally(done);
   });
-
 
     it('should return orders with right fields', function() {
       let resOrder;
@@ -154,14 +151,15 @@ describe('Orders', function() {
         return Order.findById(resOrder._id); //return's first order's ID
     })
       .then(function(order) {  
-        expect(resOrder._id).to.equal(order.id);
-        // expect(resOrder.deliveryDate).to.equal(order.deliveryDate); // format is different, how to convert it to equal same value?
+        expect(resOrder._id).to.equal(order.id); // comparing order in database to the response order requested
+        // turn both into strings 
+        expect(new Date(resOrder.deliveryDate)).to.own.include(order.deliveryDate); // format is different, how to convert it to equal same value?
+        console.log(resOrder.deliveryDate);
         expect(resOrder.location).to.equal(order.location);
         expect(resOrder.notes).to.equal(order.notes);
-        // expect(resOrder.beverages).to.eql(order.beverages);
-        // expect(resOrder.dishes).to.eql(order.dishes);
-        // console.log(resOrder.beverages);
-        // console.log(order.beverages);
+        expect(resOrder.beverages).to.deep.include(order.beverages);
+        // expect(resOrder.dishes).to.equal(order.dishes);
+      
     });
   });
 
