@@ -751,10 +751,7 @@ app.put("/menus/:id/beverages/:beverage_id", verifyAdminUser, (req, res) => {
 
   Menu.findById(req.params.id, function(errMenu, menu) {
     if (!errMenu) {
-      Beverage.findById(req.params.beverage_id, function(
-        errBeverage,
-        beverage
-      ) {
+      Beverage.findById(req.params.beverage_id, function(errBeverage,beverage) {
         if (!errBeverage) {
           menu.beverages.push(beverage);
           menu.save(function(errSave, updatedMenu) {

@@ -10,7 +10,7 @@ const expect = chai.expect;
 
 const { TEST_DATABASE_URL } = require('../config');
 const { app, runServer, closeServer, createAuthToken } = require('../server');
-const { Order, User } = require('../models');
+const { Order, Menu, User, Dish, Beverage } = require('../models');
 
 chai.use(chaiHttp);
 
@@ -24,6 +24,15 @@ function seedOrderData() {
   return Order.insertMany(seedData); //inserts Orders into seed data
 }
 
+// function seedMenuData() {
+//   console.info('seeding menu data');
+//   const seedMenuData = [];
+
+//   for (let i = 0;i <= 5; i++) {
+//     seedMenuData.push(generateMenuData());
+//   }
+// }
+
   // GENERATE FAKE ORDER
 function generateOrderData() {
     return {
@@ -35,6 +44,14 @@ function generateOrderData() {
       beverages: [generateBeverageData()]
    }
   }
+
+// function generateMenuData() {
+//   return {
+//     name: faker.lorem.word(),
+//     dishes: [generateDishData()],
+//     beverages: [generateBeverageData()]
+//   }
+// }
 
 function generateBeverageData() {
   return {
@@ -66,6 +83,10 @@ describe('Orders', function() {
   beforeEach(function(){
     return seedOrderData();
   })
+
+  // beforeEach(function(){
+  //   return seedMenuData();
+  // })
 
   afterEach(function() {
     return tearDownDb();
@@ -210,8 +231,12 @@ describe('Orders', function() {
           expect(order.deliveryDate).to.equal(updateData.deliveryDate);
         });
     });
+  });
+  });
+
 
     describe('DELETE endpoint', function() {
+      
       it('delete a order by id', function() {
   
         let order;
@@ -239,71 +264,65 @@ describe('Orders', function() {
       });
     });
   });
-  });
-});
 
-// GET MENUS
 
-describe('GET menus', function() {
+  // NEED TO FIX 
+  describe('DELETE beverage order endpoint', function() {
+    
+    it('delete a beverage order by id', function() {
 
-  it('should return all existing menus on GET', (done) => {
-    let res;
-    let user = User.create({
-      name: faker.name.findName(),
-      email: faker.internet.email(),
-      role: 'admin',
-      password: faker.internet.password()
-    }).then(user => {
-      const token = createAuthToken(user.serialize());
-      return chai.request(app)
-        .get('/menus') 
-        .set ('Authorization', 'Bearer ' + token)
-        .then(function(_res) {
-          res = _res;
-          expect(res.body.menus).to.have.lengthOf.at.least(1);
-          expect(res).to.have.status(200);
-          done();
+      let beverage;
+
+      let user = User.create({
+        name: faker.name.findName(),
+        email: faker.internet.email(),
+        password: faker.internet.password()
+      }).then(user => {
+      const token = createAuthToken(user.serialize()); 
+
+      return Order.findOne()
+        .then(function(order) {
+          beverage = order.beverages;
+          return chai.request(app).delete(`/orders/${beverage.id}`)
+          .set ('Authorization', 'Bearer ' + token);
+        })
+        .then(function(res) {
+          expect(res).to.have.status(204);
+          return Beverage.findById(beverage.id);
+        })
+        .then(function(_beverage) {
+          expect(_beverage).to.be.null;
         });
       });
-      done();
-  });
-});
-
-it('should return menus with right fields', function() {
-  let resMenu;
-  let user = User.create({
-    name: faker.name.findName(),
-    email: faker.internet.email(),
-    role: 'admin',
-    password: faker.internet.password()
-  }).then(user => {
-  const token = createAuthToken(user.serialize());
-  return chai.request(app)
-    .get('/menus')
-    .set ('Authorization', 'Bearer ' + token)
-    .then(function(res) {
-      expect(res).to.have.status(200);
-      expect(res).to.be.json;
-      expect(res.body.menus).to.be.a('array');
-      expect(res.body.menus).to.have.lengthOf.at.least(1);
-
-    res.body.menus.forEach(function(menu) {
-      expect(menu).to.be.a('object');
-      expect(menu).to.include.keys(
-      'name','dishes', 'beverages');
     });
-    resMenu = res.body.menus[0]; // one single menu
-    return Menu.findById(resMenu._id); //return's first menu's ID
-})
-  .then(function(menu) {
-    expect(resMenu._id).to.equal(menu.id); // comparing menu in database to the response menu requested
-    expect(new Date(resMenu.deliveryDate)).to.own.include(menu.deliveryDate);
-    expect(resMenu.dishes).to.have.deep.members(menu.dishes);
-    expect(resMenu.beverages).to.have.deep.members(menu.beverages);
   });
 });
-});
+// describe('DELETE dish order endpoint', function() {
+    
+//   it('delete a dish order by id', function() {
 
-// POST MENUS
+//     let dish;
 
-});
+//     let user = User.create({
+//       name: faker.name.findName(),
+//       email: faker.internet.email(),
+//       password: faker.internet.password()
+//     }).then(user => {
+//     const token = createAuthToken(user.serialize()); 
+
+//     return Dish.findOne()
+//       .then(function(_dish) {
+//         dish = _dish;
+//         return chai.request(app).delete(`/orders/${dish.id}`)
+//         .set ('Authorization', 'Bearer ' + token);
+//       })
+//       .then(function(res) {
+//         expect(res).to.have.status(204);
+//         return Dish.findById(dish.id);
+//       })
+//       .then(function(_dish) {
+//         expect(_dish).to.be.null;
+//       });
+//   });
+// });
+// });
