@@ -158,7 +158,7 @@ describe('Orders', function() {
 
     // POST NEW ORDER 
 
-    describe('POST endpoint', function() {
+  describe('POST endpoint', function() {
       const newOrder = generateOrderData();
       
       it('should add a new order', function() {
@@ -235,7 +235,7 @@ describe('Orders', function() {
   });
 
 
-    describe('DELETE endpoint', function() {
+  describe('DELETE endpoint', function() {
       
       it('delete a order by id', function() {
   
