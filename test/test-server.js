@@ -27,7 +27,7 @@ function seedOrderData() {
   // GENERATE FAKE ORDER
 function generateOrderData() {
     return {
-      guests: '5ba4407ffcbf68079386a484', //need to make this generate a fake id consistently
+      guests: mongoose.Types.ObjectId(), //need to make this generate a fake id consistently, but I get a casting error
       deliveryDate: faker.date.recent(),
       location: faker.lorem.word(),
       notes: faker.lorem.words(),
@@ -75,108 +75,107 @@ describe('Orders', function() {
     return closeServer();
   });
 
-  // describe('GET orders', function() {
+  describe('GET orders', function() {
 
-  //   it('should return all existing orders on GET', (done) => {
-  //     let res;
-  //     let user = User.create({
-  //       name: "Walter Brent",
-  //       email: "again9@gmail.com",
-  //       password: "kobe5rings"
-  //     }).then(user => {
-  //       const token = createAuthToken(user.serialize());
-  //       return chai.request(app)
-  //         .get('/orders') // endpoint for GET ORDERS
-  //         .set ('Authorization', 'Bearer ' + token)
-  //         .then(function(_res) {
-  //           res = _res;
-  //           expect(res.body.orders).to.have.lengthOf.at.least(1);
-  //           expect(res).to.have.status(200);
-  //           done();
-  //         });
-  //       });
-  //   });
-  //   // // RIGHT FIELDS TEST 
-  //   it('should return orders with right fields on GET orders', function() {
-  //     let resOrder;
-  //     let user = User.create({
-  //       name: "Walter Brent",
-  //       email: "again9@gmail.com",
-  //       password: "kobe5rings"
-  //     }).then(user => {
-  //     const token = createAuthToken(user.serialize());
-  //     return chai.request(app)
-  //       .get('/orders')
-  //       .set ('Authorization', 'Bearer ' + token)
-  //       .then(function(res) {
-  //         expect(res).to.have.status(200);
-  //         expect(res).to.be.json;
-  //         expect(res.body.orders).to.be.a('array');
-  //         expect(res.body.orders).to.have.lengthOf.at.least(1);
+    it('should return all existing orders on GET', (done) => {
+      let res;
+      let user = User.create({
+        name: faker.name.findName(),
+        email: faker.internet.email(),
+        password: faker.internet.password()
+      }).then(user => {
+        const token = createAuthToken(user.serialize());
+        return chai.request(app)
+          .get('/orders') // endpoint for GET ORDERS
+          .set ('Authorization', 'Bearer ' + token)
+          .then(function(_res) {
+            res = _res;
+            expect(res.body.orders).to.have.lengthOf.at.least(1);
+            expect(res).to.have.status(200);
+            done();
+          });
+        });
+    });
+    // // RIGHT FIELDS TEST 
+    it('should return orders with right fields', function() {
+      let resOrder;
+      let user = User.create({
+        name: faker.name.findName(),
+        email: faker.internet.email(),
+        password: faker.internet.password()
+      }).then(user => {
+      const token = createAuthToken(user.serialize());
+      return chai.request(app)
+        .get('/orders')
+        .set ('Authorization', 'Bearer ' + token)
+        .then(function(res) {
+          expect(res).to.have.status(200);
+          expect(res).to.be.json;
+          expect(res.body.orders).to.be.a('array');
+          expect(res.body.orders).to.have.lengthOf.at.least(1);
 
-  //       res.body.orders.forEach(function(order) {
-  //         expect(order).to.be.a('object');
-  //         expect(order).to.include.keys(
-  //         '_id', 'deliveryDate', 'location', 'notes', 'beverages', 'dishes');
-  //       });
-  //       resOrder = res.body.orders[0]; // one single order 
-  //       return Order.findById(resOrder._id); //return's first order's ID
-  //   })
-  //     .then(function(order) {  
-  //       expect(resOrder._id).to.equal(order.id); // comparing order in database to the response order requested
-  //       expect(new Date(resOrder.deliveryDate)).to.own.include(order.deliveryDate); // own include, non-primitives with same information
-  //       expect(resOrder.location).to.equal(order.location);
-  //       expect(resOrder.notes).to.equal(order.notes);
-  //       console.log(resOrder.dishes); // it is an array with an object inside
-  //       // an array with an index that is a dish object 
-  //       expect(resOrder.dishes).to.have.deep.members(order.dishes);
-  //       expect(resOrder.beverages).to.have.deep.members(order.beverages);
-  //     });
-  //   });
-  //   });
-  //   });
+        res.body.orders.forEach(function(order) {
+          expect(order).to.be.a('object');
+          expect(order).to.include.keys(
+          '_id', 'deliveryDate', 'location', 'notes', 'beverages', 'dishes');
+        });
+        resOrder = res.body.orders[0]; // one single order 
+        return Order.findById(resOrder._id); //return's first order's ID
+    })
+      .then(function(order) {  
+        expect(resOrder._id).to.equal(order.id); // comparing order in database to the response order requested
+        expect(new Date(resOrder.deliveryDate)).to.own.include(order.deliveryDate); // own include, non-primitives with same information
+        expect(resOrder.location).to.equal(order.location);
+        expect(resOrder.notes).to.equal(order.notes);
+        // an array with an index that is a dish object 
+        expect(resOrder.dishes).to.have.deep.members(order.dishes);
+        expect(resOrder.beverages).to.have.deep.members(order.beverages);
+      });
+    });
+    });
+    });
 
-  //   // POST NEW ORDER 
+    // POST NEW ORDER 
 
-  //   describe('POST Orders endpoint', function() {
-  //     const newOrder = generateOrderData();
+    describe('POST endpoint', function() {
+      const newOrder = generateOrderData();
       
-  //     it('should add a new order', function() {
-  //       let user = User.create({
-  //         name: "Walter Brent",
-  //         email: "again9@gmail.com",
-  //         password: "kobe5rings"
-  //       }).then(user => {
-  //       const token = createAuthToken(user.serialize());  
-  //       return chai.request(app)
-  //         .post('/orders')
-  //         .set ('Authorization', 'Bearer ' + token)
-  //         .send(newOrder)
-  //         .then(function(res) {
-  //           expect(res).to.have.status(201);
-  //           expect(res).to.be.json;
-  //           expect(res.body).to.be.a('object');
-  //           expect(res.body).to.include.keys(
-  //             'guests', 'deliveryDate', 'location', 'notes');
-  //           expect(res.body.guests).to.equal(newOrder.guests);
-  //           expect(res.body.id).to.not.be.null;
-  //           expect(res.body.deliveryDate).to.equal(newOrder.deliveryDate);
-  //           expect(res.body.location).to.equal(newOrder.location);
-  //           expect(res.body.notes).to.equal(newOrder.notes);
+      it('should add a new order', function() {
+        let user = User.create({
+          name: faker.name.findName(),
+          email: faker.internet.email(),
+          password: faker.internet.password()
+        }).then(user => {
+        const token = createAuthToken(user.serialize());  
+        return chai.request(app)
+          .post('/orders')
+          .set ('Authorization', 'Bearer ' + token)
+          .send(newOrder)
+          .then(function(res) {
+            expect(res).to.have.status(201);
+            expect(res).to.be.json;
+            expect(res.body).to.be.a('object');
+            expect(res.body).to.include.keys(
+              'guests', 'deliveryDate', 'location', 'notes');
+            expect(res.body.guests).to.equal(newOrder.guests);
+            expect(res.body.id).to.not.be.null;
+            expect(res.body.deliveryDate).to.equal(newOrder.deliveryDate);
+            expect(res.body.location).to.equal(newOrder.location);
+            expect(res.body.notes).to.equal(newOrder.notes);
   
-  //           return Order.findById(res.body.id);
-  //         })
-  //         .then(function(order) { // compare new order we wanted to create to order in db that was saved
-  //           expect(order.guests).to.equal(newOrder.guests);
-  //           expect(order.deliveryDate).to.equal(newOrder.deliveryDate);
-  //           expect(order.location).to.equal(newOrder.location);
-  //           expect(order.notes).to.equal(newOrder.notes);
-  //         });
-  //     });
-  //   });
-  // });
+            return Order.findById(res.body.id);
+          })
+          .then(function(order) { // compare new order we wanted to create to order in db that was saved
+            expect(order.guests).to.equal(newOrder.guests);
+            expect(order.deliveryDate).to.equal(newOrder.deliveryDate);
+            expect(order.location).to.equal(newOrder.location);
+            expect(order.notes).to.equal(newOrder.notes);
+          });
+      });
+    });
+  });
 
-  describe('PUT orders endpoint by order ID', function() {
+  describe('PUT endpoint', function() {
     
     it('should update fields you send over', function() {
       const updateData = {
@@ -186,14 +185,13 @@ describe('Orders', function() {
       };
 
       let user = User.create({
-        name: "Walter Brent",
-        email: "again9@gmail.com",
-        password: "kobe5rings"
+        name: faker.name.findName(),
+        email: faker.internet.email(),
+        password: faker.internet.password()
       }).then(user => {
       const token = createAuthToken(user.serialize()); 
 
-      return Order
-        .findOne()
+      return Order.findOne()
         .then(function(order) {
           updateData.id = order.id; // set update data id to order id found 
           return chai.request(app)
@@ -212,6 +210,100 @@ describe('Orders', function() {
           expect(order.deliveryDate).to.equal(updateData.deliveryDate);
         });
     });
+
+    describe('DELETE endpoint', function() {
+      it('delete a order by id', function() {
+  
+        let order;
+
+        let user = User.create({
+          name: faker.name.findName(),
+          email: faker.internet.email(),
+          password: faker.internet.password()
+        }).then(user => {
+        const token = createAuthToken(user.serialize()); 
+  
+        return Order.findOne()
+          .then(function(_order) {
+            order = _order;
+            return chai.request(app).delete(`/orders/${order.id}`)
+            .set ('Authorization', 'Bearer ' + token);
+          })
+          .then(function(res) {
+            expect(res).to.have.status(204);
+            return Order.findById(order.id);
+          })
+          .then(function(_order) {
+            expect(_order).to.be.null;
+          });
+      });
+    });
+  });
   });
 });
+
+// GET MENUS
+
+describe('GET menus', function() {
+
+  it('should return all existing menus on GET', (done) => {
+    let res;
+    let user = User.create({
+      name: faker.name.findName(),
+      email: faker.internet.email(),
+      role: 'admin',
+      password: faker.internet.password()
+    }).then(user => {
+      const token = createAuthToken(user.serialize());
+      return chai.request(app)
+        .get('/menus') 
+        .set ('Authorization', 'Bearer ' + token)
+        .then(function(_res) {
+          res = _res;
+          expect(res.body.menus).to.have.lengthOf.at.least(1);
+          expect(res).to.have.status(200);
+          done();
+        });
+      });
+      done();
+  });
+});
+
+it('should return menus with right fields', function() {
+  let resMenu;
+  let user = User.create({
+    name: faker.name.findName(),
+    email: faker.internet.email(),
+    role: 'admin',
+    password: faker.internet.password()
+  }).then(user => {
+  const token = createAuthToken(user.serialize());
+  return chai.request(app)
+    .get('/menus')
+    .set ('Authorization', 'Bearer ' + token)
+    .then(function(res) {
+      expect(res).to.have.status(200);
+      expect(res).to.be.json;
+      expect(res.body.menus).to.be.a('array');
+      expect(res.body.menus).to.have.lengthOf.at.least(1);
+
+    res.body.menus.forEach(function(menu) {
+      expect(menu).to.be.a('object');
+      expect(menu).to.include.keys(
+      'name','dishes', 'beverages');
+    });
+    resMenu = res.body.menus[0]; // one single menu
+    return Menu.findById(resMenu._id); //return's first menu's ID
+})
+  .then(function(menu) {
+    expect(resMenu._id).to.equal(menu.id); // comparing menu in database to the response menu requested
+    expect(new Date(resMenu.deliveryDate)).to.own.include(menu.deliveryDate);
+    expect(resMenu.dishes).to.have.deep.members(menu.dishes);
+    expect(resMenu.beverages).to.have.deep.members(menu.beverages);
+  });
+});
+});
+
+// POST MENUS
+
 });
