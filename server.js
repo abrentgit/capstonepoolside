@@ -433,6 +433,7 @@ app.delete("/orders/:id/dishes/:dish_id", verifyUser, (req, res) => {
 // WORKS !!!!*
 
 app.delete("/orders/:id/beverages/:beverage_id", verifyUser, (req, res) => {
+  console.log('request handler arrived');
   Order.findById(req.params.id, function(errOrder, order) {
     if (errOrder) {
       res.status(404).json({ message: "Can not find order" });

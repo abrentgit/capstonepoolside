@@ -35,16 +35,48 @@ function seedOrderData() {
 
   // GENERATE FAKE ORDER
 function generateOrderData() {
-    return {
-      guests: mongoose.Types.ObjectId(), //need to make this generate a fake id consistently, but I get a casting error
-      deliveryDate: faker.date.recent(),
-      location: faker.lorem.word(),
-      notes: faker.lorem.words(),
-      dishes: [generateDishData()],
-      beverages: [generateBeverageData()]
-   }
-  }
 
+  return User.create({
+    name: faker.name.findName(),
+    email: faker.internet.email(),
+    password: faker.internet.password()
+  }).then(user => {
+    return Dish.create(generateDishData()).then(dish => {
+      return Beverage.create(generateBeverageData()).then(beverage => {
+        return {
+          guests: `${user._id}`, 
+          deliveryDate: faker.date.recent(),
+          location: faker.lorem.word(),
+          notes: faker.lorem.words(),
+          dishes: [dish],
+          beverages: [beverage]
+       }
+      })
+    })
+  });  
+}
+
+function generateOrderDataWithPersistence() {
+
+  return User.create({
+    name: faker.name.findName(),
+    email: faker.internet.email(),
+    password: faker.internet.password()
+  }).then(user => {
+    return Dish.create(generateDishData()).then(dish => {
+      return Beverage.create(generateBeverageData()).then(beverage => {
+        return Order.create({
+          guests: [user], 
+          deliveryDate: faker.date.recent(),
+          location: faker.lorem.word(),
+          notes: faker.lorem.words(),
+          dishes: [dish],
+          beverages: [beverage]
+       })
+      })
+    })
+  });  
+}
 // function generateMenuData() {
 //   return {
 //     name: faker.lorem.word(),
@@ -81,16 +113,16 @@ describe('Orders', function() {
   });
 
   beforeEach(function(){
-    return seedOrderData();
-  })
+    // return seedOrderData();
+  });
 
   // beforeEach(function(){
   //   return seedMenuData();
   // })
 
-  afterEach(function() {
-    return tearDownDb();
-  })
+  // afterEach(function() {
+  //   return tearDownDb();
+  // })
 
   after(function() {
     return closeServer();
@@ -158,20 +190,19 @@ describe('Orders', function() {
 
     // POST NEW ORDER 
 
-  describe('POST endpoint', function() {
-      const newOrder = generateOrderData();
-      
+  describe('POST endpoint', function() {      
       it('should add a new order', function() {
-        let user = User.create({
-          name: faker.name.findName(),
-          email: faker.internet.email(),
-          password: faker.internet.password()
-        }).then(user => {
-        const token = createAuthToken(user.serialize());  
+        console.log('hello from letter A');
+        return generateOrderData().then(order => {
+        console.log('hello from letter b');
+        const guestId = order.guests;
+        User.findById(guestId,function(err, guest) {
+          const token = createAuthToken(guest.serialize());
+        console.log('test is running', token);  
         return chai.request(app)
           .post('/orders')
           .set ('Authorization', 'Bearer ' + token)
-          .send(newOrder)
+          .send(order)
           .then(function(res) {
             expect(res).to.have.status(201);
             expect(res).to.be.json;
@@ -192,6 +223,7 @@ describe('Orders', function() {
             expect(order.location).to.equal(newOrder.location);
             expect(order.notes).to.equal(newOrder.notes);
           });
+        })
       });
     });
   });
@@ -264,6 +296,7 @@ describe('Orders', function() {
       });
     });
   });
+});
 
 
   // NEED TO FIX 
@@ -282,8 +315,9 @@ describe('Orders', function() {
 
       return Order.findOne()
         .then(function(order) {
+          console.log(order, 'this is the order');
           beverage = order.beverages;
-          return chai.request(app).delete(`/orders/${beverage.id}`)
+          return chai.request(app).delete(`/orders/${order.id}/beverages/${beverage.id}`)
           .set ('Authorization', 'Bearer ' + token);
         })
         .then(function(res) {
@@ -296,7 +330,6 @@ describe('Orders', function() {
       });
     });
   });
-});
 // describe('DELETE dish order endpoint', function() {
     
 //   it('delete a dish order by id', function() {
