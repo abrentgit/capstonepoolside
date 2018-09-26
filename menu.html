@@ -21,41 +21,37 @@
       <form>
           <fieldset>
           <legend>Select Dishes</legend>
-            <div>
-              <input type="checkbox" id="steak-and-eggs" name="food" value="pizza">
-              <label for="steak-and-eggs">Steak and Eggs</label>
-            </div>
-            <div>
-              <input type="checkbox" id="breakfast-special" name="food" value="music">
-              <label for="breakfast-special">Breakfast Special</label>
-            </div>
-            <div>
-              <input type="checkbox" id="belgium-waffles-and-fries" name="food" value="art">
-              <label for="belgium-waffles-and-fries">Belgium Waffles and Fries</label>
-            </div>
-            <div>
-              <input type="checkbox" id="sublime-salad" name="food" value="sports">
-              <label for="sublime-salad">Sublime Salad</label>
-            </div>
-            <div>
-              <input type="checkbox" id="fish-tacos" name="food" value="cooking">
-              <label for="fish-tacos">Fish Tacos</label>
-            </div>
-            <div>
-                <input type="checkbox" id="brazilian-wrap" name="food" value="cooking">
-                <label for="brazilian-wrap">Brazilian Wrap</label>
-              </div>
+            <div class="eats">
+              <h2>Steak and Eggs</h2>
+              <p>Served with salad and choice of dressing</p>
+              <p>$18.00</p>
               <div>
-                  <input type="checkbox" id="burger-deluxe" name="food" value="cooking">
-                  <label for="burger-deluxe">Burger Deluxe</label>
-                </div>
-            <div>
-              <input type="checkbox" id="other" name="food" value="other">
-              <label for="other">Other</label>
-              <input type="text" id="otherValue" name="other">
-            </div>
-            <div>
-              <button type="submit">Submit form</button>
+                  <input type="checkbox" name="steak-eggs" id="steak-eggs">
+                  <input id="number" type="number" value="">
+              </div>
+              <h2>Brazilian Wrap</h2>
+              <p>Chicken and Brazilian samba rice in a tortilla, served with salad</p>
+              <p>$14.00</p>
+              <div>
+                  <input type="checkbox" name="brazilian-wrap" id="brazilian-wrap">
+                  <input id="number" type="number" value="">
+              </div>
+              <h2>Hotel Deluxe Burger</h2>
+              <p>Served with fries</p>
+              <p>$20.00</p>
+              <div>
+                  <input type="checkbox" name="burger" id="burger">
+                  <input id="number" type="number" value="">
+              </div>
+              <h2>Fish Tacos</h2>
+              <p>Served fresh with special house sauce</p>
+              <p>$18.00</p>
+              <div>
+                  <input type="checkbox" name="fish-tacos" id="fish-tacos">
+                  <input id="number" type="number" value="">
+              </div>
+          </div>
+              <button type="submit" id="submit">Submit</button>
             </div>
           </fieldset>
         </form>

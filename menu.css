@@ -35,6 +35,15 @@ fieldset {
 }
 
 legend {
+    padding: 20px;
     text-align: center;
     font-style: italic;
+}
+
+#number {
+    width: 3em;
+  }
+
+#submit {
+   margin-top: 50px;
 }
