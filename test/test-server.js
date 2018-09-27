@@ -35,7 +35,6 @@ function seedOrderData() {
 
   // GENERATE FAKE ORDER
 function generateOrderData() {
-
   return User.create({
     name: faker.name.findName(),
     email: faker.internet.email(),
@@ -175,14 +174,15 @@ describe('Orders', function() {
         resOrder = res.body.orders[0]; // one single order 
         return Order.findById(resOrder._id); //return's first order's ID
     })
-      .then(function(order) {  
+      .then(function(order) {
+        console.log(order.beverages, 'order bevs');
+        console.log(resOrder.beverages, 'response bevs');
         expect(resOrder._id).to.equal(order.id); // comparing order in database to the response order requested
         expect(new Date(resOrder.deliveryDate)).to.own.include(order.deliveryDate); // own include, non-primitives with same information
         expect(resOrder.location).to.equal(order.location);
         expect(resOrder.notes).to.equal(order.notes);
-        // an array with an index that is a dish object 
-        expect(resOrder.dishes).to.have.deep.members(order.dishes);
         expect(resOrder.beverages).to.have.deep.members(order.beverages);
+        expect(resOrder.dishes).to.have.deep.members(order.dishes);
       });
     });
     });
@@ -192,13 +192,10 @@ describe('Orders', function() {
 
   describe('POST endpoint', function() {      
       it('should add a new order', function() {
-        console.log('hello from letter A');
         return generateOrderData().then(order => {
-        console.log('hello from letter b');
         const guestId = order.guests;
         User.findById(guestId,function(err, guest) {
           const token = createAuthToken(guest.serialize());
-        console.log('test is running', token);  
         return chai.request(app)
           .post('/orders')
           .set ('Authorization', 'Bearer ' + token)
@@ -227,22 +224,21 @@ describe('Orders', function() {
       });
     });
   });
+});
 
   describe('PUT endpoint', function() {
     
     it('should update fields you send over', function() {
-      const updateData = {
-        deliveryDate: faker.date.recent(),
-        location: faker.lorem.words(),
-        notes: faker.lorem.words()
-      };
-
-      let user = User.create({
-        name: faker.name.findName(),
-        email: faker.internet.email(),
-        password: faker.internet.password()
-      }).then(user => {
-      const token = createAuthToken(user.serialize()); 
+      return generateOrderData().then(order => {
+        const guestId = order.guests;
+        User.findById(guestId,function(err, guest) {
+        const token = createAuthToken(guest.serialize());
+        
+        const updateData = {
+          deliveryDate: faker.date.recent(),
+          location: faker.lorem.words(),
+          notes: faker.lorem.words()
+        };
 
       return Order.findOne()
         .then(function(order) {
@@ -265,72 +261,74 @@ describe('Orders', function() {
     });
   });
   });
-
-
-  describe('DELETE endpoint', function() {
-      
-      it('delete a order by id', function() {
-  
-        let order;
-
-        let user = User.create({
-          name: faker.name.findName(),
-          email: faker.internet.email(),
-          password: faker.internet.password()
-        }).then(user => {
-        const token = createAuthToken(user.serialize()); 
-  
-        return Order.findOne()
-          .then(function(_order) {
-            order = _order;
-            return chai.request(app).delete(`/orders/${order.id}`)
-            .set ('Authorization', 'Bearer ' + token);
-          })
-          .then(function(res) {
-            expect(res).to.have.status(204);
-            return Order.findById(order.id);
-          })
-          .then(function(_order) {
-            expect(_order).to.be.null;
-          });
-      });
-    });
-  });
 });
 
 
-  // NEED TO FIX 
-  describe('DELETE beverage order endpoint', function() {
+
+
+  // describe('DELETE endpoint', function() {
+      
+  //     it('delete a order by id', function() {
+  
+  //       let order;
+
+  //       let user = User.create({
+  //         name: faker.name.findName(),
+  //         email: faker.internet.email(),
+  //         password: faker.internet.password()
+  //       }).then(user => {
+  //       const token = createAuthToken(user.serialize()); 
+  
+  //       return Order.findOne()
+  //         .then(function(_order) {
+  //           order = _order;
+  //           return chai.request(app).delete(`/orders/${order.id}`)
+  //           .set ('Authorization', 'Bearer ' + token);
+  //         })
+  //         .then(function(res) {
+  //           expect(res).to.have.status(204);
+  //           return Order.findById(order.id);
+  //         })
+  //         .then(function(_order) {
+  //           expect(_order).to.be.null;
+  //         });
+  //     });
+  //   });
+  // });
+
+
+  // describe('DELETE beverage order endpoint', function() {
     
-    it('delete a beverage order by id', function() {
+  //   it('delete a beverage order by id', function() {
 
-      let beverage;
+  //     let beverage;
 
-      let user = User.create({
-        name: faker.name.findName(),
-        email: faker.internet.email(),
-        password: faker.internet.password()
-      }).then(user => {
-      const token = createAuthToken(user.serialize()); 
+  //     let user = User.create({
+  //       name: faker.name.findName(),
+  //       email: faker.internet.email(),
+  //       password: faker.internet.password()
+  //     }).then(user => {
+  //     const token = createAuthToken(user.serialize()); 
 
-      return Order.findOne()
-        .then(function(order) {
-          console.log(order, 'this is the order');
-          beverage = order.beverages;
-          return chai.request(app).delete(`/orders/${order.id}/beverages/${beverage.id}`)
-          .set ('Authorization', 'Bearer ' + token);
-        })
-        .then(function(res) {
-          expect(res).to.have.status(204);
-          return Beverage.findById(beverage.id);
-        })
-        .then(function(_beverage) {
-          expect(_beverage).to.be.null;
-        });
-      });
-    });
-  });
-// describe('DELETE dish order endpoint', function() {
+  //     return Order.findOne()
+  //       .then(function(order) {
+  //         console.log(order, 'this is the order');
+  //         beverage = order.beverages;
+  //         return chai.request(app).delete(`/orders/${order.id}/beverages/${beverage.id}`)
+  //         .set ('Authorization', 'Bearer ' + token);
+  //       })
+  //       .then(function(res) {
+  //         expect(res).to.have.status(204);
+  //         return Beverage.findById(beverage.id);
+  //       })
+  //       .then(function(_beverage) {
+  //         expect(_beverage).to.be.null;
+  //       });
+  //     });
+  //   });
+  // });
+
+//   describe('DELETE dish order endpoint', function() {
     
 //   it('delete a dish order by id', function() {
 

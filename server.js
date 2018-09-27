@@ -347,7 +347,7 @@ app.post("/orders", verifyUser, (req, res) => {
 
   User.findById(firstGuestId, (err, guest) => {
     if (err) {
-      res.status(404).send({ message: 'Can not find user' }); // if menu not found
+      res.status(404).send({ message: 'Can not find user' }); 
     } else { // if no error
     
     Order.create({
