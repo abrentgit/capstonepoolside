@@ -228,12 +228,12 @@ describe('Orders', function() {
 
   describe('PUT endpoint', function() {
     
-    it('should update fields you send over', function() {
+    it('should update fields you send over', function(done) {
       return generateOrderData().then(order => {
         const guestId = order.guests;
         User.findById(guestId,function(err, guest) {
         const token = createAuthToken(guest.serialize());
-        
+
         const updateData = {
           deliveryDate: faker.date.recent(),
           location: faker.lorem.words(),
@@ -250,13 +250,13 @@ describe('Orders', function() {
         })
         .then(function(res) {
           expect(res).to.have.status(204);
-
           return Order.findById(updateData.id);
         })
         .then(function(order) {
           expect(order.location).to.equal(updateData.location);
           expect(order.notes).to.equal(updateData.notes);
           expect(order.deliveryDate).to.equal(updateData.deliveryDate);
+          done();
         });
     });
   });
