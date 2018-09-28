@@ -9,36 +9,46 @@
     <link href="https://fonts.googleapis.com/css?family=Barlow+Condensed|Notable|Roboto" rel="stylesheet">
     <meta name="description" content="Checkout Form for Order Inn">
 </head>
-<body>
-    <header role="header">
-    <img class="logo" src="https://image.flaticon.com/icons/svg/108/108264.svg" alt="Cutlery" />
-    <h1>Checkout</h1>
-    <div class="order-form">
+    <body>
+        <header role="header">
+        <img class="logo" src="https://image.flaticon.com/icons/svg/108/108264.svg" alt="Cutlery" />
+        <h1>Checkout</h1>
+        </header>
+        <nav>
+            <ul>
+                <li><a href="orderdash.html">Home</a></li>
+                <li><a href="menu.html">Menu</a></li>
+            </ul>
+        </nav>
     <form>
         <fieldset>
         <legend>Order Summary</legend>
         <div class="order-items">
         </div>
-        <div>
+        <div class="delivery-date-field">
             <label for="party">Choose your delivery date:</label>
             <input type="date" placeholder="mm/dd/yyyy" id="delivery-date" name="delivery-date" min="2018-04-01" max="2020-04-30">
         </div>
-        <label for="delivery-time">Delivery Time: </label> 
-        <input type=time placeholder="7:00-23:00" id="delivery-time" min="7:00" max="23:00" name="delivery-time" required></label></p>
-        <label for="location-select">Choose location: </label>
-        <select id="locations">
-            <option value="">--Please choose an option--</option>
-            <option value="Pool-Bar">Pool Bar</option>
-            <option value="Lounge">Lounge</option>
-            <option value="Rooftop Lounge">Rooftop Lounge</option>
-        </select>
-        <label class="notes" for="comments"><textarea placeholder="Notes" name="notes" maxlength=1000></textarea></label></p>
-        <button id="confirm-order-btn" type="submit">Confirm Order</button>
-    </form>
+        <div class="delivery-time-field">
+            <label for="delivery-time-field">Delivery Time: </label> 
+             <input type=time placeholder="7:00-23:00" id="delivery-time" min="7:00" max="23:00" name="delivery-time" required></label></p>
+        </div>
+        <div class="location-drop-down">
+            <label for="location-select">Choose location: </label>
+        
+            <select id="locations">
+                <option value="">--Please choose an option--</option>
+                <option value="Pool-Bar">Pool Bar</option>
+                <option value="Lounge">Lounge</option>
+                <option value="Rooftop Lounge">Rooftop Lounge</option>
+            </select>
+        </div>
+        <div class="notes-field">
+            <label class="notes" for="comments"><textarea placeholder="Notes" name="notes" maxlength=1000></textarea></label></p>
+        </div>
+            <button id="confirm-order-btn" type="submit">CONFIRM ORDER</button>
         </fieldset>
     </form>
-    </div>
-    
 </body>
 <script src="index.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
