@@ -1,0 +1,45 @@
+* {box-sizing: border-box}
+
+body {
+    font-family: "Barlow Condensed", helvetica, sans-serif;
+    font-size: 70px;
+    background-color: #FAF7F3;
+}
+
+legend {
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 30px
+}
+
+.order-form {
+    width: 400px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.order-items {
+    margin-bottom: 30px;
+}
+
+#delivery-time {
+    margin-top: 30px;
+}
+
+.location {
+    margin-top: 30px;
+}
+
+.notes {
+    float: left;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+textarea {
+    position: relative;
+}
+
+#confirm-order-btn {
+    margin-top: 70px;
+}

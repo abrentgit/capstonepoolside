@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Checkout</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="checkout.css" />
+    <link href="sign_in.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Barlow+Condensed|Notable|Roboto" rel="stylesheet">
+    <meta name="description" content="Checkout Form for Order Inn">
+</head>
+<body>
+    <h1>Checkout</h1>
+    <header role=banner>
+    </header>
+    <div class="order-form">
+    <form>
+        <fieldset>
+        <legend>Order Summary</legend>
+        <div class="order-items">
+        </div>
+        <div>
+            <label for="party">Choose your delivery date:</label>
+            <input type="date" placeholder="mm/dd/yyyy" id="delivery-date" name="delivery-date" min="2018-04-01" max="2020-04-30">
+        </div>
+        <label for="delivery-time">Delivery Time: </label> 
+        <input type=time placeholder="7:00-23:00" id="delivery-time" min="7:00" max="23:00" name="delivery-time" required></label></p>
+        <label for="location-select">Choose location: </label>
+        <select id="locations">
+            <option value="">--Please choose an option--</option>
+            <option value="Pool-Bar">Pool Bar</option>
+            <option value="Lounge">Lounge</option>
+            <option value="Rooftop Lounge">Rooftop Lounge</option>
+        </select>
+        <label class="notes" for="comments"><textarea placeholder="Notes" name="notes" maxlength=1000></textarea></label></p>
+        <button id="confirm-order-btn" type="submit">Confirm Order</button>
+    </form>
+        </fieldset>
+    </form>
+    </div>
+    
+</body>
+<script src="index.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</html>
