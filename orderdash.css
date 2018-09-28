@@ -1,0 +1,25 @@
+* {box-sizing: border-box}
+
+body {
+    font-family: "Barlow Condensed", helvetica, sans-serif;
+    font-size: 70px;
+    background-color: #FAF7F3;
+}
+
+.order-list > li {
+    margin-bottom: 20px;
+    border: 1px solid grey;
+    padding: 20px;
+  }
+
+  h2 {
+    text-align: center;
+  }
+
+.logo {
+    display: block;
+    color: white;
+    width: auto;
+    height: 70px;
+    margin: 0 auto 30px;
+}
