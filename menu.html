@@ -4,36 +4,29 @@
 <title>Hotel Sublime Cafe Menu</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://fonts.googleapis.com/css?family=Barlow+Condensed|Roboto" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Barlow+Condensed|Notable|Roboto" rel="stylesheet">
 <link href="menu.css" rel="stylesheet" type="text/css" />
 <meta name="description" content="Hotel Sumblime's Fall/Winter Cafe Menu">
 
-<body>
+<body> 
+  <header>
+    <h1>KITCHEN MENU</h1>
+  </header>
     <nav class="menu">
         <nav>
-            <a href="index.html">Home</a>
-        </nav>      
-  <header>
-    <h1>KITCHEN MENU</h2>
-    <p>Open 24/7</p>
-  </header>
+           <a href="index.html">Home</a>
+    </nav>    
   <main>
+      <div class="dishes">
       <form>
           <fieldset>
           <legend>Eats</legend>
-            <div class="eats">
+            <div class="dish-items">
               <h2>Steak and Eggs</h2>
               <p>Served with salad and choice of dressing</p>
               <p>$18.00</p>
               <div>
                   <input type="checkbox" name="steak-eggs" id="steak-eggs">
-                  <input id="number" type="number" value="">
-              </div>
-              <h2>Brazilian Wrap</h2>
-              <p>Chicken and Brazilian samba rice in a tortilla, served with salad</p>
-              <p>$14.00</p>
-              <div>
-                  <input type="checkbox" name="brazilian-wrap" id="brazilian-wrap">
                   <input id="number" type="number" value="">
               </div>
               <h2>Hotel Deluxe Burger</h2>
@@ -51,14 +44,49 @@
                   <input id="number" type="number" value="">
               </div>
           </div>
-              <button type="submit" id="submit">Submit</button>
             </div>
           </fieldset>
-        </form>
-    <!-- <div id="Eats">
-      <h3><em>Chicken and Waffles</em></h3>
-      <p>Fried Chicken and Choice of Blueberry or Beligum Waffles</p>
-      <p>$12.50</p> -->
+      </form>
+    </div>
+    <div class="beverages">
+        <form>
+            <fieldset>
+            <legend>Drinks</legend>
+              <div class="beverage-items">
+                <h2>Paradise Clubhouse</h2>
+                <p>White Wine, Sangria, St. Germaine</p>
+                <p>$15.00</p>
+                <div>
+                    <input type="checkbox" name="collins" id="collins">
+                    <input id="number" type="number" value="">
+                </div>
+                <h2>Amber Refuge</h2>
+                <p>Coconut, Ginger, Lime Juice, non-alcoholic</p>
+                <p>$20.00</p>
+                <div>
+                    <input type="checkbox" name="amber" id="amber">
+                    <input id="number" type="number" value="">
+                </div>
+                <h2>The Lover Smoothie</h2>
+                <p>Acai, Banana, Apple, Maca, Gogi Berries</p>
+                <p>$12.00</p>
+                <div>
+                    <input type="checkbox" name="fish-tacos" id="fish-tacos">
+                    <input id="number" type="number" value="">
+                </div>
+                <h2>Cold Brew Special</h2>
+                <p>Cold Brew Black Tea, Grape Skin, Fresh Wood Smoke</p>
+                <p>$12.00</p>
+                <div>
+                    <input type="checkbox" name="fish-tacos" id="fish-tacos">
+                    <input id="number" type="number" value="">
+                </div>
+            </div>
+                <button type="submit" id="submit">Submit</button>
+              </div>
+            </fieldset>
+          </form>
+        </div>
   </div>
   </main>
  

@@ -7,6 +7,10 @@ body {
     text-align: center;
 }
 
+h1 {
+    font-family: "Notable", helvetica, sans-serif;
+}
+
 .menu {
     display: inline-block;
 }
