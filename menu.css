@@ -25,6 +25,8 @@ header p {
 
 nav {
     text-align: center;
+    font-size: 50px;
+    margin-bottom: 20px;
 }
 
 li {
@@ -42,7 +44,7 @@ legend {
     padding: 20px;
     text-align: center;
     font-style: italic;
-    font-size: 50px
+    font-size: 70px;
 }
 
 #number {
@@ -51,4 +53,41 @@ legend {
 
 #submit {
    margin-top: 50px;
+}
+
+form {
+    font-size: 50px;
+}
+
+delivery-time {
+    margin-top: 30px;
+}
+  
+#locations {
+    margin-top: 30px;
+    margin-bottom: 50px;
+}
+  
+.notes {
+    float: center;
+}
+
+#submit {
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+
+textarea {
+    width: 400px;
+    height: 100px;
+}
+
+#number {
+    width: 100px;
+    height: 80px;
+}
+
+input {
+    font-size: 30px;
+    text-align: center;
 }
