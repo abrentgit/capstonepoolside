@@ -1,0 +1,65 @@
+* {box-sizing: border-box}
+
+body {
+    font-family: "Barlow Condensed", helvetica, sans-serif;
+    font-size: 70px;
+    background-color: #FAF7F3;
+}
+
+nav ul {
+    font-size: 30px;
+    text-align: center;
+    margin: 0px;
+    padding: 0px;
+    padding-bottom: 40px;
+}
+
+nav li {
+    list-style-type: none;
+    display: inline-block;
+}
+
+legend {
+    text-align: center;
+    font-size: 60px;
+    margin-bottom: 30px
+}
+
+form {
+    width: 1000px;
+    font-size: 80px;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+
+.order-items {
+    margin-bottom: 30px;
+}
+
+#delivery-time {
+    margin-top: 30px;
+}
+
+#locations {
+    margin-top: 30px;
+    margin-bottom: 50px;
+}
+
+.notes {
+    float: center;
+}
+
+textarea {
+    width: 400px;
+    height: 100px;
+}
+
+#confirm-btn {
+    margin-top: 70px;
+    width: 500px;
+}
+
+button[type="submit"] {
+    font-size: 30px;
+}
