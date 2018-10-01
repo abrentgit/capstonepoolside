@@ -35,13 +35,17 @@ function seedOrderData() {
 
   // GENERATE FAKE ORDER
 function generateOrderData() {
+  console.log('hello order')
+  console.log(Promise);
   return User.create({
     name: faker.name.findName(),
     email: faker.internet.email(),
     password: faker.internet.password()
   }).then(user => {
+    console.log('hello order number 2')
     return Dish.create(generateDishData()).then(dish => {
       return Beverage.create(generateBeverageData()).then(beverage => {
+        console.log('hello order number 3')
         return {
           guests: `${user._id}`, 
           deliveryDate: faker.date.recent(),
@@ -52,30 +56,31 @@ function generateOrderData() {
        }
       })
     })
-  });  
+  }).catch(error => {
+    console.log(error, 'error here')
+  });
 }
+// function generateOrderDataWithPersistence() {
 
-function generateOrderDataWithPersistence() {
-
-  return User.create({
-    name: faker.name.findName(),
-    email: faker.internet.email(),
-    password: faker.internet.password()
-  }).then(user => {
-    return Dish.create(generateDishData()).then(dish => {
-      return Beverage.create(generateBeverageData()).then(beverage => {
-        return Order.create({
-          guests: [user], 
-          deliveryDate: faker.date.recent(),
-          location: faker.lorem.word(),
-          notes: faker.lorem.words(),
-          dishes: [dish],
-          beverages: [beverage]
-       })
-      })
-    })
-  });  
-}
+//   return User.create({
+//     name: faker.name.findName(),
+//     email: faker.internet.email(),
+//     password: faker.internet.password()
+//   }).then(user => {
+//     return Dish.create(generateDishData()).then(dish => {
+//       return Beverage.create(generateBeverageData()).then(beverage => {
+//         return Order.create({
+//           guests: [user], 
+//           deliveryDate: faker.date.recent(),
+//           location: faker.lorem.word(),
+//           notes: faker.lorem.words(),
+//           dishes: [dish],
+//           beverages: [beverage]
+//        })
+//       })
+//     })
+//   });  
+// }
 // function generateMenuData() {
 //   return {
 //     name: faker.lorem.word(),
@@ -175,8 +180,8 @@ describe('Orders', function() {
         return Order.findById(resOrder._id); //return's first order's ID
     })
       .then(function(order) {
-        console.log(order.beverages, 'order bevs');
-        console.log(resOrder.beverages, 'response bevs');
+        // console.log(order.beverages, 'order bevs');
+        // console.log(resOrder.beverages, 'response bevs');
         expect(resOrder._id).to.equal(order.id); // comparing order in database to the response order requested
         expect(new Date(resOrder.deliveryDate)).to.own.include(order.deliveryDate); // own include, non-primitives with same information
         expect(resOrder.location).to.equal(order.location);
@@ -185,8 +190,8 @@ describe('Orders', function() {
         expect(resOrder.dishes).to.have.deep.members(order.dishes);
       });
     });
-    });
-    });
+  });
+});
 
     // POST NEW ORDER 
 
@@ -228,73 +233,85 @@ describe('Orders', function() {
 
   describe('PUT endpoint', function() {
     
-    it('should update fields you send over', function(done) {
+    it('should update fields you send over', (done) => {
+      console.log(done);
       return generateOrderData().then(order => {
         const guestId = order.guests;
-        User.findById(guestId,function(err, guest) {
-        const token = createAuthToken(guest.serialize());
+        console.log(order.guests, 'this is order guests');
+        return User.findById(guestId,function(err, guest) {
+          const token = createAuthToken(guest.serialize());
 
-        const updateData = {
-          deliveryDate: faker.date.recent(),
-          location: faker.lorem.words(),
-          notes: faker.lorem.words()
-        };
-
-      return Order.findOne()
-        .then(function(order) {
-          updateData.id = order.id; // set update data id to order id found 
-          return chai.request(app)
-            .put(`/orders/${order.id}`)
-            .set ('Authorization', 'Bearer ' + token)
-            .send(updateData);
-        })
-        .then(function(res) {
-          expect(res).to.have.status(204);
-          return Order.findById(updateData.id);
-        })
-        .then(function(order) {
-          expect(order.location).to.equal(updateData.location);
-          expect(order.notes).to.equal(updateData.notes);
-          expect(order.deliveryDate).to.equal(updateData.deliveryDate);
+          const updateData = {
+            deliveryDate: faker.date.recent(),
+            location: faker.lorem.words(),
+            notes: faker.lorem.words()
+          };
+          console.log('hello');
           done();
-        });
+        
+
+        // return Order.findOne().then(function(order) {
+        //   updateData.id = order.id; // set update data id to order id found 
+        //   return chai.request(app)
+        //     .put(`/orders/${order.id}`)
+        //     .set ('Authorization', 'Bearer ' + token)
+        //     .send(updateData);
+        // })
+        // .then(function(res) {
+        //   expect(res).to.have.status(204);
+        //   return Order.findById(updateData.id);
+        // })
+        // .then(function(order) {
+        //   expect(order.location).to.equal(updateData.location);
+        //   expect(order.notes).to.equal(updateData.notes);
+        //   expect(order.deliveryDate).to.equal(updateData.deliveryDate);
+        //   done();
+        // });
+      });
+    }).catch(err => {
+      console.log('error happened');
+  
     });
-  });
   });
 });
 
+// how to get it to read the endpoint? 
 
-
-
-  // describe('DELETE endpoint', function() {
+  describe('DELETE endpoint', function() {
       
-  //     it('delete a order by id', function() {
-  
-  //       let order;
+      it('delete a order by id', function() {
 
-  //       let user = User.create({
-  //         name: faker.name.findName(),
-  //         email: faker.internet.email(),
-  //         password: faker.internet.password()
-  //       }).then(user => {
-  //       const token = createAuthToken(user.serialize()); 
+        return generateOrderData().then(order => {
+          const guestId = order.guests;
+          User.findById(guestId,function(err, guest) {
+          const token = createAuthToken(guest.serialize());
   
-  //       return Order.findOne()
-  //         .then(function(_order) {
-  //           order = _order;
-  //           return chai.request(app).delete(`/orders/${order.id}`)
-  //           .set ('Authorization', 'Bearer ' + token);
-  //         })
-  //         .then(function(res) {
-  //           expect(res).to.have.status(204);
-  //           return Order.findById(order.id);
-  //         })
-  //         .then(function(_order) {
-  //           expect(_order).to.be.null;
-  //         });
-  //     });
-  //   });
-  // });
+        let order;
+
+        // let user = User.create({
+        //   name: faker.name.findName(),
+        //   email: faker.internet.email(),
+        //   password: faker.internet.password()
+        // }).then(user => {
+        // const token = createAuthToken(user.serialize()); 
+  
+        return Order.findOne()
+          .then(function(foundOrder) {
+            order = foundOrder;
+            return chai.request(app).delete(`/orders/${order.id}`)
+            .set ('Authorization', 'Bearer ' + token);
+          })
+          .then(function(res) {
+            expect(res).to.have.status(204);
+            return Order.findById(order.id);
+          })
+          .then(function(foundOrder) {
+            expect(foundOrder).to.be.null;
+          });
+        });
+      });
+    });
+  });
 
 
   // describe('DELETE beverage order endpoint', function() {
