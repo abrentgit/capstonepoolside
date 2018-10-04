@@ -4,6 +4,7 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 const config = require('./config');
 // console.log('importing config', config); 
@@ -20,6 +21,7 @@ const jwt = require('jsonwebtoken');
 
 app.use(morgan("common"));
 app.use(express.json());
+app.use(cors());
 
 // PENDING OPTIMIZATION
 // const ordersRouter = require('./orderRouter');
