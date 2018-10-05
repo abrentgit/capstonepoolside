@@ -18,7 +18,7 @@ function performLogin() {
         // have to create a token to reference to
 
         const token = localStorage.getItem('token');
-
+        
         const data = {
             'email': `${email}`,
             'password': `${password}`,
@@ -26,8 +26,7 @@ function performLogin() {
         };
 
         console.log(data, 'hey this is working');
-        // USER SENDS TOKEN? 
-        // TOKEN NEEDS TO BE SENT BACK IN THE RESPONSE TO USER
+    
 
         return fetch('http://localhost:8080/login', { 
             method: 'POST',
