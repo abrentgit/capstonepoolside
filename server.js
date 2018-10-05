@@ -19,7 +19,7 @@ const saltRounds = 10;
 
 const jwt = require('jsonwebtoken');
 
-app.use(morgan("common"));
+app.use(morgan('common'));
 app.use(express.json());
 app.use(cors());
 
@@ -156,7 +156,7 @@ app.post("/guests", (req, res) => {
 
 app.post("/login", (req, res) => {
 	User.findOne({email: req.body.email}, function(err, user) {
-		if (err) { //if error finding email
+		if (err) { 
 			res.status(401).json({
 				error: "Invalid credentials"
 			});
