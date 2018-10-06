@@ -16,23 +16,20 @@ function performLogin() {
         const password = $('#user-password').val();
 
         // have to create a token to reference to
-
         const token = localStorage.getItem('token');
         
-        const data = {
+
+        const session = {
             'email': `${email}`,
             'password': `${password}`,
-            'token': `${token}`
+            'Authorization': `Bearer ${token}`
         };
-
-        console.log(data, 'hey this is working');
     
-
         return fetch('http://localhost:8080/login', { 
             method: 'POST',
-            data: data
+            session: session
         }).then(rawResponse => {
-            return rawResponse.json();
+           return rawResponse.json(); 
         }).then(response => {
             console.log('request worked', response);
             return response;
