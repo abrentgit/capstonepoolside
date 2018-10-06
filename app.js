@@ -22,17 +22,19 @@ function performLogin() {
         const session = {
             'email': `${email}`,
             'password': `${password}`,
-            'Authorization': `Bearer ${token}`
         };
     
         return fetch('http://localhost:8080/login', { 
             method: 'POST',
             session: session
         }).then(rawResponse => {
-           return rawResponse.json(); 
+            return rawResponse.json(); 
         }).then(response => {
             console.log('request worked', response);
             return response;
+        }).then(token => {
+            const token = localStorage.getItem('token');
+            // SET TO TOKEN TO SESSION? 
         }).catch(error => {
             console.log('an error occured', error);
         });
