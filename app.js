@@ -118,11 +118,15 @@ function getMenu() {
             return response;
         }).then(response => {
             let menu = response.menus[0]; //response object, menu is first index
-            let name = menu.name; 
-            let dishes = menu.dishes;
-            let beverages = menu.beverages;
-            
-            
+            let dishes = menu.dishes; // array of objects, each object is a dish
+            let beverages = menu.beverages; //array of objects
+
+            const dishObj = // filter individual objs 
+            }
+
+            let values = Object.values(dishObj);
+            console.log(values); 
+        
         }).catch(error => {
             console.log('an error occured', error);
         });
