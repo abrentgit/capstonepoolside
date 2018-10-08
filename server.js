@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const express = require('express');
 const app = express();
@@ -35,7 +35,7 @@ const createAuthToken = function(user) {
 		subject: user.email,
 		audience: user.role,
 		expiresIn: config.JWT_EXPIRY,
-		algorithm: "HS256"
+		algorithm: 'HS256'
 	});
 };
 
@@ -93,8 +93,8 @@ const verifyAdminUser = function (req, res, next) {
 
 // REGISTER ADMIN 
 
-app.post("/admin", (req, res) => {
-	const requiredFields = ["name", "email", "password"];
+app.post('/admin', (req, res) => {
+	const requiredFields = ['name', 'email', 'password'];
 	for (let i = 0; i < requiredFields.length; i++) {
 		const field = requiredFields[i];
 		if (!(field in req.body)) {
@@ -118,14 +118,13 @@ app.post("/admin", (req, res) => {
 		})
 		.catch(err => {
 			console.log(err);
-			res.status(422).json({ message: "Something went wrong" });
+			res.status(422).json({ message: 'Something went wrong' });
 		});
 });
 
-
 // REGISTER FOR GUEST
-app.post("/guests", (req, res) => {
-	const requiredFields = ["name", "password", "email"];
+app.post('/guests', (req, res) => {
+	const requiredFields = ['name', 'password', 'email'];
 	for (let i = 0; i < requiredFields.length; i++) {
 		const field = requiredFields[i];
 		if (!(field in req.body)) {
@@ -148,23 +147,26 @@ app.post("/guests", (req, res) => {
 		})
 		.catch(err => {
 			console.log(err);
-			res.status(422).json({ message: "Something went wrong" });
+			res.status(422).json({ message: 'Something went wrong' });
 		});
 });
 
 // GUEST USER login
 
-app.post("/login", (req, res) => {
+app.post('/login', (req, res) => {
 	User.findOne({email: req.body.email}, function(err, user) {
+		console.log('error', err);
+		console.log('user', user);
+		console.log(req.body.email);
 		if (err) { 
 			res.status(401).json({
-				error: "Invalid credentials"
+				error: 'Invalid credentials'
 			});
 		}
 
 		if (!user) { // if no guest found
 			res.status(404).json({
-				error: "Invalid credentials"
+				error: 'Invalid credentials'
 			});
 		} else {
 
@@ -172,7 +174,7 @@ app.post("/login", (req, res) => {
 
 			if (!validPassword) { //if pass doesn't match
 				res.status(401).json({
-					error: "Invalid credentials"
+					error: 'Invalid credentials'
 				});
 			} else {
 				const authToken = createAuthToken(user.serialize());
@@ -184,17 +186,17 @@ app.post("/login", (req, res) => {
 
 // LOGIN ADMIN
 
-app.post("/login/admin", (req, res) => {
+app.post('/login/admin', (req, res) => {
 	User.findOne({email: req.body.email}, function(err, user) {
 		if (err) { //if error finding email
 			res.status(401).json({
-				error: "Invalid credentials"
+				error: 'Invalid credentials'
 			});
 		}
 
 		if (!user) { // if no guest found
 			res.status(404).json({
-				error: "Invalid credentials"
+				error: 'Invalid credentials'
 			});
 		} else {
 
@@ -202,7 +204,7 @@ app.post("/login/admin", (req, res) => {
 
 			if (!validPassword) { //if pass doesn't match
 				res.status(401).json({
-					error: "Invalid credentials"
+					error: 'Invalid credentials'
 				});
 			} else {
 				const authToken = createAuthToken(user.serialize());
@@ -219,7 +221,7 @@ app.post("/login/admin", (req, res) => {
 // PLEASE PUT BACK VERIFY ADMIN MIDDLEWARE
 // VERIFY ADMIN NEEDS TO BE PUT BACK
 
-app.get("/orders", verifyUser, (req, res) => {
+app.get('/orders', verifyUser, (req, res) => {
 		const perPage = 3;
 		const currentPage = req.query.page || 1;
 	
@@ -232,7 +234,7 @@ app.get("/orders", verifyUser, (req, res) => {
 				});
 			})
 			.catch(err => {
-				res.status(500).json({ message: "Internal server error" });
+				res.status(500).json({ message: 'Internal server error' });
 			});
 	});
 
@@ -240,22 +242,22 @@ app.get("/orders", verifyUser, (req, res) => {
 // get orders by id
 // WORKS!!*
 
-app.get("/orders/:id", verifyUser, (req, res) => {
+app.get('/orders/:id', verifyUser, (req, res) => {
 	Order.findById(req.params.id)
 		.then(order => res.json(order.serialize()))
 		.catch(err => {
 			console.error(err);
-			res.status(500).json({ error: "Something went horribly wrong" });
+			res.status(500).json({ error: 'Something went horribly wrong' });
 		});
 });
 
 // GET AN ORDER'S BEVS
 // WORKS!!!*
 
-app.get("/orders/:id/beverages", verifyUser, (req, res) => {
+app.get('/orders/:id/beverages', verifyUser, (req, res) => {
 	Order.findById(req.params.id, function(errOrder, order) {
 		if (errOrder) {
-			res.status(404).json({ message: "Can not find order" });
+			res.status(404).json({ message: 'Can not find order' });
 		} else {
 			res.json({
 				beverages: order.beverages.map(beverage => beverage.serialize())
@@ -267,10 +269,10 @@ app.get("/orders/:id/beverages", verifyUser, (req, res) => {
 // GET ALL DISHES IN AN ORDER
 // WORKS!!*
 
-app.get("/orders/:id/dishes", verifyUser, (req, res) => {
+app.get('/orders/:id/dishes', verifyUser, (req, res) => {
 	Order.findById(req.params.id, function(errOrder, order) {
 		if (errOrder) {
-			res.status(404).json({ message: "Can not find order" });
+			res.status(404).json({ message: 'Can not find order' });
 		} else {
 			res.json({
 				dishes: order.dishes.map(dish => dish.serialize())
@@ -283,15 +285,15 @@ app.get("/orders/:id/dishes", verifyUser, (req, res) => {
 // STAFF
 // WORKS!!!!*
 
-app.get("/orders/:id/dishes/:dish_id", verifyUser, (req, res) => {
+app.get('/orders/:id/dishes/:dish_id', verifyUser, (req, res) => {
 	Order.findById(req.params.id, function(errOrder, order) {
 		if (errOrder) {
-			res.status(404).json({ message: "can not find order" });
+			res.status(404).json({ message: 'can not find order' });
 		} else {
 			let found = order.dishes.find(dish => dish.id === req.params.dish_id);
 
 			if (found === false) {
-				res.status(404).json({ message: "can not find dish" });
+				res.status(404).json({ message: 'Can not find dish' });
 			} else {
 				const filtered = order.dishes.filter(
 					dish => dish.id === req.params.dish_id
@@ -306,17 +308,17 @@ app.get("/orders/:id/dishes/:dish_id", verifyUser, (req, res) => {
 // get a beverage in a order
 // WORKS!!!!*
 
-app.get("/orders/:id/beverages/:beverage_id", verifyUser, (req, res) => {
+app.get('/orders/:id/beverages/:beverage_id', verifyUser, (req, res) => {
 	Order.findById(req.params.id, function(errOrder, order) {
 		if (errOrder) {
-			res.status(404).json({ message: "can not find order" });
+			res.status(404).json({ message: 'Can not find order' });
 		} else {
 			let found = order.beverages.find(
 				beverage => beverage.id === req.params.beverage_id
 			);
 
 			if (found === false) {
-				res.status(404).json({ message: "can not find dish" });
+				res.status(404).json({ message: 'Can not find dish' });
 			} else {
 				const filtered = order.beverages.filter(
 					beverage => beverage.id === req.params.beverage_id
@@ -332,10 +334,8 @@ app.get("/orders/:id/beverages/:beverage_id", verifyUser, (req, res) => {
 // GUEST ONLY 
 // WORKS!!**
 
-// PLEASE RE-ADD VERIFY USER
-
-app.post("/orders", verifyUser, (req, res) => {
-	const requiredFields = ["guests", "deliveryDate", "location", "notes"];
+app.post('/orders', verifyUser, (req, res) => {
+	const requiredFields = ['guests', 'deliveryDate', 'location', 'notes'];
 	for (let i = 0; i < requiredFields.length; i++) {
 		const field = requiredFields[i];
 		if (!(field in req.body)) {
@@ -362,7 +362,7 @@ app.post("/orders", verifyUser, (req, res) => {
 		.then(order => res.status(201).json(order.serialize()))
 		.catch(err => {
 			console.error(err);
-			res.status(500).json({ error: "Something went wrong" });
+			res.status(500).json({ error: 'Something went wrong' });
 		});
 	}
 });
@@ -373,15 +373,15 @@ app.post("/orders", verifyUser, (req, res) => {
 // GUEST 
 // WORKS !!!*
 
-app.put("/orders/:id", verifyUser, (req, res) => {
+app.put('/orders/:id', verifyUser, (req, res) => {
 	if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
 		res.status(400).json({
-			error: "Request path id and request body id values must match"
+			error: 'Request path id and request body id values must match'
 		});
 	}
 
 	const updated = {};
-	const updateableFields = ["deliveryDate", "location", "notes"];
+	const updateableFields = ['deliveryDate', 'location', 'notes'];
 	updateableFields.forEach(field => {
 		if (field in req.body) {
 			updated[field] = req.body[field];
@@ -390,30 +390,30 @@ app.put("/orders/:id", verifyUser, (req, res) => {
 
 	Order.findByIdAndUpdate(req.params.id, updated)
 		.then(updatedOrder => res.status(204).end())
-		.catch(err => res.status(500).json({ message: "Something went wrong" }));
+		.catch(err => res.status(500).json({ message: 'Something went wrong' }));
 });
 
 // DELETE ORDER BY ID
 /// WORKS!!*
 
-app.delete("/orders/:id", verifyUser, (req, res) => {
+app.delete('/orders/:id', verifyUser, (req, res) => {
 	Order.findByIdAndRemove(req.params.id)
 		.then(order => res.status(200).send())
-		.catch(err => res.status(500).json({ message: "Internal server error" }));
+		.catch(err => res.status(500).json({ message: 'Internal server error' }));
 });
 
 // DELETE DISH ORDER BY ID
 // WORKING!!!!!!*
 
-app.delete("/orders/:id/dishes/:dish_id", verifyUser, (req, res) => {
+app.delete('/orders/:id/dishes/:dish_id', verifyUser, (req, res) => {
 	Order.findById(req.params.id, function(errOrder, order) {
 		if (errOrder) {
-			res.status(404).json({ message: "Can not find order" });
+			res.status(404).json({ message: 'Can not find order' });
 		} else {
 			let found = order.dishes.find(dish => dish.id === req.params.dish_id);
 
 			if (found === false) {
-				res.status(422).json({ message: "Can not find dish" });
+				res.status(422).json({ message: 'Can not find dish' });
 			} else {
 				const filtered = order.dishes.filter(
 					dish => dish.id !== req.params.dish_id
@@ -422,7 +422,7 @@ app.delete("/orders/:id/dishes/:dish_id", verifyUser, (req, res) => {
 			}
 			order.save(function(errSave, updatedOrder) {
 				if (errSave) {
-					res.status(422).json({ message: "Can not save order" }); //
+					res.status(422).json({ message: 'Can not save order' }); //
 				} else {
 					res.status(200).json(updatedOrder);
 				}
@@ -434,18 +434,18 @@ app.delete("/orders/:id/dishes/:dish_id", verifyUser, (req, res) => {
 // DELETE BEVERAGE ORDER BY ID
 // WORKS !!!!*
 
-app.delete("/orders/:id/beverages/:beverage_id", verifyUser, (req, res) => {
+app.delete('/orders/:id/beverages/:beverage_id', verifyUser, (req, res) => {
 	console.log('request handler arrived');
 	Order.findById(req.params.id, function(errOrder, order) {
 		if (errOrder) {
-			res.status(404).json({ message: "Can not find order" });
+			res.status(404).json({ message: 'Can not find order' });
 		} else {
 			let found = order.beverages.find(
 				beverage => beverage.id === req.params.beverage_id
 			);
 
 			if (found === false) {
-				res.status(422).json({ message: "Can not find beverage" });
+				res.status(422).json({ message: 'Can not find beverage' });
 			} else {
 				const filtered = order.beverages.filter(
 					beverage => beverage.id !== req.params.beverage_id
@@ -456,7 +456,7 @@ app.delete("/orders/:id/beverages/:beverage_id", verifyUser, (req, res) => {
 			order.save(function(errSave, updatedOrder) {
 				// related to order save
 				if (errSave) {
-					res.status(422).json({ message: "Could not save order" });
+					res.status(422).json({ message: 'Could not save order' });
 				} else {
 					res.status(200).json(updatedOrder); // new order is saved and updated
 				}
@@ -468,15 +468,15 @@ app.delete("/orders/:id/beverages/:beverage_id", verifyUser, (req, res) => {
 // UPDATE ORDER WITH A BEVERAGE
 //  WORKS!!!***
 
-app.put("/orders/:id/beverages/:beverage_id", verifyUser, (req, res) => {
+app.put('/orders/:id/beverages/:beverage_id', verifyUser, (req, res) => {
 	if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
 		res.status(400).json({
-			error: "Request path id and request body id values must match"
+			error: 'Request path id and request body id values must match'
 		});
 	}
 
 	if (!(req.params.beverage_id && req.body.beverage_id && req.params.beverage_id === req.body.beverage_id)) {
-		res.status(400).json({error: "Request path beverage id and request beverage body id values must match"});
+		res.status(400).json({error: 'Request path beverage id and request beverage body id values must match'});
 	}
 
 	Order.findById(req.params.id, function(errOrder, order) {
@@ -486,17 +486,17 @@ app.put("/orders/:id/beverages/:beverage_id", verifyUser, (req, res) => {
 					order.beverages.push(beverage);
 					order.save(function(errSave, updatedOrder) {
 						if (errSave) {
-							res.status(422).json({ message: "Could not add beverage" });
+							res.status(422).json({ message: 'Could not add beverage' });
 						} else {
 							res.status(200).json(updatedOrder);
 						}
 					});
 				} else {
-					res.status(404).json({ message: "Could not find beverage" });
+					res.status(404).json({ message: 'Could not find beverage' });
 				}
 			});
 		} else {
-			res.status(404).json({ message: "Could not find order" });
+			res.status(404).json({ message: 'Could not find order' });
 		}
 	});
 });
@@ -504,15 +504,15 @@ app.put("/orders/:id/beverages/:beverage_id", verifyUser, (req, res) => {
 /// update a order with a dish
 // THIS WORKS!***
 
-app.put("/orders/:id/dishes/:dish_id", verifyUser, (req, res) => {
+app.put('/orders/:id/dishes/:dish_id', verifyUser, (req, res) => {
 	if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
 		res.status(400).json({
-			error: "Request path id and request body id values must match"
+			error: 'Request path id and request body id values must match'
 		});
 	}
 
 	if (!(req.params.dish_id && req.body.dish_id && req.params.dish_id === req.body.dish_id)) {
-		res.status(400).json({ error: "Request path dish id and request body dish id values must match" });
+		res.status(400).json({ error: 'Request path dish id and request body dish id values must match' });
 	}
 
 	Order.findById(req.params.id, function(errOrder, order) {
@@ -522,17 +522,17 @@ app.put("/orders/:id/dishes/:dish_id", verifyUser, (req, res) => {
 					order.dishes.push(dish);
 					order.save(function(errSave, updatedOrder) {
 						if (errSave) {
-							res.status(422).json({ message: "Could not add dish" });
+							res.status(422).json({ message: 'Could not add dish' });
 						} else {
 							res.status(200).json(updatedOrder);
 						}
 					});
 				} else {
-					res.status(404).json({ message: "Could not find dish" });
+					res.status(404).json({ message: 'Could not find dish' });
 				}
 			});
 		} else {
-			res.status(404).json({ message: "Could not find order" });
+			res.status(404).json({ message: 'Could not find order' });
 		}
 	});
 });
@@ -540,7 +540,7 @@ app.put("/orders/:id/dishes/:dish_id", verifyUser, (req, res) => {
 // get menus
 // WORKS*
 
-app.get("/menus", verifyAdminUser, (req, res) => {
+app.get('/menus', verifyAdminUser, (req, res) => {
 	const perPage = 2;
 	const currentPage = req.query.page || 1;
 
@@ -554,19 +554,19 @@ app.get("/menus", verifyAdminUser, (req, res) => {
 		})
 		.catch(err => {
 			console.error(err);
-			res.status(500).json({ message: "Internal server error" });
+			res.status(500).json({ message: 'Internal server error' });
 		});
 });
 
 // get menus by ID
 // WORKS*
 
-app.get("/menus/menu_id/:id", verifyUser, (req, res) => {
+app.get('/menus/menu_id/:id', verifyUser, (req, res) => {
 	Menu.findById(req.params.id)
 		.then(menu => res.json(menu.serialize()))
 		.catch(err => {
 			console.error(err);
-			res.status(500).json({ error: "something went horribly awry" });
+			res.status(500).json({ error: 'something went horribly awry' });
 		});
 });
 
@@ -575,7 +575,7 @@ app.get("/menus/menu_id/:id", verifyUser, (req, res) => {
 // GET ALL DISHES IN A MENU
 // WORKS ****
 
-app.get("/menus/:id/dishes", verifyUser, (req, res) => {
+app.get('/menus/:id/dishes', verifyUser, (req, res) => {
 	Menu.findById(req.params.id, function(errMenu, menu) {
 		if (!errMenu) {
 			const perPage = 2;
@@ -588,7 +588,7 @@ app.get("/menus/:id/dishes", verifyUser, (req, res) => {
 				dishes: dishes.map(dish => dish.serialize())
 			});
 		} else {
-			res.status(404).json({ message: "can not find menu" });
+			res.status(404).json({ message: 'can not find menu' });
 		}
 	});
 });
@@ -598,7 +598,7 @@ app.get("/menus/:id/dishes", verifyUser, (req, res) => {
 
 // WORKING***
 
-app.get("/menus/:id/beverages", verifyUser, (req, res) => {
+app.get('/menus/:id/beverages', verifyUser, (req, res) => {
 	Menu.findById(req.params.id, function(errMenu, menu) {
 		if (!errMenu) {
 			const perPage = 2;
@@ -611,7 +611,7 @@ app.get("/menus/:id/beverages", verifyUser, (req, res) => {
 				beverages: beverages.map(beverage => beverage.serialize())
 			});
 		} else {
-			res.json(404).json({ message: "can not find menu" });
+			res.json(404).json({ message: 'can not find menu' });
 		}
 	});
 });
@@ -621,17 +621,17 @@ app.get("/menus/:id/beverages", verifyUser, (req, res) => {
 
 // WORKING !!!!!***
 
-app.get("/menus/:id/dishes/:dish_id", verifyUser, (req, res) => {
+app.get('/menus/:id/dishes/:dish_id', verifyUser, (req, res) => {
 	Menu.findById(req.params.id, function(errMenu, menu) {
 		if (errMenu) {
-			res.status(404).json({ message: "can not find menu" }); // no menu found
+			res.status(404).json({ message: 'can not find menu' }); // no menu found
 		} else {
 			// if no error and menu exists, find the dish id in the menu
 			let found = menu.dishes.find(dish => dish.id === req.params.dish_id);
 
 			if (found === false) {
 				// if can't find the dish in the mneu
-				res.status(404).json({ message: "can not find dish" });
+				res.status(404).json({ message: 'can not find dish' });
 			} else {
 				// if you do find the dish in the menu
 				// we want to get the dish_id so filter it out
@@ -650,10 +650,10 @@ app.get("/menus/:id/dishes/:dish_id", verifyUser, (req, res) => {
 
 // WORKS!!!!***
 
-app.get("/menus/:id/beverages/:beverage_id", verifyUser, (req, res) => {
+app.get('/menus/:id/beverages/:beverage_id', verifyUser, (req, res) => {
 	Menu.findById(req.params.id, function(errMenu, menu) {
 		if (errMenu) {
-			res.status(404).json({ message: "can not find menu" }); // no menu found
+			res.status(404).json({ message: 'can not find menu' }); // no menu found
 		} else {
 			// if no error and menu exists, find the bev id in the menu
 			let found = menu.beverages.find(
@@ -662,7 +662,7 @@ app.get("/menus/:id/beverages/:beverage_id", verifyUser, (req, res) => {
 
 			if (found === false) {
 				// if can't find the dish in the mneu
-				res.status(404).json({ message: "can not find beverage" });
+				res.status(404).json({ message: 'can not find beverage' });
 			} else {
 				const filtered = menu.beverages.filter(
 					beverage => beverage.id === req.params.beverage_id
@@ -678,15 +678,15 @@ app.get("/menus/:id/beverages/:beverage_id", verifyUser, (req, res) => {
 // STAFF ONLY++
 // put menus by ID , can use to update individual items to menu
 
-app.put("/menus/:id", verifyAdminUser, (req, res) => {
+app.put('/menus/:id', verifyAdminUser, (req, res) => {
 	if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
 		res.status(400).json({
-			error: "Request path id and request body id values must match"
+			error: 'Request path id and request body id values must match'
 		});
 	}
 
 	const updated = {};
-	const updateableFields = ["name"];
+	const updateableFields = ['name'];
 	updateableFields.forEach(field => {
 		if (field in req.body) {
 			updated[field] = req.body[field];
@@ -695,7 +695,7 @@ app.put("/menus/:id", verifyAdminUser, (req, res) => {
 
 	Menu.findByIdAndUpdate(req.params.id, updated)
 		.then(updatedMenu => res.status(204).end())
-		.catch(err => res.status(500).json({ message: "Something went wrong" }));
+		.catch(err => res.status(500).json({ message: 'Something went wrong' }));
 });
 
 // UPDATE AND ADD A DISH BY ID TO MENU
@@ -704,16 +704,16 @@ app.put("/menus/:id", verifyAdminUser, (req, res) => {
 // WORKS!!
 
 
-app.put("/menus/:id/dishes/:dish_id", verifyAdminUser, (req, res) => {
+app.put('/menus/:id/dishes/:dish_id', verifyAdminUser, (req, res) => {
 	if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
 		res.status(400).json({
-			error: "Request path id and request body id values must match"
+			error: 'Request path id and request body id values must match'
 		});
 	}
 
 	if (!(req.params.dish_id && req.body.dish_id && req.params.dish_id === req.body.dish_id)) {
 		res.status(400).json({
-			error: "Request dish path id and request body dish id values must match"
+			error: 'Request dish path id and request body dish id values must match'
 		});
 	}
 
@@ -724,17 +724,17 @@ app.put("/menus/:id/dishes/:dish_id", verifyAdminUser, (req, res) => {
 					menu.dishes.push(dish);
 					menu.save(function(errSave, updatedMenu) {
 						if (errSave) {
-							res.status(422).json({ message: "Could not add dish" });
+							res.status(422).json({ message: 'Could not add dish' });
 						} else {
 							res.status(200).json(updatedMenu);
 						}
 					});
 				} else {
-					res.status(404).json({ message: "Could not find dish" });
+					res.status(404).json({ message: 'Could not find dish' });
 				}
 			});
 		} else {
-			res.status(404).json({ message: "Could not find menu" });
+			res.status(404).json({ message: 'Could not find menu' });
 		}
 	});
 });
@@ -743,13 +743,13 @@ app.put("/menus/:id/dishes/:dish_id", verifyAdminUser, (req, res) => {
 // STAFF ONLY++
 // WORKS!!**
 
-app.put("/menus/:id/beverages/:beverage_id", verifyAdminUser, (req, res) => {
+app.put('/menus/:id/beverages/:beverage_id', verifyAdminUser, (req, res) => {
 	if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
-		res.status(400).json({ error: "Request path id and request body id values must match" });
+		res.status(400).json({ error: 'Request path id and request body id values must match' });
 	}
 
 	if (!(req.params.beverage_id && req.body.beverage_id && req.params.beverage_id === req.body.beverage_id)) {
-		res.status(400).json({ error: "Request path beverage id and request body beverage id values must match" });
+		res.status(400).json({ error: 'Request path beverage id and request body beverage id values must match' });
 	}
 
 	Menu.findById(req.params.id, function(errMenu, menu) {
@@ -759,17 +759,17 @@ app.put("/menus/:id/beverages/:beverage_id", verifyAdminUser, (req, res) => {
 					menu.beverages.push(beverage);
 					menu.save(function(errSave, updatedMenu) {
 						if (errSave) {
-							res.status(422).json({ message: "Could not add beverage" });
+							res.status(422).json({ message: 'Could not add beverage' });
 						} else {
 							res.status(200).json(updatedMenu);
 						}
 					});
 				} else {
-					res.status(404).json({ message: "Could not find beverage" });
+					res.status(404).json({ message: 'Could not find beverage' });
 				}
 			});
 		} else {
-			res.status(404).json({ message: "Could not find menu" });
+			res.status(404).json({ message: 'Could not find menu' });
 		}
 	});
 });
@@ -778,25 +778,25 @@ app.put("/menus/:id/beverages/:beverage_id", verifyAdminUser, (req, res) => {
 // STAFF ONLY++
 // WORKS!****
 
-app.delete("/menus/:id", verifyAdminUser, (req, res) => {
+app.delete('/menus/:id', verifyAdminUser, (req, res) => {
 	Menu.findByIdAndRemove(req.params.id)
 		.then(menu => res.status(204).end())
-		.catch(err => res.status(500).json({ message: "Internal server error" }));
+		.catch(err => res.status(500).json({ message: 'Internal server error' }));
 });
 
 // DELETE DISH BY ID IN A MENU
 // STAFF ONLY++
 // WORKING**
 
-app.delete("/menus/:id/dishes/:dish_id", verifyAdminUser, (req, res) => {
+app.delete('/menus/:id/dishes/:dish_id', verifyAdminUser, (req, res) => {
 	Menu.findById(req.params.id, function(errMenu, menu) {
 		if (errMenu) {
-			res.status(404).json({ message: "can not find menu" });
+			res.status(404).json({ message: 'can not find menu' });
 		} else {
 			let found = menu.dishes.find(dish => dish.id === req.params.dish_id);
 
 			if (found === false) {
-				res.status(422).json({ message: "can not find dish" });
+				res.status(422).json({ message: 'can not find dish' });
 			} else {
 				const filtered = menu.dishes.filter(dish => dish.id !== req.params.dish_id);
 				menu.dishes = filtered;
@@ -815,17 +815,17 @@ app.delete("/menus/:id/dishes/:dish_id", verifyAdminUser, (req, res) => {
 // DELETE MENU BEVERAGE BY ID
 // STAFF ONLY++
 // WORKING**
-app.delete("/menus/:id/beverages/:beverage_id", verifyAdminUser, (req, res) => {
+app.delete('/menus/:id/beverages/:beverage_id', verifyAdminUser, (req, res) => {
 	Menu.findById(req.params.id, function(errMenu, menu) {
 		if (errMenu) {
-			res.status(404).json({ message: "can not find menu" });
+			res.status(404).json({ message: 'can not find menu' });
 		} else {
 			let found = menu.beverages.find(
 				beverage => beverage.id === req.params.beverage_id);
 
 			if (found === false) {
 				// if no beverage found
-				res.status(422).json({ message: "beverage not found" });
+				res.status(422).json({ message: 'beverage not found' });
 			} else {
 				// if bev is found then I filter , if its not the bev id im trying to delete, put in new arr
 				const filtered = menu.beverages.filter(beverage => beverage.id !== req.params.beverage_id);
@@ -846,8 +846,8 @@ app.delete("/menus/:id/beverages/:beverage_id", verifyAdminUser, (req, res) => {
 // STAFF ONLY++
 // WORKS!!**
 
-app.post("/menus", verifyAdminUser, (req, res) => {
-	const requiredFields = ["name"];
+app.post('/menus', verifyAdminUser, (req, res) => {
+	const requiredFields = ['name'];
 	for (let i = 0; i < requiredFields.length; i++) {
 		const field = requiredFields[i];
 		if (!(field in req.body)) {
@@ -863,7 +863,7 @@ app.post("/menus", verifyAdminUser, (req, res) => {
 		.then(menu => res.status(201).json(menu.serialize()))
 		.catch(err => {
 			console.error(err);
-			res.status(500).json({ error: "Something went wrong" });
+			res.status(500).json({ error: 'Something went wrong' });
 		});
 });
 
@@ -871,8 +871,8 @@ app.post("/menus", verifyAdminUser, (req, res) => {
 // STAFF ONLY++
 // WORKS!!**
 
-app.post("/beverages", verifyAdminUser, (req, res) => {
-	const requiredFields = ["name", "description", "price"];
+app.post('/beverages', verifyAdminUser, (req, res) => {
+	const requiredFields = ['name', 'description', 'price'];
 	for (let i = 0; i < requiredFields.length; i++) {
 		const field = requiredFields[i];
 		if (!(field in req.body)) {
@@ -890,7 +890,7 @@ app.post("/beverages", verifyAdminUser, (req, res) => {
 		.then(beverage => res.status(201).json(beverage.serialize()))
 		.catch(err => {
 			console.error(err);
-			res.status(500).json({ error: "Something went wrong" });
+			res.status(500).json({ error: 'Something went wrong' });
 		});
 });
 
@@ -898,8 +898,8 @@ app.post("/beverages", verifyAdminUser, (req, res) => {
 // STAFF ONLY++
 // WORKS!!**
 
-app.post("/dishes", verifyAdminUser, (req, res) => {
-	const requiredFields = ["name", "description", "price"];
+app.post('/dishes', verifyAdminUser, (req, res) => {
+	const requiredFields = ['name', 'description', 'price'];
 	for (let i = 0; i < requiredFields.length; i++) {
 		const field = requiredFields[i];
 		if (!(field in req.body)) {
@@ -917,18 +917,18 @@ app.post("/dishes", verifyAdminUser, (req, res) => {
 		.then(dish => res.status(201).json(dish.serialize()))
 		.catch(err => {
 			console.error(err);
-			res.status(500).json({ error: "Something went wrong" });
+			res.status(500).json({ error: 'Something went wrong' });
 		});
 });
 
-app.use("*", function(req, res) {
-	res.status(404).json({ message: "Not Found" });
+app.use('*', function(req, res) {
+	res.status(404).json({ message: 'Not Found' });
 });
 
 let server;
 
 function runServer(databaseUrl, port = PORT) {
-	console.log("server is running on", databaseUrl);
+	console.log('server is running on', databaseUrl);
 	return new Promise((resolve, reject) => {
 		mongoose.connect(databaseUrl,{ useNewUrlParser: true },err => {
 				if (err) {
@@ -938,7 +938,7 @@ function runServer(databaseUrl, port = PORT) {
 						console.log(`Your app is listening on port ${port}`);
 						resolve();
 					})
-					.on("error", err => {
+					.on('error', err => {
 						mongoose.disconnect();
 						reject(err);
 					});
@@ -950,7 +950,7 @@ function runServer(databaseUrl, port = PORT) {
 function closeServer() {
 	return mongoose.disconnect().then(() => {
 		return new Promise((resolve, reject) => {
-			console.log("Closing server");
+			console.log('Closing server');
 			server.close(err => {
 				if (err) {
 					return reject(err);

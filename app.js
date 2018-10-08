@@ -2,6 +2,7 @@
 function main() {
     console.log('loading app.js');
     performLogin();
+    postOrder();
 }
 $(main);
 
@@ -14,11 +15,7 @@ function performLogin() {
 
         const email = $('#user-email').val();
         const password = $('#user-password').val();
-
-        // have to create a token to reference to
-        const token = localStorage.getItem('token');
         
-
         const session = {
             'email': `${email}`,
             'password': `${password}`,
@@ -36,30 +33,84 @@ function performLogin() {
             return rawResponse.json(); 
         }).then(response => {
             console.log('request worked', response);
+            const { authToken } = response;
+            localStorage.setItem('token', authToken);
             return response;
-        // }).then(token => {
-        //     const token = localStorage.getItem('token');
-        //     // SET TO TOKEN TO SESSION? 
         }).catch(error => {
             console.log('an error occured', error);
         });
     });
 }
 
-// function getOrders() {
-//     const token = localStorage.getItem('token');
-//     const headers = {
-//         'Authentication': `Bearer ${token}`
-//     };
-//     return fetch('http://localhost:8080/orders', {
-//             headers: headers 
-//         }).then(rawResponse => {
-//             return rawResponse.json();
-//         }).then(response => {
-//             console.log('request worked', response);
-//             return response;
-//         }).catch(error => {
-//             console.log('an error occured', error);
-//         });
-// }
+function getOrdersById() {
+    // need a page to get orders, USE A DASHBOARD
 
+
+    
+    const token = localStorage.getItem('token');
+    const headers = {
+        'Authentication': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+    };
+    return fetch('http://localhost:8080/orders/:id', {
+            headers: headers 
+        }).then(rawResponse => {
+            return rawResponse.json();
+        }).then(response => {
+            console.log('request worked', response);
+            return response;
+        }).catch(error => {
+            console.log('an error occured', error);
+        });
+}
+
+
+// ASK RODRIGO HOW TO GET GUEST ID TO CLIENT
+
+function postOrder() {
+    $('.delivery-form').on('submit', function(event) {
+        event.preventDefault();
+        console.log('working');
+
+        const token = localStorage.getItem('token');
+        
+        const headers = {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        };
+
+        const guestId = $('#guest-Id').val();
+
+        const deliveryDate = $('#date-time').val();
+
+        const location = $('#location :selected').val();
+         
+        const notes = $('#notes').val();
+
+        const order = {
+            'guests': `${guestId}`,
+            'deliveryDate': `${deliveryDate}`,
+            'location': `${location}`,
+            'notes': `${notes}`
+        }
+
+        console.log(order);
+    
+        return fetch('http://localhost:8080/orders', {
+            method: 'POST',
+            body: JSON.stringify(order),
+            headers: headers
+        }).then(rawResponse => {
+            return rawResponse.json(); 
+        }).then(response => {
+            console.log('request worked', response);
+            return response;
+        }).catch(error => {
+            console.log('an error occured', error);
+        });
+    });  
+}
+
+function putOrder() {
+
+}
