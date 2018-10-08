@@ -541,7 +541,7 @@ app.put('/orders/:id/dishes/:dish_id', verifyUser, (req, res) => {
 // get menus
 // WORKS*
 
-app.get('/menus', verifyAdminUser, (req, res) => {
+app.get('/menus', verifyUser, (req, res) => {
 	const perPage = 2;
 	const currentPage = req.query.page || 1;
 
