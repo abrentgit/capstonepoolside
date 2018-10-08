@@ -3,6 +3,7 @@ function main() {
     console.log('loading app.js');
     performLogin();
     postOrder();
+    getOrders();
 }
 $(main);
 
@@ -42,19 +43,21 @@ function performLogin() {
     });
 }
 
-function getOrdersById() {
-    // need a page to get orders, USE A DASHBOARD
+function getOrders() {
+    $('.view-order').on('click', event => {
+        event.preventDefault();
+        console.log('working');
 
+        const token = localStorage.getItem('token');
+        const headers = {
+            'Authentication': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        };
 
-    
-    const token = localStorage.getItem('token');
-    const headers = {
-        'Authentication': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-    };
-    return fetch('http://localhost:8080/orders/:id', {
+    return fetch('http://localhost:8080/orders', {
             headers: headers 
         }).then(rawResponse => {
+            console.log(rawResponse);
             return rawResponse.json();
         }).then(response => {
             console.log('request worked', response);
@@ -62,6 +65,7 @@ function getOrdersById() {
         }).catch(error => {
             console.log('an error occured', error);
         });
+    });
 }
 
 
@@ -111,6 +115,3 @@ function postOrder() {
     });  
 }
 
-function putOrder() {
-
-}
