@@ -121,12 +121,22 @@ function getMenu() {
             let dishes = menu.dishes; // array of objects, each object is a dish
             let beverages = menu.beverages; //array of objects
 
-            const dishObj = // filter individual objs 
-            }
+            let dishArr = dishes.map(({ name, description, price }) => ({name, description, price}));
+            let beverageArr = beverages.map(({ name, description, price }) => ({name, description, price}));
+            
+            $.each(dishArr, function () {
+                $.each(this, function (key, value) {
+                    let dish = value;
+                    $('.dishes').append(`<p> ${dish} </p>`);
+                });
+             });
 
-            let values = Object.values(dishObj);
-            console.log(values); 
-        
+             $.each(beverageArr, function () {
+                 $.each(this, function(key, value) {
+                    let beverage = value; 
+                    $('.beverages').append(`<p> ${beverage} </p>`)
+                 });
+             });
         }).catch(error => {
             console.log('an error occured', error);
         });
