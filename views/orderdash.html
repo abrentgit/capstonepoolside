@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
-    <title>Dashboard</title>
+    <title>My Order Dashboard</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Barlow+Condensed|Notable|Roboto" rel="stylesheet">
-    <link rel="stylesheet" href="/Users/abl/projects/poolside_bedside/css/orderdash.css">
+    <link rel="stylesheet" href="../css/delivery_form.css">
   </head>
 
   <body>
@@ -14,21 +13,18 @@
       <h2>ORDER INN</h2>
     </header>
     <nav>
-      <ul>
-        <li><a href="menu.html">Menu</a></li>
-      </ul>
+        <a href="homepage.html">Home</a>
+        <a href="fall_menu.html">Menu</a>
     </nav>
-      <ul class="order-list">
-        <li>
-          <span class="order-item"></span>
-          <div class="order-item-controls">
-          </button>
-            <button class="view-order" type="submit">
-            <span class="button-label">View</span>
-          </button>
-          </div>
-        </li>
-      </ul>
+      <div class="order-search">
+        <label for="order-id">Enter Order ID:</label>
+        <input type="text" id="order-id" name="order-id">
+      </div>
+      <div class="order-items">
+      </div>
+        <button class="find-order" type="button">Submit</button>
+      <div class="order-list">
+      </div>
     <script src="https://code.jquery.com/jquery.min.js"></script>
     <script type="text/javascript" src="../app.js"></script>
   </body>

@@ -4,6 +4,8 @@ function main() {
     performLogin();
     postOrderTime();
     getMenu();
+    getOrders();
+    getMenuDishes();
 }
 $(main);
 
@@ -52,6 +54,10 @@ function postOrderTime() {
     $('.delivery-form').on('submit', function(event) {
         event.preventDefault();
         console.log('working');
+        
+        // ON THIS SUBMIT - GOES TO CHOOSE DISHES PAGE
+        
+        // HOW DO I GET VALIDATE GUEST ID WITHOUT QUERY?
 
         const token = localStorage.getItem('token');
         
@@ -96,10 +102,8 @@ function postOrderTime() {
 // PUT DISHES 
 
 function getMenu() {
-    $('#menu-button').on('click', function(event) {
-        event.preventDefault();
         console.log('working');
-
+        
         // when menu button gets hit, append dishes to class
         // dish-items
 
@@ -133,59 +137,144 @@ function getMenu() {
 
              $.each(beverageArr, function () {
                  $.each(this, function(key, value) {
-                    let beverage = value; 
-                    $('.beverages').append(`<p> ${beverage} </p>`)
+                    let beverage = value;
+                    $('.beverages').append(`<p> ${beverage} </p>`);
                  });
              });
         }).catch(error => {
             console.log('an error occured', error);
-        });
+    });
+}
+
+function getMenuDishes() {
+    console.log('working');
+        
+        const token = localStorage.getItem('token');
+        const headers = {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        };
+
+        return fetch('http://localhost:8080/menus', {
+            headers: headers
+        }).then(rawResponse => {
+            return rawResponse.json(); 
+        }).then(response => {
+            console.log('request worked', response);
+            return response;
+        }).then(response => {
+            let menu = response.menus[0]; //response object, menu is first index
+            let dishes = menu.dishes; // array of objects, each object is a dish
+
+            let dishArr = dishes.map(({ name, description, price }) => ({name, description, price}));
+            
+            $.each(dishArr, function () {
+                $.each(this, function (key, value) {
+                    let dish = value;
+                    $('.dishes').append(`<p> ${dish} </p>`);
+                });
+             });
+
+             //AFTER ALL APPENDED, NOW CHECK SELECTIONS
+
+        }).catch(error => {
+            console.log('an error occured', error);
     });
 }
 
 
-// GET DISHES 
+
+// TESTING ON ORDERDASH
+function getOrders() {
+    $('.find-order').on('click', event => {
+        event.preventDefault();
+        $('.order-search').hide();
+        console.log('working');
+
+        const orderId = $('#order-id').val();
+
+        const token = localStorage.getItem('token');
+        
+        const headers = {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            'OrderId': `${orderId}`
+        };
+
+    return fetch(`http://localhost:8080/orders/${orderId}`, {
+            headers: headers 
+        }).then(rawResponse => {
+            console.log(rawResponse);
+            return rawResponse.json();
+        }).then(response => {
+            let dishes = response.dishes; //an array of objects that is empty right now
+            let beverages = response.beverages;
+            let location = response.location;
+            let deliveryDate = response.deliveryDate;
+            let parsedDate = new Date (`${deliveryDate}`); // REFORMATS DATE 
+            let notes = response.notes; 
+
+            $('.order-items').text(`<p> Details: ${location}, ${parsedDate}, ${notes} </p>`); 
+
+            // if (dishes !== undefined || dishes.length > 0) {
+            //     $('.order-list').append(`${dishes}`);    
+            // }
+
+            // if (beverages !== undefined || beverages.length > 0) {
+            //     $('.order-list').append(`${beverages}`);
+            // }
+            
+            // // display the order sent
+            console.log('request worked', response);
+            return response;
+        }).catch(error => {
+            console.log('an error occured', error);
+        });
+    });
+
+}
+
+function addDish() {
+    // HAS TO LOAD DISHES / GET AVAILABLE DISHES FROM DB
+    // GET REQUEST FIRST RIGHT???
 
 
+    // $('#add-dish').on('click', function() 
+    //    // get dish name from object
+    //     let selected = $('input[type=checkbox]:checked').map(function(_, item) {
+    //         return $(item).val();
+    //     }).get();
+        
+    //     $('.dish-ordered').append(`<ul>${selected}</ul>`);
 
-// GET BEVS
+    // //pass orderId 
+    // //const orderId = $('#order-id').val();
+    // // pass dish_id 
+        const token = localStorage.getItem('token');
+        
+        const headers = {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            'OrderId': `${orderId}`
+        };
 
 
-
-
-
-
-
-
-
-
-
-
-// GET ORDERS
-
-// function getOrders() {
-//     $('.view-order').on('click', event => {
-//         event.preventDefault();
-//         console.log('working');
-
-//         const token = localStorage.getItem('token');
-//         const headers = {
-//             'Authentication': `Bearer ${token}`,
-//             'Content-Type': 'application/json'
-//         };
-
-//     return fetch('http://localhost:8080/orders', {
-//             headers: headers 
-//         }).then(rawResponse => {
-//             console.log(rawResponse);
-//             return rawResponse.json();
-//         }).then(response => {
-//             console.log('request worked', response);
-//             return response;
-//         }).catch(error => {
-//             console.log('an error occured', error);
-//         });
-//     });
+    return fetch(`http://localhost:8080/orders/${orderId}/dishes/${dishId}`, {
+            method: 'PUT',
+            headers: headers
+        }).then(rawResponse => {
+            return rawResponse.json(); 
+        }).then(response => {
+            console.log('request worked', response);
+            return response;
+        }).catch(error => {
+            console.log('an error occured', error);
+        });    
+    });  
 // }
 
+// JUST ATTACH A ON CLICK OF ADD TO ORDER OR QUANITTY DROP DOWN AS A PUT 
+// connect button add bev to order, add quantity drop down 
+// connect button add dish to order, add quantity drop down 
+// use earlier implementation
 

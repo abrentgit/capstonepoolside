@@ -222,7 +222,7 @@ app.post('/login/admin', (req, res) => {
 
 // VERIFY ADMIN NEEDS TO BE PUT BACK!!
 
-app.get('/orders', verifyUser, (req, res) => {
+app.get('/orders', verifyAdminUser, (req, res) => {
 		const perPage = 3;
 		const currentPage = req.query.page || 1;
 	
@@ -242,6 +242,8 @@ app.get('/orders', verifyUser, (req, res) => {
 
 // get orders by id
 // WORKS!!*
+
+//TAKE OUT VERIFY USER
 
 app.get('/orders/:id', verifyUser, (req, res) => {
 	Order.findById(req.params.id)
