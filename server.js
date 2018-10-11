@@ -214,13 +214,26 @@ app.post('/login/admin', (req, res) => {
 	});
 });
 
+app.get('orderInn/home', (req, res) => {
+	if(!req) {
+		res.status(404).json({ error: 'content not found' });
+	} else {
+		res.status(200).json();
+	}
+});
+
+app.get('orderInn/about', (req, res) => {
+	if(!req) {
+		res.status(404).json({ error: 'content not found' });
+	} else {
+		res.status(200).json();
+	}
+});
 // get all orders
 // FOR STAFF
 // WORKS!!*
 
 // PLEASE PUT BACK VERIFY ADMIN MIDDLEWARE
-
-// VERIFY ADMIN NEEDS TO BE PUT BACK!!
 
 app.get('/orders', verifyAdminUser, (req, res) => {
 		const perPage = 3;
@@ -242,8 +255,6 @@ app.get('/orders', verifyAdminUser, (req, res) => {
 
 // get orders by id
 // WORKS!!*
-
-//TAKE OUT VERIFY USER
 
 app.get('/orders/:id', verifyUser, (req, res) => {
 	Order.findById(req.params.id)

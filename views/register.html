@@ -4,8 +4,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Poolside Bedside Register</title>
-    <link href="register.css" rel="stylesheet" type="text/css" />
+    <title>Order Inn Register</title>
+    <link href="/Users/abl/projects/poolside_bedside/css/register.css" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Barlow+Condensed|Notable|Roboto" rel="stylesheet">
     <meta name="description" content="Guest sign up for Poolside Bedside">
   </head>
@@ -15,9 +15,11 @@
       <img class="logo" src="https://image.flaticon.com/icons/svg/108/108264.svg" alt="Cutlery" />
       <h1> ORDER INN </h1>
     </header>
-    <form role="form" action="/signup" accept-charset="UTF-8" method="post" class="signup-form">
+    <form role="form" action="/signup" accept-charset="UTF-8" method="post" class="register-form">
       <fieldset>
         <legend>Register</legend>
+        <label for="user-name">Name</label>
+        <input type="name" placeholder="" name="user-name" id="user-name" required/>
         <label for="user-email">Email</label>
         <input type="email" placeholder="" name="user-email" id="user-email" required/>
         <label for="user-password">Password</label>
@@ -31,7 +33,7 @@
     <footer role="contentinfo" class="footer">
       <p>Already have an account? <a href="/login">Log in</a></p>
     </footer>
-    <script src="index.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="../app.js"></script>
   </body>
 </html>
