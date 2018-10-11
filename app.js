@@ -141,16 +141,12 @@ function postOrderTime() {
     });  
 }
 
-
+// WORKS 
 function getMenu() {
         console.log('working');
         
         $('#menu-link').on('click', function(event) {
             event.preventDefault();
-        
-
-        // when menu button gets hit, append dishes to class
-        // dish-items
 
         const token = localStorage.getItem('token');
         const headers = {
@@ -194,6 +190,7 @@ function getMenu() {
 
 // GET MENU DISHES, how to pass menuId without a query
 
+// this is menus/menuID/dishes
 // function getMenuDishes() {
 
 //     $('#create-button').on('click', function(event) {
@@ -237,9 +234,8 @@ function getMenu() {
 //     });
 // }
 
-// // TESTING ON ORDERDASH
-// // how to submit this without givng order ID
-
+// // TESTING THIS ON ORDERDASH.html
+// // how to submit this without giving order ID
 
 // function getOrders() {
 //     $('.find-order').on('click', event => {
@@ -290,7 +286,7 @@ function getMenu() {
 
 // }
 
-
+// THIS TESTING ON 
 // function addDish() {
 //     // HAS TO LOAD DISHES / GET AVAILABLE DISHES FROM DB
 //     // GET REQUEST FIRST RIGHT???
