@@ -178,7 +178,7 @@ app.post('/login', (req, res) => {
 				});
 			} else {
 				const authToken = createAuthToken(user.serialize());
-				res.status(201).json({authToken});
+				res.status(201).json({authToken, user_id: user._id});
 			}
 		}
 	});
@@ -259,6 +259,24 @@ app.get('/orders', verifyAdminUser, (req, res) => {
 app.get('/orders/:id', verifyUser, (req, res) => {
 	Order.findById(req.params.id)
 		.then(order => res.json(order.serialize()))
+		.catch(err => {
+			console.error(err);
+			res.status(500).json({ error: 'Something went horribly wrong' });
+		});
+});
+
+app.get('/dishes/:id', verifyUser, (req, res) => {
+	Dish.findById(req.params.id)
+		.then(dish => res.json(dish.serialize()))
+		.catch(err => {
+			console.error(err);
+			res.status(500).json({ error: 'Something went horribly wrong' });
+	});
+});
+
+app.get('/beverages/:id', verifyUser, (req, res) => {
+	Beverage.findById(req.params.id)
+		.then(beverage => res.json(beverage.serialize()))
 		.catch(err => {
 			console.error(err);
 			res.status(500).json({ error: 'Something went horribly wrong' });
@@ -364,8 +382,8 @@ app.post('/orders', verifyUser, (req, res) => {
 	User.findById(firstGuestId, (err, guest) => {
 		if (err) {
 			res.status(404).send({ message: 'Can not find user' }); 
-		} else { // if no error
-		
+		} else { 
+			
 		Order.create({
 			guests: [guest._id],
 			deliveryDate: req.body.deliveryDate,
@@ -553,6 +571,42 @@ app.put('/orders/:id/dishes/:dish_id', verifyUser, (req, res) => {
 
 // get menus
 // WORKS*
+
+app.get('/dishes', verifyUser, (req, res) => {
+	const perPage = 5;
+	const currentPage = req.query.page || 1;
+
+	Dish.find()
+		.skip(perPage * currentPage - perPage)
+		.limit(perPage)
+		.then(dishes => {
+			res.json({
+				dishes: dishes.map(dish => dish.serialize())
+			});
+		})
+		.catch(err => {
+			console.error(err);
+			res.status(500).json({ message: 'Internal server error' });
+		});
+});
+
+app.get('/beverages', verifyUser, (req, res) => {
+	const perPage = 5;
+	const currentPage = req.query.page || 1;
+
+	Beverage.find()
+		.skip(perPage * currentPage - perPage)
+		.limit(perPage)
+		.then(beverages => {
+			res.json({
+				beverages: beverages.map(beverage => beverage.serialize())
+			});
+		})
+		.catch(err => {
+			console.error(err);
+			res.status(500).json({ message: 'Internal server error' });
+		});
+});
 
 app.get('/menus', verifyUser, (req, res) => {
 	const perPage = 2;

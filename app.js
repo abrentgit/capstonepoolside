@@ -2,10 +2,9 @@
 function main() {
     console.log('loading app.js');
     performLogin();
-    // postOrderTime();
-    getMenu();
-    // getOrders();
+    getDishes();
     registerGuest();
+    addDish();
 }
 
 $(main);
@@ -89,108 +88,204 @@ function registerGuest() {
 
 
 // WORKS BUT GUEST ID HAS TO BE SUBMITTED
-// ASK RODRIGO HOW WOULD I GET GUEST ID TO CLIENT 
+// HOW WOULD I GET GUEST ID TO CLIENT 
 
 // POST ORDER TIME NON DISHES/BEVS
 
-function postOrderTime() {
-    $('.delivery-form').on('submit', function(event) {
-        event.preventDefault();
-        console.log('working');
+// function postOrderTime() {
+//     $('.delivery-form').on('submit', function(event) {
+//         event.preventDefault();
+//         console.log('working');
         
-        // ON THIS SUBMIT - GOES TO CHOOSE DISHES PAGE
+//         // ON THIS SUBMIT - GOES TO CHOOSE DISHES PAGE
         
-        // HOW DO I GET VALIDATE GUEST ID WITHOUT QUERY?
+//         // HOW DO I GET VALIDATE GUEST ID WITHOUT QUERY?
 
-        const token = localStorage.getItem('token');
+//         const token = localStorage.getItem('token');
         
-        const headers = {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-        };
+//         const headers = {
+//             'Authorization': `Bearer ${token}`,
+//             'Content-Type': 'application/json'
+//         };
 
-        const guestId = $('#guest-Id').val();
+//         const guestId = $('#guest-Id').val();
 
-        const deliveryDate = $('#date-time').val();
+//         const deliveryDate = $('#date-time').val();
 
-        const location = $('#location :selected').val();
+//         const location = $('#location :selected').val();
          
-        const notes = $('#notes').val();
+//         const notes = $('#notes').val();
 
-        const order = {
-            'guests': `${guestId}`,
-            'deliveryDate': `${deliveryDate}`,
-            'location': `${location}`,
-            'notes': `${notes}`
-        }
+//         const order = {
+//             'guests': `${guestId}`,
+//             'deliveryDate': `${deliveryDate}`,
+//             'location': `${location}`,
+//             'notes': `${notes}`
+//         }
 
-        console.log(order);
+//         console.log(order);
     
-        return fetch('http://localhost:8080/orders', {
-            method: 'POST',
-            body: JSON.stringify(order),
-            headers: headers
-        }).then(rawResponse => {
-            return rawResponse.json(); 
-        }).then(response => {
-            console.log('request worked', response);
-            return response;
-        }).catch(error => {
-            console.log('an error occured', error);
-        });
-    });  
-}
+//         return fetch('http://localhost:8080/orders', {
+//             method: 'POST',
+//             body: JSON.stringify(order),
+//             headers: headers
+//         }).then(rawResponse => {
+//             return rawResponse.json(); 
+//         }).then(response => {
+//             console.log('request worked', response);
+//             return response;
+//         }).catch(error => {
+//             console.log('an error occured', error);
+//         });
+//     });  
+// }
 
 // WORKS 
-function getMenu() {
-        console.log('working');
+// function getMenu() {
+//         console.log('working');
         
-        $('#menu-link').on('click', function(event) {
-            event.preventDefault();
+//         $('#menu-link').on('click', function(event) {
+//             event.preventDefault();
 
-        const token = localStorage.getItem('token');
-        const headers = {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-        };
+//         const token = localStorage.getItem('token');
+//         const headers = {
+//             'Authorization': `Bearer ${token}`,
+//             'Content-Type': 'application/json'
+//         };
 
-        return fetch('http://localhost:8080/menus', {
-            headers: headers
-        }).then(rawResponse => {
-            return rawResponse.json(); 
-        }).then(response => {
-            console.log('request worked', response);
-            return response;
-        }).then(response => {
-            let menu = response.menus[0]; //response object, menu is first index
-            let dishes = menu.dishes; // array of objects, each object is a dish
-            let beverages = menu.beverages; //array of objects
+//         return fetch('http://localhost:8080/menus', {
+//             headers: headers
+//         }).then(rawResponse => {
+//             return rawResponse.json(); 
+//         }).then(response => {
+//             console.log('request worked', response);
+//             return response;
+//         }).then(response => {
+//             let menu = response.menus[0]; //response object, menu is first index
+//             let dishes = menu.dishes; // array of objects, each object is a dish
+//             let beverages = menu.beverages; //array of objects
 
-            let dishArr = dishes.map(({ name, description, price }) => ({name, description, price}));
-            let beverageArr = beverages.map(({ name, description, price }) => ({name, description, price}));
+//             let dishArr = dishes.map(({ name, description, price }) => ({name, description, price}));
+//             let beverageArr = beverages.map(({ name, description, price }) => ({name, description, price}));
             
-            $.each(dishArr, function () {
-                $.each(this, function (key, value) {
-                    let dish = value;
-                    $('.dishes').append(`<p> ${dish} </p>`);
-                });
-             });
+//             $.each(dishArr, function () {
+//                 $.each(this, function (key, value) {
+//                     let dish = value;
+//                     $('.dishes').append(`<p> ${dish} </p>`);
+//                 });
+//              });
 
-             $.each(beverageArr, function () {
-                 $.each(this, function(key, value) {
-                    let beverage = value;
-                    $('.beverages').append(`<p> ${beverage} </p>`);
-                 });
-             });
-        }).catch(error => {
-            console.log('an error occured', error);
+//              $.each(beverageArr, function () {
+//                  $.each(this, function(key, value) {
+//                     let beverage = value;
+//                     $('.beverages').append(`<p> ${beverage} </p>`);
+//                  });
+//              });
+//         }).catch(error => {
+//             console.log('an error occured', error);
+//         });
+//     })
+// }
+
+function getDishes() {
+
+    const token = localStorage.getItem('token');
+
+    const headers = {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+    };
+
+    return fetch('http://localhost:8080/dishes', {
+        headers: headers
+    }).then(rawResponse => {
+        return rawResponse.json();
+    }).then(response => {
+        let dishesHtml = '';
+        console.log(response.dishes);
+        response.dishes.forEach(dish => {
+            let dishHtml = renderDish(dish); 
+            dishesHtml = dishesHtml.concat(dishHtml);
         });
-    })
+        console.log(dishesHtml);
+        console.log('request worked', response.dishes);
+        $('.dishes').append(dishesHtml); //display
+        return response.dishes;
+    }).catch(error => {
+        console.log('an error occurred', error);
+    });
 }
+
+function renderDish(dish) { //render look
+    const orderDiv = `<div> <h3> ${dish.name} </h3>
+                        <span> ${dish.description} </span> 
+                        <p> ${dish.price} </p> 
+                        <input id="dishQuantity" name="quantity" value="1"/>
+                        <div class="add-dish">
+                        <button class="add-dish-button">Add Dish</a>
+                        </button></div>`
+    return orderDiv;     
+}
+
+function addDish() {
+    let dishCount =  $('#dishQuantity').val();
+    let dishId = $('#dish-id').val();
+
+    $('.button-add-dish').click(function(event) {
+    $('.order-summary').append(dishCount);
+        // get the value id of that dish
+        // add dish to order-tally div
+    });
+}
+
+// eventually will be post orders
+// function postDishes() {
+//     $('#addit').click(function() {
+//         let itemId = $('#itemId').val();
+//         let itemName = $('#itemName').val();
+//         let itemQuantity = $('itemQuantity').val();
+
+//         let order = {
+//             'itemId': 'itemId',
+//             'itemName': 'itemName',
+//             'itemQuantity': 'itemQuantity'
+//         };
+
+//         const token = localStorage.getItem('token');
+//         const guestId = localStorage.getItem('user_id');
+        
+//         const headers = {
+//             'Authorization': `Bearer ${token}`,
+//             'Content-Type': 'application/json',
+//             'guests': `${guestId}`
+//         };
+
+//         console.log(order);
+    
+//      return fetch('http://localhost:8080/orders', {
+//             method: 'POST',
+//             body: JSON.stringify(order),
+//             headers: headers
+//         }).then(rawResponse => {
+//             return rawResponse.json(); 
+//         }).then(response => {
+//             console.log('request worked', response);
+//             return response;
+//         }).catch(error => {
+//             console.log('an error occured', error);
+//         });
+//     });  
+// }
+
+function dateTimeSelect(time) {
+    $('#today').val = new Date();
+}
+
+
+// allow to select dishes
 
 // GET MENU DISHES, how to pass menuId without a query
 
-// this is menus/menuID/dishes
 // function getMenuDishes() {
 
 //     $('#create-button').on('click', function(event) {
