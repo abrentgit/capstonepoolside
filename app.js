@@ -216,27 +216,44 @@ function getDishes() {
     });
 }
 
-function renderDish(dish) { //render look
+function renderDish(dish) { 
     const orderDiv = `<div> <h3> ${dish.name} </h3>
-                        <span> ${dish.description} </span> 
-                        <p> ${dish.price} </p> 
-                        <input id="dishQuantity" name="quantity" value="1"/>
-                        <div class="add-dish">
+                        ${dish.description}
+                        ${dish.price}
                         <button class="add-dish-button">Add Dish</a>
                         </button></div>`
     return orderDiv;     
 }
 
-function addDish() {
-    let dishCount =  $('#dishQuantity').val();
-    let dishId = $('#dish-id').val();
 
-    $('.button-add-dish').click(function(event) {
-    $('.order-summary').append(dishCount);
-        // get the value id of that dish
-        // add dish to order-tally div
+function addDish() {
+
+    $('.dishes').on('click','.add-dish-button', function(event) {
+        console.log('working');
+        let dishName = $(event.currentTarget).
+    });
+
+
+    const token = localStorage.getItem('token');
+
+    const headers = {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+    };
+
+    return fetch('http://localhost:8080/dishes/:id', {
+        headers: headers
+    }).then(rawResponse => {
+        return rawResponse.json();
+    }).then(response => {
+        console.log('request worked', response.dishes);
+        return response.dishes;
+    }).catch(error => {
+        console.log('an error occurred', error);
     });
 }
+
+
 
 // eventually will be post orders
 // function postDishes() {
