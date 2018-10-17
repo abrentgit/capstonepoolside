@@ -217,9 +217,9 @@ function getDishes() {
 }
 
 function renderDish(dish) { 
-    const orderDiv = `<div> <h3> ${dish.name} </h3>
-                        ${dish.description}
-                        ${dish.price}
+    const orderDiv = `<div class="dish-choice"> <h3> ${dish.name} </h3>
+                        <p>${dish.description}</p>
+                        <p>$${dish.price}</p>
                         <button class="add-dish-button">Add Dish</a>
                         </button></div>`
     return orderDiv;     
@@ -229,28 +229,28 @@ function renderDish(dish) {
 function addDish() {
 
     $('.dishes').on('click','.add-dish-button', function(event) {
-        console.log('working');
-        let dishName = $(event.currentTarget).
+        let dishName = $(event.currentTarget).closest('.dish-choice').find('h3').show();
+        $('#summary-items').append(`${dishName}`);
     });
 
 
-    const token = localStorage.getItem('token');
+    // const token = localStorage.getItem('token');
 
-    const headers = {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-    };
+    // const headers = {
+    //     'Authorization': `Bearer ${token}`,
+    //     'Content-Type': 'application/json'
+    // };
 
-    return fetch('http://localhost:8080/dishes/:id', {
-        headers: headers
-    }).then(rawResponse => {
-        return rawResponse.json();
-    }).then(response => {
-        console.log('request worked', response.dishes);
-        return response.dishes;
-    }).catch(error => {
-        console.log('an error occurred', error);
-    });
+    // return fetch('http://localhost:8080/dishes/:id', {
+    //     headers: headers
+    // }).then(rawResponse => {
+    //     return rawResponse.json();
+    // }).then(response => {
+    //     console.log('request- worked', response.dishes);
+    //     return response.dishes;
+    // }).catch(error => {
+    //     console.log('an error occurred', error);
+    // });
 }
 
 
