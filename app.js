@@ -5,6 +5,7 @@ function main() {
     getDishes();
     registerGuest();
     addDish();
+    dateSelect();
 }
 
 $(main);
@@ -232,8 +233,6 @@ function addDish() {
         let dishName = $(event.currentTarget).closest('.dish-choice').find('h3').show();
         $('#summary-items').append(`${dishName}`);
     });
-}
-
 
     // const token = localStorage.getItem('token');
 
@@ -243,17 +242,18 @@ function addDish() {
     // };
 
     // return fetch('http://localhost:8080/dishes/:id', {
+    //     method: PUT,
     //     headers: headers
     // }).then(rawResponse => {
     //     return rawResponse.json();
     // }).then(response => {
-    //     console.log('request- worked', response.dishes);
+    //     console.log('request- worked');
     //     return response.dishes;
     // }).catch(error => {
     //     console.log('an error occurred', error);
     // });
 
-
+}
 
 
 // eventually will be post orders
@@ -295,7 +295,7 @@ function addDish() {
 //     });  
 // }
 
-function dateTimeSelect(time) {
+function dateSelect(time) {
     $('#today').val = new Date();
 }
 
