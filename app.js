@@ -232,6 +232,7 @@ function addDish() {
         let dishName = $(event.currentTarget).closest('.dish-choice').find('h3').show();
         $('#summary-items').append(`${dishName}`);
     });
+}
 
 
     // const token = localStorage.getItem('token');
@@ -251,7 +252,7 @@ function addDish() {
     // }).catch(error => {
     //     console.log('an error occurred', error);
     // });
-}
+
 
 
 
