@@ -230,7 +230,8 @@ function renderDish(dish) {
 function addDish() {
     $('.dishes').on('click','.add-dish-button', function(event) {
         let dishName = $(event.currentTarget).closest('div').find('h3');
-        $('#summary-items').append(dishName);
+        $(dishName).clone().appendTo('#summary-items');
+        // $('#summary-items').appendTo(dishName);
     });
 
     // const token = localStorage.getItem('token');
