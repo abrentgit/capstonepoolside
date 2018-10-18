@@ -221,18 +221,29 @@ function renderDish(dish) {
     const orderDiv = `<div class="dish-choice"> <h3> ${dish.name} </h3>
                         <p>${dish.description}</p>
                         <p>$${dish.price}</p>
-                        <button class="add-dish-button">Add Dish</a>
+                        <button class="add-dish-button">Add Dish
                         </button></div>`
     return orderDiv;     
 }
 
 
 function addDish() {
+    let dishCount = 0;
+    
     $('.dishes').on('click','.add-dish-button', function(event) {
         let dishName = $(event.currentTarget).closest('div').find('h3');
-        $(dishName).clone().appendTo('#summary-items');
-        // $('#summary-items').appendTo(dishName);
+            $(dishName).clone().appendTo('#summary-items'); 
+        
+        dishCount += 1; 
+    
+        $('#summary-items').append(`${dishCount} order(s)`);
     });
+
+}
+
+// if dishName clicked has been clicked before 
+
+    //create a detach when delete
 
     // const token = localStorage.getItem('token');
 
@@ -253,7 +264,7 @@ function addDish() {
     //     console.log('an error occurred', error);
     // });
 
-}
+
 
 // eventually will be post orders
 // function postDishes() {
