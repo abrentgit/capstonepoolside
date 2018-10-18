@@ -228,10 +228,9 @@ function renderDish(dish) {
 
 
 function addDish() {
-
     $('.dishes').on('click','.add-dish-button', function(event) {
-        let dishName = $(event.currentTarget).closest('.dish-choice').find('h3').show();
-        $('#summary-items').append(`${dishName}`);
+        let dishName = $(event.currentTarget).closest('div').find('h3');
+        $('#summary-items').append(dishName);
     });
 
     // const token = localStorage.getItem('token');
@@ -254,7 +253,6 @@ function addDish() {
     // });
 
 }
-
 
 // eventually will be post orders
 // function postDishes() {
@@ -295,11 +293,82 @@ function addDish() {
 //     });  
 // }
 
+// function deleteOrder() {
+
+//     const token = localStorage.getItem('token');
+//     const guestId = localStorage.getItem('user_id'); 
+//     const orderId = localStorage.getItem('order_id'); 
+
+//     const headers = {
+//         'Authorization': `Bearer ${token}`,
+//         'Content-Type': 'application/json',
+//         'guests': `${guestId}`,
+//         'orderId': `${orderId}`
+//     };
+        
+
+//     return fetch(`http://localhost:8080/orders/${orderId}`, {
+//             method: 'DELETE',
+//             body: JSON.stringify(order),
+//             headers: headers
+//         }).then(rawResponse => {
+//             return rawResponse.json(); 
+//         }).then(response => {
+//             console.log('request worked', response);
+//             return response;
+//         }).catch(error => {
+//             console.log('an error occured', error);
+//         });
+//     });  
+// }
+
+
+// function submitOrder() {
+
+//     const token = localStorage.getItem('token');
+//     const guestId = localStorage.getItem('user_id');
+        
+//         const headers = {
+//             'Authorization': `Bearer ${token}`,
+//             'Content-Type': 'application/json',
+//             'guests': `${guestId}`
+//         };
+
+//     return fetch('http://localhost:8080/orders', {
+//             method: 'POST',
+//             body: JSON.stringify(order),
+//             headers: headers
+//         }).then(rawResponse => {
+//             return rawResponse.json(); 
+//         }).then(response => {
+//             console.log('request worked', response);
+//             return response;
+//         }).catch(error => {
+//             console.log('an error occured', error);
+//         });
+//     });  
+// }
+
+
+
+
+// function requestputDish() {
+//  // get current order
+// }
+
+// function putBeverage {
+
+
+// }
+
+
+
+
+
+
 function dateSelect(time) {
     $('#today').val = new Date();
 }
-
-
 // allow to select dishes
 
 // GET MENU DISHES, how to pass menuId without a query
