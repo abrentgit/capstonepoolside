@@ -224,9 +224,8 @@ function renderDish(dish) {
     const orderDiv = `<div class="dish-choice"> <h3> ${dish.name} </h3>
                         <p>${dish.description}</p>
                         <p>$${dish.price}</p>
-                        <button data-dish="${dish._id}" class="add-dish-button">Add Dish
-                        
-                        </button></div>`
+                        <button data-dish="${dish._id}" 
+                        class="add-dish-button">Add Dish</button></div>`
     return orderDiv;     
 }
 
@@ -234,7 +233,7 @@ function renderDish(dish) {
 let cart = [];
 
 function addDish() {
-    
+
     $('.dishes').on('click','.add-dish-button', function(event) {
         let dishId = $(event.currentTarget).data('dish');
         console.log(dishId);
@@ -245,19 +244,29 @@ function addDish() {
             if (dishId === dish._id) {
                 cart.push(dish.name);
             }
-        }
+        } 
         console.log(cart);
-    //     data("dishId");
-    //     console.log(dishId);
-    //     let dishName = $(event.currentTarget).closest('div').find('h3');
-    //         $(dishName).clone().appendTo('#summary-items'); 
-    // });
-    });       
-}
+        renderCart(cart);
+        return cart; 
+    });
 
-function renderOrderCart() {
-    
+function renderCart() {
+    let item = cart.join('  ');
+    console.log(item);
+
+    $('#summary-items').append(
+        `<li>
+          <span class="order-item">${item}</span>
+        </li>`);
+    }
 }
+//     // if ($('li'))
+//     // if item in list already appears in summary items 
+// }
+
+
+
+
 
 
     //create a detach when delete
