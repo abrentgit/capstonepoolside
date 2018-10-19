@@ -246,19 +246,32 @@ function addDish() {
             }
         } 
         console.log(cart);
-        renderCart(cart);
+        renderCart();
         return cart; 
     });
 
 function renderCart() {
     let item = cart.join('  ');
-    console.log(item);
+    console.log(item, 'name string of dish');
+
+    // NEXT MUST: for each loop through the list, if it doesnt exist, don't 
 
     $('#summary-items').append(
         `<li>
           <span class="order-item">${item}</span>
         </li>`);
     }
+
+    $('#summary-items li').each(function() {
+        if($('.order-item').text() !== item) {
+            // append it
+        } else {
+            // don't append it 
+        }
+    })
+
+    // else break
+
 }
 //     // if ($('li'))
 //     // if item in list already appears in summary items 
