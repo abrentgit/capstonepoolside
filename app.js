@@ -39,6 +39,7 @@ function performLogin() {
             console.log('request worked', response);
             const { authToken } = response;
             localStorage.setItem('token', authToken);
+            alert('logged in');
             return response;
         }).catch(error => {
             console.log('an error occured', error);
@@ -187,6 +188,7 @@ function registerGuest() {
 //         });
 //     })
 // }
+let dishes = [];
 
 function getDishes() {
 
@@ -204,6 +206,7 @@ function getDishes() {
     }).then(response => {
         let dishesHtml = '';
         console.log(response.dishes);
+        dishes = response.dishes;
         response.dishes.forEach(dish => {
             let dishHtml = renderDish(dish); 
             dishesHtml = dishesHtml.concat(dishHtml);
@@ -221,27 +224,41 @@ function renderDish(dish) {
     const orderDiv = `<div class="dish-choice"> <h3> ${dish.name} </h3>
                         <p>${dish.description}</p>
                         <p>$${dish.price}</p>
-                        <button class="add-dish-button">Add Dish
+                        <button data-dish="${dish._id}" class="add-dish-button">Add Dish
+                        
                         </button></div>`
     return orderDiv;     
 }
 
 
+let cart = [];
+
 function addDish() {
-    let dishCount = 0;
     
     $('.dishes').on('click','.add-dish-button', function(event) {
-        let dishName = $(event.currentTarget).closest('div').find('h3');
-            $(dishName).clone().appendTo('#summary-items'); 
-        
-        dishCount += 1; 
-    
-        $('#summary-items').append(`${dishCount} order(s)`);
-    });
+        let dishId = $(event.currentTarget).data('dish');
+        console.log(dishId);
 
+        for (let i = 0; i < dishes.length; i++) {
+            let dish = dishes[i];
+            console.log(dish);
+            if (dishId === dish._id) {
+                cart.push(dish.name);
+            }
+        }
+        console.log(cart);
+    //     data("dishId");
+    //     console.log(dishId);
+    //     let dishName = $(event.currentTarget).closest('div').find('h3');
+    //         $(dishName).clone().appendTo('#summary-items'); 
+    // });
+    });       
 }
 
-// if dishName clicked has been clicked before 
+function renderOrderCart() {
+    
+}
+
 
     //create a detach when delete
 
