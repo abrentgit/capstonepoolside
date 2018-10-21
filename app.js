@@ -245,38 +245,38 @@ function addDish() {
                 cart.push(dish.name);
             }
         } 
-        console.log(cart);
         renderCart();
-        return cart; 
+        console.log(cart);
     });
 
-function renderCart() {
-    let item = cart.join('  ');
-    console.log(item, 'name string of dish');
+// function renderCart() {
+//     let item = cart.join(''); // this is a string
+//     // if I keep as a array, i have to loop and I end up with items
+//     // twice from loop 
+    
+//     $('.order-item').remove().before(); // hides the previous iteration of the cart
 
-    // NEXT MUST: for each loop through the list, if it doesnt exist, don't 
+//     $('#summary-items').prepend(
+//         `<li class="order-item">
+//           <span>${item}</span>
+//         </li>`);
+//     }
 
-    $('#summary-items').append(
-        `<li>
-          <span class="order-item">${item}</span>
-        </li>`);
-    }
-
-    $('#summary-items li').each(function() {
-        if($('.order-item').text() !== item) {
-            // append it
-        } else {
-            // don't append it 
-        }
-    })
-
-    // else break
-
-}
-//     // if ($('li'))
-//     // if item in list already appears in summary items 
 // }
 
+function renderCart()  {
+    $('.order-item').remove().before();
+
+    cart.forEach(function(item) {
+        console.log(item);
+    let newItem = $("#summary-items").append(`<li class="order-item"> ${item} </li>`);
+
+    });
+
+    return newItem; 
+}
+
+}
 
 
 
