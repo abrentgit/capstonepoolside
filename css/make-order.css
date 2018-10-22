@@ -48,13 +48,23 @@ form {
     font-size: 30px;
 }
 
-delivery-time {
-    margin-top: 30px;
+.delivery-time {
+    font-family: "Barlow Condensed", helvetica, sans-serif;
+    margin-top: 40px;
 }
 
-.location-select {
+.location-drop-down {
+    font-family: "Barlow Condensed", helvetica, sans-serif;
     margin-top: 30px;
-    margin-bottom: 50px;
+    margin-bottom: 60px;
+}
+
+.choose-location {
+    font-family: "Barlow Condensed", helvetica, sans-serif;
+}
+
+.order-date-field {
+    font-family: "Barlow Condensed", helvetica, sans-serif;
 }
   
 .notes-field {

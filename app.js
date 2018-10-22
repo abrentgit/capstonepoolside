@@ -6,6 +6,8 @@ function main() {
     registerGuest();
     addDish();
     dateSelect();
+    deleteDish();
+    renderCart();
 }
 
 $(main);
@@ -225,7 +227,9 @@ function renderDish(dish) {
                         <p>${dish.description}</p>
                         <p>$${dish.price}</p>
                         <button data-dish="${dish._id}" 
-                        class="add-dish-button">Add Dish</button></div>`
+                        class="add-dish-button">Add Dish</button>
+                        <button data-dish="${dish._id}" class="delete-dish-button">Delete Dish</button>
+                        </div>`
     return orderDiv;     
 }
 
@@ -237,46 +241,72 @@ function addDish() {
     $('.dishes').on('click','.add-dish-button', function(event) {
         let dishId = $(event.currentTarget).data('dish');
         console.log(dishId);
-
+  
+        // found the dish in cart cause the ids matched
+        const itemPresent = cart.find(item => {
+            return item.item._id === dishId;
+        });
+       
+        // looped thru dishes and pushed new dish object to cart if its not there
         for (let i = 0; i < dishes.length; i++) {
             let dish = dishes[i];
             console.log(dish);
-            if (dishId === dish._id) {
-                cart.push(dish.name);
+            if (dishId === dish._id && !itemPresent) {
+                cart.push({item: dish, quantity: 1});
             }
         } 
+
+        // if the cart already has the dish just add one to the quantity
+        if (itemPresent) {
+            itemPresent.quantity += 1;
+        }
+
         renderCart();
-        console.log(cart);
+        return cart;
     });
 
-// function renderCart() {
-//     let item = cart.join(''); // this is a string
-//     // if I keep as a array, i have to loop and I end up with items
-//     // twice from loop 
-    
-//     $('.order-item').remove().before(); // hides the previous iteration of the cart
+   
+}
 
-//     $('#summary-items').prepend(
-//         `<li class="order-item">
-//           <span>${item}</span>
-//         </li>`);
-//     }
+function deleteDish() {
+    $('.dishes').on('click', '.delete-dish-button', function(event) {
+        let dishId = $(event.currentTarget).data('dish');
+        // gets ID from the click
+        
+        const dishPresent = cart.find(item => {
+            return item.item._id === dishId;
+        });
 
-// }
+        // gets index of that dish in the cart
+        let dishIdx = cart.findIndex(dish => dish === dishPresent); 
+
+        if (dishPresent.quantity === 1) {
+            cart.splice(dishIdx, 1);
+        } else {
+            dishPresent.quantity -= 1;
+        }
+
+        console.log(cart, 'this is my cart');
+        renderCart();
+        return cart;
+    });
+}
 
 function renderCart()  {
-    $('.order-item').remove().before();
+    $('#summary-items').html('');
+    // $('.order-item').remove().before();
 
+    // render new item 
     cart.forEach(function(item) {
         console.log(item);
-    let newItem = $("#summary-items").append(`<li class="order-item"> ${item} </li>`);
-
+    let newItem = $("#summary-items")
+    .append(`<li class="order-item"> ${item.item.name} - ${item.quantity} </li>`);
+    
     });
-
-    return newItem; 
 }
 
-}
+
+
 
 
 
