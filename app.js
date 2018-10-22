@@ -225,7 +225,7 @@ function getDishes() {
 function renderDish(dish) { 
     const orderDiv = `<div class="dish-choice"> <h3> ${dish.name} </h3>
                         <p>${dish.description}</p>
-                        <p>$${dish.price}</p>
+                        <p class="dish-price">$${dish.price}</p>
                         <button data-dish="${dish._id}" 
                         class="add-dish-button">Add Dish</button>
                         <button data-dish="${dish._id}" class="delete-dish-button">Delete Dish</button>
@@ -242,24 +242,32 @@ function addDish() {
         let dishId = $(event.currentTarget).data('dish');
         console.log(dishId);
   
-        // found the dish in cart cause the ids matched
+        // checks to see if its in the cart 
         const itemPresent = cart.find(item => {
             return item.item._id === dishId;
         });
-       
-        // looped thru dishes and pushed new dish object to cart if its not there
+
+        // loop through all dishes to get the dish 
+        // create a new dish every add with the dish if its not in cart 
+        // push a new object with the quantity value
         for (let i = 0; i < dishes.length; i++) {
             let dish = dishes[i];
             console.log(dish);
             if (dishId === dish._id && !itemPresent) {
-                cart.push({item: dish, quantity: 1});
+                cart.push({item: dish, quantity: 1, price: dish.price});
             }
-        } 
+        }
 
-        // if the cart already has the dish just add one to the quantity
+        // if the cart already has the dish just add one to the quantity and tally up new price
         if (itemPresent) {
             itemPresent.quantity += 1;
+            console.log(itemPresent.quantity * itemPresent.price, 'this is a legit price');
         }
+
+        //now need to tally up items in cart
+        // cart is array of the dish objects
+        // get each dish quantity and dish price 
+        // sum the price values
 
         renderCart();
         return cart;
@@ -292,9 +300,12 @@ function deleteDish() {
     });
 }
 
+
+
+
 function renderCart()  {
     $('#summary-items').html('');
-    // $('.order-item').remove().before();
+    $('.total-price').html('');
 
     // render new item 
     cart.forEach(function(item) {
@@ -302,10 +313,26 @@ function renderCart()  {
     let newItem = $("#summary-items")
     .append(`<li class="order-item"> ${item.item.name} - ${item.quantity} </li>`);
     
-    let price = $('#total-price').append(`<span> ${item.item.price} </span>`);
+    let price = $('.total-price').append(`<p> $${item.item.price} </p>`);
     });
 }
 
+
+// function totalPriceCart() {
+//     let cartPrices = [];
+
+//     $('.dishes').on('click','.add-dish-button', function(event) {
+//         let dishId = $(event.currentTarget).data('dish');
+//         console.log(dishId);
+
+//         const dishPresent = cart.find(item => {
+//             return item.item._id === dishId;
+//         });
+        
+//         // get price from the cart and push it into array
+      
+//     });
+// }
 
 
 

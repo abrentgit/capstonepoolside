@@ -27,6 +27,19 @@ h1 {
     border: 1px solid #cdaf87; 
 }
 
+.price-adder {
+    position: relative;
+    width: 20%;
+    margin-left: 5%;
+    background-color: white;
+    border: 1px solid #cdaf87; 
+}
+
+.total-price {
+    text-align: center;
+    font-weight: bold;
+}
+
 header {
     font-size: 30px;
     text-align: center;
@@ -87,11 +100,3 @@ input {
     font-size: 30px;
     text-align: center;
 }
-
-/* .add-dish-button {
-    background-color: Transparent;
-    background-repeat:no-repeat;
-    border: none;
-    cursor:pointer;
-    overflow: hidden;
-} */
