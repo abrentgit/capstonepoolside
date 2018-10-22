@@ -302,6 +302,7 @@ function renderCart()  {
     let newItem = $("#summary-items")
     .append(`<li class="order-item"> ${item.item.name} - ${item.quantity} </li>`);
     
+    let price = $('#total-price').append(`<span> ${item.item.price} </span>`);
     });
 }
 
