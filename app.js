@@ -257,17 +257,10 @@ function addDish() {
                 cart.push({item: dish, quantity: 1, price: dish.price});
             }
         }
-
-        // if the cart already has the dish just add one to the quantity and tally up new price
+        
         if (itemPresent) {
             itemPresent.quantity += 1;
-            console.log(itemPresent.quantity * itemPresent.price, 'this is a legit price');
-        }
-
-        //now need to tally up items in cart
-        // cart is array of the dish objects
-        // get each dish quantity and dish price 
-        // sum the price values
+        };
 
         renderCart();
         return cart;
@@ -294,46 +287,27 @@ function deleteDish() {
             dishPresent.quantity -= 1;
         }
 
-        console.log(cart, 'this is my cart');
         renderCart();
         return cart;
     });
 }
 
-
-
-
 function renderCart()  {
     $('#summary-items').html('');
     $('.total-price').html('');
 
-    // render new item 
+
     cart.forEach(function(item) {
-        console.log(item);
-    let newItem = $("#summary-items")
-    .append(`<li class="order-item"> ${item.item.name} - ${item.quantity} </li>`);
+    let newItem = $("#summary-items").append(`<li class="order-item"> ${item.item.name} - ${item.quantity} </li>`);
     
-    let price = $('.total-price').append(`<p> $${item.item.price} </p>`);
-    });
+    let cartPrice = 0; 
+    let currentDishTotalPrice = item.price * item.quantity;
+        cartPrice += currentDishTotalPrice;
+        console.log(cartPrice, 'THIS IS CART PRICE');
+            
+    $('.total-price').append(`<span> ${cartPrice} </span>`);
+  })
 }
-
-
-// function totalPriceCart() {
-//     let cartPrices = [];
-
-//     $('.dishes').on('click','.add-dish-button', function(event) {
-//         let dishId = $(event.currentTarget).data('dish');
-//         console.log(dishId);
-
-//         const dishPresent = cart.find(item => {
-//             return item.item._id === dishId;
-//         });
-        
-//         // get price from the cart and push it into array
-      
-//     });
-// }
-
 
 
 
