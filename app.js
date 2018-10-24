@@ -236,6 +236,7 @@ function renderDish(dish) {
 
 let cart = [];
 
+
 function addDish() {
 
     $('.dishes').on('click','.add-dish-button', function(event) {
@@ -246,31 +247,29 @@ function addDish() {
             return item.item._id === dishId;
         });
 
-        let cartTotal = 0;
-
         for (let i = 0; i < dishes.length; i++) {
             let dish = dishes[i];
             console.log(dish);
             if (dishId === dish._id && !itemPresent) {
                 cart.push({ item: dish, quantity: 1, price: dish.price });
-                cartTotal += dish.price;  // new dish, i add regular cart price
             }
         }
- 
+
+        let finalPriceCart = 0;
+
         if (itemPresent) {
             itemPresent.quantity += 1;
-            //dish exists I want to add dishes price based on quantity
-            let currentPrice = itemPresent.quantity * itemPresent.price
-            cartTotal += currentPrice;
         }
-
-        let finalCart = 0;
+        
+        // loop through cart to check the price / keep seperate from quantity add 
         for (let i = 0; i < cart.length; i++) {
             let dish = cart[i];
             let price = dish.quantity * dish.price;
-            finalCart += price; 
-            console.log(finalCart, cart, 'this is final cart total');
+            finalPriceCart += price; 
         }
+
+        console.log(finalPriceCart, cart, 'this is final cart total from add button');
+
 
         renderCart();
         return cart;
@@ -287,14 +286,23 @@ function deleteDish() {
             return item.item._id === dishId;
         });
 
+        let dishPrice = dishPresent.price;
+        let currentPrice = dishPresent.quantity * dishPrice;
+        let finalPriceCart = 0; 
+
         // gets index of that dish in the cart
         let dishIdx = cart.findIndex(dish => dish === dishPresent); 
 
-        // if dish exists 
-        if (dishPresent.quantity === 1) {
-            cart.splice(dishIdx, 1);
+        // if dish exists and quantity is greater than 1, splice it out
+        if (dishPresent && dishPresent.quantity === 1) {
+            cart.splice(dishIdx, 1); 
+            finalPriceCart -= currentPrice;
+            //decrease the price
         } else {
-            dishPresent.quantity -= 1;
+            dishPresent.quantity -= 1; //else, decrease quantity
+            finalPriceCart -= currentPrice;
+            //decrease the price
+            console.log(finalPriceCart, 'this is final cart price from delete');
         }
 
         renderCart();
