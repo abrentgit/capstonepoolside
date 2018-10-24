@@ -242,19 +242,16 @@ function addDish() {
         let dishId = $(event.currentTarget).data('dish');
         console.log(dishId);
   
-        // checks to see if its in the cart 
         const itemPresent = cart.find(item => {
             return item.item._id === dishId;
         });
 
-        // loop through all dishes to get the dish 
-        // create a new dish every add with the dish if its not in cart 
-        // push a new object with the quantity value
+    
         for (let i = 0; i < dishes.length; i++) {
             let dish = dishes[i];
             console.log(dish);
             if (dishId === dish._id && !itemPresent) {
-                cart.push({item: dish, quantity: 1, price: dish.price});
+                cart.push({ item: dish, quantity: 1 });
             }
         }
         
@@ -265,9 +262,8 @@ function addDish() {
         renderCart();
         return cart;
     });
+} 
 
-   
-}
 
 function deleteDish() {
     $('.dishes').on('click', '.delete-dish-button', function(event) {
@@ -293,6 +289,7 @@ function deleteDish() {
 }
 
 function renderCart()  {
+    event.preventDefault();
     $('#summary-items').html('');
     $('.total-price').html('');
 
@@ -300,15 +297,15 @@ function renderCart()  {
     cart.forEach(function(item) {
     let newItem = $("#summary-items").append(`<li class="order-item"> ${item.item.name} - ${item.quantity} </li>`);
     
-    let cartPrice = 0; 
-    let currentDishTotalPrice = item.price * item.quantity;
+    let cartPrice = 0;
+    let currentDishTotalPrice = item.item.price * item.quantity;
         cartPrice += currentDishTotalPrice;
+        console.log(cart, "this is the cart")
         console.log(cartPrice, 'THIS IS CART PRICE');
             
-    $('.total-price').append(`<span> ${cartPrice} </span>`);
-  })
+    $('.total-price').append(`<h3> ${cartPrice} </h3>`);
+    });
 }
-
 
 
 
