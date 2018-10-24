@@ -87,7 +87,7 @@ form {
 .submit {
     margin-top: 20px;
     margin-bottom: 50px;
-    font-size: 30px;
+    font-size: 20px;
 }
 
 textarea {
@@ -100,3 +100,5 @@ input {
     font-size: 30px;
     text-align: center;
 }
+
+

@@ -246,18 +246,31 @@ function addDish() {
             return item.item._id === dishId;
         });
 
-    
+        let cartTotal = 0;
+
         for (let i = 0; i < dishes.length; i++) {
             let dish = dishes[i];
             console.log(dish);
             if (dishId === dish._id && !itemPresent) {
-                cart.push({ item: dish, quantity: 1 });
+                cart.push({ item: dish, quantity: 1, price: dish.price });
+                cartTotal += dish.price;  // new dish, i add regular cart price
             }
         }
-        
+ 
         if (itemPresent) {
             itemPresent.quantity += 1;
-        };
+            //dish exists I want to add dishes price based on quantity
+            let currentPrice = itemPresent.quantity * itemPresent.price
+            cartTotal += currentPrice;
+        }
+
+        let finalCart = 0;
+        for (let i = 0; i < cart.length; i++) {
+            let dish = cart[i];
+            let price = dish.quantity * dish.price;
+            finalCart += price; 
+            console.log(finalCart, cart, 'this is final cart total');
+        }
 
         renderCart();
         return cart;
@@ -277,6 +290,7 @@ function deleteDish() {
         // gets index of that dish in the cart
         let dishIdx = cart.findIndex(dish => dish === dishPresent); 
 
+        // if dish exists 
         if (dishPresent.quantity === 1) {
             cart.splice(dishIdx, 1);
         } else {
@@ -297,19 +311,20 @@ function renderCart()  {
     cart.forEach(function(item) {
     let newItem = $("#summary-items").append(`<li class="order-item"> ${item.item.name} - ${item.quantity} </li>`);
     
-    let cartPrice = 0;
-    let currentDishTotalPrice = item.item.price * item.quantity;
-        cartPrice += currentDishTotalPrice;
-        console.log(cart, "this is the cart")
-        console.log(cartPrice, 'THIS IS CART PRICE');
-            
-    $('.total-price').append(`<h3> ${cartPrice} </h3>`);
+    // let cartPrice = 0;
+    // let currentDishTotalPrice = item.item.price * item.quantity;
+    // cartPrice += currentDishTotalPrice;
+
+    // $('.total-price').append(`<h3 class="prices"> ${cartPrice} </h3>`);
     });
-}
+}   
 
 
-
-
+// GET CART PRICE
+// each price - put that into a string
+// how do i get each individual price - push into array? 
+// REDUCE AND SUM THROUGH AN ARRAY? 
+// total price
 
     //create a detach when delete
 
