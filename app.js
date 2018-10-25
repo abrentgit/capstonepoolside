@@ -299,7 +299,6 @@ function deleteDish() {
         // if dish exists and quantity is greater than 1, splice it out, delete from price
         if (dishPresent && dishPresent.quantity === 1) {
             cart.splice(dishIdx, 1);
-            console.log('this is working');
             let dishPrice = dishPresent.quantity * dishPresent.price;
             cartPrice -= dishPrice;
             console.log(cartPrice, 'dish was deleted, this is current cartPrice');
