@@ -235,7 +235,7 @@ function renderDish(dish) {
 
 
 let cart = [];
-
+let cartTotal = ''; 
 
 function addDish() {
 
@@ -255,18 +255,20 @@ function addDish() {
             }
         }
 
-        let cartPrice = 0;
-
         if (itemPresent) {
             itemPresent.quantity += 1;
         }
-        
-        // loop through cart to check the price / keep seperate from quantity add 
+
+        let cartPrice = 0;
+
+        // loop through cart to check the price 
         for (let i = 0; i < cart.length; i++) {
             let dish = cart[i];
             let price = dish.quantity * dish.price;
-            cartPrice += price; 
+            cartPrice += price;
+            cartTotal = cartPrice;
             console.log(cartPrice, cart, 'this is final cart total from add button');
+            console.log(cartTotal, 'outside cartTotal working')
         }
 
         renderCart();
@@ -284,7 +286,6 @@ function deleteDish() {
             return item.item._id === dishId;
         });
 
-        // gets index of that dish in the cart
         let dishIdx = cart.findIndex(dish => dish === dishPresent); 
         
         let cartPrice = 0; 
@@ -293,20 +294,27 @@ function deleteDish() {
             let dish = cart[i];
             let dishPrice = dish.quantity * dish.price;
             cartPrice += dishPrice;
-            console.log(cartPrice, 'this is final cart price from delete button');
+            cartTotal = cartPrice;
+            console.log(cartPrice, 'this is current cart price from delete button');
+            console.log(cartTotal, 'this is outside cartTotal');
         }
 
         // if dish exists and quantity is greater than 1, splice it out, delete from price
         if (dishPresent && dishPresent.quantity === 1) {
             cart.splice(dishIdx, 1);
+            
             let dishPrice = dishPresent.quantity * dishPresent.price;
             cartPrice -= dishPrice;
+            cartTotal = cartPrice;
+            console.log(cartTotal, 'this is outside cartTotal');
             console.log(cartPrice, 'dish was deleted, this is current cartPrice');
         } else {
-            dishPresent.quantity -= 1; //else, decrease quantity
-            console.log('this is working');
+            dishPresent.quantity -= 1; 
+            
             let dishPrice = dishPresent.quantity * dishPresent.price;
             cartPrice -= dishPrice;
+            cartTotal = cartPrice;
+            console.log(cartTotal, 'this is outside cartTotal');
             console.log(cartPrice, 'dish was deleted, this is current cartPrice');
         }
 
@@ -315,20 +323,15 @@ function deleteDish() {
     });
 }
 
+
 function renderCart()  {
-    event.preventDefault();
     $('#summary-items').html('');
     $('.total-price').html('');
 
-
     cart.forEach(function(item) {
     let newItem = $("#summary-items").append(`<li class="order-item"> ${item.item.name} - ${item.quantity} </li>`);
-    
-    // let cartPrice = 0;
-    // let currentDishTotalPrice = item.item.price * item.quantity;
-    // cartPrice += currentDishTotalPrice;
 
-    // $('.total-price').append(`<h3 class="prices"> ${cartPrice} </h3>`);
+    $('.total-price').html(`<h3 class="price"> Total: ${cartTotal} </h3>`);
     });
 }   
 
