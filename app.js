@@ -255,7 +255,7 @@ function addDish() {
             }
         }
 
-        let finalPriceCart = 0;
+        let cartPrice = 0;
 
         if (itemPresent) {
             itemPresent.quantity += 1;
@@ -265,11 +265,9 @@ function addDish() {
         for (let i = 0; i < cart.length; i++) {
             let dish = cart[i];
             let price = dish.quantity * dish.price;
-            finalPriceCart += price; 
+            cartPrice += price; 
+            console.log(cartPrice, cart, 'this is final cart total from add button');
         }
-
-        console.log(finalPriceCart, cart, 'this is final cart total from add button');
-
 
         renderCart();
         return cart;
@@ -286,23 +284,31 @@ function deleteDish() {
             return item.item._id === dishId;
         });
 
-        let dishPrice = dishPresent.price;
-        let currentPrice = dishPresent.quantity * dishPrice;
-        let finalPriceCart = 0; 
-
         // gets index of that dish in the cart
         let dishIdx = cart.findIndex(dish => dish === dishPresent); 
+        
+        let cartPrice = 0; 
 
-        // if dish exists and quantity is greater than 1, splice it out
+        for (let i = 0; i < cart.length; i++) {
+            let dish = cart[i];
+            let dishPrice = dish.quantity * dish.price;
+            cartPrice += dishPrice;
+            console.log(cartPrice, 'this is final cart price from delete button');
+        }
+
+        // if dish exists and quantity is greater than 1, splice it out, delete from price
         if (dishPresent && dishPresent.quantity === 1) {
-            cart.splice(dishIdx, 1); 
-            finalPriceCart -= currentPrice;
-            //decrease the price
+            cart.splice(dishIdx, 1);
+            console.log('this is working');
+            let dishPrice = dishPresent.quantity * dishPresent.price;
+            cartPrice -= dishPrice;
+            console.log(cartPrice, 'dish was deleted, this is current cartPrice');
         } else {
             dishPresent.quantity -= 1; //else, decrease quantity
-            finalPriceCart -= currentPrice;
-            //decrease the price
-            console.log(finalPriceCart, 'this is final cart price from delete');
+            console.log('this is working');
+            let dishPrice = dishPresent.quantity * dishPresent.price;
+            cartPrice -= dishPrice;
+            console.log(cartPrice, 'dish was deleted, this is current cartPrice');
         }
 
         renderCart();
