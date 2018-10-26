@@ -34,14 +34,14 @@
       <div class="container">
         <div class="order-date">
           <label for="order-date-field" class=order-date-field>Date: </label>
-          <input class="date-input" type="date" id="datepicker">
+          <input class="date-input" type="date" id="datepicker" required>
         <div class="delivery-time">
           <label for="delivery-time" class="delivery-time"> Time: </label>
-          <input class="time-input" type="time" value="7:00" step="900" required>
+          <input class="time-input" type="time" id="time" value="7:00" step="900" required>
         </div>
         <div class="location-choice">
           <label for="location" class="location"> Location: </label>
-          <select class="location-select">
+          <select class="location-select" id="location-select" required>
             <option value="">--Please choose an option--</option>
             <option value="Pool-Bar">Pool Bar</option>
             <option value="Lounge">Lounge</option>

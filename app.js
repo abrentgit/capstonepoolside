@@ -334,18 +334,67 @@ function renderCart()  {
     $('.price-adder').show();
     $('.total-price').html(`<h3 class="price"> Total: $${cartTotal} </h3>`);
     });
-}   
+}
+
+const orderObj = {};
+
+function postOrder() {
+    $('.checkout-btn').on('submit', function(event) {
+        // on click of checkout button, grab the dish Ids from cart
+
+        //for each item in the cart, grab the dish Ids
+        cart.forEach(dish => {
+            let dishId = dish._id;
+            let dishName = dish.name; 
+            console.log(dishName, dishId);
+        });
+
+        //going to save each dish as a key value pair 
+        //into an order object - CALLED ORDER OBJ
+        
+        //GETTING, DATE, TIME, LOCATION OF ORDER
+        const date = $('#datepicker').val();
+        const time = $('#time').val();
+        const location = $('#location-select').val();
+
+        let order = {
+            'date': `${date}`,
+            'time': `${time}`,
+            'location': `${location}`
+        };
+
+        const token = localStorage.getItem('token');
+        const guestId = localStorage.getItem('user_id');
+        
+        const headers = {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            'guests': `${guestId}`
+        };
+
+        console.log(order);
+    
+     return fetch('http://localhost:8080/orders', {
+            method: 'POST',
+            body: JSON.stringify(order),
+            headers: headers
+        }).then(rawResponse => {
+            return rawResponse.json(); 
+        }).then(response => {
+            console.log('request worked', response);
+            return response;
+        }).catch(error => {
+            console.log('an error occured', error);
+        });
+    });  
+}
 
 
-// GET CART PRICE
-// each price - put that into a string
-// how do i get each individual price - push into array? 
-// REDUCE AND SUM THROUGH AN ARRAY? 
-// total price
 
-    //create a detach when delete
+
 
     // const token = localStorage.getItem('token');
+    // this WILL BE FOR EDIT ORDERS
 
     // const headers = {
     //     'Authorization': `Bearer ${token}`,
@@ -364,46 +413,6 @@ function renderCart()  {
     //     console.log('an error occurred', error);
     // });
 
-
-
-// eventually will be post orders
-// function postDishes() {
-//     $('#addit').click(function() {
-//         let itemId = $('#itemId').val();
-//         let itemName = $('#itemName').val();
-//         let itemQuantity = $('itemQuantity').val();
-
-//         let order = {
-//             'itemId': 'itemId',
-//             'itemName': 'itemName',
-//             'itemQuantity': 'itemQuantity'
-//         };
-
-//         const token = localStorage.getItem('token');
-//         const guestId = localStorage.getItem('user_id');
-        
-//         const headers = {
-//             'Authorization': `Bearer ${token}`,
-//             'Content-Type': 'application/json',
-//             'guests': `${guestId}`
-//         };
-
-//         console.log(order);
-    
-//      return fetch('http://localhost:8080/orders', {
-//             method: 'POST',
-//             body: JSON.stringify(order),
-//             headers: headers
-//         }).then(rawResponse => {
-//             return rawResponse.json(); 
-//         }).then(response => {
-//             console.log('request worked', response);
-//             return response;
-//         }).catch(error => {
-//             console.log('an error occured', error);
-//         });
-//     });  
-// }
 
 // function deleteOrder() {
 
@@ -462,72 +471,6 @@ function renderCart()  {
 // }
 
 
-
-
-// function requestputDish() {
-//  // get current order
-// }
-
-// function putBeverage {
-
-
-// }
-
-
-
-
-
-
-function dateSelect(time) {
-    $('#today').val = new Date();
-}
-// allow to select dishes
-
-// GET MENU DISHES, how to pass menuId without a query
-
-// function getMenuDishes() {
-
-//     $('#create-button').on('click', function(event) {
-//         event.preventDefault();
-//         console.log('working');
-        
-//         const token = localStorage.getItem('token');
-//         const headers = {
-//             'Authorization': `Bearer ${token}`,
-//             'Content-Type': 'application/json',
-//             'menuId': `${menuId}`
-//         };
-
-//         const menuId = // how do i get the menuID
-
-//         return fetch(`http://localhost:8080/menus/${menuId}/dishes`, {
-//             headers: headers
-//         }).then(rawResponse => {
-//             return rawResponse.json(); 
-//         }).then(response => {
-//             console.log('request worked', response);
-//             return response;
-//         }).then(response => {
-//             let menu = response.menus[0]; //response object, menu is first index
-//             let dishes = menu.dishes; // array of objects, each object is a dish
-
-//             let dishArr = dishes.map(({ name, description, price }) => ({name, description, price}));
-            
-//             $.each(dishArr, function () {
-//                 $.each(this, function (key, value) {
-//                     let dish = value;
-//                     $('.dishes').append(`<p> ${dish} </p>`);
-//                 });
-//              });
-
-//              //AFTER ALL APPENDED, NOW CHECK SELECTIONS
-
-//         }).catch(error => {
-//             console.log('an error occured', error);
-//         });
-//     });
-// }
-
 // // TESTING THIS ON ORDERDASH.html
 // // how to submit this without giving order ID
 
@@ -578,46 +521,5 @@ function dateSelect(time) {
 //         });
 //     });
 
-// }
-
-// THIS TESTING ON 
-// function addDish() {
-//     // HAS TO LOAD DISHES / GET AVAILABLE DISHES FROM DB
-//     // GET REQUEST FIRST RIGHT???
-
-
-//     // $('#add-dish').on('click', function() 
-//     //    // get dish name from object
-//     //     let selected = $('input[type=checkbox]:checked').map(function(_, item) {
-//     //         return $(item).val();
-//     //     }).get();
-        
-//     //     $('.dish-ordered').append(`<ul>${selected}</ul>`);
-
-//     // //pass orderId 
-//     // //const orderId = $('#order-id').val();
-//     // // pass dish_id 
-//         const token = localStorage.getItem('token');
-        
-//         const headers = {
-//             'Authorization': `Bearer ${token}`,
-//             'Content-Type': 'application/json',
-//             'OrderId': `${orderId}`
-//         };
-
-
-//     return fetch(`http://localhost:8080/orders/${orderId}/dishes/${dishId}`, {
-//             method: 'PUT',
-//             headers: headers
-//         }).then(rawResponse => {
-//             return rawResponse.json(); 
-//         }).then(response => {
-//             console.log('request worked', response);
-//             return response;
-//         }).catch(error => {
-//             console.log('an error occured', error);
-//         });    
-//     });  
-// }
 // }
 
