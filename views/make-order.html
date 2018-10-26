@@ -10,23 +10,49 @@
 
   <body>
     <header role="header">
-      <h1>Pick Your Items</h1>
+      <h1>Choose Dishes</h1>
     </header>
     <!-- <nav class="nav">
         <a href="homepage.html" id="homepage-link">Home</a>
         <a href="make-order.html" id="menu-link">Menu</a> -->
     </nav>
     <div class="order-form">
-    <div class="dishes">
+      <div class="container">
+        <div class="dishes">
+        </div>
+
+        <div class="order-summary">
+          <ul class="summary-items">
+          </ul>
+          <div class="price-adder">
+            <p class="total-price"></p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="container">
+        <div class="order-date">
+          <label for="order-date-field" class=order-date-field>Date: </label>
+          <input class="date-input" type="date" id="datepicker">
+        <div class="delivery-time">
+          <label for="delivery-time" class="delivery-time"> Time: </label>
+          <input class="time-input" type="time" value="7:00" step="900" required>
+        </div>
+        <div class="location-choice">
+          <label for="location" class="location"> Location: </label>
+          <select class="location-select">
+            <option value="">--Please choose an option--</option>
+            <option value="Pool-Bar">Pool Bar</option>
+            <option value="Lounge">Lounge</option>
+            <option value="Rooftop Lounge">Rooftop Lounge</option>
+          </select>
+        </div>
+        <button type="submit" class="checkout-btn">Checkout</button>
+      </div> 
+
     </div>
-    <div class="order-summary">
-      <ul id="summary-items">
-      </ul>
-    </div>
-    <div class='price-adder'>
-    <p class="total-price"></p>
-    </div>
-    </div>
+
     <script src="https://code.jquery.com/jquery.min.js"></script>
     <script type="text/javascript" src="../app.js"></script>
   </body>

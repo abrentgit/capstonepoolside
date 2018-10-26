@@ -308,9 +308,8 @@ function deleteDish() {
             cartTotal = cartPrice;
             console.log(cartTotal, 'this is outside cartTotal');
             console.log(cartPrice, 'dish was deleted, this is current cartPrice');
-        } else {
+        } else if (dishPresent && dishPresent.quantity > 1) {
             dishPresent.quantity -= 1; 
-            
             let dishPrice = dishPresent.quantity * dishPresent.price;
             cartPrice -= dishPrice;
             cartTotal = cartPrice;
@@ -325,13 +324,15 @@ function deleteDish() {
 
 
 function renderCart()  {
-    $('#summary-items').html('');
+    $('.summary-items').html('');
     $('.total-price').html('');
+    $('.price-adder').hide();
 
     cart.forEach(function(item) {
-    let newItem = $("#summary-items").append(`<li class="order-item"> ${item.item.name} - ${item.quantity} </li>`);
-
-    $('.total-price').html(`<h3 class="price"> Total: ${cartTotal} </h3>`);
+    let newItem = $(".summary-items").append(`<li class="order-item"> ${item.item.name} - ${item.quantity} </li>`);
+    
+    $('.price-adder').show();
+    $('.total-price').html(`<h3 class="price"> Total: $${cartTotal} </h3>`);
     });
 }   
 
