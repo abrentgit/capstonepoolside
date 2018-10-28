@@ -325,7 +325,6 @@ function deleteDish() {
 
 
 function renderCart()  {
-    event.preventDefault();
     $('.summary-items').html('');
     $('.total-price').html('');
     $('.price-adder').hide();
@@ -341,9 +340,12 @@ function renderCart()  {
 const orderObj = {};
 
 function postOrder() {
-    $('#checkout-btn').click(function() {
+    $('.checkout-button').on('click', '.checkout-btn',function() {
         event.preventDefault();
-        alert('yo homie I work');
+        console.log('HELLO, I AM CLICKED')
+    });  
+}
+
         // on click of checkout button, grab the dish Ids from cart
         //for each item in the cart, grab the dish Ids
 //         cart.forEach(dish => {
@@ -391,9 +393,6 @@ function postOrder() {
 //         }).catch(error => {
 //             console.log('an error occured', error);
 //         });
-    });  
-}
-
 
 
 

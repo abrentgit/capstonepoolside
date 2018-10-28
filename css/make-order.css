@@ -80,7 +80,9 @@ form {
 
 .location-choice {
     padding-top: 80px;
-    position: absolute;
+    /* position: relative; */
+    display: flexbox;
+    margin-left: -350px;
 }
 
 .location {
@@ -140,7 +142,8 @@ form {
     border-radius: 100px;
     color: white;
     left: 80px;
-    margin-top: 150px;
+    margin-top: 160px;
+    margin-bottom: 80px; 
     padding-top: 10px;
     padding-bottom: 10px;
     width: 250px;
@@ -148,7 +151,6 @@ form {
     background-color:rgb(150, 211, 93);    ;
     font-size: 30px;
     position: absolute;
-
 }
 /* textarea {
     width: 400px;
