@@ -8,6 +8,7 @@ function main() {
     dateSelect();
     deleteDish();
     renderCart();
+    postOrder();
 }
 
 $(main);
@@ -324,6 +325,7 @@ function deleteDish() {
 
 
 function renderCart()  {
+    event.preventDefault();
     $('.summary-items').html('');
     $('.total-price').html('');
     $('.price-adder').hide();
@@ -339,56 +341,58 @@ function renderCart()  {
 const orderObj = {};
 
 function postOrder() {
-    $('.checkout-btn').on('submit', function(event) {
+    $('#checkout-btn').click(function() {
+        event.preventDefault();
+        alert('yo homie I work');
         // on click of checkout button, grab the dish Ids from cart
-
         //for each item in the cart, grab the dish Ids
-        cart.forEach(dish => {
-            let dishId = dish._id;
-            let dishName = dish.name; 
-            console.log(dishName, dishId);
-        });
+//         cart.forEach(dish => {
+//             let dishId = dish._id;
+//             let dishName = dish.name; 
+//             console.log(dishName, dishId);
+//         });
 
-        //going to save each dish as a key value pair 
-        //into an order object - CALLED ORDER OBJ
+//         //going to save each dish as a key value pair 
+//         //into an order object - CALLED ORDER OBJ
         
-        //GETTING, DATE, TIME, LOCATION OF ORDER
-        const date = $('#datepicker').val();
-        const time = $('#time').val();
-        const location = $('#location-select').val();
+//         //GETTING, DATE, TIME, LOCATION OF ORDER
+           
+//         const date = $('#datepicker').val();
+//         const time = $('#time').val();
+//         const location = $('#location-select').val();
 
-        let order = {
-            'date': `${date}`,
-            'time': `${time}`,
-            'location': `${location}`
-        };
+        // let order = {
+        //     'deliveryDate': `${date}`,
+        //     'dishes': [],  //array of the dish ids???
+        //     // 'time': `${time}`,
+        //     'location': `${location}`
+        // };
 
-        const token = localStorage.getItem('token');
-        const guestId = localStorage.getItem('user_id');
+//         const token = localStorage.getItem('token');
+//         const guestId = localStorage.getItem('user_id');
         
-        const headers = {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-            'guests': `${guestId}`
-        };
+//         const headers = {
+//             'Authorization': `Bearer ${token}`,
+//             'Content-Type': 'application/json',
+//             'guests': `${guestId}`
+//         };
 
-        console.log(order);
+//         console.log(order);
     
-     return fetch('http://localhost:8080/orders', {
-            method: 'POST',
-            body: JSON.stringify(order),
-            headers: headers
-        }).then(rawResponse => {
-            return rawResponse.json(); 
-        }).then(response => {
-            console.log('request worked', response);
-            return response;
-        }).catch(error => {
-            console.log('an error occured', error);
-        });
+//      return fetch('http://localhost:8080/orders', {
+//             method: 'POST',
+//             body: JSON.stringify(order),
+//             headers: headers
+//         }).then(rawResponse => {
+//             return rawResponse.json(); 
+//         }).then(response => {
+//             console.log('request worked', response);
+//             return response;
+//         }).catch(error => {
+//             console.log('an error occured', error);
+//         });
     });  
 }
-
 
 
 

@@ -12,10 +12,6 @@
     <header role="header">
       <h1>Choose Dishes</h1>
     </header>
-    <!-- <nav class="nav">
-        <a href="homepage.html" id="homepage-link">Home</a>
-        <a href="make-order.html" id="menu-link">Menu</a> -->
-    </nav>
     <div class="order-form">
       <div class="container">
         <div class="dishes">
@@ -34,21 +30,23 @@
       <div class="container">
         <div class="order-date">
           <label for="order-date-field" class=order-date-field>Date: </label>
-          <input class="date-input" type="date" id="datepicker" required>
-        <div class="delivery-time">
-          <label for="delivery-time" class="delivery-time"> Time: </label>
-          <input class="time-input" type="time" id="time" value="7:00" step="900" required>
+          <input class="date-input" type="date" id="datepicker">
         </div>
+
         <div class="location-choice">
           <label for="location" class="location"> Location: </label>
-          <select class="location-select" id="location-select" required>
+          <select class="location-select" id="location-select">
             <option value="">--Please choose an option--</option>
             <option value="Pool-Bar">Pool Bar</option>
             <option value="Lounge">Lounge</option>
             <option value="Rooftop Lounge">Rooftop Lounge</option>
           </select>
         </div>
-        <button type="submit" class="checkout-btn">Checkout</button>
+
+        <div class="checkout-button">
+          <button type="button" class="checkout-btn">Checkout</button>
+        </div>
+
       </div> 
 
     </div>

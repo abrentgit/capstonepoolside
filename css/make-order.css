@@ -40,9 +40,9 @@ h1 {
     position: relative;
     width: 20%;
     padding-bottom: 0%;
-    margin-left: 5%;
+    margin-left: 10%;
     background-color: white;
-    border: 1px solid #cdaf87; 
+    font-size: 25px;
 }
 
 .total-price {
@@ -78,6 +78,10 @@ form {
     font-size: 30px;
 }
 
+.location-choice {
+    padding-top: 80px;
+    position: absolute;
+}
 
 .location {
     font-family: "Barlow Condensed", helvetica, sans-serif;
@@ -103,14 +107,14 @@ form {
     font-style: italic;
 }
 
-.delivery-time {
+/* .delivery-time {
     font-family: "Barlow Condensed", helvetica, sans-serif;
     font-size: 25px;
     font-style: italic;
     margin: auto;
     margin-top: 10px;
     margin-right: 10px;
-}
+} */
 
 .date-input {
     margin-top: 20px;
@@ -120,11 +124,11 @@ form {
     text-align: center;
 }
 
-.time-input {
+/* .time-input {
     font-size: 25px;
     font-family: "Barlow Condensed", helvetica, sans-serif;
     text-align: center;
-}
+} */
   
 .submit {
     margin-top: 20px;
@@ -133,15 +137,18 @@ form {
 }
 
 .checkout-btn {
-    border-radius: 50px;
+    border-radius: 100px;
     color: white;
-    left: -20px;
+    left: 80px;
+    margin-top: 150px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     width: 250px;
     font-family: "Barlow Condensed", helvetica, sans-serif;
     background-color:rgb(150, 211, 93);    ;
     font-size: 30px;
-    margin-left: 30px;
-    margin-top: 20px;
+    position: absolute;
+
 }
 /* textarea {
     width: 400px;
