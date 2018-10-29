@@ -54,7 +54,9 @@ const verifyUser = function (req, res, next) {
 			if (!error) {
 				req.decoded = decoded;
 				if (req.decoded.aud === 'Guest') {
-				next();
+					next();
+				} else {
+					res.status(401).json({ message: 'Invalid credentials' });
 				}
 			} else {
 				res.status(401).json({ message: 'Invalid credentials'});
@@ -367,7 +369,7 @@ app.get('/orders/:id/beverages/:beverage_id', verifyUser, (req, res) => {
 // WORKS!!**
 
 app.post('/orders', verifyUser, (req, res) => {
-	const requiredFields = ['guests', 'deliveryDate', 'location', 'notes'];
+	const requiredFields = ['guests', 'dishes', 'deliveryDate', 'location', 'notes'];
 	for (let i = 0; i < requiredFields.length; i++) {
 		const field = requiredFields[i];
 		if (!(field in req.body)) {
@@ -378,27 +380,39 @@ app.post('/orders', verifyUser, (req, res) => {
 	}
 
 	const firstGuestId = req.body.guests.split(',')[0]; //guests is a string, split to an array
+	let dishIds = req.body.dishes // its an array already
+	console.log(dishIds);
 
-	User.findById(firstGuestId, (err, guest) => {
-		if (err) {
-			res.status(404).send({ message: 'Can not find user' }); 
-		} else { 
-			
-		Order.create({
-			guests: [guest._id],
-			deliveryDate: req.body.deliveryDate,
-			location: req.body.location,
-			notes: req.body.notes
-		})
+	Dish.find({
+    '_id': { $in: dishIds }}, function(err, dishData) {
+    	if (err) {
+			res.status(404).send({ message: 'Can not find dishes' });
+		} else {
+			console.log(dishData);
+			User.findById(firstGuestId, (err, guest) => {
+				if (err) {
+					res.status(404).send({ message: 'Can not find user' });
+				} else {
+					Order.create({
+						guests: [guest._id],
+						dishes: [dishData.name],
+						deliveryDate: req.body.deliveryDate,
+						location: req.body.location,
+						notes: req.body.notes
+					})
 	
-		.then(order => res.status(201).json(order.serialize()))
-		.catch(err => {
-			console.error(err);
-			res.status(500).json({ error: 'Something went wrong' });
-		});
-	}
+				.then(order => res.status(201).json(order.serialize()))
+				.catch(err => {
+					console.error(err);
+					res.status(500).json({ error: 'Something went wrong' });
+				});
+			};
+			})
+		}
+	});
 });
-});
+
+
 
 
 // UPDATE AN ORDER BY ID

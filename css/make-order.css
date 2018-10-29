@@ -80,9 +80,8 @@ form {
 
 .location-choice {
     padding-top: 80px;
-    /* position: relative; */
     display: flexbox;
-    margin-left: -350px;
+    margin-left: -355px;
 }
 
 .location {
@@ -144,13 +143,15 @@ form {
     left: 80px;
     margin-top: 160px;
     margin-bottom: 80px; 
+    margin-left: -320px;
     padding-top: 10px;
     padding-bottom: 10px;
     width: 250px;
     font-family: "Barlow Condensed", helvetica, sans-serif;
     background-color:rgb(150, 211, 93);    ;
     font-size: 30px;
-    position: absolute;
+    /* position: absolute; */
+    display: flexbox;
 }
 /* textarea {
     width: 400px;
