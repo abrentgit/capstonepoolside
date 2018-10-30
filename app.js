@@ -5,7 +5,6 @@ function main() {
     getDishes();
     registerGuest();
     addDish();
-    dateSelect();
     deleteDish();
     renderCart();
 }
@@ -43,6 +42,7 @@ function performLogin() {
             console.log('request worked', response);
             const { authToken } = response;
             localStorage.setItem('token', authToken);
+            localStorage.setItem('userId', response.user_id);
             alert('logged in');
             return response;
         }).catch(error => {
@@ -269,8 +269,9 @@ function addDish() {
             let price = dish.quantity * dish.price;
             cartPrice += price;
             cartTotal = cartPrice;
-            console.log(cartPrice, cart, 'this is final cart total from add button');
-            console.log(cartTotal, 'outside cartTotal working')
+            console.log(cartPrice, 'this is final cart total from add button');
+            console.log(cartTotal, 'outside cartTotal working');
+            console.log(cart, 'these are my cart items');
         }
 
         renderCart();
@@ -341,36 +342,31 @@ function renderCart() {
 function postOrder() {
     $('.checkout-btn').on('click', function() {
         console.log('HELLO, I AM CLICKED');
- 
-        // on click of checkout button, grab the dish Ids from cart
-        // for each item in the cart, grab the dish Ids
-        
-        let dishes = [];
-        
+                
+        let dishIds = []; 
+
         cart.forEach(dish => {
-            let dishId = dish._id;
-            dishes.push(dishId);
-            console.log(dishes);
+            dishIds.push(dish.item._id); 
         });
-           
+
         const date = $('.date-input').val();
         const location = $('#location-select').val();
 
-        let order = {
-            'dishes': [],  //array of the dish ids???
-            'deliveryDate': `${date}`,
-            'location': `${location}`
-        };
-
-        console.log(order);
-
         const token = localStorage.getItem('token');
-        const guestId = localStorage.getItem('user_id');
+        const userId = localStorage.getItem('user_id');
+        console.log(userId, 'this is user ID');
+
+        let order = {
+            'guests': `${userId}`,
+            'dishes': `${dishIds}`,
+            'deliveryDate': `${date}`,
+            'location': `${location}`,
+            'notes': ''
+        };
         
         const headers = {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
-            'guests': `${guestId}`
         };
     
      return fetch('http://localhost:8080/orders', {
@@ -387,6 +383,9 @@ function postOrder() {
         });
     });
 }
+
+// NEXT I MUST RENDER THAT POST 
+
 
 
     // const token = localStorage.getItem('token');

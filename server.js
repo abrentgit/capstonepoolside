@@ -210,7 +210,7 @@ app.post('/login/admin', (req, res) => {
 				});
 			} else {
 				const authToken = createAuthToken(user.serialize());
-				res.status(201).json({authToken});
+				res.status(201).json({authToken, user_id: user._id});
 			}
 		}
 	});
