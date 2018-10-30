@@ -381,21 +381,20 @@ app.post('/orders', verifyUser, (req, res) => {
 
 	const firstGuestId = req.body.guests.split(',')[0]; //guests is a string, split to an array
 	let dishIds = req.body.dishes // its an array already
-	console.log(dishIds);
 
-	Dish.find({
-    '_id': { $in: dishIds }}, function(err, dishData) {
-    	if (err) {
-			res.status(404).send({ message: 'Can not find dishes' });
-		} else {
-			console.log(dishData);
-			User.findById(firstGuestId, (err, guest) => {
-				if (err) {
-					res.status(404).send({ message: 'Can not find user' });
-				} else {
+	User.findById(firstGuestId, (err, guest) => {
+		if (err) {
+			res.status(404).send({ message: 'Can not find user' });
+		} else { 
+			Dish.find({'_id': { $in: dishIds }}, function(err, dishData) {
+					if (err) {
+						res.status(404).send({ message: 'Can not find dishes' });
+					} else {	
+					console.log(dishData);		
+					
 					Order.create({
 						guests: [guest._id],
-						dishes: [dishData.name],
+						dishes: dishData,
 						deliveryDate: req.body.deliveryDate,
 						location: req.body.location,
 						notes: req.body.notes
