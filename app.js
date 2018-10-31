@@ -343,18 +343,20 @@ function postOrder() {
     $('.checkout-btn').on('click', function() {
         console.log('HELLO, I AM CLICKED');
                 
-        let dishIds = []; 
-
-        cart.forEach(dish => {
-            dishIds.push(dish.item._id); 
-        });
-
         const date = $('.date-input').val();
         const location = $('#location-select').val();
 
         const token = localStorage.getItem('token');
         const userId = localStorage.getItem('user_id');
         console.log(userId, 'this is user ID');
+        
+        let dishIds = []; 
+
+        cart.forEach(dish => {
+            dishIds.push(dish.item._id); 
+        });
+
+        console.log(dishIds, 'these are the cart dishes');
 
         let order = {
             'guests': `${userId}`,
@@ -386,6 +388,9 @@ function postOrder() {
 
 // NEXT I MUST RENDER THAT POST 
 
+// function renderOrder() {
+    
+// }
 
 
     // const token = localStorage.getItem('token');
