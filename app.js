@@ -11,6 +11,7 @@ function main() {
 
 postOrder();
 
+
 $(main);
 
 // WORKS 
@@ -91,60 +92,6 @@ function registerGuest() {
     });
 }
 
-
-
-// WORKS BUT GUEST ID HAS TO BE SUBMITTED
-// HOW WOULD I GET GUEST ID TO CLIENT 
-
-// POST ORDER TIME NON DISHES/BEVS
-
-// function postOrderTime() {
-//     $('.delivery-form').on('submit', function(event) {
-//         event.preventDefault();
-//         console.log('working');
-        
-//         // ON THIS SUBMIT - GOES TO CHOOSE DISHES PAGE
-        
-//         // HOW DO I GET VALIDATE GUEST ID WITHOUT QUERY?
-
-//         const token = localStorage.getItem('token');
-        
-//         const headers = {
-//             'Authorization': `Bearer ${token}`,
-//             'Content-Type': 'application/json'
-//         };
-
-//         const guestId = $('#guest-Id').val();
-
-//         const deliveryDate = $('#date-time').val();
-
-//         const location = $('#location :selected').val();
-         
-//         const notes = $('#notes').val();
-
-//         const order = {
-//             'guests': `${guestId}`,
-//             'deliveryDate': `${deliveryDate}`,
-//             'location': `${location}`,
-//             'notes': `${notes}`
-//         }
-
-//         console.log(order);
-    
-//         return fetch('http://localhost:8080/orders', {
-//             method: 'POST',
-//             body: JSON.stringify(order),
-//             headers: headers
-//         }).then(rawResponse => {
-//             return rawResponse.json(); 
-//         }).then(response => {
-//             console.log('request worked', response);
-//             return response;
-//         }).catch(error => {
-//             console.log('an error occured', error);
-//         });
-//     });  
-// }
 
 // WORKS 
 // function getMenu() {
@@ -339,6 +286,8 @@ function renderCart() {
     });
 }
 
+let newOrder = {}; 
+
 function postOrder() {
     $('.checkout-btn').on('click', function() {
         console.log('HELLO, I AM CLICKED');
@@ -363,14 +312,15 @@ function postOrder() {
             'dishes': `${dishIds}`,
             'deliveryDate': `${date}`,
             'location': `${location}`,
-            'notes': ''
+            'notes': '',
+            'price': `${cartTotal}`
         };
         
         const headers = {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
         };
-    
+
      return fetch('http://localhost:8080/orders', {
             method: 'POST',
             body: JSON.stringify(order),
@@ -379,18 +329,92 @@ function postOrder() {
             return rawResponse.json(); 
         }).then(response => {
             console.log('request worked', response);
-            return response;
+            const newOrder = response;
+            console.log(newOrder, 'NEW ORDER COMPLETED HERE');
+            orderFeedback(newOrder);
         }).catch(error => {
             console.log('an error occured', error);
         });
     });
 }
 
-// NEXT I MUST RENDER THAT POST 
-
-// function renderOrder() {
+function orderFeedback(newOrder) {
+    $('header').remove('h1');
+    $('.order-title').html(`<h2 class="order-id"> Order #: ${newOrder._id} </h2>`);
     
+    let dishList = '';
+    
+    newOrder.dishes.forEach(dish => {
+        dishList = dishList.concat(`<li>
+         <div class="dishOrder"> 
+            <h4>${dish.name}</h4>
+            <p>${dish.description}<p>
+         </div>
+         </li>`);
+    })
+
+    let cartVal = `${cartTotal}`;
+    // NEED TO DISPLAY LOCATION, NOTES, DELIVERY TIME
+
+
+    $('.order-form').html(`<ul>${dishList}</ul>
+                            <p class="cart-cost">Total Cost: ${cartVal} </p>`);
+    // $('.order-form').html(`<div class="order-feedback"><p>"Thanks for Your Order"</p>
+    //                         <button type="button" class="edit-order">Edit Order</button> 
+    //                     </div>`);
+}
+
+// GET ORDERS first 
+
+// THEN I NEED PUT ORDERS
+
+// function getOrders() {
+//     const token = localStorage.getItem('token');
+
+//     const headers = {
+//         'Authorization': `Bearer ${token}`,
+//         'Content-Type': 'application/json'
+//     };
+
+//     let orderID = '';
+
+//     return fetch('http://localhost:8080/orders', {
+//         headers: headers
+//     }).then(rawResponse => {
+//         return rawResponse.json();
+//     }).then(response => {
+//         console.log('request worked', response);
+//         $('.my-order').text('hello');
+//         // let ordersHtml = '';
+//         // response.orders.forEach(order => {
+//         //     let orderHtml = renderOrders(order);
+//         //     ordersHtml = ordersHtml.concat(orderHtml);
+//                 // $('.my-order').append(ordersHtml);
+//         return response;
+//     }).catch(error => {
+//         console.log('an error occurred', error);
+//     });
 // }
+
+// function renderOrders(userorder) {
+//     const userorder = `<div class="order-sum"> <h3> ${order.dishes} </h3>
+//                         <p> ${order.deliveryDate}</p>
+//                         <span> ${order.location} </span>
+//                         <div class="order-checkout-btn">
+//                             <button class="confirm-button" type="button">Confirm Order</button>
+//                         </div>
+//                         <div class="edit-order-btn">
+//                             <button class="edit-button" type="button">Edit Order</button>
+//                         </div>  
+//                     </div>`
+//     return userorder; 
+// }
+
+// want to put POSTED order in ORDER RECAP 
+// for edit and exchange
+
+// GET ORDERS, THEN RENDER the IDENTIFIED ORDER? 
+// EDIT ORDER PUT REQUEST 
 
 
     // const token = localStorage.getItem('token');

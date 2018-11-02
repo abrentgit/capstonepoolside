@@ -369,6 +369,7 @@ app.get('/orders/:id/beverages/:beverage_id', verifyUser, (req, res) => {
 // WORKS!!**
 
 app.post('/orders', verifyUser, (req, res) => {
+	console.log('hello A');
 	const requiredFields = ['guests', 'dishes', 'deliveryDate', 'location', 'notes'];
 	for (let i = 0; i < requiredFields.length; i++) {
 		const field = requiredFields[i];
@@ -380,7 +381,8 @@ app.post('/orders', verifyUser, (req, res) => {
 	}
 
 	const firstGuestId = req.body.guests.split(',')[0]; //guests is a string, split to an array
-	let dishIds = req.body.dishes // its an array already
+	let dishIds = req.body.dishes // array of dishIds
+	console.log(dishIds, 'these are dish Ids');
 
 	User.findById(firstGuestId, (err, guest) => {
 		if (err) {
@@ -388,16 +390,16 @@ app.post('/orders', verifyUser, (req, res) => {
 		} else { 
 			Dish.find({'_id': { $in: dishIds }}, function(err, dishData) {
 					if (err) {
+						console.log(dishData, 'failing dishes');		
 						res.status(404).send({ message: 'Can not find dishes' });
 					} else {	
-					console.log(dishData);		
 					
 					Order.create({
 						guests: [guest._id],
 						dishes: dishData,
 						deliveryDate: req.body.deliveryDate,
 						location: req.body.location,
-						notes: req.body.notes
+						notes: req.body.notes,
 					})
 	
 				.then(order => res.status(201).json(order.serialize()))
@@ -586,7 +588,7 @@ app.put('/orders/:id/dishes/:dish_id', verifyUser, (req, res) => {
 // WORKS*
 
 app.get('/dishes', verifyUser, (req, res) => {
-	const perPage = 5;
+	const perPage = 10;
 	const currentPage = req.query.page || 1;
 
 	Dish.find()
