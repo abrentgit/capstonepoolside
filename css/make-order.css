@@ -7,19 +7,6 @@ body {
     padding-bottom: 90px;
 }
 
-/* h1 {
-    font-family: "Notable", helvetica, sans-serif;
-    font-size: 80px;
-    margin-right: 300px;
-} */
-
-/* .order-title {
-    text-align: center;
-    font-size: 60px;
-    margin-right: 300px; 
-    font-family: "Barlow Condensed", helvetica, sans-serif;
-} */
-
 .dishOrder {
     font-family: "Barlow Condensed", helvetica, sans-serif;
     font-size: 30px;
@@ -36,6 +23,11 @@ body {
     font-size: 30px;
 }
 
+.order-details {
+    font-size: 30px;
+    font-style: italic;
+}
+
 .order-form {
     display: flex;
     flex-direction: column;
@@ -43,12 +35,41 @@ body {
     margin: 0 auto;
 }
 
+/* .small-logo {
+    display: block;
+    color: white;
+    width: auto;
+    height: 70px;
+    margin-left: -350px;
+  } */
+
 .order-summary {
     width: 40%;
     margin-left: 5%;
     background-color: white;
     border: 1px solid #cdaf87; 
     font-size: 30px;
+}
+
+.cancel-btn {
+    border-radius: 500px;
+    left: 80px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 200px;
+    font-family: "Barlow Condensed", helvetica, sans-serif;
+    font-size: 30px;
+    color: red;
+  }
+  
+.cancel-btn:hover {
+    background: #f44336;
+    color: white;
+}
+
+.thanks {
+  font-size: 35px;
+  font-style: italic;
 }
 
 .summary-items {
@@ -65,8 +86,17 @@ body {
 }
 
 .cart-cost {
-    margin-left: 650px;
-    font-size: 35px;
+    font-size: 30px;
+    font-weight: bold;
+    margin-left: 35px;
+}
+
+.small-logo {
+    display: block;
+    color: white;
+    width: auto;
+    height: 70px;
+    margin-left: -600px;
 }
 
 .total-price {
@@ -88,10 +118,13 @@ header {
     font-family: "Barlow Condensed", helvetica, sans-serif; 
 }
 
+h4 {
+    font-weight: bold;
+}
+
 .order-id {
     font-size: 60px;
     text-align: center;
-    margin-right: 300px; 
 }
 
 fieldset {

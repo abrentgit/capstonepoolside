@@ -369,7 +369,6 @@ app.get('/orders/:id/beverages/:beverage_id', verifyUser, (req, res) => {
 // WORKS!!**
 
 app.post('/orders', verifyUser, (req, res) => {
-	console.log('hello A');
 	const requiredFields = ['guests', 'dishes', 'deliveryDate', 'location', 'notes'];
 	for (let i = 0; i < requiredFields.length; i++) {
 		const field = requiredFields[i];
@@ -381,7 +380,7 @@ app.post('/orders', verifyUser, (req, res) => {
 	}
 
 	const firstGuestId = req.body.guests.split(',')[0]; //guests is a string, split to an array
-	let dishIds = req.body.dishes // array of dishIds
+	let dishIds = req.body.dishes.split(','); // array of dishIds
 	console.log(dishIds, 'these are dish Ids');
 
 	User.findById(firstGuestId, (err, guest) => {

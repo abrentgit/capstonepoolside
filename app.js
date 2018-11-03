@@ -10,6 +10,7 @@ function main() {
 }
 
 postOrder();
+deleteOrder();
 
 
 $(main);
@@ -44,7 +45,8 @@ function performLogin() {
             const { authToken } = response;
             localStorage.setItem('token', authToken);
             localStorage.setItem('userId', response.user_id);
-            alert('logged in');
+            // function that will flip page to make order
+            getDishes();
             return response;
         }).catch(error => {
             console.log('an error occured', error);
@@ -85,6 +87,7 @@ function registerGuest() {
             console.log('request worked', response);
             const { authToken } = response;
             localStorage.setItem('token', authToken);
+            performLogin(); // LOGIN AFTER REGISTER IS GOOD
             return response;
         }).catch(error => {
             console.log('an error occured', error);
@@ -340,9 +343,13 @@ function postOrder() {
 
 function orderFeedback(newOrder) {
     $('header').remove('h1');
-    $('.order-title').html(`<h2 class="order-id"> Order #: ${newOrder._id} </h2>`);
+    $('.order-title').html(`<h2 class="order-id"> Order#: ${newOrder._id} </h2>`);    
     
     let dishList = '';
+    let date = new Date (newOrder.deliveryDate);
+    let location = newOrder.location;
+
+    console.log(date, 'DATE CONVERTED');
     
     newOrder.dishes.forEach(dish => {
         dishList = dishList.concat(`<li>
@@ -356,14 +363,27 @@ function orderFeedback(newOrder) {
     let cartVal = `${cartTotal}`;
     // NEED TO DISPLAY LOCATION, NOTES, DELIVERY TIME
 
-
     $('.order-form').html(`<ul>${dishList}</ul>
-                            <p class="cart-cost">Total Cost: ${cartVal} </p>`);
-    // $('.order-form').html(`<div class="order-feedback"><p>"Thanks for Your Order"</p>
-    //                         <button type="button" class="edit-order">Edit Order</button> 
-    //                     </div>`);
+                           <div class="order-details"> 
+                                <p>Reservation: ${date} at ${location}</p>
+                            </div>
+                            <div class="cart-total">
+                                <p class="cart-cost">Total Cost: $${cartVal}</p>
+                                <p class="thanks">Thanks for Your Order!</p>
+                            </div>
+                            <button class="cancel-btn">Cancel Order</button>`);
 }
 
+function deleteOrder() {
+    $('.order-form').on('click', '.cancel-btn', function() {
+        alert('cancel is clicked');
+        console.log('HELLO, I AM CLICKED');
+
+
+        
+})
+
+};
 // GET ORDERS first 
 
 // THEN I NEED PUT ORDERS
