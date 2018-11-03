@@ -254,6 +254,26 @@ app.get('/orders', verifyAdminUser, (req, res) => {
 			});
 	});
 
+	
+	// GET ORDERS BY GUEST ID
+	// guest/guestid/orders/ 
+	//app.get('/orders', verifyAdminUser, (req, res) => {
+	// 	const perPage = 3;
+	// 	const currentPage = req.query.page || 1;
+	
+	// 	Order.find()
+	// 		.skip(perPage * currentPage - perPage) //skipping the previous pages dependent on page number
+	// 		.limit(perPage) // limit it to per page number, then take orders
+	// 		.then(orders => {
+	// 			res.json({
+	// 				orders: orders.map(order => order.serialize())
+	// 			});
+	// 		})
+	// 		.catch(err => {
+	// 			res.status(500).json({ message: 'Internal server error' });
+	// 		});
+	// });
+
 
 // get orders by id
 // WORKS!!*

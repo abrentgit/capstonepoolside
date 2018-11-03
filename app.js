@@ -371,19 +371,44 @@ function orderFeedback(newOrder) {
                                 <p class="cart-cost">Total Cost: $${cartVal}</p>
                                 <p class="thanks">Thanks for Your Order!</p>
                             </div>
-                            <button class="cancel-btn">Cancel Order</button>`);
+                            <button data-order="${newOrder._id}" class="cancel-btn">Cancel Order</button>`);
 }
 
 function deleteOrder() {
     $('.order-form').on('click', '.cancel-btn', function() {
-        alert('cancel is clicked');
         console.log('HELLO, I AM CLICKED');
+    
+    let orderId = $(event.currentTarget).data('order');
+    console.log(orderId, 'this is current orderId');
+    
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('user_id');
+    console.log(userId, 'this is user ID');
+     // ADD ORDER ID DATA TO CANCEL BUTTON
 
+    const headers = {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+    };
 
-        
+    return fetch('http://localhost:8080/orders', {
+        method: 'DELETE',
+        headers: headers
+    }).then(rawResponse => {
+        return rawResponse.json(); 
+    }).then(response => {
+        console.log('request worked', response);
+        //DELETEDORDER FEEDBACK FUNCTION DISPLAY
+    }).catch(error => {
+        console.log('an error occured', error);
+    });  
 })
 
 };
+
+// deletedOrderFeedback() {
+
+// }
 // GET ORDERS first 
 
 // THEN I NEED PUT ORDERS
