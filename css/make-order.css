@@ -12,6 +12,11 @@ body {
     font-size: 30px;
 }
 
+.cancel-text {
+    font-size: 50px;
+    margin-left: 460px;
+}
+
 .order-feedback {
     text-align: center;
     font-size: 70px;

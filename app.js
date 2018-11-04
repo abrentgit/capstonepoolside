@@ -375,40 +375,42 @@ function orderFeedback(newOrder) {
 }
 
 function deleteOrder() {
-    $('.order-form').on('click', '.cancel-btn', function() {
+    $('.order-form').on('click', '.cancel-btn', function(event) {
+        confirm("Are you sure?");
+        deleteOrderFeedback();
         console.log('HELLO, I AM CLICKED');
     
     let orderId = $(event.currentTarget).data('order');
     console.log(orderId, 'this is current orderId');
+
     
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('user_id');
     console.log(userId, 'this is user ID');
-     // ADD ORDER ID DATA TO CANCEL BUTTON
 
     const headers = {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
     };
 
-    return fetch('http://localhost:8080/orders', {
+    return fetch(`http://localhost:8080/orders/${orderId}`, {
         method: 'DELETE',
         headers: headers
-    }).then(rawResponse => {
-        return rawResponse.json(); 
     }).then(response => {
         console.log('request worked', response);
-        //DELETEDORDER FEEDBACK FUNCTION DISPLAY
     }).catch(error => {
         console.log('an error occured', error);
     });  
 })
 
-};
+}
 
-// deletedOrderFeedback() {
+function deleteOrderFeedback() {
+    $('.order-form').html(`<div class="delete-feedback"> 
+                                <p class="cancel-text">Your order has been canceled.</p>
+                           </div>`);
+}
 
-// }
 // GET ORDERS first 
 
 // THEN I NEED PUT ORDERS
