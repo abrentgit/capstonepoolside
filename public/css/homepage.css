@@ -1,0 +1,30 @@
+* {box-sizing: border-box}
+
+body {
+	    background-size: cover;
+        background-repeat: no-repeat;
+        font-family: "Notable", helvetica, sans-serif;
+		background-image: url('../toast-homepage.jpeg');
+}
+
+h1 {
+	color: white;
+    font-size: 100px;
+    text-align: center;
+}
+
+nav {
+    padding-bottom: 10px;
+	font-family: "Roboto", helvetica, sans-serif;
+    text-align: center;
+    font-size: 30px;
+    display: block;
+}
+
+a {
+    color: white;
+}
+
+li {
+    padding: 30px;
+}

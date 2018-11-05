@@ -1,0 +1,50 @@
+* {box-sizing: border-box}
+
+body {
+    font-family: "Barlow Condensed", helvetica, sans-serif;
+    font-size: 30px;
+    background-color: #FAF7F3;
+}
+
+span {
+    font-family: "Barlow Condensed", helvetica, sans-serif;
+}
+
+nav {
+    text-align: center;
+}
+
+nav ul {
+    font-size: 20px;
+    text-align: center;
+    margin: 0px;
+    padding: 0px;
+    padding-bottom: 40px;
+}
+
+nav li {
+    list-style-type: none;
+    display: inline-block;
+}
+
+.order-list {
+    margin-bottom: 20px;
+    border: none;
+    padding: 20px;
+    list-style: none;
+    text-align: center;
+  }
+
+h2 {
+    text-align: center;
+    font-family: "Notable", helvetica, sans-serif;
+    font-size: 60px;
+}
+
+.order-search {
+    text-align: center;
+}
+
+.view-order {
+    width: 100px;
+}

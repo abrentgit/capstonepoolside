@@ -316,7 +316,6 @@ function postOrder() {
             'deliveryDate': `${date}`,
             'location': `${location}`,
             'notes': '',
-            'price': `${cartTotal}`
         };
         
         const headers = {
@@ -350,6 +349,9 @@ function orderFeedback(newOrder) {
     let location = newOrder.location;
 
     console.log(date, 'DATE CONVERTED');
+    console.log(newOrder, 'this is the new order');
+
+    // NEED TO ACCESS QUANTITY OF DISHES, THEN DISPLAY ******** 
     
     newOrder.dishes.forEach(dish => {
         dishList = dishList.concat(`<li>
@@ -361,11 +363,19 @@ function orderFeedback(newOrder) {
     })
 
     let cartVal = `${cartTotal}`;
+
+    // cart.forEach(dish => {
+    //     let dishQty = dish.quantity;
+    //     console.log(dishQty);
+    // }
+
+    // GET QUANTITY FROM THE CART
+    // let dishQty = 
     // NEED TO DISPLAY LOCATION, NOTES, DELIVERY TIME
 
     $('.order-form').html(`<ul>${dishList}</ul>
                            <div class="order-details"> 
-                                <p>Reservation: ${date} at ${location}</p>
+                                <p><i>Reservation:</i> ${date} at ${location}</p>
                             </div>
                             <div class="cart-total">
                                 <p class="cart-cost">Total Cost: $${cartVal}</p>
@@ -376,9 +386,9 @@ function orderFeedback(newOrder) {
 
 function deleteOrder() {
     $('.order-form').on('click', '.cancel-btn', function(event) {
-        confirm("Are you sure?");
-        deleteOrderFeedback();
         console.log('HELLO, I AM CLICKED');
+
+        deleteOrderFeedback();
     
     let orderId = $(event.currentTarget).data('order');
     console.log(orderId, 'this is current orderId');
@@ -397,6 +407,7 @@ function deleteOrder() {
         method: 'DELETE',
         headers: headers
     }).then(response => {
+        return response;
         console.log('request worked', response);
     }).catch(error => {
         console.log('an error occured', error);
@@ -406,12 +417,17 @@ function deleteOrder() {
 }
 
 function deleteOrderFeedback() {
+    $('.order-title').html(``);    
     $('.order-form').html(`<div class="delete-feedback"> 
                                 <p class="cancel-text">Your order has been canceled.</p>
+                                <a class="menu-link" href="../views/make-order.html">Menu</a>
                            </div>`);
 }
 
+// on click of HREF, connect to MAKE ORDER PAGE
 // GET ORDERS first 
+
+{/* <a href="https://www.w3schools.com">Visit W3Schools</a> */}
 
 // THEN I NEED PUT ORDERS
 

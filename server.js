@@ -22,6 +22,46 @@ const jwt = require('jsonwebtoken');
 app.use(morgan('common'));
 app.use(express.json());
 app.use(cors());
+app.use(express.static(__dirname +'/public'));
+
+
+
+// HTML PAGES
+
+// HOMEPAGE - WORKS!
+
+app.get('/orderinn/home', (req, res) => {
+	if(!req) {
+		res.status(404).message('content not found');
+	} else {
+		res.status(200).sendFile(__dirname + '/views/homepage.html');
+	}
+});
+
+// ABOUT PAGE - DOESN'T WORK
+app.get('/orderinn/about', (req, res) => {
+	if(!req) {
+		res.status(404).json({ error: 'content not found' });
+	} else {
+		res.status(200).json();
+	}
+});
+
+// MAKE ORDER PAGE, I NEED TO GET THE DISHES
+app.get('/orderinn/neworder', (req, res) => {
+	if(!req) {
+		res.status(404).message('content not found');
+	} else {
+		res.status(200).sendFile(__dirname + '/views/make-order.html');
+	}
+});
+
+// LOGIN PAGE 
+
+// REGISTER PAGE
+
+// CREATE ORDER PAGE 
+
 
 // PENDING OPTIMIZATION
 // const ordersRouter = require('./orderRouter');
@@ -216,21 +256,6 @@ app.post('/login/admin', (req, res) => {
 	});
 });
 
-app.get('orderInn/home', (req, res) => {
-	if(!req) {
-		res.status(404).json({ error: 'content not found' });
-	} else {
-		res.status(200).json();
-	}
-});
-
-app.get('orderInn/about', (req, res) => {
-	if(!req) {
-		res.status(404).json({ error: 'content not found' });
-	} else {
-		res.status(200).json();
-	}
-});
 // get all orders
 // FOR STAFF
 // WORKS!!*
