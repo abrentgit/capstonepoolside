@@ -95,53 +95,6 @@ function registerGuest() {
     });
 }
 
-
-// WORKS 
-// function getMenu() {
-//         console.log('working');
-        
-//         $('#menu-link').on('click', function(event) {
-//             event.preventDefault();
-
-//         const token = localStorage.getItem('token');
-//         const headers = {
-//             'Authorization': `Bearer ${token}`,
-//             'Content-Type': 'application/json'
-//         };
-
-//         return fetch('http://localhost:8080/menus', {
-//             headers: headers
-//         }).then(rawResponse => {
-//             return rawResponse.json(); 
-//         }).then(response => {
-//             console.log('request worked', response);
-//             return response;
-//         }).then(response => {
-//             let menu = response.menus[0]; //response object, menu is first index
-//             let dishes = menu.dishes; // array of objects, each object is a dish
-//             let beverages = menu.beverages; //array of objects
-
-//             let dishArr = dishes.map(({ name, description, price }) => ({name, description, price}));
-//             let beverageArr = beverages.map(({ name, description, price }) => ({name, description, price}));
-            
-//             $.each(dishArr, function () {
-//                 $.each(this, function (key, value) {
-//                     let dish = value;
-//                     $('.dishes').append(`<p> ${dish} </p>`);
-//                 });
-//              });
-
-//              $.each(beverageArr, function () {
-//                  $.each(this, function(key, value) {
-//                     let beverage = value;
-//                     $('.beverages').append(`<p> ${beverage} </p>`);
-//                  });
-//              });
-//         }).catch(error => {
-//             console.log('an error occured', error);
-//         });
-//     })
-// }
 let dishes = [];
 
 function getDishes() {
@@ -350,6 +303,7 @@ function orderFeedback(newOrder) {
 
     console.log(date, 'DATE CONVERTED');
     console.log(newOrder, 'this is the new order');
+    console.log(newOrder.dishes._id, "this is dish id inside new order");
 
     // NEED TO ACCESS QUANTITY OF DISHES, THEN DISPLAY ******** 
     
@@ -364,15 +318,6 @@ function orderFeedback(newOrder) {
 
     let cartVal = `${cartTotal}`;
 
-    // cart.forEach(dish => {
-    //     let dishQty = dish.quantity;
-    //     console.log(dishQty);
-    // }
-
-    // GET QUANTITY FROM THE CART
-    // let dishQty = 
-    // NEED TO DISPLAY LOCATION, NOTES, DELIVERY TIME
-
     $('.order-form').html(`<ul>${dishList}</ul>
                            <div class="order-details"> 
                                 <p><i>Reservation:</i> ${date} at ${location}</p>
@@ -381,14 +326,23 @@ function orderFeedback(newOrder) {
                                 <p class="cart-cost">Total Cost: $${cartVal}</p>
                                 <p class="thanks">Thanks for Your Order!</p>
                             </div>
-                            <button data-order="${newOrder._id}" class="cancel-btn">Cancel Order</button>`);
+                            <button data-order="${newOrder._id}" class="cancel-btn">Cancel Order</button>`)
+                        }
+
+function cancelConfirm() {
+    if (confirm('Are you sure you want to cancel your order?') === true) {
+        deleteOrderFeedback();
+    } else {
+        return false;
+    }
 }
 
 function deleteOrder() {
     $('.order-form').on('click', '.cancel-btn', function(event) {
         console.log('HELLO, I AM CLICKED');
 
-        deleteOrderFeedback();
+        cancelConfirm();
+        // deleteOrderFeedback();
     
     let orderId = $(event.currentTarget).data('order');
     console.log(orderId, 'this is current orderId');
@@ -424,189 +378,7 @@ function deleteOrderFeedback() {
                            </div>`);
 }
 
-// on click of HREF, connect to MAKE ORDER PAGE
-// GET ORDERS first 
-
-{/* <a href="https://www.w3schools.com">Visit W3Schools</a> */}
-
-// THEN I NEED PUT ORDERS
-
-// function getOrders() {
-//     const token = localStorage.getItem('token');
-
-//     const headers = {
-//         'Authorization': `Bearer ${token}`,
-//         'Content-Type': 'application/json'
-//     };
-
-//     let orderID = '';
-
-//     return fetch('http://localhost:8080/orders', {
-//         headers: headers
-//     }).then(rawResponse => {
-//         return rawResponse.json();
-//     }).then(response => {
-//         console.log('request worked', response);
-//         $('.my-order').text('hello');
-//         // let ordersHtml = '';
-//         // response.orders.forEach(order => {
-//         //     let orderHtml = renderOrders(order);
-//         //     ordersHtml = ordersHtml.concat(orderHtml);
-//                 // $('.my-order').append(ordersHtml);
-//         return response;
-//     }).catch(error => {
-//         console.log('an error occurred', error);
-//     });
-// }
-
-// function renderOrders(userorder) {
-//     const userorder = `<div class="order-sum"> <h3> ${order.dishes} </h3>
-//                         <p> ${order.deliveryDate}</p>
-//                         <span> ${order.location} </span>
-//                         <div class="order-checkout-btn">
-//                             <button class="confirm-button" type="button">Confirm Order</button>
-//                         </div>
-//                         <div class="edit-order-btn">
-//                             <button class="edit-button" type="button">Edit Order</button>
-//                         </div>  
-//                     </div>`
-//     return userorder; 
-// }
-
-// want to put POSTED order in ORDER RECAP 
-// for edit and exchange
-
-// GET ORDERS, THEN RENDER the IDENTIFIED ORDER? 
-// EDIT ORDER PUT REQUEST 
-
-
-    // const token = localStorage.getItem('token');
-    // this WILL BE FOR EDIT ORDERS
-
-    // const headers = {
-    //     'Authorization': `Bearer ${token}`,
-    //     'Content-Type': 'application/json'
-    // };
-
-    // return fetch('http://localhost:8080/dishes/:id', {
-    //     method: PUT,
-    //     headers: headers
-    // }).then(rawResponse => {
-    //     return rawResponse.json();
-    // }).then(response => {
-    //     console.log('request- worked');
-    //     return response.dishes;
-    // }).catch(error => {
-    //     console.log('an error occurred', error);
-    // });
-
-
-// function deleteOrder() {
-
-//     const token = localStorage.getItem('token');
-//     const guestId = localStorage.getItem('user_id'); 
-//     const orderId = localStorage.getItem('order_id'); 
-
-//     const headers = {
-//         'Authorization': `Bearer ${token}`,
-//         'Content-Type': 'application/json',
-//         'guests': `${guestId}`,
-//         'orderId': `${orderId}`
-//     };
-        
-
-//     return fetch(`http://localhost:8080/orders/${orderId}`, {
-//             method: 'DELETE',
-//             body: JSON.stringify(order),
-//             headers: headers
-//         }).then(rawResponse => {
-//             return rawResponse.json(); 
-//         }).then(response => {
-//             console.log('request worked', response);
-//             return response;
-//         }).catch(error => {
-//             console.log('an error occured', error);
-//         });
-//     });  
-// }
-
-
-// function submitOrder() {
-
-//     const token = localStorage.getItem('token');
-//     const guestId = localStorage.getItem('user_id');
-        
-//         const headers = {
-//             'Authorization': `Bearer ${token}`,
-//             'Content-Type': 'application/json',
-//             'guests': `${guestId}`
-//         };
-
-//     return fetch('http://localhost:8080/orders', {
-//             method: 'POST',
-//             body: JSON.stringify(order),
-//             headers: headers
-//         }).then(rawResponse => {
-//             return rawResponse.json(); 
-//         }).then(response => {
-//             console.log('request worked', response);
-//             return response;
-//         }).catch(error => {
-//             console.log('an error occured', error);
-//         });
-//     });  
-// }
-
-
-// // TESTING THIS ON ORDERDASH.html
-// // how to submit this without giving order ID
-
-// function getOrders() {
-//     $('.find-order').on('click', event => {
-//         event.preventDefault();
-//         $('.order-search').hide();
-//         console.log('working');
-
-//         const orderId = $('#order-id').val();
-
-//         const token = localStorage.getItem('token');
-        
-//         const headers = {
-//             'Authorization': `Bearer ${token}`,
-//             'Content-Type': 'application/json',
-//             'OrderId': `${orderId}`
-//         };
-
-//     return fetch(`http://localhost:8080/orders/${orderId}`, {
-//             headers: headers 
-//         }).then(rawResponse => {
-//             console.log(rawResponse);
-//             return rawResponse.json();
-//         }).then(response => {
-//             let dishes = response.dishes; //an array of objects that is empty right now
-//             let beverages = response.beverages;
-//             let location = response.location;
-//             let deliveryDate = response.deliveryDate;
-//             let parsedDate = new Date (`${deliveryDate}`); // REFORMATS DATE 
-//             let notes = response.notes; 
-
-//             $('.order-items').text(`<p> Details: ${location}, ${parsedDate}, ${notes} </p>`); 
-
-//             // if (dishes !== undefined || dishes.length > 0) {
-//             //     $('.order-list').append(`${dishes}`);    
-//             // }
-
-//             // if (beverages !== undefined || beverages.length > 0) {
-//             //     $('.order-list').append(`${beverages}`);
-//             // }
-            
-//             // // display the order sent
-//             console.log('request worked', response);
-//             return response;
-//         }).catch(error => {
-//             console.log('an error occured', error);
-//         });
-//     });
-
-// }
-
+// handler for login 
+// on click of login link 
+// on click of register link
+// on clikc of .make-order-link on about page

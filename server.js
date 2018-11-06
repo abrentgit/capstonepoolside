@@ -32,7 +32,7 @@ app.use(express.static(__dirname +'/public'));
 
 app.get('/orderinn/home', (req, res) => {
 	if(!req) {
-		res.status(404).message('content not found');
+		res.status(404).message('Content not found');
 	} else {
 		res.status(200).sendFile(__dirname + '/views/homepage.html');
 	}
@@ -41,18 +41,37 @@ app.get('/orderinn/home', (req, res) => {
 // ABOUT PAGE - DOESN'T WORK
 app.get('/orderinn/about', (req, res) => {
 	if(!req) {
-		res.status(404).json({ error: 'content not found' });
+		res.status(404).message('Content not found');
 	} else {
-		res.status(200).json();
+		res.status(200).sendFile(__dirname + '/views/about.html');
 	}
 });
 
 // MAKE ORDER PAGE, I NEED TO GET THE DISHES
 app.get('/orderinn/neworder', (req, res) => {
 	if(!req) {
-		res.status(404).message('content not found');
+		res.status(404).message('Content not found');
 	} else {
 		res.status(200).sendFile(__dirname + '/views/make-order.html');
+	}
+});
+
+/// LOGIN 
+app.get('/orderinn/login', (req, res) => {
+	if(!req) {
+		res.status(404).message('Content not found');
+	} else {
+		res.status(200).sendFile(__dirname + '/views/login.html');
+	}
+});
+
+
+// REGISTER
+app.get('/orderinn/register', (req, res) => {
+	if(!req) {
+		res.status(404).message('Content not found');
+	} else {
+		res.status(200).sendFile(__dirname + '/views/register.html');
 	}
 });
 
