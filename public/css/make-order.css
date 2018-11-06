@@ -129,8 +129,9 @@ body {
 
 header {
     font-size: 60px;
-    text-align: center;
-    /* margin-right: 300px; */
+    font-weight: bold;
+    font-style: italic;
+    margin-left: 500px;
     font-family: "Barlow Condensed", helvetica, sans-serif; 
 }
 
@@ -140,7 +141,6 @@ h4 {
 
 .order-id {
     font-size: 60px;
-    text-align: center;
 }
 
 fieldset {
@@ -217,9 +217,3 @@ form {
     font-size: 30px;
     display: flexbox;
 }
-
-/* textarea {
-    width: 400px;
-    height: 100px;
-    font-size: 20px;
-} */
