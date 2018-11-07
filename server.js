@@ -38,7 +38,7 @@ app.get('/orderinn/home', (req, res) => {
 	}
 });
 
-// ABOUT PAGE - DOESN'T WORK
+// ABOUT PAGE 
 app.get('/orderinn/about', (req, res) => {
 	if(!req) {
 		res.status(404).message('Content not found');
@@ -47,7 +47,7 @@ app.get('/orderinn/about', (req, res) => {
 	}
 });
 
-// MAKE ORDER PAGE, I NEED TO GET THE DISHES
+// MAKE ORDER PAGE
 app.get('/orderinn/neworder', (req, res) => {
 	if(!req) {
 		res.status(404).message('Content not found');

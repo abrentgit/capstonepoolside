@@ -22,6 +22,8 @@ function performLogin() {
         event.preventDefault();
         console.log('working');
 
+        getDishes();
+
         const email = $('#user-email').val();
         const password = $('#user-password').val();
         
