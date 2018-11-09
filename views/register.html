@@ -14,7 +14,8 @@
     <header role="header">
       <h1> ORDER INN </h1>
     </header>
-    <form role="form" action="/signup" accept-charset="UTF-8" method="post" class="register-form">
+    <div class="register-feedback"></div>
+    <form role="form" accept-charset="UTF-8" method="POST" class="register-form">
       <fieldset>
         <legend>Register</legend>
         <label for="user-name">Name</label>
@@ -29,9 +30,10 @@
       </fieldset>
     </form>
 
-    <footer role="contentinfo" class="footer">
+    <footer role="contentinfo" class="footer-register">
       <p>Already have an account? <a href="/login">Log in</a></p>
     </footer>
+
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="../app.js"></script>
   </body>

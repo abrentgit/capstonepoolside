@@ -13,7 +13,7 @@ body {
 }
 
 .delete-feedback {
-    margin-left: 620px;
+    margin-left: 470px;
 }
 
 .cancel-text {
@@ -48,14 +48,6 @@ body {
     width: 92%;
     margin: 0 auto;
 }
-
-/* .small-logo {
-    display: block;
-    color: white;
-    width: auto;
-    height: 70px;
-    margin-left: -350px;
-  } */
 
 .order-summary {
     width: 40%;
@@ -131,7 +123,8 @@ header {
     font-size: 60px;
     font-weight: bold;
     font-style: italic;
-    margin-left: 500px;
+    margin-left: 400px;
+    margin-top: 20px;
     font-family: "Barlow Condensed", helvetica, sans-serif; 
 }
 

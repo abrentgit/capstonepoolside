@@ -7,6 +7,7 @@ function main() {
     addDish();
     deleteDish();
     renderCart();
+    loadRegister();
 }
 
 postOrder();
@@ -15,14 +16,10 @@ deleteOrder();
 
 $(main);
 
-// WORKS 
-
 function performLogin() {
     $('.login-form').on('submit', function(event) {
         event.preventDefault();
         console.log('working');
-
-        getDishes();
 
         const email = $('#user-email').val();
         const password = $('#user-password').val();
@@ -47,8 +44,6 @@ function performLogin() {
             const { authToken } = response;
             localStorage.setItem('token', authToken);
             localStorage.setItem('userId', response.user_id);
-            // function that will flip page to make order
-            getDishes();
             return response;
         }).catch(error => {
             console.log('an error occured', error);
@@ -56,11 +51,14 @@ function performLogin() {
     });
 }
 
+
+
 //WORKS
 
 function registerGuest() {
     $('.register-form').on('submit', function(event) {
         event.preventDefault();
+
         console.log('working');
 
         const name = $('#user-name').val();
@@ -89,13 +87,20 @@ function registerGuest() {
             console.log('request worked', response);
             const { authToken } = response;
             localStorage.setItem('token', authToken);
-            performLogin(); // LOGIN AFTER REGISTER IS GOOD
+            registerGood();
             return response;
         }).catch(error => {
             console.log('an error occured', error);
         });
     });
 }
+
+function registerGood() {
+    $('.register-form').html('');
+    $('.footer-register').hide();
+    $('.register-feedback').html(`<p> Thanks for registering! </p>`)
+}
+
 
 let dishes = [];
 

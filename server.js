@@ -75,12 +75,6 @@ app.get('/orderinn/register', (req, res) => {
 	}
 });
 
-// LOGIN PAGE 
-
-// REGISTER PAGE
-
-// CREATE ORDER PAGE 
-
 
 // PENDING OPTIMIZATION
 // const ordersRouter = require('./orderRouter');
