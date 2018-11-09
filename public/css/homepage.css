@@ -25,7 +25,10 @@ a {
     color: white;
 }
 
+
 li {
+    display: inline; 
     padding: 30px;
     list-style: none;
+    font-size: 40px;
 }
