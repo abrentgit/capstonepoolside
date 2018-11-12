@@ -11,6 +11,7 @@ function main() {
 getLoginPage();
 postOrder();
 deleteOrder();
+addDish();
 
 
 $(main);
@@ -46,6 +47,7 @@ function performLogin() {
             $('.homepage').hide();
             $('.login-form').hide();
             $('.logo').hide();
+            $('.footer').hide();
             getMakeOrderPage();
             return response;
         }).catch(error => {
@@ -137,9 +139,9 @@ return fetch('http://localhost:8080/orderinn/neworder', {
 }).then((data) => {
      console.log(data, 'this is the data');
      $('.create-order').html(data);
+     $('.logo').show(); 
 });
 }
-
 
 let dishes = [];
 
@@ -227,7 +229,6 @@ function addDish() {
         return cart;
     });
 } 
-
 
 function deleteDish() {
     $('.dishes').on('click', '.delete-dish-button', function(event) {
@@ -340,7 +341,7 @@ function postOrder() {
 
 function orderFeedback(newOrder) {
     $('header').remove('h1');
-    $('.order-title').html(`<h2 class="order-id"> Order#: ${newOrder._id} </h2>`);    
+    $('.order-title').html(`<p class="order-id"> Order#: ${newOrder._id} </p>`);    
     
     let dishList = '';
     let date = new Date (newOrder.deliveryDate);
@@ -416,9 +417,10 @@ function deleteOrder() {
 }
 
 function deleteOrderFeedback() {
+    $('.logo').show();
     $('.order-title').html(``);    
     $('.order-form').html(`<div class="delete-feedback"> 
                                 <p class="cancel-text">Your order has been canceled.</p>
-                                <a class="menu-link" href="../views/make-order.html">Menu</a>
+                                <button class="menu-link" onclick="getMakeOrderPage()>Menu</button>
                            </div>`);
 }

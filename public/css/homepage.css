@@ -25,10 +25,33 @@ a {
     color: white;
 }
 
-
-li {
+.login-link {
     display: inline; 
     padding: 30px;
     list-style: none;
     font-size: 40px;
 }
+
+.about-link {
+    display: inline; 
+    padding: 30px;
+    list-style: none;
+    font-size: 40px;
+}
+
+.register-link {
+    display: inline; 
+    padding: 30px;
+    list-style: none;
+    font-size: 40px;
+}
+
+/* li.order-item {
+    font-size: 25px;
+}
+
+h2.order-id {
+    font-size: 60px;
+    font-style: normal;
+    font-family: "Barlow Condensed", helvetica, sans-serif;
+} */

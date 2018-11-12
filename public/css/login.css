@@ -4,21 +4,16 @@
 body {
     background-color: #FAF7F3;
     font-family: "Barlow Condensed", helvetica, sans-serif;
-    background-position: center;
     padding: 60px 0 0;
     margin: 0;
     font-size: 18px;
   }
 
-  body * {
-    box-sizing: border-box;
-  }
-
-  h1 {
-      text-align: center;
-      font-family: 'Notable', sans-serif;
-      font-size: 80px;
-  }
+.title {
+    text-align: center;
+    font-family: 'Notable', sans-serif;
+    font-size: 80px;
+}
 
   fieldset {
     padding: 0;
@@ -42,7 +37,7 @@ body {
     margin: 0 auto;
   }
 
-  .login-form legend {
+  .login-legend {
     width: 100%;
     line-height: 38px;
     font-size: 45px;
@@ -51,6 +46,7 @@ body {
     text-align: center;
     letter-spacing: 0;
     margin: 0 auto 45px;
+    padding-bottom: 20px;
   }
 
   legend {
@@ -82,7 +78,7 @@ body {
     border-radius: 3px;
     background: #fcfcfc;
     margin: 10px auto 20px;
-    transition: opacity 0.4s; */
+    transition: opacity 0.4s; 
     height: auto;
     font-family: "Barlow Condensed", helvetica, sans-serif;
     font-size: 22px;
@@ -141,5 +137,15 @@ body {
 
   .footer a:hover {
     color: #E7F1F9;
+  }
+
+  li.order-item {
+    font-size: 25px;
+  }
+
+  h2.order-id {
+    font-size: 60px;
+    font-style: normal;
+    font-family: "Barlow Condensed", helvetica, sans-serif;
   }
 

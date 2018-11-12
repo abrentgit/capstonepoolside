@@ -7,27 +7,49 @@ body {
     padding-bottom: 90px;
 }
 
+
+li.order-item {
+    font-size: 25px;
+}
+
+h2.order-id {
+    font-size: 60px;
+    font-style: normal;
+    font-family: "Barlow Condensed", helvetica, sans-serif;
+}
+
 .dishOrder {
     font-family: "Barlow Condensed", helvetica, sans-serif;
     font-size: 30px;
 }
 
 .delete-feedback {
-    margin-left: 470px;
+    margin-left: 530px;
 }
 
 .cancel-text {
     font-size: 50px;
+    margin-left: -70px;
+    font-family: "Barlow Condensed", helvetica, sans-serif;
 }
 
 .order-title {
-    font-family: 'Notable', sans-serif;
-    font-size: 80px;
+    font-size: 120px;
+    margin-left: 180px;
 }
 
 .menu-link {
-    margin-left: 215px;
+    margin-left: 165px;
+    border-radius: 100px;
+    color: white;
+    left: 80px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 250px;
+    font-family: "Barlow Condensed", helvetica, sans-serif;
+    background-color:rgb(150, 211, 93);    ;
     font-size: 30px;
+    display: flexbox;
 }
 
 .order-feedback {
@@ -137,20 +159,11 @@ h4 {
     font-weight: bold;
 }
 
-.order-id {
-    font-size: 60px;
-}
 
 fieldset {
     border: 0;
 }
 
-legend {
-    padding: 20px;
-    text-align: center;
-    font-style: italic;
-    font-size: 30px;
-}
 
 form {
     font-size: 30px;
