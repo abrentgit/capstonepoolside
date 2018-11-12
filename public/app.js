@@ -8,6 +8,7 @@ function main() {
     renderCart();
 }
 
+getLoginPage();
 postOrder();
 deleteOrder();
 
@@ -42,6 +43,10 @@ function performLogin() {
             const { authToken } = response;
             localStorage.setItem('token', authToken);
             localStorage.setItem('userId', response.user_id);
+            $('.homepage').hide();
+            $('.login-form').hide();
+            $('.logo').hide();
+            getMakeOrderPage();
             return response;
         }).catch(error => {
             console.log('an error occured', error);
@@ -91,10 +96,48 @@ function registerGuest() {
     });
 }
 
-function registerGood() {
-    $('.register-form').html('');
-    $('.footer-register').hide();
-    $('.register-feedback').html(`<p> Thanks for registering! </p>`)
+function getLoginPage() {
+    $('.logo').hide();
+    $('.login-form').hide();
+    $('.footer').hide();
+
+    $('.login-link').on('click', 'a', function(event) {
+    event.preventDefault();
+    $('body').css('background-image', 'none'); // empty BG    
+    $('body').css('background-color', 'FAF7F3');
+    
+    $('.login-link').hide(); // hide the nav
+    $('.register-link').hide();
+    $('.about-link').hide();
+    $('.title').css('color', '#000000');
+    $('.header').hide();
+    $('.login-form').show();
+
+    renderLoginPage();
+
+    });
+}
+
+function renderLoginPage() {
+    $('.login-form').show();
+    $('.logo').show();
+    $('.footer').show();
+}
+
+
+// get make order page
+// call this make order page up top 
+function getMakeOrderPage() {
+
+return fetch('http://localhost:8080/orderinn/neworder', {
+
+}).then((res) => {
+      return res.text();
+      console.log(res, 'this is html');
+}).then((data) => {
+     console.log(data, 'this is the data');
+     $('.create-order').html(data);
+});
 }
 
 
@@ -230,7 +273,6 @@ function deleteDish() {
         return cart;
     });
 }
-
 
 function renderCart() {
     $('.summary-items').html('');
@@ -380,8 +422,3 @@ function deleteOrderFeedback() {
                                 <a class="menu-link" href="../views/make-order.html">Menu</a>
                            </div>`);
 }
-
-// handler for login 
-// on click of login link 
-// on click of register link
-// on clikc of .make-order-link on about page

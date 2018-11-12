@@ -443,12 +443,12 @@ app.post('/orders', verifyUser, (req, res) => {
 
 	User.findById(firstGuestId, (err, guest) => {
 		if (err) {
-			res.status(404).send({ message: 'Can not find user' });
+			res.status(422).send({ message: 'Can not find user' });
 		} else { 
 			Dish.find({'_id': { $in: dishIds }}, function(err, dishData) {
 					if (err) {
 						console.log(dishData, 'failing dishes');		
-						res.status(404).send({ message: 'Can not find dishes' });
+						res.status(422).send({ message: 'Can not find dishes' });
 					} else {	
 					
 					Order.create({

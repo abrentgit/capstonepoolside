@@ -20,6 +20,11 @@ body {
     font-size: 50px;
 }
 
+.order-title {
+    font-family: 'Notable', sans-serif;
+    font-size: 80px;
+}
+
 .menu-link {
     margin-left: 215px;
     font-size: 30px;

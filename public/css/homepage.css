@@ -1,13 +1,13 @@
 * {box-sizing: border-box}
 
 body {
-	    background-size: cover;
-        background-repeat: no-repeat;
-        font-family: "Notable", helvetica, sans-serif;
-		background-image: url('../toast-homepage.jpeg');
+	background-size: cover;
+    background-repeat: no-repeat;
+    font-family: "Notable", helvetica, sans-serif;
+	background-image: url('../toast-homepage.jpeg');
 }
 
-h1 {
+.title {
 	color: white;
     font-size: 100px;
     text-align: center;
