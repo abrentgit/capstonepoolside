@@ -372,7 +372,8 @@ function orderFeedback(newOrder) {
                                 <p class="cart-cost">Total Cost: $${cartVal}</p>
                                 <p class="thanks">Thanks for Your Order!</p>
                             </div>
-                            <button data-order="${newOrder._id}" class="cancel-btn">Cancel Order</button>`)
+                            <button data-order="${newOrder._id}" class="cancel-btn">Cancel Order</button>
+                            <button type="button" role="button" class="logout-btn" onclick="getHomepage()">Logout</button>`)
                         }
 
 function cancelConfirm() {
@@ -388,7 +389,6 @@ function deleteOrder() {
         console.log('HELLO, I AM CLICKED');
 
         cancelConfirm();
-        // deleteOrderFeedback();
     
     let orderId = $(event.currentTarget).data('order');
     console.log(orderId, 'this is current orderId');
@@ -420,7 +420,12 @@ function deleteOrderFeedback() {
     $('.logo').show();
     $('.order-title').html(``);    
     $('.order-form').html(`<div class="delete-feedback"> 
-                                <p class="cancel-text">Your order has been canceled.</p>
-                                <button class="menu-link" onclick="getMakeOrderPage()>Menu</button>
+                                <p class="cancel-text">Your order has been canceled. Thank you for using Order Inn.</p>
+                                <button type="button" role="button" class="menu-link" onclick="getMakeOrderPage()">Menu</button>
+                                <button type="button" role="button" class="logout-btn" onclick="getHomepage()">Logout</button>
                            </div>`);
 }
+
+// MAKE GET HOMEPAGE FUNC FROM LOGOUT
+
+// MAKE GET MAKE-ORDER PAGE FROM DELETE ORDER FEEDBACK.
