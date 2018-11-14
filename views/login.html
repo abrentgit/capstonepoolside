@@ -13,18 +13,17 @@
   <body>
     <header role="header">
       <img class="logo" src="../cutlery-icon.svg" alt="Cutlery" />
-      <h1> ORDER INN </h1>
     </header>
-    <form role="form" accept-charset="UTF-8" method="POST" class="login-form">
-      <fieldset>
-        <legend>Log In</legend>
-        <label for="user-email">Email</label>
-        <input type="email" placeholder="" name="user-email" id="user-email" required/>
-        <label for="user-password">Password</label>
-        <input placeholder="" type="password" name="user-password" id="user-password" required/>
-        <button type="submit" id="sign-in-submit">SUBMIT</button>
-      </fieldset>
-    </form>
+    <form role="form" accept-charset="UTF-8" method="POST">
+        <fieldset>
+            <legend class="login-legend">Log In</legend>
+            <label for="user-email">Email</label>
+            <input type="email" placeholder="" name="user-email" id="user-email" required/>
+            <label for="user-password">Password</label>
+            <input placeholder="" type="password" name="user-password" id="user-password" required/>
+        <button type="submit" onclick="getMakeOrderPage()" id="sign-in-submit">SUBMIT</button>
+        </fieldset>
+        </form>
 
     <footer role="contentinfo" class="footer">
       <p>Don't have an account? <a href="/register">Sign Up</a></p>

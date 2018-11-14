@@ -8,10 +8,11 @@ function main() {
     renderCart();
 }
 
+getHomepage();
 getLoginPage();
 postOrder();
 deleteOrder();
-addDish();
+logOut();
 
 
 $(main);
@@ -98,50 +99,73 @@ function registerGuest() {
     });
 }
 
-function getLoginPage() {
-    $('.logo').hide();
-    $('.login-form').hide();
-    $('.footer').hide();
+// function getLoginPage() {
+//     $('.logo').hide();
+//     $('.login-form').hide();
+//     $('.footer').hide();
 
+//     $('.login-link').on('click', 'a', function(event) {
+//     event.preventDefault();
+//     $('body').css('background-image', 'none'); // empty BG    
+//     $('body').css('background-color', 'FAF7F3');
+    
+
+//     renderLoginPage();
+
+//     });
+// }
+
+// function renderLoginPage() {
+//     $('.login-form').show();
+//     $('.logo').show();
+//     $('.footer').show();
+// }
+
+function getHomepage() {
+    return fetch('http://localhost:8080/orderinn/home', {
+    }).then((res) => {
+        return res.text();
+        console.log(res, 'this is html');
+    }).then((data) => {
+        console.log(data, 'this is the data');
+    });
+}
+ 
+function getMakeOrderPage() {
+    return fetch('http://localhost:8080/orderinn/neworder', {
+}).then((res) => {
+    return res.text();
+    console.log(res, 'this is html');
+}).then((data) => {
+    console.log(data, 'this is the data');
+    $('.create-order').html(data);
+});
+
+}
+
+function getLoginPage() {
     $('.login-link').on('click', 'a', function(event) {
     event.preventDefault();
-    $('body').css('background-image', 'none'); // empty BG    
-    $('body').css('background-color', 'FAF7F3');
-    
+
+    return fetch('http://localhost:8080/orderinn/login', {
+}).then((res) => {
+    return res.text();
+    console.log(res, 'this is html');
+}).then((data) => {
+    console.log(data, 'this is the data');
+    $('.login-form').append(data);
     $('.login-link').hide(); // hide the nav
     $('.register-link').hide();
     $('.about-link').hide();
+    $('body').css('background-image', 'none'); // empty BG    
+    $('body').css('background-color', 'FAF7F3'); 
+    $('.logo').show();
     $('.title').css('color', '#000000');
     $('.header').hide();
-    $('.login-form').show();
-
-    renderLoginPage();
-
-    });
-}
-
-function renderLoginPage() {
-    $('.login-form').show();
-    $('.logo').show();
-    $('.footer').show();
-}
-
-
-// get make order page
-// call this make order page up top 
-function getMakeOrderPage() {
-
-return fetch('http://localhost:8080/orderinn/neworder', {
-
-}).then((res) => {
-      return res.text();
-      console.log(res, 'this is html');
-}).then((data) => {
-     console.log(data, 'this is the data');
-     $('.create-order').html(data);
-     $('.logo').show(); 
+});
 });
 }
+
 
 let dishes = [];
 
@@ -373,7 +397,7 @@ function orderFeedback(newOrder) {
                                 <p class="thanks">Thanks for Your Order!</p>
                             </div>
                             <button data-order="${newOrder._id}" class="cancel-btn">Cancel Order</button>
-                            <button type="button" role="button" class="logout-btn" onclick="getHomepage()">Logout</button>`)
+                            <button type="button" role="button" class="logout-order-page-btn" onclick="getHomepage()">Logout</button>`)
                         }
 
 function cancelConfirm() {
@@ -428,4 +452,18 @@ function deleteOrderFeedback() {
 
 // MAKE GET HOMEPAGE FUNC FROM LOGOUT
 
-// MAKE GET MAKE-ORDER PAGE FROM DELETE ORDER FEEDBACK.
+function logOut() {    
+    $('.order-form').on('click', '.logout-order-page-btn', function(event) {
+        alert('please log me out homie');
+    })
+}
+
+function getRegisterPage() {
+    // on click of register link in homepage, fetch register page html 
+    
+    // and call getLogin page function
+}
+
+function getAboutPage() {
+    // on click of about link, fetch about html
+}
