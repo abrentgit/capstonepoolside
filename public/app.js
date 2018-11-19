@@ -6,9 +6,9 @@ function main() {
     addDish();
     deleteDish();
     renderCart();
+    getHomePage();
 }
 
-getHomepage();
 getLoginPage();
 postOrder();
 deleteOrder();
@@ -16,6 +16,16 @@ logOut();
 
 
 $(main);
+
+function getHomePage() {
+    return fetch('http://localhost:8080/orderinn/home', {
+    }).then((res) => {
+        return res.text();
+        console.log(res, 'this is html');
+    }).then((data) => {
+        console.log(data, 'this is the data');
+    });
+}
 
 function performLogin() {
     $('.login-form').on('submit', function(event) {
@@ -47,8 +57,8 @@ function performLogin() {
             localStorage.setItem('userId', response.user_id);
             $('.homepage').hide();
             $('.login-form').hide();
-            $('.logo').hide();
-            $('.footer').hide();
+            // $('.logo').hide();
+            // $('.footer').hide();
             getMakeOrderPage();
             return response;
         }).catch(error => {
@@ -99,38 +109,6 @@ function registerGuest() {
     });
 }
 
-// function getLoginPage() {
-//     $('.logo').hide();
-//     $('.login-form').hide();
-//     $('.footer').hide();
-
-//     $('.login-link').on('click', 'a', function(event) {
-//     event.preventDefault();
-//     $('body').css('background-image', 'none'); // empty BG    
-//     $('body').css('background-color', 'FAF7F3');
-    
-
-//     renderLoginPage();
-
-//     });
-// }
-
-// function renderLoginPage() {
-//     $('.login-form').show();
-//     $('.logo').show();
-//     $('.footer').show();
-// }
-
-function getHomepage() {
-    return fetch('http://localhost:8080/orderinn/home', {
-    }).then((res) => {
-        return res.text();
-        console.log(res, 'this is html');
-    }).then((data) => {
-        console.log(data, 'this is the data');
-    });
-}
- 
 function getMakeOrderPage() {
     return fetch('http://localhost:8080/orderinn/neworder', {
 }).then((res) => {
@@ -138,6 +116,7 @@ function getMakeOrderPage() {
     console.log(res, 'this is html');
 }).then((data) => {
     console.log(data, 'this is the data');
+    $('.create-order').html('');
     $('.create-order').html(data);
 });
 
@@ -153,21 +132,21 @@ function getLoginPage() {
     console.log(res, 'this is html');
 }).then((data) => {
     console.log(data, 'this is the data');
-    $('.login-form').append(data);
+    $('.login-form').html(data);
     $('.login-link').hide(); // hide the nav
     $('.register-link').hide();
     $('.about-link').hide();
     $('body').css('background-image', 'none'); // empty BG    
     $('body').css('background-color', 'FAF7F3'); 
     $('.logo').show();
-    $('.title').css('color', '#000000');
+    $('.homepage-title').css('color', '#000000');
     $('.header').hide();
 });
 });
 }
 
 
-let dishes = [];
+// let dishes = [];
 
 function getDishes() {
 
@@ -212,6 +191,7 @@ function renderDish(dish) {
 
 
 let cart = [];
+
 let cartTotal = ''; 
 
 function addDish() {
@@ -397,7 +377,7 @@ function orderFeedback(newOrder) {
                                 <p class="thanks">Thanks for Your Order!</p>
                             </div>
                             <button data-order="${newOrder._id}" class="cancel-btn">Cancel Order</button>
-                            <button type="button" role="button" class="logout-order-page-btn" onclick="getHomepage()">Logout</button>`)
+                            <button type="button" role="button" class="logout-order-page-btn">Logout</button>`)
                         }
 
 function cancelConfirm() {
@@ -445,8 +425,8 @@ function deleteOrderFeedback() {
     $('.order-title').html(``);    
     $('.order-form').html(`<div class="delete-feedback"> 
                                 <p class="cancel-text">Your order has been canceled. Thank you for using Order Inn.</p>
-                                <button type="button" role="button" class="menu-link" onclick="getMakeOrderPage()">Menu</button>
-                                <button type="button" role="button" class="logout-btn" onclick="getHomepage()">Logout</button>
+                                <button type="button" role="button" class="menu-link">Menu</button>
+                                <button type="button" role="button" class="logout-btn">Logout</button>
                            </div>`);
 }
 
@@ -455,7 +435,11 @@ function deleteOrderFeedback() {
 function logOut() {    
     $('.order-form').on('click', '.logout-order-page-btn', function(event) {
         alert('please log me out homie');
-    })
+        $('.create-order').hide();
+        $('.login-form').hide();
+        $('.thank-you').append(`<h1> Eat well soon. </h1>`);
+        $('body').css({'background-image': ''});
+    });
 }
 
 function getRegisterPage() {

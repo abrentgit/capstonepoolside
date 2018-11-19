@@ -1,16 +1,22 @@
 * {box-sizing: border-box}
 
 body {
-	background-size: cover;
-    background-repeat: no-repeat;
     font-family: "Notable", helvetica, sans-serif;
-	background-image: url('../toast-homepage.jpeg');
+    background-image: url('../toast-homepage.jpeg');
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
-.title {
+.homepage-title {
 	color: white;
-    font-size: 100px;
     text-align: center;
+    font-family: "Notable", helvetica, sans-serif;
+}
+
+.homepage-header {
+    font-size: 60px;
+    font-weight: bold;
+    margin-top: 20px;
 }
 
 nav {
@@ -44,4 +50,10 @@ a {
     padding: 30px;
     list-style: none;
     font-size: 40px;
+}
+
+.thank-you {
+    text-align: center;
+    font-size: 70px;
+    color: whitesmoke;
 }

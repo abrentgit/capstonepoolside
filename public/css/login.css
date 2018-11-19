@@ -35,6 +35,7 @@ body {
     border-radius: 20px;
     background: white;
     margin: 0 auto;
+    margin-bottom: 80px;
   }
 
   .login-legend {

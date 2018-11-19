@@ -7,13 +7,17 @@ body {
     padding-bottom: 90px;
 }
 
+.create-order {
+    margin-top: 10px;
+}
+
 
 li.order-item {
     font-size: 25px;
 }
 
 p.order-id {
-    font-size: 60px;
+    font-size: 80px;
     font-style: normal;
     font-family: "Barlow Condensed", helvetica, sans-serif;
 }
@@ -35,7 +39,9 @@ p.order-id {
 
 .order-title {
     font-size: 120px;
-    margin-left: 120px;
+    margin-top: -60px;
+    margin-left: -30px;
+    font-family: "Notable", helvetica, sans-serif;
 }
 
 .menu-link {
@@ -93,10 +99,13 @@ p.order-id {
     font-family: "Barlow Condensed", helvetica, sans-serif;
     font-size: 30px;
     color: red;
+    margin-left: 590px;
     margin-bottom: 10px; 
   }
 
 .logout-order-page-btn {
+    margin-top: -68px;
+    margin-left: 805px;
     border-radius: 500px;
     left: 80px;
     padding-top: 10px;
@@ -113,14 +122,21 @@ p.order-id {
     color: white;
 }
 
+.logout-order-page-btn:hover {
+    background:grey;
+    color: white;
+}
+
 .thanks {
   font-size: 35px;
-  font-style: italic;
+  font-weight: bold;
+  margin-left: 670px;
   padding-top: 20px;
   padding-bottom: 20px;
 }
 
 .summary-items {
+    margin-top: 50px;
     margin-left: 20px;
 }
 
@@ -151,7 +167,7 @@ p.order-id {
     font-size: 20px;
 }
 
-header {
+.order-header {
     font-size: 60px;
     font-weight: bold;
     font-style: italic;
