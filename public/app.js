@@ -1,30 +1,35 @@
-
 function main() {
     console.log('loading app.js');
     performLogin();
-    registerGuest();
-    addDish();
     deleteDish();
     renderCart();
     getHomePage();
+    getLoginPage()
+    getRegisterPage();
 }
 
-getLoginPage();
 postOrder();
 deleteOrder();
 logOut();
-
+registerGuest();
+addDish();
 
 $(main);
 
+// function getHomePage() {
+//     return fetch('http://localhost:8080/orderinn/home', {
+//     }).then((res) => {
+//         return res.text();
+//     }).then((data) => {
+//     });
+// }
+
 function getHomePage() {
-    return fetch('http://localhost:8080/orderinn/home', {
-    }).then((res) => {
-        return res.text();
-        console.log(res, 'this is html');
-    }).then((data) => {
-        console.log(data, 'this is the data');
-    });
+    $('.homepage').show();
+    $('.register-form').hide();
+    $('.login-form').hide();
+    $('.make-order').hide();
+    $('.thank-you').hide();
 }
 
 function performLogin() {
@@ -55,11 +60,11 @@ function performLogin() {
             const { authToken } = response;
             localStorage.setItem('token', authToken);
             localStorage.setItem('userId', response.user_id);
-            $('.homepage').hide();
+            alert('You are logged in.');
             $('.login-form').hide();
-            // $('.logo').hide();
-            // $('.footer').hide();
-            getMakeOrderPage();
+            $('.homepage').hide();
+            $('.make-order').show();
+            // getMakeOrderPage(); /// NEED TO CALL THIS 
             return response;
         }).catch(error => {
             console.log('an error occured', error);
@@ -67,12 +72,20 @@ function performLogin() {
     });
 }
 
-//WORKS
+// function getMakeOrderPage() {
+//     return fetch('http://localhost:8080/orderinn/neworder', {
+// }).then((res) => {
+//     return res.text();
+//     console.log(res, 'this is html');
+// }).then((data) => {
+//     console.log(data, 'this is the data');
+//     $('.make-order').html(data);
+// });
+// }
 
 function registerGuest() {
     $('.register-form').on('submit', function(event) {
         event.preventDefault();
-
         console.log('working');
 
         const name = $('#user-name').val();
@@ -101,7 +114,10 @@ function registerGuest() {
             console.log('request worked', response);
             const { authToken } = response;
             localStorage.setItem('token', authToken);
-            registerGood();
+            alert('You are registered');
+            $('.register-form').hide();
+            $('.homepage').show();
+            getHomePage();
             return response;
         }).catch(error => {
             console.log('an error occured', error);
@@ -109,30 +125,46 @@ function registerGuest() {
     });
 }
 
-function getMakeOrderPage() {
-    return fetch('http://localhost:8080/orderinn/neworder', {
-}).then((res) => {
-    return res.text();
-    console.log(res, 'this is html');
-}).then((data) => {
-    console.log(data, 'this is the data');
-    $('.create-order').html('');
-    $('.create-order').html(data);
-});
+// function getLoginAfterRegister() {
+//     return fetch('http://localhost:8080/orderinn/login', {
+// }).then((res) => {
+//     return res.text();
+//     console.log(res, 'this is html');
+// }).then((data) => {
+//     console.log(data, 'this is the data');
+//     $('.login-form').html(data);
+// })
+// }
 
-}
+// function getLoginPage() {
+//     $('.login-link').on('click', 'a', function(event) {
+//     event.preventDefault();
+
+//     return fetch('http://localhost:8080/orderinn/login', {
+// }).then((res) => {
+//     return res.text();
+//     console.log(res, 'this is html');
+// }).then((data) => {
+//     console.log(data, 'this is the data');
+//     alert('LOGIN LINK WORKING');
+//     $('.login-form').html(data);
+//     $('.login-link').hide(); // hide the nav
+//     $('.register-link').hide();
+//     $('.about-link').hide();
+//     $('body').css('background-image', 'none'); // empty BG    
+//     $('body').css('background-color', 'FAF7F3'); 
+//     $('.logo').show();
+//     $('.homepage-title').css('color', '#000000');
+//     $('.header').hide();
+// });
+// });
+// }
 
 function getLoginPage() {
     $('.login-link').on('click', 'a', function(event) {
     event.preventDefault();
-
-    return fetch('http://localhost:8080/orderinn/login', {
-}).then((res) => {
-    return res.text();
-    console.log(res, 'this is html');
-}).then((data) => {
-    console.log(data, 'this is the data');
-    $('.login-form').html(data);
+    alert('LOGIN LINK WORKING');
+    $('.login-form').show();
     $('.login-link').hide(); // hide the nav
     $('.register-link').hide();
     $('.about-link').hide();
@@ -140,13 +172,10 @@ function getLoginPage() {
     $('body').css('background-color', 'FAF7F3'); 
     $('.logo').show();
     $('.homepage-title').css('color', '#000000');
-    $('.header').hide();
-});
-});
+})
 }
 
-
-// let dishes = [];
+let dishes = [];
 
 function getDishes() {
 
@@ -430,12 +459,11 @@ function deleteOrderFeedback() {
                            </div>`);
 }
 
-// MAKE GET HOMEPAGE FUNC FROM LOGOUT
 
 function logOut() {    
     $('.order-form').on('click', '.logout-order-page-btn', function(event) {
         alert('please log me out homie');
-        $('.create-order').hide();
+        $('.make-order').hide();
         $('.login-form').hide();
         $('.thank-you').append(`<h1> Eat well soon. </h1>`);
         $('body').css({'background-image': ''});
@@ -443,9 +471,25 @@ function logOut() {
 }
 
 function getRegisterPage() {
-    // on click of register link in homepage, fetch register page html 
-    
-    // and call getLogin page function
+    $('.register-link').on('click', 'a', function(event) {
+    return fetch('http://localhost:8080/orderinn/register', {
+    }).then((res) => {
+        return res.text();
+        console.log(res, 'this is html');
+    }).then((data) => {
+        $('.register-form').append(data);
+        $('.homepage-title').css('color', '#000000');
+        $('.login-form').hide();
+        $('.make-order').hide();
+        $('.login-link').hide(); // hide the nav
+        $('.register-link').hide();
+        $('.about-link').hide();
+        $('body').css('background-image', 'none'); // empty BG    
+        $('body').css('background-color', 'FAF7F3'); 
+        $('.logo').show();
+        $('.header').hide();
+    });
+})
 }
 
 function getAboutPage() {

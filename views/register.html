@@ -12,12 +12,11 @@
 
   <body>
     <header role="header">
-      <h1> ORDER INN </h1>
+      <img class="logo" src="../cutlery-icon.svg" alt="Cutlery" />
     </header>
-    <div class="register-feedback"></div>
-    <form role="form" accept-charset="UTF-8" method="POST" class="register-form">
+    <form role="form" accept-charset="UTF-8" method="POST">
       <fieldset>
-        <legend>Register</legend>
+        <legend class="register-legend">Register</legend>
         <label for="user-name">Name</label>
         <input type="name" placeholder="" name="user-name" id="user-name" required/>
         <label for="user-email">Email</label>
@@ -26,7 +25,7 @@
         <input type="password" placeholder="" name="user-password" id="user-password" required/>
         <label for="psw-repeat">Repeat Password</label>
         <input type="password-repeat" placeholder="" name="psw-repeat" id="psw-repeat" required>
-        <button type="submit">SUBMIT</button>
+        <button type="submit" id="register-btn">SUBMIT</button>
       </fieldset>
     </form>
 
