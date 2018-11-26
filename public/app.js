@@ -1,28 +1,29 @@
 function main() {
     console.log('loading app.js');
     performLogin();
-    deleteDish();
-    renderCart();
+    getLoginPage();
+
+    // deleteDish();
+    // renderCart();
     getHomePage();
-    getLoginPage()
-    getRegisterPage();
+    deleteOrder();
+    startNewOrder();
+    // getMakeOrderPage();
 }
 
 postOrder();
 deleteOrder();
-logOut();
-registerGuest();
+orderDone();
 addDish();
+deleteDish();
+getDishes();
+deleteDish();
+startNewOrder();
+// startNewOrder();
+
+
 
 $(main);
-
-// function getHomePage() {
-//     return fetch('http://localhost:8080/orderinn/home', {
-//     }).then((res) => {
-//         return res.text();
-//     }).then((data) => {
-//     });
-// }
 
 function getHomePage() {
     $('.homepage').show();
@@ -60,11 +61,8 @@ function performLogin() {
             const { authToken } = response;
             localStorage.setItem('token', authToken);
             localStorage.setItem('userId', response.user_id);
-            alert('You are logged in.');
-            $('.login-form').hide();
-            $('.homepage').hide();
-            $('.make-order').show();
-            // getMakeOrderPage(); /// NEED TO CALL THIS 
+            alert('You are logged in homie.');
+            getMakeOrderPage(); /// NEED TO CALL THIS 
             return response;
         }).catch(error => {
             console.log('an error occured', error);
@@ -72,16 +70,11 @@ function performLogin() {
     });
 }
 
-// function getMakeOrderPage() {
-//     return fetch('http://localhost:8080/orderinn/neworder', {
-// }).then((res) => {
-//     return res.text();
-//     console.log(res, 'this is html');
-// }).then((data) => {
-//     console.log(data, 'this is the data');
-//     $('.make-order').html(data);
-// });
-// }
+function getMakeOrderPage() {
+    $('.login-form').hide();
+    $('.homepage').hide();
+    $('.make-order').show();
+}
 
 function registerGuest() {
     $('.register-form').on('submit', function(event) {
@@ -89,8 +82,8 @@ function registerGuest() {
         console.log('working');
 
         const name = $('#user-name').val();
-        const email = $('#user-email').val();
-        const password = $('#user-password').val();
+        const email = $('#user-email-reg').val();
+        const password = $('#user-password-reg').val();
         const pswRepeat = $('#psw-repeat').val();
         
         const session = {
@@ -373,8 +366,9 @@ function postOrder() {
 }
 
 function orderFeedback(newOrder) {
+    $('.make-order').hide();
     $('header').remove('h1');
-    $('.order-title').html(`<p class="order-id"> Order#: ${newOrder._id} </p>`);    
+    // $('.order-title').html(`<p class="order-id"> Order#: ${newOrder._id} </p>`);    
     
     let dishList = '';
     let date = new Date (newOrder.deliveryDate);
@@ -397,17 +391,21 @@ function orderFeedback(newOrder) {
 
     let cartVal = `${cartTotal}`;
 
-    $('.order-form').html(`<ul>${dishList}</ul>
-                           <div class="order-details"> 
+    $('.order-feedback').append(`<span class="order-id"> Order#: ${newOrder._id} </span>
+                            <ul>${dishList}</ul>
+
+                            <div class="order-details"> 
                                 <p><i>Reservation:</i> ${date} at ${location}</p>
                             </div>
+
                             <div class="cart-total">
                                 <p class="cart-cost">Total Cost: $${cartVal}</p>
                                 <p class="thanks">Thanks for Your Order!</p>
                             </div>
-                            <button data-order="${newOrder._id}" class="cancel-btn">Cancel Order</button>
-                            <button type="button" role="button" class="logout-order-page-btn">Logout</button>`)
-                        }
+
+                            <button type="button" role="button" data-order="${newOrder._id}" class="cancel-btn">Cancel Order</button>
+                            <button type="button" role="button" class="done-btn">Home</button>`)
+}
 
 function cancelConfirm() {
     if (confirm('Are you sure you want to cancel your order?') === true) {
@@ -418,14 +416,14 @@ function cancelConfirm() {
 }
 
 function deleteOrder() {
-    $('.order-form').on('click', '.cancel-btn', function(event) {
+    $('.order-feedback').on('click', '.cancel-btn', function(event) {
+        alert('cancel button works');
         console.log('HELLO, I AM CLICKED');
 
-        cancelConfirm();
+    cancelConfirm();
     
     let orderId = $(event.currentTarget).data('order');
-    console.log(orderId, 'this is current orderId');
-
+        console.log(orderId, 'this is current orderId');
     
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('user_id');
@@ -449,26 +447,46 @@ function deleteOrder() {
 
 }
 
+// AFTER ORDER DELETED OPTIONS
 function deleteOrderFeedback() {
-    $('.logo').show();
-    $('.order-title').html(``);    
-    $('.order-form').html(`<div class="delete-feedback"> 
+    $('.order-title').hide();    
+    $('.order-feedback').html(`<div class="delete-feedback"> 
                                 <p class="cancel-text">Your order has been canceled. Thank you for using Order Inn.</p>
-                                <button type="button" role="button" class="menu-link">Menu</button>
-                                <button type="button" role="button" class="logout-btn">Logout</button>
+                                <button type="button" role="button" class="new-order-btn">New Order</button>
+                                <button type="button" role="button" class="done-deleted-btn">Home</button>
                            </div>`);
 }
 
-
-function logOut() {    
-    $('.order-form').on('click', '.logout-order-page-btn', function(event) {
-        alert('please log me out homie');
-        $('.make-order').hide();
-        $('.login-form').hide();
-        $('.thank-you').append(`<h1> Eat well soon. </h1>`);
+// IF DONE - GO BACK TO HOMEPAGE
+function orderDone() {    
+    $('.order-feedback').on('click', '.done-btn', function(event) {
+        getHomePage();
+        event.preventDefault();
+        $('.login-link').show(); // hide the nav
+        $('.register-link').show();
+        $('.about-link').show();
+        $('.homepage-title').css('color', '#FFFFFF');
         $('body').css({'background-image': ''});
     });
 }
+
+
+// // IF WANT TO START NEW ORDER AFTER A DELETION
+
+// MAKE NEW DELETE FEEDBACK DIV ????
+
+function startNewOrder() {
+    $('.order-feedback').on('click', '.new-order-btn', function(event) {
+        console.log('make new order is working');
+        alert('start new order working');
+        //// NEW ORDER 
+        // NEED TO EMPTY ORDER FORM DIV 
+        $('.order-feedback').hide();
+        $('.make-order').show();
+        event.preventDefault();
+    })
+}
+
 
 function getRegisterPage() {
     $('.register-link').on('click', 'a', function(event) {

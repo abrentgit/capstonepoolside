@@ -7,10 +7,20 @@ body {
     padding-bottom: 90px;
 }
 
+.make-order {
+    margin-bottom: 100px;
+}
+
 .create-order {
     margin-top: 10px;
 }
 
+.order-feedback {
+    display: flex;
+    flex-direction: column;
+    width: 92%;
+    margin: 0 auto;
+}
 
 li.order-item {
     font-size: 25px;
@@ -44,7 +54,7 @@ p.order-id {
     font-family: "Notable", helvetica, sans-serif;
 }
 
-.menu-link {
+.new-order-btn {
     display: block;
     margin-left: 165px;
     border-radius: 100px;
@@ -103,7 +113,7 @@ p.order-id {
     margin-bottom: 10px; 
   }
 
-.logout-order-page-btn {
+.done-btn {
     margin-top: -68px;
     margin-left: 805px;
     border-radius: 500px;
@@ -122,7 +132,7 @@ p.order-id {
     color: white;
 }
 
-.logout-order-page-btn:hover {
+.done-btn:hover {
     background:grey;
     color: white;
 }
@@ -250,7 +260,7 @@ form {
     display: flexbox;
 }
 
-.logout-btn {
+.done-deleted-btn {
     border-radius: 100px;
     color: white;
     left: 80px;
