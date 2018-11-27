@@ -14,7 +14,6 @@ getRegisterPage();
 addDish();
 deleteDish();
 deleteDish();
-// restart();
 
 $(main);
 
@@ -25,6 +24,7 @@ function getHomePage() {
     $('.register-form').hide();
     $('.login-form').hide();
     $('.make-order').hide();
+    $('.order-feedback').hide();
     $('.thank-you').hide();
 }
 
@@ -72,6 +72,7 @@ function getMakeOrderPage() {
     $('.login-form').hide();
     $('.homepage').hide();
     $('.make-order').show();
+    $('.order-feedback').show();
     getDishes();
 }
 
@@ -437,22 +438,21 @@ function deleteOrderFeedback() {
 
 // IF DONE AND GOOD WITH ORDER - GO BACK TO HOMEPAGE
 function orderDone() {    
-    $('.order-feedback').on('click', '.done-btn', function(event) {
-        alert('this home button is working');
-        // location.reload();
-        // getHomePage();
-        // $('.login-link').show(); 
-        // $('.register-link').show();
-        // $('.about-link').show();
-        // $('.homepage-title').css('color', '#FFFFFF');
-        // $('body').css({'background-image': ''});
+    $('.order-feedback').on('click', '.done-btn', function() {
+        location.reload();
+        getHomePage();
+        $('.login-link').show(); 
+        $('.register-link').show();
+        $('.about-link').show();
+        $('.homepage-title').css('color', '#FFFFFF');
+        $('body').css({'background-image': ''});
     });
 }
 
 // AFTER ORDER IS DELETED RETURN TO HOMEPAGE
 
 function restart() {    
-    $('.order-feedback').on('click', '.done-deleted-btn', function(event) {
+    $('.order-feedback').on('click', '.done-deleted-btn', function() {
         alert('button is working');
         location.reload();
         getHomePage();
