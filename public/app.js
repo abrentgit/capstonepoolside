@@ -31,7 +31,6 @@ function getHomePage() {
     $('.make-order').hide();
     $('.about').hide();
     $('.order-feedback').hide();
-    $('.thank-you').hide();
 }
 
 // LOGIN 
@@ -524,16 +523,25 @@ function getAboutPage() {
 
 // CLICK ON LOGO ON ABOUT PAGE - GO TO HOMEPAGE
 function logoHome() {
-    $('.homepage').on('click', '.homepage-title', function() {
-    alert('logo is clicked');
-    $('.about').hide(); 
-    $('.login-link').show(); 
-    $('.register-link').show();
-    $('.about-link').show();
-    $('body').css('background-image', '');   
-    $('.homepage-title').css('color', '#FFFFFF');
+    $('.homepage-header').on('click', '.homepage-title', function() {
+        alert('logo is clicked');
+        getHomePage();
+        $('.login-link').show(); 
+        $('.register-link').show();
+        $('.about-link').show();
+        $('body').css('background-image', '');   
+        $('.homepage-title').css('color', '#FFFFFF');
     })
 }
+
+
+// function logoHomeFromLogin() {
+
+// }
+
+// function logoHomeFromRegister() {
+
+// }
 
 // FOOTER ON LOGIN PAGE
 function signUpLink() {
@@ -553,9 +561,9 @@ function loginLink() {
     })
 }
 
+// if clicked from login page - login page has to hide when it goes to homepage
+
 // CHECK IF LOGO WORKS FROM OTHER PAGES.
-// GET LOGIN PAGE FROM LOGIN LINK ON REGISTER PAGE
-// GET REGISTER PAGE FROM SIGN UP LINK ON LOGIN PAGE 
 
 // function startNewOrder() {
 //     $('.order-feedback').on('click', '.new-order-btn', function(event) {

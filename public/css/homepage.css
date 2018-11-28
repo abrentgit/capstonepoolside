@@ -5,6 +5,7 @@ body {
     background-image: url('../toast-homepage.jpeg');
     background-size: cover;
     background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 .homepage-title {
