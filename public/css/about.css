@@ -4,12 +4,12 @@ body {
 	background-color: #FAF7F3;
 }
 
-.make-order-link {
+/* .make-order-link {
 	color: black;
 	font-family: "Roboto", helvetica, sans-serif;
 	font-size: 20px;
 	margin-left: 805px;
-}
+} */
 
 .logo {
 	width: 100px;
@@ -18,12 +18,12 @@ body {
 	margin-bottom: 20px;
 }
 
-h1 {
+/* h1 {
 	font-family: "Notable";
 	color: black;
 	font-size: 80px;
 	text-align: center;
-}
+} */
 
 .description {
 	color: black;
@@ -34,6 +34,6 @@ h1 {
 	padding-top: 10px;
 }
 
-a {
+/* a {
     color: black;
-}
+} */

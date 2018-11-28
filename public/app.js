@@ -6,8 +6,10 @@ function main() {
     restart();
     orderDone();
     registerGuest();
+    logoHome();
 }
 
+getAboutPage();
 performLogin();
 postOrder();
 deleteOrder();
@@ -25,6 +27,7 @@ function getHomePage() {
     $('.register-form').hide();
     $('.login-form').hide();
     $('.make-order').hide();
+    $('.about').hide();
     $('.order-feedback').hide();
     $('.thank-you').hide();
 }
@@ -500,7 +503,34 @@ function getRegisterPage() {
 // GET ABOUT PAGE FROM HOMEPAGE
 
 function getAboutPage() {
-    // on click of about link
+    $('.about-link').on('click', 'a', function(event) {
+        event.preventDefault();
+        alert('about page is working')
+        $('.about').show();
+        $('.homepage-title').css('color', '#000000');
+        $('.register-form').hide();
+        $('.login-form').hide();
+        $('.make-order').hide();
+        $('.login-link').hide(); // hide the nav
+        $('.register-link').hide();
+        $('.about-link').hide();
+        $('body').css('background-image', 'none'); // empty BG    
+        $('body').css('background-color', 'FAF7F3'); 
+        $('.logo').show();
+    })
+}
+
+// CLICK ON LOGO ON ABOUT PAGE - GO TO HOMEPAGE
+function logoHome() {
+    $('.homepage').on('click', '.homepage-title', function() {
+    alert('logo is clicked');
+    $('.about').hide(); 
+    $('.login-link').show(); // hide the nav
+    $('.register-link').show();
+    $('.about-link').show();
+    $('body').css('background-image', ''); // empty BG    
+    $('.homepage-title').css('color', '#FFFFFF');
+    })
 }
 
 // GET LOGIN PAGE FROM LOGIN LINK ON REGISTER PAGE
