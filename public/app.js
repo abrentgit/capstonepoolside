@@ -5,6 +5,7 @@ function main() {
     deleteOrder();
     restart();
     orderDone();
+    registerGuest();
 }
 
 performLogin();
@@ -34,6 +35,7 @@ function performLogin() {
     $('.login-form').on('submit', function(event) {
         event.preventDefault();
         console.log('working');
+        alert('register guest is working');
 
         const email = $('#user-email').val();
         const password = $('#user-password').val();
@@ -109,15 +111,25 @@ function registerGuest() {
             console.log('request worked', response);
             const { authToken } = response;
             localStorage.setItem('token', authToken);
-            alert('You are registered');
-            $('.register-form').hide();
-            $('.homepage').show();
-            getHomePage();
+            console.log('user is registered');       
+            loginAfterRegister(); // CALL LOGIN PAGE AFTER REGISTRATION
             return response;
         }).catch(error => {
             console.log('an error occured', error);
         });
     });
+}
+
+function loginAfterRegister() {
+    $('.register-form').hide();
+    $('.login-form').show();
+    $('.login-link').hide(); // hide the nav
+    $('.register-link').hide();
+    $('.about-link').hide();
+    $('body').css('background-image', 'none');    
+    $('body').css('background-color', 'FAF7F3'); 
+    $('.logo').show();
+    $('.homepage-title').css('color', '#000000');
 }
 
 // GET LOGIN PAGE
@@ -126,11 +138,12 @@ function getLoginPage() {
     $('.login-link').on('click', 'a', function(event) {
     event.preventDefault();
     alert('LOGIN LINK WORKING');
+    $('.register-form').hide();
     $('.login-form').show();
     $('.login-link').hide(); // hide the nav
     $('.register-link').hide();
     $('.about-link').hide();
-    $('body').css('background-image', 'none'); // empty BG    
+    $('body').css('background-image', 'none');    
     $('body').css('background-color', 'FAF7F3'); 
     $('.logo').show();
     $('.homepage-title').css('color', '#000000');
@@ -468,12 +481,9 @@ function restart() {
 
 function getRegisterPage() {
     $('.register-link').on('click', 'a', function(event) {
-    return fetch('http://localhost:8080/orderinn/register', {
-    }).then((res) => {
-        return res.text();
-        console.log(res, 'this is html');
-    }).then((data) => {
-        $('.register-form').append(data);
+        event.preventDefault();
+        alert('register page is working')
+        $('.register-form').show();
         $('.homepage-title').css('color', '#000000');
         $('.login-form').hide();
         $('.make-order').hide();
@@ -483,10 +493,9 @@ function getRegisterPage() {
         $('body').css('background-image', 'none'); // empty BG    
         $('body').css('background-color', 'FAF7F3'); 
         $('.logo').show();
-        $('.header').hide();
-    });
-})
+    })
 }
+
 
 // GET ABOUT PAGE FROM HOMEPAGE
 
@@ -494,6 +503,8 @@ function getAboutPage() {
     // on click of about link
 }
 
+// GET LOGIN PAGE FROM LOGIN LINK ON REGISTER PAGE
+// GET REGISTER PAGE FROM SIGN UP LINK ON LOGIN PAGE 
 
 // function startNewOrder() {
 //     $('.order-feedback').on('click', '.new-order-btn', function(event) {
@@ -507,37 +518,3 @@ function getAboutPage() {
 //     })
 // }
 
-// function getLoginAfterRegister() {
-//     return fetch('http://localhost:8080/orderinn/login', {
-// }).then((res) => {
-//     return res.text();
-//     console.log(res, 'this is html');
-// }).then((data) => {
-//     console.log(data, 'this is the data');
-//     $('.login-form').html(data);
-// })
-// }
-
-// function getLoginPage() {
-//     $('.login-link').on('click', 'a', function(event) {
-//     event.preventDefault();
-
-//     return fetch('http://localhost:8080/orderinn/login', {
-// }).then((res) => {
-//     return res.text();
-//     console.log(res, 'this is html');
-// }).then((data) => {
-//     console.log(data, 'this is the data');
-//     alert('LOGIN LINK WORKING');
-//     $('.login-form').html(data);
-//     $('.login-link').hide(); // hide the nav
-//     $('.register-link').hide();
-//     $('.about-link').hide();
-//     $('body').css('background-image', 'none'); // empty BG    
-//     $('body').css('background-color', 'FAF7F3'); 
-//     $('.logo').show();
-//     $('.homepage-title').css('color', '#000000');
-//     $('.header').hide();
-// });
-// });
-// }
