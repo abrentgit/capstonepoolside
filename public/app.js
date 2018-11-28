@@ -14,10 +14,8 @@ loginLink();
 getAboutPage();
 performLogin();
 postOrder();
-deleteOrder();
 getRegisterPage();
 addDish();
-deleteDish();
 deleteDish();
 
 $(main);
@@ -64,7 +62,10 @@ function performLogin() {
             const { authToken } = response;
             localStorage.setItem('token', authToken);
             localStorage.setItem('userId', response.user_id);
-            getMakeOrderPage(); /// NEED TO CALL THIS 
+            getMakeOrderPage(); 
+
+            // IF USER IS ALREADY LOGGED IN IF STATEMENT, HIDE THE ORDER FEEDBACK DIV
+            // AND THEN EMPTY OUT THE MAKE ORDER DIV 
             return response;
         }).catch(error => {
             console.log('an error occured', error);
@@ -456,7 +457,7 @@ function deleteOrderFeedback() {
 // IF DONE AND GOOD WITH ORDER - GO BACK TO HOMEPAGE
 function orderDone() {    
     $('.order-feedback').on('click', '.done-btn', function() {
-        location.reload();
+        // location.reload();
         getHomePage();
         $('.login-link').show(); 
         $('.register-link').show();
@@ -471,7 +472,7 @@ function orderDone() {
 function restart() {    
     $('.order-feedback').on('click', '.done-deleted-btn', function() {
         alert('button is working');
-        location.reload();
+        // location.reload();
         getHomePage();
         $('.login-link').show(); 
         $('.register-link').show();
@@ -534,15 +535,6 @@ function logoHome() {
     })
 }
 
-
-// function logoHomeFromLogin() {
-
-// }
-
-// function logoHomeFromRegister() {
-
-// }
-
 // FOOTER ON LOGIN PAGE
 function signUpLink() {
     $('.footer').on('click', '.signup-footer', function(event) {
@@ -561,19 +553,4 @@ function loginLink() {
     })
 }
 
-// if clicked from login page - login page has to hide when it goes to homepage
-
-// CHECK IF LOGO WORKS FROM OTHER PAGES.
-
-// function startNewOrder() {
-//     $('.order-feedback').on('click', '.new-order-btn', function(event) {
-//         console.log('make new order is working');
-//         alert('getting make order page');
-//         $('.order-title').show();
-//         $('.order-feedback').hide();
-//         $('.make-order').show();
-//         $('.order-summary').detach('.summary-items');
-//         $('.order-summary').detach('.price-adder');
-//     })
-// }
 
