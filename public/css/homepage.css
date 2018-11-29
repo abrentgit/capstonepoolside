@@ -9,7 +9,7 @@ body {
 }
 
 .homepage-title {
-	color: white;
+  	color: white;
     text-align: center;
     font-family: "Notable", helvetica, sans-serif;
 }
@@ -22,7 +22,7 @@ body {
 
 nav {
     padding-bottom: 10px;
-	font-family: "Roboto", helvetica, sans-serif;
+	  font-family: "Roboto", helvetica, sans-serif;
     text-align: center;
     font-size: 30px;
     display: block;

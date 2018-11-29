@@ -7,16 +7,18 @@ function main() {
     orderDone();
     registerGuest();
     logoHome();
+    getRegisterPage();
+    addDish();
+    deleteDish();
 }
 
+orderDone();
 signUpLink();
 loginLink();
 getAboutPage();
 performLogin();
 postOrder();
-getRegisterPage();
-addDish();
-deleteDish();
+
 
 $(main);
 
@@ -64,8 +66,14 @@ function performLogin() {
             localStorage.setItem('userId', response.user_id);
             getMakeOrderPage(); 
 
-            // IF USER IS ALREADY LOGGED IN IF STATEMENT, HIDE THE ORDER FEEDBACK DIV
-            // AND THEN EMPTY OUT THE MAKE ORDER DIV 
+            // let userLoggedIn = response.user_id;
+
+            // if (userLoggedIn) {
+            //     $('order-feedback').hide();
+            // }
+            // if (userId === )
+            // // IF USER IS ALREADY LOGGED IN IF STATEMENT, HIDE THE ORDER FEEDBACK DIV
+            // // AND THEN EMPTY OUT THE MAKE ORDER DIV 
             return response;
         }).catch(error => {
             console.log('an error occured', error);
@@ -457,7 +465,7 @@ function deleteOrderFeedback() {
 // IF DONE AND GOOD WITH ORDER - GO BACK TO HOMEPAGE
 function orderDone() {    
     $('.order-feedback').on('click', '.done-btn', function() {
-        // location.reload();
+        location.reload();
         getHomePage();
         $('.login-link').show(); 
         $('.register-link').show();
@@ -472,7 +480,7 @@ function orderDone() {
 function restart() {    
     $('.order-feedback').on('click', '.done-deleted-btn', function() {
         alert('button is working');
-        // location.reload();
+        location.reload();
         getHomePage();
         $('.login-link').show(); 
         $('.register-link').show();
