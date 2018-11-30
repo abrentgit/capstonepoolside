@@ -82,7 +82,6 @@ function performLogin() {
 }
 
 // GET MAKE ORDER PAGE
-
 function getMakeOrderPage() {
     $('.login-form').hide();
     $('.homepage').hide();
@@ -92,7 +91,6 @@ function getMakeOrderPage() {
 }
 
 // REGISTER GUEST
-
 function registerGuest() {
     $('.register-form').on('submit', function(event) {
         event.preventDefault();
@@ -467,6 +465,7 @@ function orderDone() {
     $('.order-feedback').on('click', '.done-btn', function() {
         location.reload();
         getHomePage();
+        event.preventDefault(); // check if thats the key
         $('.login-link').show(); 
         $('.register-link').show();
         $('.about-link').show();
@@ -482,6 +481,7 @@ function restart() {
         alert('button is working');
         location.reload();
         getHomePage();
+        event.preventDefault(); // check if that works
         $('.login-link').show(); 
         $('.register-link').show();
         $('.about-link').show();

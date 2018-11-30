@@ -89,7 +89,7 @@ body {
   }
 
   input[type="email"]:focus, input[type="password"]:focus, input[type="password-repeat"]:focus, button[type="submit"]:focus, input[type="name"]:focus {
-   box-shadow: 0;
+    box-shadow: 0;
   }
 
   button[type="submit"]:hover, button[type="submit"]:focus {
