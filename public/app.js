@@ -400,12 +400,15 @@ function orderFeedback(newOrder) {
                             </div>
 
                             <div class="cart-total">
+                                <img class="logo-feedback" src="../cutlery-icon.svg" alt="Cutlery" />
                                 <p class="cart-cost">Total Cost: $${cartVal}</p>
                                 <p class="thanks">Thanks for Your Order!</p>
                             </div>
 
+                            <div class="feedback-btns">
                             <button type="button" role="button" data-order="${newOrder._id}" class="cancel-btn">Cancel Order</button>
-                            <button type="button" role="button" class="done-btn">Home</button>`)
+                            <button type="button" role="button" class="done-btn">Home</button>
+                            </div>`)
 }
 
 // CONFIRM ORDER CANCEL
