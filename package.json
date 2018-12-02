@@ -2,19 +2,39 @@
   "name": "poolside_bedside",
   "version": "1.0.0",
   "description": "inter-hotel meal ordering app",
-  "main": "config.js",
+  "main": "server.js",
   "scripts": {
-    "test": "mocha",
+    "test": "mocha --exit",
     "start": "node server.js"
   },
   "author": "AB",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^3.0.0",
+    "bcryptjs": "^2.4.3",
+    "body": "^5.1.0",
+    "body-parser": "^1.18.3",
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
+    "cors": "^2.8.4",
+    "dotenv": "^6.0.0",
     "express": "^4.16.3",
-    "mocha": "^5.2.0",
-    "mongoose": "^5.2.5",
+    "faker": "^4.1.0",
+    "jsonwebtoken": "^8.3.0",
+    "mongo": "^0.1.0",
+    "mongodb": "^3.1.1",
+    "mongoose": "^5.2.6",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.18.3",
+    "parser": "^0.1.4",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
     "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "install": "^0.12.1",
+    "mocha": "^5.2.0",
+    "npm": "^6.3.0"
   }
 }

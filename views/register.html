@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Order Inn Register</title>
+    <link href="../css/register.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Barlow+Condensed|Notable|Roboto" rel="stylesheet">
+    <meta name="description" content="Guest sign up for Poolside Bedside">
+  </head>
+
+  <body>
+    <header role="header">
+      <img class="logo" src="../cutlery-icon.svg" alt="Cutlery" />
+    </header>
+    <form role="form" accept-charset="UTF-8" method="POST">
+      <fieldset>
+        <legend class="register-legend">Register</legend>
+        <label for="user-name">Name</label>
+        <input type="name" placeholder="" name="user-name" id="user-name" required/>
+        <label for="user-email">Email</label>
+        <input type="email" placeholder="" name="user-email" id="user-email" required/>
+        <label for="user-password">Password</label>
+        <input type="password" placeholder="" name="user-password" id="user-password" required/>
+        <label for="psw-repeat">Repeat Password</label>
+        <input type="password-repeat" placeholder="" name="psw-repeat" id="psw-repeat" required>
+        <button type="submit" id="register-btn">SUBMIT</button>
+      </fieldset>
+    </form>
+
+    <footer role="contentinfo" class="footer-register">
+      <p>Already have an account? <a href="/login">Log in</a></p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="../app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+* {box-sizing: border-box}
+
+body {
+	background-color: #FAF7F3;
+}
+
+.logo {
+	display: block;
+    color: white;
+    width: auto;
+    height: 70px;
+    margin: 0 auto 30px;
+}
+
+.description {
+	color: black;
+	font-family: 'Inconsolata', monospace;
+	font-size: 30px;
+	margin: 40px;
+	padding: 40px;
+	padding-top: 10px;
+}

@@ -1,0 +1,214 @@
+
+body {
+    font-family: "Barlow Condensed", helvetica, sans-serif;
+    background-repeat: no-repeat;
+    background-color: #FAF7F3;
+    font-size: 18px;
+    padding-bottom: 90px;
+}
+
+.dishOrder {
+    font-family: "Barlow Condensed", helvetica, sans-serif;
+    font-size: 30px;
+}
+
+.cancel-text {
+    font-size: 50px;
+    margin-left: 460px;
+}
+
+.order-feedback {
+    text-align: center;
+    font-size: 70px;
+    margin-left: 50px;
+}
+
+.dishes {
+    width: 30%;
+    font-size: 30px;
+}
+
+.order-details {
+    font-size: 30px;
+    font-style: italic;
+}
+
+.order-form {
+    display: flex;
+    flex-direction: column;
+    width: 92%;
+    margin: 0 auto;
+}
+
+/* .small-logo {
+    display: block;
+    color: white;
+    width: auto;
+    height: 70px;
+    margin-left: -350px;
+  } */
+
+.order-summary {
+    width: 40%;
+    margin-left: 5%;
+    background-color: white;
+    border: 1px solid #cdaf87; 
+    font-size: 30px;
+}
+
+.cancel-btn {
+    border-radius: 500px;
+    left: 80px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 200px;
+    font-family: "Barlow Condensed", helvetica, sans-serif;
+    font-size: 30px;
+    color: red;
+  }
+  
+.cancel-btn:hover {
+    background: #f44336;
+    color: white;
+}
+
+.thanks {
+  font-size: 35px;
+  font-style: italic;
+}
+
+.summary-items {
+    margin-left: 20px;
+}
+
+.price-adder {
+    position: relative;
+    width: 20%;
+    padding-bottom: 0%;
+    margin-left: 10%;
+    background-color: white;
+    font-size: 25px;
+}
+
+.cart-cost {
+    font-size: 30px;
+    font-weight: bold;
+    margin-left: 35px;
+}
+
+.small-logo {
+    display: block;
+    color: white;
+    width: auto;
+    height: 70px;
+    margin-left: -600px;
+}
+
+.total-price {
+    text-align: center;
+    font-weight: bold;
+}
+
+.container {
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    font-size: 20px;
+}
+
+header {
+    font-size: 60px;
+    text-align: center;
+    margin-right: 300px;
+    font-family: "Barlow Condensed", helvetica, sans-serif; 
+}
+
+h4 {
+    font-weight: bold;
+}
+
+.order-id {
+    font-size: 60px;
+    text-align: center;
+}
+
+fieldset {
+    border: 0;
+}
+
+legend {
+    padding: 20px;
+    text-align: center;
+    font-style: italic;
+    font-size: 30px;
+}
+
+form {
+    font-size: 30px;
+}
+
+.location-choice {
+    padding-top: 80px;
+    display: flexbox;
+    margin-left: -355px;
+}
+
+.location {
+    font-family: "Barlow Condensed", helvetica, sans-serif;
+    font-size: 25px;
+    font-style: italic;
+}
+
+.location-select {
+    font-family: "Barlow Condensed", helvetica, sans-serif;
+    font-size: 25px;
+    margin-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.locations {
+    font-size: 25px;
+}
+
+.order-date-field {
+    font-family: "Barlow Condensed", helvetica, sans-serif;
+    font-size: 25px;
+    font-style: italic;
+}
+
+.date-input {
+    margin-top: 20px;
+    margin-left: 10px;
+    font-size: 25px;
+    font-family: "Barlow Condensed", helvetica, sans-serif;
+    text-align: center;
+}
+
+.submit {
+    margin-top: 20px;
+    margin-bottom: 50px;
+    font-size: 20px;
+}
+
+.checkout-btn {
+    border-radius: 100px;
+    color: white;
+    left: 80px;
+    margin-top: 160px;
+    margin-bottom: 80px; 
+    margin-left: -320px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 250px;
+    font-family: "Barlow Condensed", helvetica, sans-serif;
+    background-color:rgb(150, 211, 93);    ;
+    font-size: 30px;
+    display: flexbox;
+}
+
+/* textarea {
+    width: 400px;
+    height: 100px;
+    font-size: 20px;
+} */

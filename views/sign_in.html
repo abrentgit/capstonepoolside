@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Order Inn Sign In</title>
+    <link href="/Users/abl/projects/poolside_bedside/css/sign_in.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Barlow+Condensed|Notable|Roboto" rel="stylesheet">
+    <meta name="description" content="Guest sign up for Poolside Bedside">
+  </head>
+
+  <body>
+    <header role="header">
+      <img class="logo" src="https://image.flaticon.com/icons/svg/108/108264.svg" alt="Cutlery" />
+      <h1> ORDER INN </h1>
+    </header>
+    <form role="form" action="orderdash.html" accept-charset="UTF-8" method="POST" class="signup-form">
+      <fieldset>
+        <legend>Sign In</legend>
+        <label for="user-email">Email</label>
+        <input type="email" placeholder="" name="user-email" id="user-email" />
+        <label for="user-password">Password</label>
+        <input placeholder="" type="password" name="user-password" id="user-password"/>
+        <button type="submit" id="sign-in-submit">SUBMIT</button>
+      </fieldset>
+    </form>
+
+    <footer role="contentinfo" class="footer">
+      <p>Don't have an account? <a href="/register">Sign Up</a></p>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="../app.js"></script>
+  </body>
+
+</html>
