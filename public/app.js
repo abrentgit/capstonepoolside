@@ -457,8 +457,9 @@ function deleteOrder() {
 // AFTER ORDER DELETED, func to take back to homepage
 function deleteOrderFeedback() {
     $('.order-title').hide();    
-    $('.order-feedback').html(`<div class="delete-feedback"> 
-                                <p class="cancel-text">Your order has been canceled.</p>
+    $('.order-feedback').html(`<div class="delete-feedback">
+                                <img class="logo-order-delete" src="../cutlery-icon.svg" alt="Cutlery" /> 
+                                <p class="cancel-text">Your order has been canceled. Thanks for using Order Inn.</p>
                                 <button type="button" role="button" class="done-deleted-btn">Home</button>
                            </div>`);
 }
