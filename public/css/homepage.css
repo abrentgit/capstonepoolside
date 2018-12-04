@@ -166,3 +166,82 @@ a {
   .footer-register a:hover {
     color: #E7F1F9;
   }
+
+@media only screen and (max-width: 640px) {
+
+  body {
+    background-position: center;
+    background-attachment: fixed;
+  }
+
+  nav {
+    margin-top: 60px;
+    margin-left: -70px;
+  }
+
+  .homepage-title {
+    font-size: 50px;
+    margin-bottom: -30px;
+  }
+
+  .login-link {
+    padding: 0px;
+  }
+
+  .register-link {
+    display: none;
+    padding: 0px;
+  }
+
+  .about-link {
+    padding: 0px; 
+  }
+
+  .order-form {
+    margin-left: 70px;
+  }
+  
+  .order-title {
+    font-size: 50px;
+    margin-left: 90px;
+  }
+
+  .order-summary {
+    margin-left: 50px; 
+  }
+
+  .order-header {
+    margin-left: 0px;
+  }
+  
+  .location-choice {
+    margin-left: -340px;
+  }
+
+  .order-date {
+    margin-top: 20px;
+  }
+
+  /*ORDER FEEDBACK*/
+
+  .order-feedback {
+    font-size: 40px;
+    margin: 0px; 
+
+  }
+
+  .dishOrder {
+    margin-left: -30px;
+  }
+
+  .order-details {
+    margin-left: 0px;
+    margin-top: -50px;
+  }
+
+  .cart-total {
+    margin-left: -40px;
+  }
+
+
+}

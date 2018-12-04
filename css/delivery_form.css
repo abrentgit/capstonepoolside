@@ -37,12 +37,12 @@ fieldset {
     border: 0;
 }
 
-legend {
+/* legend {
     padding: 20px;
     text-align: center;
     font-style: italic;
     font-size: 30px;
-}
+} */
 
 form {
     font-size: 30px;
