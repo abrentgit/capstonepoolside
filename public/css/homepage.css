@@ -47,7 +47,7 @@ a {
 }
 
 .register-link {
-    display: inline; 
+    /* display: inline;  */
     padding: 30px;
     list-style: none;
     font-size: 40px;
@@ -169,6 +169,8 @@ a {
 
 @media only screen and (max-width: 640px) {
 
+  /* homepage */
+
   body {
     background-position: center;
     background-attachment: fixed;
@@ -180,7 +182,8 @@ a {
   }
 
   .homepage-title {
-    font-size: 50px;
+    font-size: 70px;
+    padding: 20px;
     margin-bottom: -30px;
   }
 
@@ -189,13 +192,14 @@ a {
   }
 
   .register-link {
-    display: none;
     padding: 0px;
   }
 
   .about-link {
     padding: 0px; 
   }
+
+  /* order form */
 
   .order-form {
     margin-left: 70px;
