@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 const config = require('./config');
-// console.log('importing config', config); 
+console.log('importing config', config); 
 mongoose.Promise = global.Promise;
 
 const { DATABASE_URL, PORT } = require('./config');

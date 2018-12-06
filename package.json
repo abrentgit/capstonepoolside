@@ -35,6 +35,6 @@
   "devDependencies": {
     "install": "^0.12.1",
     "mocha": "^5.2.0",
-    "npm": "^6.3.0"
+    "npm": "^6.4.1"
   }
 }
