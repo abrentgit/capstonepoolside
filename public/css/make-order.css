@@ -49,12 +49,6 @@ ul {
     font-family: "Barlow Condensed", helvetica, sans-serif;
 }
 
-.order-title {
-    font-family: "Notable", helvetica, sans-serif;
-    font-size: 90px;
-    margin-left: 200px;
-}
-
 .new-order-btn {
     display: block;
     margin-left: 165px;
@@ -178,9 +172,15 @@ ul {
 }
 
 .order-header {
-    font-style: italic;
-    margin-top: 20px;
+    margin-left: 50%;
     font-family: "Barlow Condensed", helvetica, sans-serif; 
+}
+
+.logo-menu {
+    color: white;
+    width: auto;
+    height: 70px;
+    margin: 0 auto 30px;
 }
 
 h4 {
@@ -208,31 +208,29 @@ form {
 .location-choice {
     padding-top: 80px;
     display: flexbox;
-    margin-left: -355px;
+    margin-left: -291px;
 }
 
 .location {
     font-family: "Barlow Condensed", helvetica, sans-serif;
-    font-size: 25px;
-    font-style: italic;
+    font-size: 20px;
 }
 
 .location-select {
     font-family: "Barlow Condensed", helvetica, sans-serif;
-    font-size: 25px;
+    font-size: 20px;
     margin-left: 10px;
     margin-top: 10px;
     margin-bottom: 20px;
 }
 
 .locations {
-    font-size: 25px;
+    font-size: 20px;
 }
 
 .order-date-field {
     font-family: "Barlow Condensed", helvetica, sans-serif;
-    font-size: 25px;
-    font-style: italic;
+    font-size: 20px;
 }
 
 .delete-feedback {
@@ -247,7 +245,7 @@ form {
 .date-input {
     margin-top: 20px;
     margin-left: 10px;
-    font-size: 25px;
+    font-size: 20px;
     font-family: "Barlow Condensed", helvetica, sans-serif;
     text-align: center;
 }
@@ -264,7 +262,7 @@ form {
     left: 80px;
     margin-top: 160px;
     margin-bottom: 80px; 
-    margin-left: -320px;
+    margin-left: -300px;
     padding-top: 10px;
     padding-bottom: 10px;
     width: 250px;
@@ -290,7 +288,7 @@ form {
     display: flexbox;
 }
 
-/* @media only screen and (max-width: 600px) {
+ @media only screen and (max-width: 660px) { 
 
 
 /* ORDER FORM */
@@ -301,16 +299,6 @@ form {
 
 .make-order {
     margin-top: 60px;
-}
-  
-.order-title {
-    font-family: "Barlow Condensed", helvetica, sans-serif;
-    margin-left: 140px; 
-    font-size: 50px;
-}
-
-.order-form {
-    margin-left: 130px;
 }
 
 .order-summary {
@@ -328,12 +316,8 @@ li.order-item {
 }
 
 .order-header {
+    margin-left: 50%;
     font-size: 16px;
-    margin-left: 50px;
-}
-
-.location {
-    margin-left: 12px; 
 }
   
 .location-choice {
@@ -351,18 +335,6 @@ li.order-item {
 .order-summary {
   margin-left: 50px; 
 }
-
-.order-header {
-  margin-left: 0px;
-}
-
-.location-choice {
-  margin-left: -340px;
-}
-
-.order-date {
-  margin-top: 20px;
-} 
 
 .order-feedback {
   font-size: 40px;
@@ -396,4 +368,4 @@ li.order-item {
   margin-left: 0px; 
 }
 
-} */
+} 
