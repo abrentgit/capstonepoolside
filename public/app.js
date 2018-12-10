@@ -305,7 +305,7 @@ function renderCart() {
     $('.price-adder').hide();
 
     cart.forEach(function(item) {
-    let newItem = $(".summary-items").append(`<li class="order-item"> ${item.item.name} - ${item.quantity} orders </li>`);
+    let newItem = $(".summary-items").append(`<li class="order-item"> ${item.item.name} - ${item.quantity} </li>`);
     
     $('.price-adder').show();
     $('.total-price').html(`<h3 class="price"> Total: $${cartTotal} </h3>`);

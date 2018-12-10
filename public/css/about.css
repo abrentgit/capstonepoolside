@@ -4,6 +4,10 @@ body {
 	background-color: #FAF7F3;
 }
 
+label {
+	margin-top: 20px;
+}
+
 .logo {
 	display: block;
     color: white;
@@ -19,4 +23,12 @@ body {
 	margin: 40px;
 	padding: 40px;
 	padding-top: 10px;
+}
+
+@media screen and (max-width: 640px) {
+
+.logo-title {
+	margin-left: -20px;
+}
+
 }
