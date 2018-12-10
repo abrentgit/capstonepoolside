@@ -29,6 +29,7 @@ li.order-item {
 p.order-id {
     font-size: 80px;
     font-style: normal;
+    font-weight: bold;
     font-family: "Barlow Condensed", helvetica, sans-serif;
 }
 
@@ -66,7 +67,6 @@ ul {
 .order-feedback {
     text-align: center;
     font-size: 70px;
-    margin-left: 50px;
 }
 
 .dishes {
@@ -104,8 +104,7 @@ ul {
     font-family: "Barlow Condensed", helvetica, sans-serif;
     font-size: 30px;
     color: red;
-    margin-bottom: 10px; 
-  }
+}
 
 .done-btn {
     margin-top: -68px;
@@ -206,7 +205,6 @@ form {
 }
 
 .feedback-btns {
-    margin-top: 30px;
     margin-bottom: 100px;
 }
 
@@ -236,10 +234,6 @@ form {
 .order-date-field {
     font-family: "Barlow Condensed", helvetica, sans-serif;
     font-size: 20px;
-}
-
-.delete-feedback {
-    margin-left: 150px;
 }
 
 .logo-order-delete {
@@ -338,12 +332,6 @@ li.order-item {
   margin-left: 50px; 
 }
 
-.order-feedback {
-  font-size: 40px;
-  margin: 0px; 
-
-}
-
 .dishOrder {
   margin-left: -30px;
 }
@@ -388,6 +376,11 @@ ul {
 
 .pride-adder {
     margin-left: 15%;
+}
+
+.thanks {
+    margin-left: 40px;
+    font-style: italic;
 }
 
 }

@@ -31,4 +31,10 @@ label {
 	margin-left: -20px;
 }
 
+.order-id {
+	font-size: 30px;
+	margin-left: 15px;
+	font-style: italic;
+}
+
 }
