@@ -289,7 +289,6 @@ form {
 
  @media only screen and (max-width: 660px) { 
 
-
 /* ORDER FORM */
 
 .container {
@@ -309,10 +308,6 @@ form {
 li.order-item {
     margin-top: 40px;
     padding: 10px;
-}
-
-.summary-items {
-    margin: 0px; 
 }
 
 .order-header {

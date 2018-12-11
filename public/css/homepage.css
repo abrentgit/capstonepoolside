@@ -194,110 +194,16 @@ a {
     padding: 0px; 
   }
 
-  /* @media only screen and (max-width: 600px) {
-
-    
-    .container {
-        margin-left: 70px;
-    }
-    
-    .make-order {
-        margin-top: 60px;
-    }
-      
-    .order-title {
-        font-family: "Barlow Condensed", helvetica, sans-serif;
-        margin-left: 140px; 
-        font-size: 50px;
-    }
-    
-    .order-form {
-        margin-left: 130px;
-    }
-    
-    .order-summary {
-        margin-left: 50px;
-        margin-top: 40px;
-        width: 50%;
-    }
-    
-    li.order-item {
-        padding: 10px;
-    }
-    
-    .summary-items {
-        margin: 0px; 
-    }
-    
-    .order-header {
-        font-size: 16px;
-        margin-left: 50px;
-    }
-    
-    .location {
-        margin-left: 12px; 
-    }
-      
-    .location-choice {
-        margin-left: -340px;
-    }
-    
-    .order-date {
-        margin-top: 20px;
-    }
-    
-    .pride-adder {
-        margin-left: 36%;
-    }
-    
-    .order-summary {
-      margin-left: 50px; 
-    }
-    
-    .order-header {
-      margin-left: 0px;
-    }
-    
-    .location-choice {
-      margin-left: -340px;
-    }
-    
-    .order-date {
-      margin-top: 20px;
-    } 
-    
-    .order-feedback {
-      font-size: 40px;
-      margin: 0px; 
-    
-    }
-    
-    .dishOrder {
-      margin-left: -30px;
-    }
-    
-    .order-details {
-      margin-left: 0px;
-      margin-top: -50px;
-    }
-    
-    .cart-total {
-      margin-left: -40px;
-    }
-    
-    .cancel-text {
-      font-size: 25px; 
-      margin: 0px;
-    }
-    
-    .done-deleted-btn {
-      margin-left: 0px; 
-    }
-    
-    .logo-order-delete {
-      margin-left: 0px; 
-    }
-    
-    } */
+@media only screen and (max-width: 640px) {
+  .register-form {
+    background: none;
   }
+
+  input[type="name"], input[type="password-repeat"] {
+    background: none;
+  }
+   
+}
+
+}
   
