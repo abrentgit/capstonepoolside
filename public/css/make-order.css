@@ -177,14 +177,14 @@ ul {
 
 .order-title {
     font-size: 60px;
-    margin-left: -17px;
+    margin-left: -45px;
 }
 
 .logo-menu {
     color: white;
     width: auto;
     height: 70px;
-    margin: 0 auto 30px;
+    margin-left: -30px;
 }
 
 h4 {
@@ -287,12 +287,12 @@ form {
     display: flexbox;
 }
 
- @media only screen and (max-width: 660px) { 
+ @media only screen and (max-width: 1024px) { 
 
 /* ORDER FORM */
 
 .container {
-    margin-left: 45px;
+    margin-left: 40px;
 }
 
 .make-order {
@@ -301,7 +301,7 @@ form {
 
 .order-summary {
     margin-left: 50px;
-    margin-top: 40px;
+    margin-top: 35px;
     width: 50%;
 }
 

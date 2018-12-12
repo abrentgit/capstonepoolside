@@ -393,6 +393,7 @@ function orderFeedback(newOrder) {
     let cartVal = `${cartTotal}`;
 
     $('.order-feedback').append(`<span class="order-id"> Order#: ${newOrder._id} </span>
+                            <main role="main">
                             <ul>${dishList}</ul>
 
                             <div class="order-details"> 
@@ -408,7 +409,8 @@ function orderFeedback(newOrder) {
                             <div class="feedback-btns">
                             <button type="button" role="button" data-order="${newOrder._id}" class="cancel-btn">Cancel Order</button>
                             <button type="button" role="button" class="done-btn">Home</button>
-                            </div>`)
+                            </div>
+                            </main>`)
 }
 
 // CONFIRM ORDER CANCEL
