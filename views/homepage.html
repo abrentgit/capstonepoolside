@@ -14,7 +14,7 @@
   <body>
     <!--HOMEPAGE-->
     <div class="homepage">
-	  <header role="banner" class="homepage-header">
+	  <header class="homepage-header">
       <h1 class="homepage-title">Order Inn</h1>
 			<nav role="navigation">
         <ul>
@@ -31,7 +31,7 @@
       <img class="logo" src="../cutlery-icon.svg" alt="Cutlery" />
     </header>
 
-      <main role="main">
+      <main role="main" aria-live="assertive">
       <form role="form" accept-charset="UTF-8" method="POST">
         <fieldset>
           <legend class="register-legend">Register</legend>
@@ -54,11 +54,11 @@
     </div>
     <!--LOGIN FORM-->
     <div class="login-form">
-      <header role="header">
+      <header role="banner" aria-live="assertive">
         <img class="logo" src="../cutlery-icon.svg" alt="Cutlery" />
       </header>
 
-      <main role="main">
+      <main role="main" aria-live="assertive">
       <form role="form" accept-charset="UTF-8" method="POST">
         <fieldset>
           <legend class="login-legend">Log In</legend>
@@ -66,12 +66,12 @@
           <input type="email" placeholder="" name="user-email" id="user-email" required/>
           <label for="user-password">Password</label>
           <input placeholder="" type="password" name="user-password" id="user-password" required/>
-          <button type="submit" id="sign-in-submit">SUBMIT</button>
+          <button type="submit">SUBMIT</button>
         </fieldset>
       </form>
       </main>
       
-      <footer role="contentinfo" class="footer">
+      <footer class="footer">
         <p>Don't have an account? <a class="signup-footer" href="">Sign Up</a></p>
       </footer>
     </div>
@@ -81,7 +81,7 @@
       <h1 class="order-title">DISH SPECIALS</h1>
     </header>
 
-    <main role="main">
+    <main role="main" aria-live="assertive">
       <div class="order-form">
         <div class="container">
           <div class="dishes">
@@ -128,7 +128,7 @@
       <img class="logo" src="../cutlery-icon.svg" alt="Cutlery" />
     </header>
     
-    <main role="main">
+    <main role="main" aria-live="assertive">
     <div class="description">
       <p>Welcome to Order Inn!</p>
       <p>Order Inn is the Sublime Hotel's in house app which allows guests to reserve speical dishes from our award winning food lab at prime social hubs inside the hotel.</p>

@@ -2,10 +2,12 @@
 
 body {
     font-family: "Notable", helvetica, sans-serif;
-    background-image: url('../toast-homepage.jpeg');
+    background-image: url('../food_plated.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
 }
 
 .homepage-title {
