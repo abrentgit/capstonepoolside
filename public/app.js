@@ -504,6 +504,7 @@ function getRegisterPage() {
         event.preventDefault();
         alert('register page is working')
         $('.register-form').show();
+        $('.footer-register').append(`<p>Already have an account? <a class="login-footer" href="">Log in</a></p>`)
         $('.homepage-title').css('color', '#000000');
         $('.login-form').hide();
         $('.make-order').hide();
@@ -515,7 +516,6 @@ function getRegisterPage() {
         $('.logo').show();
     })
 }
-
 
 // GET ABOUT PAGE FROM HOMEPAGE
 
@@ -552,7 +552,7 @@ function logoHome() {
 
 // FOOTER ON LOGIN PAGE
 function signUpLink() {
-    $('.footer').on('click', '.signup-footer', function(event) {
+    $('.footer').on('click', '.register-footer', function(event) {
         event.preventDefault();
         $('.register-form').show();
         $('.login-form').hide();

@@ -2,16 +2,18 @@
 
 body {
     font-family: "Notable", helvetica, sans-serif;
-    background-image: url('../food_plated.jpg');
+    background-image: 
+    linear-gradient(
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0.5)
+    ), url('../toast-homepage.jpeg');
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    -webkit-filter: grayscale(100%);
-    filter: grayscale(100%);
 }
 
 .homepage-title {
-  	color: white;
+    color: whitesmoke;
     text-align: center;
     font-family: "Notable", helvetica, sans-serif;
 }
@@ -31,7 +33,7 @@ nav {
 }
 
 a {
-    color: white;
+  color: #fffdd0;
 }
 
 .login-link {
@@ -49,17 +51,10 @@ a {
 }
 
 .register-link {
-    /* display: inline;  */
     padding: 30px;
     list-style: none;
     font-size: 40px;
 }
-
-/* .thank-you {
-    text-align: center;
-    font-size: 70px;
-    color: whitesmoke;
-} */
 
 /*  Register Form CSS */
 
@@ -183,6 +178,7 @@ a {
   }
 
   .homepage-title {
+    color: #f9f9f9;
     font-size: 70px;
     padding: 20px;
     margin-bottom: -30px;
