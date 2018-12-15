@@ -36,10 +36,10 @@
           <legend class="register-legend">Register</legend>
           <label for="user-name">Name</label>
           <input type="name" placeholder="" name="user-name" id="user-name" required/>
-          <label for="user-email">Email</label>
-          <input type="email" placeholder="" name="user-email" id="user-email-reg" required/>
+          <label for="user-email-reg">Email</label>
+          <input type="email" placeholder="" name="user-email-reg" id="user-email-reg" required/>
           <label for="user-password">Password</label>
-          <input type="password" placeholder="" name="user-password" id="user-password-reg" required/>
+          <input type="password" placeholder="" name="user-password-reg" id="user-password-reg" required/>
           <label for="psw-repeat">Repeat Password</label>
           <input type="password" placeholder="" name="psw-repeat" id="psw-repeat" required>
           <button type="submit" id="register-btn">SUBMIT</button>
@@ -52,17 +52,14 @@
     </div>
     <!--LOGIN FORM-->
     <div class="login-form">
-      <header role="header">
         <img class="logo" src="../cutlery-icon.svg" alt="Cutlery" />
-      </header>
-
       <form accept-charset="UTF-8">
         <fieldset>
           <legend class="login-legend">Log In</legend>
-          <label for="user-email">Email</label>
-          <input type="email" placeholder="" name="user-email" id="user-email" required/>
-          <label for="user-password">Password</label>
-          <input placeholder="" type="password" name="user-password" id="user-password" required/>
+          <label for="user-email-login">Email</label>
+          <input name="user-email-login" id="user-email" aria-label="email" value="you@email.com" type="email" required/>
+          <label for="user-password-login">Password</label>
+          <input name="user-password-login" id="user-password" aria-label="password" value="Password" type="password" required/>
           <button type="submit" id="sign-in-submit">SUBMIT</button>
         </fieldset>
       </form>
@@ -100,7 +97,7 @@
 
         <div class="container">
           <div class="order-date">
-            <label for="order-date-field" class=order-date-field> Date: </label>
+            <label for="datetime-local" class=order-date-field> Date: </label>
             <input type="datetime-local" class="date-input">
           </div>
         

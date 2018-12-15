@@ -19,7 +19,7 @@ body {
 }
 
 .homepage-header {
-    font-size: 60px;
+    font-size: 50px;
     font-weight: bold;
     margin-top: 20px;
 }
@@ -192,7 +192,7 @@ a {
     padding: 0px; 
   }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 900px) {
   .register-form {
     background: none;
   }
@@ -200,7 +200,7 @@ a {
   input[type="name"], input[type="password-repeat"] {
     background: none;
   }
-   
+
 }
 
 }
