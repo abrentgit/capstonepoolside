@@ -171,20 +171,17 @@ ul {
 }
 
 .order-header {
-    margin-left: 50%;
     font-family: "Barlow Condensed", helvetica, sans-serif; 
 }
 
 .order-title {
     font-size: 60px;
-    margin-left: -45px;
 }
 
 .logo-menu {
     color: white;
     width: auto;
     height: 70px;
-    margin-left: -30px;
 }
 
 h4 {
@@ -217,7 +214,7 @@ form {
 .location {
     font-family: "Barlow Condensed", helvetica, sans-serif;
     font-size: 20px;
-    margin-left: 5px;
+    margin-left: 10px;
     margin-top: 10px;
     margin-bottom: 20px;
 }
@@ -226,11 +223,6 @@ form {
 .locations {
     font-size: 20px;
 }
-
-/* .order-date-field {
-    font-family: "Barlow Condensed", helvetica, sans-serif;
-    font-size: 20px;
-} */
 
 .logo-order-delete {
     height: 100px;
@@ -306,11 +298,6 @@ li.order-item {
     padding: 10px;
 }
 
-.order-header {
-    margin-left: 50%;
-    font-size: 16px;
-}
-
 .order-date {
     font-family: "Barlow Condensed", helvetica, sans-serif;
     font-size: 20px;
@@ -361,6 +348,10 @@ ul {
 
 .dishes {
     font-size: 20px;
+}
+
+.location {
+    margin-left: 0px;
 }
 
 .location-choice {

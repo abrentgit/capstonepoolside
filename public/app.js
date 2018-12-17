@@ -196,7 +196,7 @@ function getDishes() {
 }
 
 function renderDish(dish) { 
-    const orderDiv = `<div class="dish-choice"> <h2>${dish.name}</h2>
+    const orderDiv = `<div class="dish-choice"><p><b>${dish.name}</b></p>
                         <p>${dish.description}</p>
                         <p class="dish-price">$${dish.price}</p>
                         <button data-dish="${dish._id}" 
