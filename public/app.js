@@ -396,7 +396,7 @@ function orderFeedback(newOrder) {
                             <ul>${dishList}</ul>
 
                             <div class="order-details"> 
-                                <p><i>Reservation:</i> ${date} at ${location}</p>
+                                <p><i>Reservation: </i> ${date} at ${location}</p>
                             </div>
 
                             <div class="cart-total">
@@ -406,8 +406,8 @@ function orderFeedback(newOrder) {
                             </div>
 
                             <div class="feedback-btns">
-                            <button type="button" role="button" data-order="${newOrder._id}" class="cancel-btn">Cancel Order</button>
-                            <button type="button" role="button" class="done-btn">Home</button>
+                            <button type="button" data-order="${newOrder._id}" class="cancel-btn">Cancel Order</button>
+                            <button type="button" class="done-btn">Home</button>
                             </div>`)
 }
 
