@@ -211,30 +211,26 @@ form {
 .location-choice {
     padding-top: 80px;
     display: flexbox;
-    margin-left: -291px;
+    margin-left: -304px;
 }
 
 .location {
     font-family: "Barlow Condensed", helvetica, sans-serif;
     font-size: 20px;
-}
-
-.location-select {
-    font-family: "Barlow Condensed", helvetica, sans-serif;
-    font-size: 20px;
-    margin-left: 10px;
+    margin-left: 5px;
     margin-top: 10px;
     margin-bottom: 20px;
 }
+
 
 .locations {
     font-size: 20px;
 }
 
-.order-date-field {
+/* .order-date-field {
     font-family: "Barlow Condensed", helvetica, sans-serif;
     font-size: 20px;
-}
+} */
 
 .logo-order-delete {
     height: 100px;
@@ -316,6 +312,8 @@ li.order-item {
 }
 
 .order-date {
+    font-family: "Barlow Condensed", helvetica, sans-serif;
+    font-size: 20px;
     margin-top: 20px;
 }
 
@@ -366,7 +364,11 @@ ul {
 }
 
 .location-choice {
-    margin-left: -277px;
+    margin-left: -284px;
+}
+
+.checkout-btn {
+    margin-left: -272px;
 }
 
 .pride-adder {

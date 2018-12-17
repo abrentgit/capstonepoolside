@@ -41,8 +41,8 @@ function performLogin() {
         console.log('working');
         alert('register guest is working');
 
-        const email = $('#user-email').val();
-        const password = $('#user-password').val();
+        const email = $('#user-email-login').val();
+        const password = $('#user-password-login').val();
         
         const session = {
             'email': `${email}`,
@@ -196,7 +196,7 @@ function getDishes() {
 }
 
 function renderDish(dish) { 
-    const orderDiv = `<div class="dish-choice"> <h3>${dish.name}</h3>
+    const orderDiv = `<div class="dish-choice"> <h2>${dish.name}</h2>
                         <p>${dish.description}</p>
                         <p class="dish-price">$${dish.price}</p>
                         <button data-dish="${dish._id}" 
@@ -321,7 +321,7 @@ function postOrder() {
         console.log('HELLO, I AM CLICKED');
                 
         const date = $('.date-input').val();
-        const location = $('#location-select').val();
+        const location = $('#location').val();
 
         const token = localStorage.getItem('token');
         const userId = localStorage.getItem('userId');

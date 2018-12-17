@@ -52,17 +52,21 @@
     </div>
     <!--LOGIN FORM-->
     <div class="login-form">
+      <nav>
         <img class="logo" src="../cutlery-icon.svg" alt="Cutlery" />
+      </nav>
+      <div class="login-inputs">
       <form accept-charset="UTF-8">
         <fieldset>
           <legend class="login-legend">Log In</legend>
           <label for="user-email-login">Email</label>
-          <input name="user-email-login" id="user-email" aria-label="email" value="you@email.com" type="email" required/>
+          <input name="user-email-login" id="user-email-login" aria-label="email" placeholder="you@email.com" type="email" required/>
           <label for="user-password-login">Password</label>
-          <input name="user-password-login" id="user-password" aria-label="password" value="Password" type="password" required/>
+          <input type="password" name="user-password-login" placeholder="Your Password" id="user-password-login" required/>
           <button type="submit" id="sign-in-submit">SUBMIT</button>
         </fieldset>
       </form>
+      </div>
       
       <footer class="footer">
         <p>Don't have an account? <a class="register-footer" href="">Register</a></p>
@@ -71,14 +75,12 @@
     </div>
     <!--ORDER PAGE-->
     <div class="make-order">
-    <header role="header" class="order-header">
-
-      <div class="logo-title">
-      <img class="logo-menu" src="../cutlery-icon.svg" alt="Cutlery" />
-      <h1 class="order-title">Menu</h1>
-      </div>
-
-    </header>
+      <header class="order-header">
+        <div class="logo-title">
+        <img class="logo-menu" src="../cutlery-icon.svg" alt="Cutlery" />
+        <h1 class="order-title">Menu</h1>
+        </div>
+      </header>
       <main>
       <div class="order-form">
         <div class="container">
@@ -97,13 +99,13 @@
 
         <div class="container">
           <div class="order-date">
-            <label for="datetime-local" class=order-date-field> Date: </label>
-            <input type="datetime-local" class="date-input">
+            <label for="datetime-local">Date:</label>
+            <input type="datetime-local" name="datetime-local" id="datetime-local" class="date-input">
           </div>
         
           <div class="location-choice">
-            <label for="location" class="location"> Location: </label>
-              <select class="location-select" id="location-select">
+            <label for="location" class="location">Location:</label>
+              <select class="location" id="location">
                 <option value="">--Please choose an option--</option>
                 <option value="Pool-Bar">Pool Bar</option>
                 <option value="Lobby Lounge">Lobby Lounge</option>
