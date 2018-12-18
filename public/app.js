@@ -392,23 +392,25 @@ function orderFeedback(newOrder) {
 
     let cartVal = `${cartTotal}`;
 
-    $('.order-feedback').append(`<span class="order-id"> Order#: ${newOrder._id} </span>
-                            <ul>${dishList}</ul>
+    $('.order-feedback').append(`<nav class="feedback-header">
+                                    <p class="order-id"> Order#: ${newOrder._id} </p>
+                                    <ul>${dishList}</ul>
+                                </nav>
 
-                            <div class="order-details"> 
-                                <p><i>Reservation: </i> ${date} at ${location}</p>
-                            </div>
+                                <div role="region" class="order-details"> 
+                                    <p><i>Reservation: </i> ${date} at ${location}</p>
+                                </div>
 
-                            <div class="cart-total">
-                                <img class="logo-feedback" src="../cutlery-icon.svg" alt="Cutlery" />
-                                <p class="cart-cost">Total Cost: $${cartVal}</p>
-                                <p class="thanks">Thanks for Your Order!</p>
-                            </div>
+                                <div role="region" class="cart-total">
+                                    <img role="img" class="logo-feedback" src="../cutlery-icon.svg" alt="Cutlery" />
+                                    <p class="cart-cost">Total Cost: $${cartVal}</p>
+                                    <p class="thanks">Thanks for Your Order!</p>
+                                </div>
 
-                            <div class="feedback-btns">
-                            <button type="button" data-order="${newOrder._id}" class="cancel-btn">Cancel Order</button>
-                            <button type="button" class="done-btn">Home</button>
-                            </div>`)
+                                <div role="region" class="feedback-btns">
+                                    <button type="button" data-order="${newOrder._id}" class="cancel-btn">Cancel Order</button>
+                                    <button type="button" class="done-btn">Home</button>
+                                </div>`)
 }
 
 // CONFIRM ORDER CANCEL
@@ -457,11 +459,11 @@ function deleteOrder() {
 // AFTER ORDER DELETED, func to take back to homepage
 function deleteOrderFeedback() {
     $('.order-title').hide();    
-    $('.order-feedback').html(`<div class="delete-feedback">
-                                <img class="logo-order-delete" src="../cutlery-icon.svg" alt="Cutlery" /> 
-                                <p class="cancel-text">Your order has been canceled.</p>
-                                <p class="cancel-text">Thanks for using Order Inn.</p>
-                                <button type="button" role="button" class="done-deleted-btn">Home</button>
+    $('.order-feedback').html(`<div role="region" class="delete-feedback">
+                                <img role="img" class="logo-order-delete" src="../cutlery-icon.svg" alt="Cutlery" /> 
+                                <p class="cancel-text"><i>Your order has been canceled.</i></p>
+                                <p class="cancel-text"><i>Thanks for using Order Inn.</i></p>
+                                <button type="button" class="done-deleted-btn">Home</button>
                            </div>`);
 }
 

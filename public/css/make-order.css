@@ -27,7 +27,7 @@ li.order-item {
 }
 
 p.order-id {
-    font-size: 80px;
+    font-size: 50px;
     font-style: normal;
     font-weight: bold;
     font-family: "Barlow Condensed", helvetica, sans-serif;
@@ -45,6 +45,7 @@ ul {
 
 .cancel-text {
     font-size: 35px;
+    color: black;
     margin-bottom: 5px;
     margin-left: -70px;
     font-family: "Barlow Condensed", helvetica, sans-serif;
@@ -77,7 +78,6 @@ ul {
 .order-details {
     font-size: 30px;
     margin-left: 40px;
-    margin-top: -70px;
 }
 
 .order-form {
@@ -219,7 +219,6 @@ form {
     margin-bottom: 20px;
 }
 
-
 .locations {
     font-size: 20px;
 }
@@ -270,7 +269,7 @@ form {
     padding-bottom: 10px;
     width: 250px;
     font-family: "Barlow Condensed", helvetica, sans-serif;
-    background-color:rgb(150, 211, 93);    ;
+    background-color: green;
     font-size: 30px;
     display: flexbox;
 }
@@ -326,8 +325,17 @@ li.order-item {
 }
 
 .cancel-text {
+  color: black;
   font-size: 25px; 
   margin: 0px;
+}
+
+.cancel-btn {
+    background-color: white;
+}
+
+.done-btn {
+    background-color: white;
 }
 
 .done-deleted-btn {
