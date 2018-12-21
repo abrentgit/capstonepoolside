@@ -34,7 +34,7 @@ app.get('/orderinn/home', (req, res) => {
 	if(!req) {
 		res.status(404).message('Content not found');
 	} else {
-		res.status(200).sendFile(__dirname + '/views/homepage.html');
+		res.status(200).sendFile(__dirname + '/public/index.html');
 	}
 });
 
@@ -280,7 +280,7 @@ app.get('/orders', verifyAdminUser, (req, res) => {
 		const currentPage = req.query.page || 1;
 	
 		Order.find()
-			.skip(perPage * currentPage - perPage) //skipping the previous pages dependent on page number
+			.skip(perPage * currentPage - perPage) 
 			.limit(perPage) // limit it to per page number, then take orders
 			.then(orders => {
 				res.json({
