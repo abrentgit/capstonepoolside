@@ -75,13 +75,6 @@ app.get('/orderinn/register', (req, res) => {
 	}
 });
 
-
-// PENDING OPTIMIZATION
-// const ordersRouter = require('./orderRouter');
-// const menusRouter = require('./menusRouter');
-// app.use('/orders', ordersRouter);
-// app.use('/menus', menusRouter) // for orders routes, use order Router
-
 // CREATE TOKEN FOR GUEST
 const createAuthToken = function(user) {
 	return jwt.sign({ user }, config.JWT_SECRET, {
@@ -1105,4 +1098,4 @@ if (require.main === module) {
 	runServer(DATABASE_URL).catch(err => console.error(err));
 }
 
-module.exports = { runServer, app, closeServer, createAuthToken };
+module.exports = { runServer, app, closeServer, createAuthToken, verifyUser };

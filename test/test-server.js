@@ -7,38 +7,58 @@ const mongoose = require('mongoose');
 const faker = require('faker');
 
 const expect = chai.expect;
+const should = chai.should();
 
 const { TEST_DATABASE_URL } = require('../config');
-const { app, runServer, closeServer, createAuthToken } = require('../server');
+const { app, runServer, closeServer, authToken, verifyUser } = require('../server');
 const { Order, Menu, User, Dish, Beverage } = require('../models');
 
 chai.use(chaiHttp);
 
+
+const userCredentials = {
+	email: 'Shawna7@gmail.com',
+	password: 'nhDq7DfC4RzSnn6'
+}
+
 function generateUser() {
+
 	return {
 		name: faker.name.findName(),
 		email: faker.internet.email(),
-		password: faker.internet.password()
+		password: faker.internet.password(),
 	}
 }
 
-function seedDishData() {
-	console.log('seeding dish data');
+/// NEED A FUNCTION TO PERSIST USER TO DB - USER.CREATE 
+
+function seedUserData() {
+	console.log('seeding fake users');
 	const seedData = [];
 
-	for (let i = 0; i <= 10; i++) {
-		seedData.push(generateDishData());
+	for (let i = 0; i <= 1; i++) {
+		seedData.push(generateUser())
 	}
-	return Dish.insertMany(seedData);
+	return User.insertMany(seedData);
 }
 
-function generateDishData() {
-	return {
-		name: faker.commerce.productName(),
-		description: faker.commerce.productMaterial(),
-		price: faker.commerce.price()
-	}
-}
+// function seedDishData() {
+// 	console.log('seeding dish data');
+// 	const seedData = [];
+
+// 	for (let i = 0; i <= 10; i++) {
+// 		seedData.push(generateDishData());
+// 	}
+// 	return Dish.insertMany(seedData);
+// }
+
+// function generateDishData() {
+// 	return {
+// 		name: faker.commerce.productName(),
+// 		description: faker.commerce.productMaterial(),
+// 		price: faker.commerce.price()
+// 	}
+// }
 
 // function generateDishName() {
 // 	const dishNames = ['Hamburger', 'Fish Tacos', 'Pizza'];
@@ -125,66 +145,93 @@ describe('Order Inn API', function() {
 		return runServer(TEST_DATABASE_URL);
 	});
 
+	beforeEach(function() {
+		seedUserData();
+	})
+
+	// afterEach(function() {
+	// 	return tearDownDb();
+	// });
+
 	after(function() {
 		return closeServer();
 	});
 
-	describe('/POST Register', function() {
-		it('should Register a guest user', function(done){
-			chai.request(app)
-				.post('/guests')
-				.send(generateUser())
-				.then(function(err, res) {
-					res.should.have.status(201);
-					chai.request(app)
-				})
-			done();
-		})
-	})
+	// describe('/POST Register', function() {
+	// 	it('should Register a guest user', async function(){
+	// 		const newUser = generateUser();
+	// 		console.log(newUser);
+	// 		console.log(newUser.email, 'THIS IS THE EMAIL');
+	// 		console.log(newUser.password, 'THIS IS THE PASSWORD');
+
+	// 		const res = await chai.request(app)
+	// 			.post('/guests')
+	// 			.send(newUser);
+	// 				res.should.have.status(201);
+	// 				res.should.be.json;
+	// 				res.body.should.be.a('object');
+	// 			console.log(res.body.authToken, 'this is my auth token');
+	// 	});
+	// });
 
 	describe('/POST Login', function() {
-		it('should login a guest user', function(done) {
-			chai.request(app)
+		it('should Login a guest user', async function() { 
+
+			const res = await chai.request(app)
 				.post('/login')
-				.send(generateUser())
-				.then(function(err, res) {
-					console.log(res, 'this is the response in post login');
-					res.should.have.status(200);
-					chai.request(app)
-				})
-			done();
-		})
-	})
-
-	describe('test endpoints', function() {
-		beforeEach(function() {
-			console.log('dishes seeding')
-			return seedDishData();
-		});
-
-		afterEach(function() {
-			return tearDownDb();
-		});
-
-		it('GET/ should return all existing dishes', function(done) {
-			let res;
-			chai.request(app)
-				.get('/dishes')
-				// this is undefined
-				.set('Authorization', `Bearer ${authToken}`)
-				.then(function(_res) {
-					res = _res; 
-					res.should.have.status(200);
-					res.body.should.have.length.of.at.least(1);
-					return dishes.count();
-				})
-				.then(function(count) {
-					res.body.should.have.length.of(count);
-				});
-			done();
+				.send(userCredentials, authToken);
+					res.should.have.status(201);
+					res.should.not.be.empty;
+					res.should.be.a('object');
 		});
 	});
-})
+
+});
+
+
+
+
+	// describe('/POST Login', function() {
+	// 	it('should login a guest user', (done) => {
+	// 		let fakeUser = faker.name.findName();
+	// 		let fakePass = faker.internet.password();
+	// 		let authPass = fakePass.toString('base64')
+	// 		console.log(authPass, 'this is auth')
+	// 		chai.request(app)
+	// 			.post('/login')
+	// 			.send(generateUser())
+	// 			.auth(fakeUser, fakePass)
+	// 			.set("Authorization", authPass)
+	// 			.end(((err, res) => {
+	// 				console.log(res, 'this is the response in post login');
+	// 				res.should.have.status(200);
+	// 				done();
+	// 			}));
+	// 		});
+	// 	});
+
+	// describe('test endpoints', function() {
+	// 	beforeEach(function() {
+	// 		console.log('dishes seeding')
+	// 		return seedDishData();
+	// 	});
+
+	// 	afterEach(function() {
+	// 		return tearDownDb();
+	// 	});
+
+	// 	it('GET/ should return all existing dishes', function(done) {
+	// 		chai.request(app)
+	// 			.get('/dishes')
+	// 			.send(generateUser())
+	// 			.end((err, res) => {
+	// 				res.should.have.status(200);
+	// 				res.body.should.be.a('array');
+	// 				res.body.length.should.be.eql(0);
+	// 			done();
+	// 		});
+	// 	});
+	// });
 
 // describe('test endpoints', function() {
 // 	beforeEach(function() {
