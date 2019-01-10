@@ -226,7 +226,7 @@ app.post('/login', (req, res) => {
 				});
 			} else {
 				const authToken = createAuthToken(user.serialize());
-				res.status(201).json({authToken, user_id: user._id});
+				res.status(200).json({authToken, user_id: user._id});
 			}
 		}
 	});
@@ -463,9 +463,6 @@ app.post('/orders', verifyUser, (req, res) => {
 	});
 });
 
-
-
-
 // UPDATE AN ORDER BY ID
 // GUEST 
 // WORKS !!!*
@@ -636,6 +633,8 @@ app.put('/orders/:id/dishes/:dish_id', verifyUser, (req, res) => {
 
 // get menus
 // WORKS*
+
+// TOOK OUT VERIFY USER - MUST PUT BACK IN
 
 app.get('/dishes', verifyUser, (req, res) => {
 	const perPage = 10;
