@@ -7,22 +7,20 @@ const mongoose = require('mongoose');
 const faker = require('faker');
 const expect = require('chai').expect;
 const should = chai.should();
+const jwt = require('jsonwebtoken');
+
 
 const { TEST_DATABASE_URL } = require('../config');
 const { app, runServer, closeServer, authToken, verifyUser, createAuthToken } = require('../server');
 const { Order, Menu, User, Dish, Beverage } = require('../models');
+const { JWT_SECRET } = require('../config');
+
 
 chai.use(chaiHttp);
 
-const authUser = {
-	email: 'fake@email.com', 
-	password: 'password'
-}
-
-const newUser = {
-	name: 'Fake Person',
-	email: 'fake@email.com',
-	password: 'password'
+function tearDownDb() {
+	console.warn('Deleting database');
+	return mongoose.connection.dropDatabase();
 }
 
 function generateDishData() {
@@ -43,15 +41,10 @@ function seedDishData() {
 	return Dish.insertMany(seedData);
 }
 
-function tearDownDb() {
-	console.warn('Deleting database');
-	return mongoose.connection.dropDatabase();
-}
+let newToken;
 
-describe('Order Inn API', function() {
-	
-	let loginToken = '';
-	let userId = '';
+describe('Order Inn API', () => {
+	let user;
 	
 	before(function() {
 		console.log('test server is running!!!')
@@ -62,33 +55,25 @@ describe('Order Inn API', function() {
 	before(function() {
 		seedDishData();
 	})
-	
-	//REGISTER
-	before(function(done) {
-		chai.request(app)
-		.post('/guests')
-		.send(newUser)
-		.end(function(err, res) {
-			console.log(res, 'THIS IS REGISTERED USER')
-			expect(res.statusCode).to.equal(201);
-			done();
-		})
+
+	user = new User({
+		name: 'fake', 
+		email: 'fake@test.com', 
+		password: 'password'
 	})
-	
-	before(function(done){
-		chai.request(app)
-		.post('/login')
-		.send(authUser)
-	    .end(function(err, res){
-			console.log(res, 'USER IS BEING LOGGED IN')
-			expect(res.statusCode).to.equal(200);
-			console.log(loginToken)
-			loginToken = res.body.authToken;
-			userId = res.body.userId;
-			done();
-	    });
+
+	before(function(done) {
+            chai.request(app)
+                .post('/guests')
+                .send(user)
+                .end(function(err, res){
+					if ( err ) throw err;
+					console.log(res, 'THIS IS POST RE')
+                    newToken = res.body.authToken;
+                    done();
+                });
 	});
-	
+			
 	after(function() {
 		return tearDownDb();
 	});
@@ -97,43 +82,33 @@ describe('Order Inn API', function() {
 		return closeServer();
 	});
 
-	it('should /GET Dishes', function(done) {
-		chai.request(app)
-		.get('/dishes')
-		// .send(authUser)
-		// .set('Authorization', loginToken)
-		.end(function(res) {
-			console.log(res, 'THIS IS DISHES RES') 
-			// expect it to be null
-			// expect(res.status).to.equal(401);
-			done();
-		});
+	it('should login', function(done) {
+        chai.request(app)
+          .post('/login')
+          .send({email:user.email, password:user.password})
+          .end(function(err, res) {
+			console.log(res, 'THIS IS lOGIN RES')
+            if (err) return done(err);
+            done();
+          });
 	});
+	
+    it('should return 401 due to protected endpoint', function(done) {
 
-	// it('should /POST Order', function(done) {
+		console.log(newToken, 'this is token')
 
-	// 	// set up mock order with userId 		
-	// 	// let mockOrder = {
-	// 	// 	guests: userId,
-	// 	// 	dishes: 
-	// 	// 	deliveryDate:
-	// 	// 	location: 
-	// 	// 	notes:
-	// 	// }
-
-	// 	chai.request(app)
-	// 	.post('/orders')
-	// 	.set('Authorization', 'Bearer' + loginToken)
-	// 	.send(authUser)
-	// 	.end(function(err, res) {
-	// 		expect(res.statusCode).to.equal(200);
-	// 		done();
-	// 	})
-	// })
-
+		chai.request(app)
+			.get('/dishes')
+            .set('Authorization', 'Bearer ' + newToken)
+			.end(function(err, res) {
+				console.log(res, 'THIS IS DISHES RES')
+				expect(res).to.have.status(200);
+				expect(res).to.be.json;
+				if (err) return done(err);
+				done();
+			});
+		});
 });
-
-
 
 
 
