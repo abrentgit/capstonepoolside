@@ -7,13 +7,11 @@ const mongoose = require('mongoose');
 const faker = require('faker');
 const expect = require('chai').expect;
 const should = chai.should();
-const jwt = require('jsonwebtoken');
 
 
 const { TEST_DATABASE_URL } = require('../config');
 const { app, runServer, closeServer, authToken, verifyUser, createAuthToken } = require('../server');
 const { Order, Menu, User, Dish, Beverage } = require('../models');
-const { JWT_SECRET } = require('../config');
 
 
 chai.use(chaiHttp);
