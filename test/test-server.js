@@ -19,7 +19,7 @@ const { JWT_SECRET } = require('../config');
 chai.use(chaiHttp);
 
 
-let user, userId, newToken, dish;
+let user, userId, newToken, dish, orderId; 
 
 user = new User({
 	name: 'fake', 
@@ -126,7 +126,24 @@ describe('Order Inn API', () => {
 			.end(function(err, res) {
 				expect(res).to.have.status(201);
 				console.log(res, 'THIS IS POSTED ORDER RESPONSE');
+				console.log(res.body._id, 'YO YO THIS IS ORDER ID');
+
+				orderId = res.body._id;
+				/// OBTAIN ORDER ID HERE AND GLOBAL IT
 				done();
-			})
+			});
 	});
+
+	it('should /DELETE order', function(done) {
+
+		chai.request(app)
+		.delete('/orders/' + orderId)
+		.set('Authorization', 'Bearer ' + newToken)
+		.end(function(err, res) {
+			expect(res).to.have.status(200);
+			console.log(res, 'this is delete order res')
+			done();
+		})
+	});
+		
 });
