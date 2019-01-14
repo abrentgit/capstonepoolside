@@ -430,8 +430,9 @@ app.post('/orders', verifyUser, (req, res) => {
 		}
 	}
 
-	const firstGuestId = req.body.guests.split(',')[0]; //guests is a string, split to an array
-	let dishIds = req.body.dishes.split(','); // array of dishIds
+	const firstGuestId = req.body.guests.split(',')[0]; //guests is a string, split into array of strings
+	
+	let dishIds = req.body.dishes; // array of dishIds
 	console.log(dishIds, 'these are dish Ids');
 
 	User.findById(firstGuestId, (err, guest) => {

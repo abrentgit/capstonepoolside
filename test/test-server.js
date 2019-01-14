@@ -18,62 +18,63 @@ const { JWT_SECRET } = require('../config');
 
 chai.use(chaiHttp);
 
-function tearDownDb() {
-	console.warn('Deleting database');
-	return mongoose.connection.dropDatabase();
-}
 
-function generateDishData() {
-	return {
-		name: faker.commerce.productName(),
-		description: faker.commerce.productMaterial(),
-		price: faker.commerce.price()
-	}
-}
+let user, userId, newToken, dish;
+
+user = new User({
+	name: 'fake', 
+	email: 'fake@test.com', 
+	password: 'password'
+});
+
+dish = new Dish({
+	name: 'Fish Tacos',
+	description: 'Served with special hot sauce',
+	price: faker.commerce.price()
+});
 
 function seedDishData() {
 	console.log('seeding dish data');
 	const seedData = [];
 
-	for (let i = 0; i <= 10; i++) {
-		seedData.push(generateDishData());
+	for (let i = 0; i <= 1; i++) {
+		seedData.push(dish);
 	}
 	return Dish.insertMany(seedData);
 }
 
-let newToken;
+
+function tearDownDb() {
+	console.warn('Deleting database');
+	return mongoose.connection.dropDatabase();
+}
+
 
 describe('Order Inn API', () => {
-	let user;
-	
+
 	before(function() {
 		console.log('test server is running!!!')
 		runServer(TEST_DATABASE_URL);
-	})
+	});
 
 	//seed dishes
 	before(function() {
 		seedDishData();
-	})
-
-	user = new User({
-		name: 'fake', 
-		email: 'fake@test.com', 
-		password: 'password'
-	})
+	});
 
 	before(function(done) {
-            chai.request(app)
-                .post('/guests')
-                .send(user)
-                .end(function(err, res){
-					if ( err ) throw err;
-					console.log(res, 'THIS IS POST RE')
-                    newToken = res.body.authToken;
-                    done();
-                });
+
+        chai.request(app)
+            .post('/guests')
+            .send(user)
+            .end(function(err, res){
+				console.log(res.body, 'this is REG RESPONSE')
+				newToken = res.body.authToken;
+				console.log(userId, 'this is user id');
+                done();
+            });
 	});
-			
+	
 	after(function() {
 		return tearDownDb();
 	});
@@ -87,28 +88,45 @@ describe('Order Inn API', () => {
           .post('/login')
           .send({email:user.email, password:user.password})
           .end(function(err, res) {
-			console.log(res, 'THIS IS lOGIN RES')
-            if (err) return done(err);
+			console.log(res, 'this is login res')
+			userId = res.body.user_id;
+			expect(res).to.have.status(200);
             done();
           });
 	});
 	
-    it('should return 401 due to protected endpoint', function(done) {
-
-		console.log(newToken, 'this is token')
+    it('should /GET dishes', function(done) {
 
 		chai.request(app)
 			.get('/dishes')
             .set('Authorization', 'Bearer ' + newToken)
 			.end(function(err, res) {
-				console.log(res, 'THIS IS DISHES RES')
 				expect(res).to.have.status(200);
 				expect(res).to.be.json;
-				if (err) return done(err);
 				done();
 			});
 		});
+
+	it('should /POST orders', function(done) {
+
+		console.log(userId, 'this is user id in POST ORDERS POPPY');
+
+		let newOrder = {
+			guests: userId,
+			dishes: [dish._id],
+			deliveryDate: Date.now(),
+			location: 'Rooftop',
+			notes: 'More hot sauce'
+		}
+
+		  chai.request(app)
+			.post('/orders')
+			.send(newOrder)
+			.set('Authorization', 'Bearer ' + newToken)
+			.end(function(err, res) {
+				expect(res).to.have.status(201);
+				console.log(res, 'THIS IS POSTED ORDER RESPONSE');
+				done();
+			})
+	});
 });
-
-
-
