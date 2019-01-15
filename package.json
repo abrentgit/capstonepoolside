@@ -19,6 +19,7 @@
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "faker": "^4.1.0",
+    "heroku": "^7.19.4",
     "jsonwebtoken": "^8.3.0",
     "mongo": "^0.1.0",
     "mongodb": "^3.1.1",

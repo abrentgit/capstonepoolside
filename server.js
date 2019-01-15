@@ -25,7 +25,7 @@ app.use(express.static(__dirname +'/public'));
 
 // HOMEPAGE 
 
-app.get('/orderinn/home', (req, res) => {
+app.get('/', (req, res) => {
 	if(!req) {
 		res.status(404).message('Content not found');
 	} else {
