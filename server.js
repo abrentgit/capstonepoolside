@@ -13,7 +13,6 @@ mongoose.Promise = global.Promise;
 const { DATABASE_URL, PORT } = require('./config');
 const { Order, Menu, Beverage, Dish, User } = require('./models');
 
-// BCRYPT
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
@@ -24,18 +23,14 @@ app.use(express.json());
 app.use(cors());
 app.use(express.static(__dirname +'/public'));
 
-
-
-// HTML PAGES
-
-// HOMEPAGE - WORKS!
+// HOMEPAGE 
 
 app.get('/orderinn/home', (req, res) => {
 	if(!req) {
 		res.status(404).message('Content not found');
 	} else {
-		res.status(200).sendFile(__dirname + '/views/homepage.html');
-	}
+		res.status(200).sendFile(__dirname + '/public/index.html');
+	};
 });
 
 // ABOUT PAGE 
@@ -44,7 +39,7 @@ app.get('/orderinn/about', (req, res) => {
 		res.status(404).message('Content not found');
 	} else {
 		res.status(200).sendFile(__dirname + '/views/about.html');
-	}
+	};
 });
 
 // MAKE ORDER PAGE
@@ -53,7 +48,7 @@ app.get('/orderinn/neworder', (req, res) => {
 		res.status(404).message('Content not found');
 	} else {
 		res.status(200).sendFile(__dirname + '/views/make-order.html');
-	}
+	};
 });
 
 /// LOGIN 
@@ -62,7 +57,7 @@ app.get('/orderinn/login', (req, res) => {
 		res.status(404).message('Content not found');
 	} else {
 		res.status(200).sendFile(__dirname + '/views/login.html');
-	}
+	};
 });
 
 
@@ -72,15 +67,8 @@ app.get('/orderinn/register', (req, res) => {
 		res.status(404).message('Content not found');
 	} else {
 		res.status(200).sendFile(__dirname + '/views/register.html');
-	}
+	};
 });
-
-
-// PENDING OPTIMIZATION
-// const ordersRouter = require('./orderRouter');
-// const menusRouter = require('./menusRouter');
-// app.use('/orders', ordersRouter);
-// app.use('/menus', menusRouter) // for orders routes, use order Router
 
 // CREATE TOKEN FOR GUEST
 const createAuthToken = function(user) {
@@ -106,6 +94,7 @@ const verifyUser = function (req, res, next) {
 		jwt.verify(token, config.JWT_SECRET, function(error, decoded) {
 			if (!error) {
 				req.decoded = decoded;
+
 				if (req.decoded.aud === 'Guest') {
 					next();
 				} else {
@@ -113,11 +102,11 @@ const verifyUser = function (req, res, next) {
 				}
 			} else {
 				res.status(401).json({ message: 'Invalid credentials'});
-			}
+			};
 		}
 	);
-}
-}
+};
+};
 
 // MIDDLEWARE FOR ADMIN
 
@@ -170,8 +159,7 @@ app.post('/admin', (req, res) => {
 		.then(user => {
 			const authToken = createAuthToken(user.serialize());
 			res.status(201).json({ authToken });
-		})
-		.catch(err => {
+		}).catch(err => {
 			console.log(err);
 			res.status(422).json({ message: 'Something went wrong' });
 		});
@@ -224,7 +212,6 @@ app.post('/login', (req, res) => {
 				error: 'Invalid credentials'
 			});
 		} else {
-
 			let validPassword = bcrypt.compareSync(req.body.password, user.password);
 
 			if (!validPassword) { //if pass doesn't match
@@ -233,9 +220,9 @@ app.post('/login', (req, res) => {
 				});
 			} else {
 				const authToken = createAuthToken(user.serialize());
-				res.status(201).json({authToken, user_id: user._id});
-			}
-		}
+				res.status(200).json({authToken, user_id: user._id});
+			};
+		};
 	});
 });
 
@@ -254,7 +241,6 @@ app.post('/login/admin', (req, res) => {
 				error: 'Invalid credentials'
 			});
 		} else {
-
 			let validPassword = bcrypt.compareSync(req.body.password, user.password);
 
 			if (!validPassword) { //if pass doesn't match
@@ -264,8 +250,8 @@ app.post('/login/admin', (req, res) => {
 			} else {
 				const authToken = createAuthToken(user.serialize());
 				res.status(201).json({authToken, user_id: user._id});
-			}
-		}
+			};
+		};
 	});
 });
 
@@ -280,7 +266,7 @@ app.get('/orders', verifyAdminUser, (req, res) => {
 		const currentPage = req.query.page || 1;
 	
 		Order.find()
-			.skip(perPage * currentPage - perPage) //skipping the previous pages dependent on page number
+			.skip(perPage * currentPage - perPage) 
 			.limit(perPage) // limit it to per page number, then take orders
 			.then(orders => {
 				res.json({
@@ -292,28 +278,6 @@ app.get('/orders', verifyAdminUser, (req, res) => {
 			});
 	});
 
-	
-	// GET ORDERS BY GUEST ID
-	// guest/guestid/orders/ 
-	//app.get('/orders', verifyAdminUser, (req, res) => {
-	// 	const perPage = 3;
-	// 	const currentPage = req.query.page || 1;
-	
-	// 	Order.find()
-	// 		.skip(perPage * currentPage - perPage) //skipping the previous pages dependent on page number
-	// 		.limit(perPage) // limit it to per page number, then take orders
-	// 		.then(orders => {
-	// 			res.json({
-	// 				orders: orders.map(order => order.serialize())
-	// 			});
-	// 		})
-	// 		.catch(err => {
-	// 			res.status(500).json({ message: 'Internal server error' });
-	// 		});
-	// });
-
-
-// get orders by id
 // WORKS!!*
 
 app.get('/orders/:id', verifyUser, (req, res) => {
@@ -354,7 +318,7 @@ app.get('/orders/:id/beverages', verifyUser, (req, res) => {
 			res.json({
 				beverages: order.beverages.map(beverage => beverage.serialize())
 			});
-		}
+		};
 	});
 });
 
@@ -437,8 +401,9 @@ app.post('/orders', verifyUser, (req, res) => {
 		}
 	}
 
-	const firstGuestId = req.body.guests.split(',')[0]; //guests is a string, split to an array
-	let dishIds = req.body.dishes.split(','); // array of dishIds
+	const firstGuestId = req.body.guests.split(',')[0]; //guests is a string, split into array of strings
+	
+	let dishIds = req.body.dishes; // array of dishIds
 	console.log(dishIds, 'these are dish Ids');
 
 	User.findById(firstGuestId, (err, guest) => {
@@ -465,13 +430,10 @@ app.post('/orders', verifyUser, (req, res) => {
 					res.status(500).json({ error: 'Something went wrong' });
 				});
 			};
-			})
-		}
+			});
+		};
 	});
 });
-
-
-
 
 // UPDATE AN ORDER BY ID
 // GUEST 
@@ -482,7 +444,7 @@ app.put('/orders/:id', verifyUser, (req, res) => {
 		res.status(400).json({
 			error: 'Request path id and request body id values must match'
 		});
-	}
+	};
 
 	const updated = {};
 	const updateableFields = ['deliveryDate', 'location', 'notes'];
@@ -643,6 +605,8 @@ app.put('/orders/:id/dishes/:dish_id', verifyUser, (req, res) => {
 
 // get menus
 // WORKS*
+
+// TOOK OUT VERIFY USER - MUST PUT BACK IN
 
 app.get('/dishes', verifyUser, (req, res) => {
 	const perPage = 10;
@@ -1105,4 +1069,4 @@ if (require.main === module) {
 	runServer(DATABASE_URL).catch(err => console.error(err));
 }
 
-module.exports = { runServer, app, closeServer, createAuthToken };
+module.exports = { runServer, app, closeServer, createAuthToken, verifyUser };
