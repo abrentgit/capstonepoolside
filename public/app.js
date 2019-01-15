@@ -41,8 +41,8 @@ function performLogin() {
         console.log('working');
         alert('register guest is working');
 
-        const email = $('#user-email').val();
-        const password = $('#user-password').val();
+        const email = $('#user-email-login').val();
+        const password = $('#user-password-login').val();
         
         const session = {
             'email': `${email}`,
@@ -196,7 +196,7 @@ function getDishes() {
 }
 
 function renderDish(dish) { 
-    const orderDiv = `<div class="dish-choice"> <h3>${dish.name}</h3>
+    const orderDiv = `<div class="dish-choice"><p><b>${dish.name}</b></p>
                         <p>${dish.description}</p>
                         <p class="dish-price">$${dish.price}</p>
                         <button data-dish="${dish._id}" 
@@ -305,7 +305,7 @@ function renderCart() {
     $('.price-adder').hide();
 
     cart.forEach(function(item) {
-    let newItem = $(".summary-items").append(`<li class="order-item"> ${item.item.name} - ${item.quantity} orders </li>`);
+    let newItem = $(".summary-items").append(`<li class="order-item"> ${item.item.name} - ${item.quantity} </li>`);
     
     $('.price-adder').show();
     $('.total-price').html(`<h3 class="price"> Total: $${cartTotal} </h3>`);
@@ -321,7 +321,7 @@ function postOrder() {
         console.log('HELLO, I AM CLICKED');
                 
         const date = $('.date-input').val();
-        const location = $('#location-select').val();
+        const location = $('#location').val();
 
         const token = localStorage.getItem('token');
         const userId = localStorage.getItem('userId');
@@ -392,23 +392,25 @@ function orderFeedback(newOrder) {
 
     let cartVal = `${cartTotal}`;
 
-    $('.order-feedback').append(`<span class="order-id"> Order#: ${newOrder._id} </span>
-                            <ul>${dishList}</ul>
+    $('.order-feedback').append(`<nav class="feedback-header">
+                                    <p class="order-id"> Order#: ${newOrder._id} </p>
+                                    <ul>${dishList}</ul>
+                                </nav>
 
-                            <div class="order-details"> 
-                                <p><i>Reservation:</i> ${date} at ${location}</p>
-                            </div>
+                                <div role="region" class="order-details"> 
+                                    <p><i>Reservation: </i> ${date} at ${location}</p>
+                                </div>
 
-                            <div class="cart-total">
-                                <img class="logo-feedback" src="../cutlery-icon.svg" alt="Cutlery" />
-                                <p class="cart-cost">Total Cost: $${cartVal}</p>
-                                <p class="thanks">Thanks for Your Order!</p>
-                            </div>
+                                <div role="region" class="cart-total">
+                                    <img role="img" class="logo-feedback" src="../cutlery-icon.svg" alt="Cutlery" />
+                                    <p class="cart-cost">Total Cost: $${cartVal}</p>
+                                    <p class="thanks">Thanks for Your Order!</p>
+                                </div>
 
-                            <div class="feedback-btns">
-                            <button type="button" role="button" data-order="${newOrder._id}" class="cancel-btn">Cancel Order</button>
-                            <button type="button" role="button" class="done-btn">Home</button>
-                            </div>`)
+                                <div role="region" class="feedback-btns">
+                                    <button type="button" data-order="${newOrder._id}" class="cancel-btn">Cancel Order</button>
+                                    <button type="button" class="done-btn">Home</button>
+                                </div>`)
 }
 
 // CONFIRM ORDER CANCEL
@@ -457,11 +459,11 @@ function deleteOrder() {
 // AFTER ORDER DELETED, func to take back to homepage
 function deleteOrderFeedback() {
     $('.order-title').hide();    
-    $('.order-feedback').html(`<div class="delete-feedback">
-                                <img class="logo-order-delete" src="../cutlery-icon.svg" alt="Cutlery" /> 
-                                <p class="cancel-text">Your order has been canceled.</p>
-                                <p class="cancel-text">Thanks for using Order Inn.</p>
-                                <button type="button" role="button" class="done-deleted-btn">Home</button>
+    $('.order-feedback').html(`<div role="region" class="delete-feedback">
+                                <img role="img" class="logo-order-delete" src="../cutlery-icon.svg" alt="Cutlery" /> 
+                                <p class="cancel-text"><i>Your order has been canceled.</i></p>
+                                <p class="cancel-text"><i>Thanks for using Order Inn.</i></p>
+                                <button type="button" class="done-deleted-btn">Home</button>
                            </div>`);
 }
 
@@ -502,6 +504,7 @@ function getRegisterPage() {
         event.preventDefault();
         alert('register page is working')
         $('.register-form').show();
+        $('.footer-register').append(`<p>Already have an account? <a class="login-footer" href="">Log in</a></p>`)
         $('.homepage-title').css('color', '#000000');
         $('.login-form').hide();
         $('.make-order').hide();
@@ -513,7 +516,6 @@ function getRegisterPage() {
         $('.logo').show();
     })
 }
-
 
 // GET ABOUT PAGE FROM HOMEPAGE
 
@@ -550,7 +552,7 @@ function logoHome() {
 
 // FOOTER ON LOGIN PAGE
 function signUpLink() {
-    $('.footer').on('click', '.signup-footer', function(event) {
+    $('.footer').on('click', '.register-footer', function(event) {
         event.preventDefault();
         $('.register-form').show();
         $('.login-form').hide();

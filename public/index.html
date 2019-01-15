@@ -9,13 +9,13 @@
     <link href="../css/make-order.css" rel="stylesheet" type="text/css" />
     <link href="../css/login.css" rel="stylesheet" type="text/css" />
     <link href="../css/about.css" rel="stylesheet" type="text/css" />
-    <meta name="description" content="Order Inn Homepage">
+    <meta name="description" content="Order Inn Home">
   </head>
 
   <body>
     <!--HOMEPAGE-->
     <div class="homepage">
-	  <header role="banner" class="homepage-header">
+	  <header class="homepage-header">
       <h1 class="homepage-title">Order Inn</h1>
 			<nav>
         <ul>
@@ -28,103 +28,111 @@
     </div>
     <!-- REGISTER FORM-->
     <div class="register-form">
-      <header role="header">
+    <nav>
       <img class="logo" src="../cutlery-icon.svg" alt="Cutlery" />
-    </header>
-      <form role="form" accept-charset="UTF-8" method="POST">
+    </nav>
+    <div role="region" class="register-inputs">
+      <form accept-charset="UTF-8">
         <fieldset>
           <legend class="register-legend">Register</legend>
           <label for="user-name">Name</label>
-          <input type="name" placeholder="" name="user-name" id="user-name" required/>
-          <label for="user-email">Email</label>
-          <input type="email" placeholder="" name="user-email" id="user-email-reg" required/>
-          <label for="user-password">Password</label>
-          <input type="password" placeholder="" name="user-password" id="user-password-reg" required/>
+          <input type="name" placeholder="Your Name" name="user-name" id="user-name" required/>
+          <label for="user-email-reg">Email</label>
+          <input type="email" placeholder="you@email.com" name="user-email-reg" id="user-email-reg" required/>
+          <label for="user-password-reg">Password</label>
+          <input type="password" placeholder="Your Password" name="user-password-reg" id="user-password-reg" required/>
           <label for="psw-repeat">Repeat Password</label>
-          <input type="password-repeat" placeholder="" name="psw-repeat" id="psw-repeat" required>
+          <input type="password" placeholder="" name="psw-repeat" id="psw-repeat" required>
           <button type="submit" id="register-btn">SUBMIT</button>
-      </fieldset>
-    </form>
+        </fieldset>
+      </form>
+    </div>
 
-    <footer role="contentinfo" class="footer-register">
-      <p>Already have an account? <a class="login-footer" href="">Log in</a></p>
-    </footer>
+    <div role="region" class="footer-register">
+    </div>
+
     </div>
     <!--LOGIN FORM-->
     <div class="login-form">
-      <header role="header">
+      <nav>
         <img class="logo" src="../cutlery-icon.svg" alt="Cutlery" />
-      </header>
-      <form role="form" accept-charset="UTF-8" method="POST">
+      </nav>
+      <div role="region" class="login-inputs">
+      <form accept-charset="UTF-8">
         <fieldset>
           <legend class="login-legend">Log In</legend>
-          <label for="user-email">Email</label>
-          <input type="email" placeholder="" name="user-email" id="user-email" required/>
-          <label for="user-password">Password</label>
-          <input placeholder="" type="password" name="user-password" id="user-password" required/>
+          <label for="user-email-login">Email</label>
+          <input name="user-email-login" id="user-email-login" aria-label="email" placeholder="you@email.com" type="email" required/>
+          <label for="user-password-login">Password</label>
+          <input type="password" name="user-password-login" placeholder="Your Password" id="user-password-login" required/>
           <button type="submit" id="sign-in-submit">SUBMIT</button>
         </fieldset>
       </form>
+      </div>
       
-      <footer role="contentinfo" class="footer">
-        <p>Don't have an account? <a class="signup-footer" href="">Sign Up</a></p>
+      <footer class="footer">
+        <p>Don't have an account? <a class="register-footer" href="">Register</a></p>
       </footer>
+    
     </div>
     <!--ORDER PAGE-->
     <div class="make-order">
-    <header role="header" class="order-header">
-      <img class="logo-menu" src="../cutlery-icon.svg" alt="Cutlery" />
-      <h1 class="order-title">Menu</h1>
-    </header>
-
-    <div class="order-form">
-      <div class="container">
-        <div class="dishes">
-        </div>
-
-        <div class="order-summary">
-          <ul class="summary-items">
-          </ul>
-          <div class="price-adder">
-            <p class="total-price"></p>
+      <nav class="order-header">
+        <img role="img" class="logo-menu" src="../cutlery-icon.svg" alt="Cutlery" />
+        <p class="order-title" role ="heading" aria-level="1">Menu</p>
+      </nav>
+  
+      <main>
+      <div class="order-form">
+        <div class="container">
+          <div class="dishes">
           </div>
+
+          <div class="order-summary">
+            <ul class="summary-items">
+            </ul>
+            <div class="price-adder">
+              <p class="total-price"></p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="container">
+          <div class="order-date">
+            <label for="datetime-local">Date:</label>
+            <input type="datetime-local" name="datetime-local" id="datetime-local" class="date-input">
+          </div>
+        
+          <div class="location-choice">
+            <label for="location" class="location">Location:</label>
+              <select class="location" id="location">
+                <option value="">--Please choose an option--</option>
+                <option value="Pool-Bar">Pool Bar</option>
+                <option value="Lobby Lounge">Lobby Lounge</option>
+                <option value="Rooftop">Rooftop</option>
+              </select>
+          </div>
+
+          <div class="checkout-button">
+            <button type="button" class="checkout-btn">Checkout</button>
+          </div>
+
         </div>
 
       </div>
-
-      <div class="container">
-        <div class="order-date">
-          <label for="order-date-field" class=order-date-field> Date: </label>
-          <input type="datetime-local" class="date-input">
-        </div>
-
-        <div class="location-choice">
-          <label for="location" class="location"> Location: </label>
-          <select class="location-select" id="location-select">
-            <option value="">--Please choose an option--</option>
-            <option value="Pool-Bar">Pool Bar</option>
-            <option value="Lobby Lounge">Lobby Lounge</option>
-            <option value="Rooftop">Rooftop</option>
-          </select>
-        </div>
-        <div class="checkout-button">
-          <button type="button" role="button" class="checkout-btn">Checkout</button>
-        </div>
-      </div>
-
+      </main>
     </div>
-
-  </div>
   <!--ORDER FEEDBACK PAGE-->
   <div class="order-feedback">
   </div>
   <!--ABOUT PAGE-->
   <div class="about">
-    <header role="header">
+    <nav>
       <img class="logo" src="../cutlery-icon.svg" alt="Cutlery" />
-    </header>
-    
-    <div class="description">
+    </nav>
+
+    <div role="region" class="description">
       <p>Welcome to Order Inn!</p>
       <p>Order Inn is the Sublime Hotel's in house app which allows guests to reserve speical dishes from our award winning food lab at prime social hubs inside the hotel.</p>
       <p>Whether you want breakfast at the pool or simply a small pick me up on our rooftop, Order Inn makes it easy to sample new food and enjoy our first class amenties. </p>
@@ -132,11 +140,7 @@
 
   </div>
 
-</body>
-
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="crossorigin="anonymous"></script>
   <script type="text/javascript" src="../app.js"></script>
-
+</body>
 </html>

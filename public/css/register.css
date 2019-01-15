@@ -134,3 +134,12 @@ body {
   .footer-register a:hover {
     color: #E7F1F9;
   }
+  
+/* 
+@media screen and (max-width: 640px) {
+
+  .register-form {
+    background: none; 
+  }
+
+} */

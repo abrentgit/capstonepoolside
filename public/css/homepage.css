@@ -2,20 +2,24 @@
 
 body {
     font-family: "Notable", helvetica, sans-serif;
-    background-image: url('../toast-homepage.jpeg');
+    background-image: 
+    linear-gradient(
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0.5)
+    ), url('../toast-homepage.jpeg');
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
 
 .homepage-title {
-  	color: white;
+    color: whitesmoke;
     text-align: center;
     font-family: "Notable", helvetica, sans-serif;
 }
 
 .homepage-header {
-    font-size: 60px;
+    font-size: 50px;
     font-weight: bold;
     margin-top: 20px;
 }
@@ -29,7 +33,7 @@ nav {
 }
 
 a {
-    color: white;
+  color: #fffdd0;
 }
 
 .login-link {
@@ -47,17 +51,10 @@ a {
 }
 
 .register-link {
-    /* display: inline;  */
     padding: 30px;
     list-style: none;
     font-size: 40px;
 }
-
-/* .thank-you {
-    text-align: center;
-    font-size: 70px;
-    color: whitesmoke;
-} */
 
 /*  Register Form CSS */
 
@@ -181,6 +178,7 @@ a {
   }
 
   .homepage-title {
+    color: #f9f9f9;
     font-size: 70px;
     padding: 20px;
     margin-bottom: -30px;
@@ -194,110 +192,16 @@ a {
     padding: 0px; 
   }
 
-  /* @media only screen and (max-width: 600px) {
-
-    
-    .container {
-        margin-left: 70px;
-    }
-    
-    .make-order {
-        margin-top: 60px;
-    }
-      
-    .order-title {
-        font-family: "Barlow Condensed", helvetica, sans-serif;
-        margin-left: 140px; 
-        font-size: 50px;
-    }
-    
-    .order-form {
-        margin-left: 130px;
-    }
-    
-    .order-summary {
-        margin-left: 50px;
-        margin-top: 40px;
-        width: 50%;
-    }
-    
-    li.order-item {
-        padding: 10px;
-    }
-    
-    .summary-items {
-        margin: 0px; 
-    }
-    
-    .order-header {
-        font-size: 16px;
-        margin-left: 50px;
-    }
-    
-    .location {
-        margin-left: 12px; 
-    }
-      
-    .location-choice {
-        margin-left: -340px;
-    }
-    
-    .order-date {
-        margin-top: 20px;
-    }
-    
-    .pride-adder {
-        margin-left: 36%;
-    }
-    
-    .order-summary {
-      margin-left: 50px; 
-    }
-    
-    .order-header {
-      margin-left: 0px;
-    }
-    
-    .location-choice {
-      margin-left: -340px;
-    }
-    
-    .order-date {
-      margin-top: 20px;
-    } 
-    
-    .order-feedback {
-      font-size: 40px;
-      margin: 0px; 
-    
-    }
-    
-    .dishOrder {
-      margin-left: -30px;
-    }
-    
-    .order-details {
-      margin-left: 0px;
-      margin-top: -50px;
-    }
-    
-    .cart-total {
-      margin-left: -40px;
-    }
-    
-    .cancel-text {
-      font-size: 25px; 
-      margin: 0px;
-    }
-    
-    .done-deleted-btn {
-      margin-left: 0px; 
-    }
-    
-    .logo-order-delete {
-      margin-left: 0px; 
-    }
-    
-    } */
+@media only screen and (max-width: 900px) {
+  .register-form {
+    background: none;
   }
+
+  input[type="name"], input[type="password-repeat"] {
+    background: none;
+  }
+
+}
+
+}
   
