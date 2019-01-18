@@ -6,16 +6,12 @@ const chaiHttp = require('chai-http');
 const mongoose = require('mongoose'); 
 const faker = require('faker');
 const expect = require('chai').expect;
-const should = chai.should();
-
 
 const { TEST_DATABASE_URL } = require('../config');
 const { app, runServer, closeServer, authToken, verifyUser, createAuthToken } = require('../server');
 const { Order, Menu, User, Dish, Beverage } = require('../models');
 
-
 chai.use(chaiHttp);
-
 
 let user, userId, newToken, dish, orderId; 
 

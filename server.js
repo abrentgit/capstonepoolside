@@ -21,7 +21,9 @@ const jwt = require('jsonwebtoken');
 app.use(morgan('common'));
 app.use(express.json());
 app.use(cors());
-app.use(express.static(__dirname +'/public'));
+app.use(express.static(__dirname + '/public'));
+app.use(express.static('public'));
+app.listen(process.env.PORT || 8080);
 
 // HOMEPAGE 
 
