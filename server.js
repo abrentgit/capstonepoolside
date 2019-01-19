@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(cors());
 app.use(express.static(__dirname + '/public'));
 app.use(express.static('public'));
-app.listen(process.env.PORT || 8080);
+// app.listen(process.env.PORT || 8080);
 
 // HOMEPAGE 
 
@@ -1033,10 +1033,10 @@ app.use('*', function(req, res) {
 
 let server;
 
-function runServer(DATABASE_URL, port = PORT) {
-	console.log('server is running on', DATABASE_URL);
+function runServer(database_url, port = PORT) {
+	console.log('server is running on', database_url);
 	return new Promise((resolve, reject) => {
-		mongoose.connect(DATABASE_URL,{ useNewUrlParser: true },err => {
+		mongoose.connect(database_url,{ useNewUrlParser: true },err => {
 				if (err) {
 					return reject(err);
 				}
