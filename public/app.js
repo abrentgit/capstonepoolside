@@ -39,7 +39,6 @@ function performLogin() {
     $('.login-form').on('submit', function(event) {
         event.preventDefault();
         console.log('working');
-        alert('register guest is working');
 
         const email = $('#user-email-login').val();
         const password = $('#user-password-login').val();
@@ -148,7 +147,6 @@ function loginAfterRegister() {
 function getLoginPage() {
     $('.login-link').on('click', 'a', function(event) {
     event.preventDefault();
-    alert('LOGIN LINK WORKING');
     $('.register-form').hide();
     $('.login-form').show();
     $('.login-link').hide(); // hide the nav
@@ -427,7 +425,6 @@ function cancelConfirm() {
 
 function deleteOrder() {
     $('.order-feedback').on('click', '.cancel-btn', function(event) {
-        alert('cancel button works');
 
     cancelConfirm();
     
@@ -470,7 +467,6 @@ function deleteOrderFeedback() {
 // IF DONE AND GOOD WITH ORDER - GO BACK TO HOMEPAGE
 function orderDone() {    
     $('.order-feedback').on('click', '.done-btn', function() {
-        location.reload();
         getHomePage();
         event.preventDefault(); // check if thats the key
         $('.login-link').show(); 
@@ -485,8 +481,6 @@ function orderDone() {
 
 function restart() {    
     $('.order-feedback').on('click', '.done-deleted-btn', function() {
-        alert('button is working');
-        location.reload();
         getHomePage();
         event.preventDefault(); // check if that works
         $('.login-link').show(); 
@@ -502,7 +496,6 @@ function restart() {
 function getRegisterPage() {
     $('.register-link').on('click', 'a', function(event) {
         event.preventDefault();
-        alert('register page is working')
         $('.register-form').show();
         $('.footer-register').append(`<p>Already have an account? <a class="login-footer" href="">Log in</a></p>`)
         $('.homepage-title').css('color', '#000000');
@@ -522,7 +515,6 @@ function getRegisterPage() {
 function getAboutPage() {
     $('.about-link').on('click', 'a', function(event) {
         event.preventDefault();
-        alert('about page is working')
         $('.about').show();
         $('.homepage-title').css('color', '#000000');
         $('.register-form').hide();
@@ -540,7 +532,6 @@ function getAboutPage() {
 // CLICK ON LOGO ON ABOUT PAGE - GO TO HOMEPAGE
 function logoHome() {
     $('.homepage-header').on('click', '.homepage-title', function() {
-        alert('logo is clicked');
         getHomePage();
         $('.login-link').show(); 
         $('.register-link').show();
