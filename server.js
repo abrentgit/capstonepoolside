@@ -1033,10 +1033,10 @@ app.use('*', function(req, res) {
 
 let server;
 
-function runServer(databaseUrl, port = PORT) {
-	console.log('server is running on', databaseUrl);
+function runServer(DATABASE_URL, port = PORT) {
+	console.log('server is running on', DATABASE_URL);
 	return new Promise((resolve, reject) => {
-		mongoose.connect(databaseUrl,{ useNewUrlParser: true },err => {
+		mongoose.connect(DATABASE_URL,{ useNewUrlParser: true },err => {
 				if (err) {
 					return reject(err);
 				}

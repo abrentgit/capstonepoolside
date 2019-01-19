@@ -53,7 +53,7 @@ function performLogin() {
             'Content-Type': 'application/json'
         };
     
-        return fetch('http://localhost:8080/login', { 
+        return fetch('salty-mountain-58506.herokuapp.com/login', { 
             method: 'POST',
             body: JSON.stringify(session),
             headers: headers
@@ -112,7 +112,7 @@ function registerGuest() {
             'Content-Type': 'application/json'
         };
     
-        return fetch('http://localhost:8080/guests', { 
+        return fetch('salty-mountain-58506.herokuapp.com/guests', { 
             method: 'POST',
             body: JSON.stringify(session),
             headers: headers
@@ -174,7 +174,7 @@ function getDishes() {
         'Content-Type': 'application/json'
     };
 
-    return fetch('http://localhost:8080/dishes', {
+    return fetch('salty-mountain-58506.herokuapp.com/dishes', {
         headers: headers
     }).then(rawResponse => {
         return rawResponse.json();
@@ -348,7 +348,7 @@ function postOrder() {
             'Content-Type': 'application/json',
         };
 
-     return fetch('http://localhost:8080/orders', {
+     return fetch('salty-mountain-58506.herokuapp.com/orders', {
             method: 'POST',
             body: JSON.stringify(order),
             headers: headers
@@ -442,7 +442,7 @@ function deleteOrder() {
         'Content-Type': 'application/json',
     };
 
-    return fetch(`http://localhost:8080/orders/${orderId}`, {
+    return fetch(`salty-mountain-58506.herokuapp.com/${orderId}`, {
         method: 'DELETE',
         headers: headers
     }).then(response => {
