@@ -10,6 +10,7 @@ function main() {
     getRegisterPage();
     addDish();
     deleteDish();
+    logOut();  //added logout
 }
 
 orderDone();
@@ -443,8 +444,6 @@ function deleteOrder() {
         headers: headers
     }).then(response => {
         return response;
-        console.log('request worked', response);
-        console.log('order deleted', `${orderId}`);
     }).catch(error => {
         console.log('an error occured', error);
     });  
@@ -463,10 +462,26 @@ function deleteOrderFeedback() {
                            </div>`);
 }
 
+function logOut() {
+    const token = localStorage.getItem('token');
+
+    const headers = {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+    };
+    return fetch(`https://orderinn.herokuapp.com/logout`, {
+        headers: headers
+    }).then(response => {
+        return response;
+    }).catch(error => {
+        console.log('an error occured in logout', error);
+    });
+}
+
 // IF DONE AND GOOD WITH ORDER - GO BACK TO HOMEPAGE, USER LOGGED OUT
 function orderDone() {    
     $('.order-feedback').on('click', '.done-btn', function() {
-        WebSecurity.logout();
+        logOut();
         getHomePage();
         event.preventDefault(); 
         $('.login-link').show(); 

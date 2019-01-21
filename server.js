@@ -62,7 +62,6 @@ app.get('/orderinn/login', (req, res) => {
 	};
 });
 
-
 // REGISTER
 app.get('/orderinn/register', (req, res) => {
 	if(!req) {
@@ -70,6 +69,18 @@ app.get('/orderinn/register', (req, res) => {
 	} else {
 		res.status(200).sendFile(__dirname + '/views/register.html');
 	};
+});
+
+app.get('/logout', (req, res) => {
+	if(req.session) {
+		req.session.destroy(function(err) {
+			if(err) {
+				return next(err);
+			} else {
+				return res.redirect('/'); 
+			}
+		});
+	}
 });
 
 // CREATE TOKEN FOR GUEST
