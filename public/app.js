@@ -66,7 +66,6 @@ function performLogin() {
             getMakeOrderPage(); 
 
             // let userLoggedIn = response.user_id;
-
             // if (userLoggedIn) {
             //     $('order-feedback').hide();
             // }
@@ -464,11 +463,12 @@ function deleteOrderFeedback() {
                            </div>`);
 }
 
-// IF DONE AND GOOD WITH ORDER - GO BACK TO HOMEPAGE
+// IF DONE AND GOOD WITH ORDER - GO BACK TO HOMEPAGE, USER LOGGED OUT
 function orderDone() {    
     $('.order-feedback').on('click', '.done-btn', function() {
+        WebSecurity.logout();
         getHomePage();
-        event.preventDefault(); // check if thats the key
+        event.preventDefault(); 
         $('.login-link').show(); 
         $('.register-link').show();
         $('.about-link').show();
@@ -482,7 +482,7 @@ function orderDone() {
 function restart() {    
     $('.order-feedback').on('click', '.done-deleted-btn', function() {
         getHomePage();
-        event.preventDefault(); // check if that works
+        event.preventDefault();
         $('.login-link').show(); 
         $('.register-link').show();
         $('.about-link').show();
