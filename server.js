@@ -23,7 +23,6 @@ app.use(express.json());
 app.use(cors());
 app.use(express.static(__dirname + '/public'));
 app.use(express.static('public'));
-// app.listen(process.env.PORT || 8080);
 
 // HOMEPAGE 
 
@@ -69,18 +68,6 @@ app.get('/orderinn/register', (req, res) => {
 	} else {
 		res.status(200).sendFile(__dirname + '/views/register.html');
 	};
-});
-
-app.get('/logout', (req, res) => {
-	if(req.session) {
-		req.session.destroy(function(err) {
-			if(err) {
-				return next(err);
-			} else {
-				return res.redirect('/'); 
-			}
-		});
-	}
 });
 
 // CREATE TOKEN FOR GUEST

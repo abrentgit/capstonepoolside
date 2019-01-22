@@ -10,7 +10,6 @@ function main() {
     getRegisterPage();
     addDish();
     deleteDish();
-    logOut();  //added logout
 }
 
 orderDone();
@@ -36,6 +35,8 @@ function getHomePage() {
 
 // LOGIN 
 
+let session;
+
 function performLogin() {
     $('.login-form').on('submit', function(event) {
         event.preventDefault();
@@ -44,7 +45,7 @@ function performLogin() {
         const email = $('#user-email-login').val();
         const password = $('#user-password-login').val();
         
-        const session = {
+        session = {
             'email': `${email}`,
             'password': `${password}`,
         };
@@ -432,7 +433,6 @@ function deleteOrder() {
         console.log(orderId, 'this is current orderId');
     
     const token = localStorage.getItem('token');
-    const userId = localStorage.getItem('user_id');
 
     const headers = {
         'Authorization': `Bearer ${token}`,
@@ -462,47 +462,27 @@ function deleteOrderFeedback() {
                            </div>`);
 }
 
-function logOut() {
-    const token = localStorage.getItem('token');
 
-    const headers = {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-    };
-    return fetch(`https://orderinn.herokuapp.com/logout`, {
-        headers: headers
-    }).then(response => {
-        return response;
-    }).catch(error => {
-        console.log('an error occured in logout', error);
-    });
-}
-
-// IF DONE AND GOOD WITH ORDER - GO BACK TO HOMEPAGE, USER LOGGED OUT
+// IF DONE AND GOOD WITH ORDER - GO BACK TO LOGIN PAGE, USER LOGGED OUT
 function orderDone() {    
     $('.order-feedback').on('click', '.done-btn', function() {
-        logOut();
-        getHomePage();
-        event.preventDefault(); 
-        $('.login-link').show(); 
-        $('.register-link').show();
-        $('.about-link').show();
-        $('.homepage-title').css('color', '#FFFFFF');
-        $('body').css({'background-image': ''});
-    });
+        getLoginPage();
+        localStorage.removeItem('token');
+    })
 }
 
 // AFTER ORDER IS DELETED RETURN TO HOMEPAGE
 
 function restart() {    
     $('.order-feedback').on('click', '.done-deleted-btn', function() {
-        getHomePage();
+        getLoginPage();
         event.preventDefault();
-        $('.login-link').show(); 
-        $('.register-link').show();
-        $('.about-link').show();
-        $('.homepage-title').css('color', '#FFFFFF');
-        $('body').css({'background-image': ''});
+        localStorage.removeItem('token');
+        // $('.login-link').show(); 
+        // $('.register-link').show();
+        // $('.about-link').show();
+        // $('.homepage-title').css('color', '#FFFFFF');
+        // $('body').css({'background-image': ''});
     });
 }
 
