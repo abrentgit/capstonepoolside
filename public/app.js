@@ -1,10 +1,10 @@
 function main() {
     console.log('loading app.js');
     getLoginPage();
+    orderDone();
     getHomePage();
     deleteOrder();
     restart();
-    orderDone();
     registerGuest();
     logoHome();
     getRegisterPage();
@@ -18,6 +18,7 @@ loginLink();
 getAboutPage();
 performLogin();
 postOrder();
+getLoginPage();
 
 
 $(main);
@@ -466,8 +467,8 @@ function deleteOrderFeedback() {
 // IF DONE AND GOOD WITH ORDER - GO BACK TO LOGIN PAGE, USER LOGGED OUT
 function orderDone() {    
     $('.order-feedback').on('click', '.done-btn', function() {
-        getLoginPage();
-        localStorage.removeItem('token');
+        console.log('yo is this loading properly');
+        location.reload();
     })
 }
 
@@ -475,9 +476,7 @@ function orderDone() {
 
 function restart() {    
     $('.order-feedback').on('click', '.done-deleted-btn', function() {
-        getLoginPage();
-        event.preventDefault();
-        localStorage.removeItem('token');
+        location.reload();
         // $('.login-link').show(); 
         // $('.register-link').show();
         // $('.about-link').show();
