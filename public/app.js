@@ -467,8 +467,28 @@ function deleteOrderFeedback() {
 // IF DONE AND GOOD WITH ORDER - GO BACK TO LOGIN PAGE, USER LOGGED OUT
 function orderDone() {    
     $('.order-feedback').on('click', '.done-btn', function() {
-        localStorage.removeItem('token');
-        location.reload();
+
+        // const headers = {
+        // 'Authorization': `Bearer ${token}`,
+        // 'Content-Type': 'application/json'
+        // };
+        const token = localStorage.getItem('token');
+        const userId = localStorage.getItem('userId');
+        
+        return fetch('https://orderinn.herokuapp.com/', { 
+        }).then(response => {
+            console.log('request worked', response);
+            let nullToken = localStorage.removeItem('token');
+            let nullUser = localStorage.setItem('userId', null)
+            console.log(nullToken, 'this is token')
+            console.log(nullUser, 'this is user')
+            getHomePage();
+            $('.login-link').show(); 
+            $('.register-link').show();
+            $('.about-link').show();
+            $('.homepage-title').css('color', '#FFFFFF');
+            $('body').css({'background-image': ''});
+        })
     })
 }
 
@@ -477,12 +497,11 @@ function orderDone() {
 function restart() {    
     $('.order-feedback').on('click', '.done-deleted-btn', function() {
         localStorage.removeItem('token');
-        location.reload();
-        // $('.login-link').show(); 
-        // $('.register-link').show();
-        // $('.about-link').show();
-        // $('.homepage-title').css('color', '#FFFFFF');
-        // $('body').css({'background-image': ''});
+        $('.login-link').show(); 
+        $('.register-link').show();
+        $('.about-link').show();
+        $('.homepage-title').css('color', '#FFFFFF');
+        $('body').css({'background-image': ''});
     });
 }
 
