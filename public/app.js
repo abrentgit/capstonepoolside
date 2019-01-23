@@ -467,7 +467,7 @@ function deleteOrderFeedback() {
 // IF DONE AND GOOD WITH ORDER - GO BACK TO LOGIN PAGE, USER LOGGED OUT
 function orderDone() {    
     $('.order-feedback').on('click', '.done-btn', function() {
-        console.log('yo is this loading properly');
+        localStorage.removeItem('token');
         location.reload();
     })
 }
@@ -476,6 +476,7 @@ function orderDone() {
 
 function restart() {    
     $('.order-feedback').on('click', '.done-deleted-btn', function() {
+        localStorage.removeItem('token');
         location.reload();
         // $('.login-link').show(); 
         // $('.register-link').show();
