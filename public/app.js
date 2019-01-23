@@ -487,12 +487,14 @@ function orderDone() {
 
 function restart() {    
     $('.order-feedback').on('click', '.done-deleted-btn', function() {
-        localStorage.removeItem('token');
-        $('.login-link').show(); 
-        $('.register-link').show();
-        $('.about-link').show();
-        $('.homepage-title').css('color', '#FFFFFF');
-        $('body').css({'background-image': ''});
+        event.preventDefault()
+        location.reload();
+        // localStorage.removeItem('token');
+        // $('.login-link').show(); 
+        // $('.register-link').show();
+        // $('.about-link').show();
+        // $('.homepage-title').css('color', '#FFFFFF');
+        // $('body').css({'background-image': ''});
     });
 }
 
