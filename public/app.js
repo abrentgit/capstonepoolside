@@ -67,14 +67,6 @@ function performLogin() {
             localStorage.setItem('token', authToken);
             localStorage.setItem('userId', response.user_id);
             getMakeOrderPage(); 
-
-            // let userLoggedIn = response.user_id;
-            // if (userLoggedIn) {
-            //     $('order-feedback').hide();
-            // }
-            // if (userId === )
-            // // IF USER IS ALREADY LOGGED IN IF STATEMENT, HIDE THE ORDER FEEDBACK DIV
-            // // AND THEN EMPTY OUT THE MAKE ORDER DIV 
             return response;
         }).catch(error => {
             console.log('an error occured', error);
@@ -468,10 +460,6 @@ function deleteOrderFeedback() {
 function orderDone() {    
     $('.order-feedback').on('click', '.done-btn', function() {
 
-        // const headers = {
-        // 'Authorization': `Bearer ${token}`,
-        // 'Content-Type': 'application/json'
-        // };
         const token = localStorage.getItem('token');
         const userId = localStorage.getItem('userId');
         
@@ -479,10 +467,11 @@ function orderDone() {
         }).then(response => {
             console.log('request worked', response);
             let nullToken = localStorage.removeItem('token');
-            let nullUser = localStorage.setItem('userId', null)
+            let nullUser = localStorage.remove('userId')
             console.log(nullToken, 'this is token')
             console.log(nullUser, 'this is user')
             getHomePage();
+            location.reload();
             $('.login-link').show(); 
             $('.register-link').show();
             $('.about-link').show();
