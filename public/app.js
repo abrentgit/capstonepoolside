@@ -467,10 +467,10 @@ function orderDone() {
         }).then(response => {
             console.log('request worked', response);
             let nullToken = localStorage.removeItem('token');
-            let nullUser = localStorage.remove('userId')
+            let nullUser = localStorage.removeItem('userId')
             console.log(nullToken, 'this is token')
             console.log(nullUser, 'this is user')
-            getHomePage();
+            // getHomePage();
             location.reload();
             $('.login-link').show(); 
             $('.register-link').show();

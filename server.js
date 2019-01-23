@@ -34,14 +34,6 @@ app.get('/', (req, res) => {
 	};
 });
 
-app.get('/', (req, res) => {
-	if(!req) {
-		res.status(404).message('Content not found');
-	} else {
-		res.render('/');
-	};
-});
-
 app.get('/login', (req, res) => {
 	if(!req) {
 		res.status(404).message('Content not found');
