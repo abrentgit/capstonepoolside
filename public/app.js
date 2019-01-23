@@ -480,6 +480,7 @@ function orderDone() {
     //         // $('body').css({'background-image': ''});
     //     })
     // })
+    })
 }
 
 // AFTER ORDER IS DELETED RETURN TO HOMEPAGE
