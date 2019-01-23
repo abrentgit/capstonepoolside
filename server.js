@@ -23,7 +23,6 @@ app.use(express.json());
 app.use(cors());
 app.use(express.static(__dirname + '/public'));
 app.use(express.static('public'));
-// app.listen(process.env.PORT || 8080);
 
 // HOMEPAGE 
 
@@ -32,6 +31,14 @@ app.get('/', (req, res) => {
 		res.status(404).message('Content not found');
 	} else {
 		res.status(200).sendFile(__dirname + '/public/index.html');
+	};
+});
+
+app.get('/login', (req, res) => {
+	if(!req) {
+		res.status(404).message('Content not found');
+	} else {
+		res.status(200).render('/login');
 	};
 });
 
@@ -61,7 +68,6 @@ app.get('/orderinn/login', (req, res) => {
 		res.status(200).sendFile(__dirname + '/views/login.html');
 	};
 });
-
 
 // REGISTER
 app.get('/orderinn/register', (req, res) => {

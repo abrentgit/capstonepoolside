@@ -1,10 +1,10 @@
 function main() {
     console.log('loading app.js');
     getLoginPage();
+    orderDone();
     getHomePage();
     deleteOrder();
     restart();
-    orderDone();
     registerGuest();
     logoHome();
     getRegisterPage();
@@ -18,6 +18,7 @@ loginLink();
 getAboutPage();
 performLogin();
 postOrder();
+getLoginPage();
 
 
 $(main);
@@ -35,6 +36,8 @@ function getHomePage() {
 
 // LOGIN 
 
+let session;
+
 function performLogin() {
     $('.login-form').on('submit', function(event) {
         event.preventDefault();
@@ -43,7 +46,7 @@ function performLogin() {
         const email = $('#user-email-login').val();
         const password = $('#user-password-login').val();
         
-        const session = {
+        session = {
             'email': `${email}`,
             'password': `${password}`,
         };
@@ -64,15 +67,6 @@ function performLogin() {
             localStorage.setItem('token', authToken);
             localStorage.setItem('userId', response.user_id);
             getMakeOrderPage(); 
-
-            // let userLoggedIn = response.user_id;
-
-            // if (userLoggedIn) {
-            //     $('order-feedback').hide();
-            // }
-            // if (userId === )
-            // // IF USER IS ALREADY LOGGED IN IF STATEMENT, HIDE THE ORDER FEEDBACK DIV
-            // // AND THEN EMPTY OUT THE MAKE ORDER DIV 
             return response;
         }).catch(error => {
             console.log('an error occured', error);
@@ -407,7 +401,7 @@ function orderFeedback(newOrder) {
 
                                 <div role="region" class="feedback-btns">
                                     <button type="button" data-order="${newOrder._id}" class="cancel-btn">Cancel Order</button>
-                                    <button type="button" class="done-btn">Home</button>
+                                    <button type="button" class="done-btn">Logout</button>
                                 </div>`)
 }
 
@@ -432,7 +426,6 @@ function deleteOrder() {
         console.log(orderId, 'this is current orderId');
     
     const token = localStorage.getItem('token');
-    const userId = localStorage.getItem('user_id');
 
     const headers = {
         'Authorization': `Bearer ${token}`,
@@ -444,8 +437,6 @@ function deleteOrder() {
         headers: headers
     }).then(response => {
         return response;
-        console.log('request worked', response);
-        console.log('order deleted', `${orderId}`);
     }).catch(error => {
         console.log('an error occured', error);
     });  
@@ -460,34 +451,50 @@ function deleteOrderFeedback() {
                                 <img role="img" class="logo-order-delete" src="../cutlery-icon.svg" alt="Cutlery" /> 
                                 <p class="cancel-text"><i>Your order has been canceled.</i></p>
                                 <p class="cancel-text"><i>Thanks for using Order Inn.</i></p>
-                                <button type="button" class="done-deleted-btn">Home</button>
+                                <button type="button" class="done-deleted-btn">Logout</button>
                            </div>`);
 }
 
-// IF DONE AND GOOD WITH ORDER - GO BACK TO HOMEPAGE
+
+// IF DONE AND GOOD WITH ORDER - GO BACK TO LOGIN PAGE, USER LOGGED OUT
 function orderDone() {    
-    $('.order-feedback').on('click', '.done-btn', function() {
-        getHomePage();
-        event.preventDefault(); // check if thats the key
-        $('.login-link').show(); 
-        $('.register-link').show();
-        $('.about-link').show();
-        $('.homepage-title').css('color', '#FFFFFF');
-        $('body').css({'background-image': ''});
-    });
+    $('.order-feedback').on('click', '.done-btn', function(event) {
+        event.preventDefault();
+        location.reload();
+
+    //     const token = localStorage.getItem('token');
+    //     const userId = localStorage.getItem('userId');
+        
+    //     return fetch('https://orderinn.herokuapp.com/', { 
+    //     }).then(response => {
+    //         console.log('request worked', response);
+    //         let nullToken = localStorage.removeItem('token');
+    //         let nullUser = localStorage.removeItem('userId')
+    //         console.log(nullToken, 'this is token')
+    //         console.log(nullUser, 'this is user')
+    //         // location.reload();
+    //         // $('.login-link').show(); 
+    //         // $('.register-link').show();
+    //         // $('.about-link').show();
+    //         // $('.homepage-title').css('color', '#FFFFFF');
+    //         // $('body').css({'background-image': ''});
+    //     })
+    // })
+    })
 }
 
 // AFTER ORDER IS DELETED RETURN TO HOMEPAGE
 
 function restart() {    
-    $('.order-feedback').on('click', '.done-deleted-btn', function() {
-        getHomePage();
-        event.preventDefault(); // check if that works
-        $('.login-link').show(); 
-        $('.register-link').show();
-        $('.about-link').show();
-        $('.homepage-title').css('color', '#FFFFFF');
-        $('body').css({'background-image': ''});
+    $('.order-feedback').on('click', '.done-deleted-btn', function(event) {
+        event.preventDefault()
+        location.reload();
+        // localStorage.removeItem('token');
+        // $('.login-link').show(); 
+        // $('.register-link').show();
+        // $('.about-link').show();
+        // $('.homepage-title').css('color', '#FFFFFF');
+        // $('body').css({'background-image': ''});
     });
 }
 
