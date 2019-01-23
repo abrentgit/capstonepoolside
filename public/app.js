@@ -401,7 +401,7 @@ function orderFeedback(newOrder) {
 
                                 <div role="region" class="feedback-btns">
                                     <button type="button" data-order="${newOrder._id}" class="cancel-btn">Cancel Order</button>
-                                    <button type="button" class="done-btn">Home</button>
+                                    <button type="button" class="done-btn">Logout</button>
                                 </div>`)
 }
 
@@ -451,7 +451,7 @@ function deleteOrderFeedback() {
                                 <img role="img" class="logo-order-delete" src="../cutlery-icon.svg" alt="Cutlery" /> 
                                 <p class="cancel-text"><i>Your order has been canceled.</i></p>
                                 <p class="cancel-text"><i>Thanks for using Order Inn.</i></p>
-                                <button type="button" class="done-deleted-btn">Home</button>
+                                <button type="button" class="done-deleted-btn">Logout</button>
                            </div>`);
 }
 
@@ -486,7 +486,7 @@ function orderDone() {
 // AFTER ORDER IS DELETED RETURN TO HOMEPAGE
 
 function restart() {    
-    $('.order-feedback').on('click', '.done-deleted-btn', function() {
+    $('.order-feedback').on('click', '.done-deleted-btn', function(event) {
         event.preventDefault()
         location.reload();
         // localStorage.removeItem('token');
