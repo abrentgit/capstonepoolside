@@ -1,82 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Order Inn</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <link href="https://fonts.googleapis.com/css?family=Barlow+Condensed|Notable|Roboto" rel="stylesheet">
-    <link href="../css/homepage.css" rel="stylesheet" type="text/css" />
-    <link href="../css/make-order.css" rel="stylesheet" type="text/css" />
-    <link href="../css/login.css" rel="stylesheet" type="text/css" />
-    <link href="../css/about.css" rel="stylesheet" type="text/css" />
-    <meta name="description" content="Order Inn Index">
-  </head>
-  <body>
-    <!--HOMEPAGE-->
-    <div class="homepage">
-	  <header class="homepage-header">
+
+<head>
+  <title>Order Inn</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link href="https://fonts.googleapis.com/css?family=Barlow+Condensed|Notable|Roboto" rel="stylesheet">
+  <link href="../css/homepage.css" rel="stylesheet" type="text/css" />
+  <link href="../css/make-order.css" rel="stylesheet" type="text/css" />
+  <link href="../css/login.css" rel="stylesheet" type="text/css" />
+  <link href="../css/about.css" rel="stylesheet" type="text/css" />
+  <meta name="description" content="Order Inn Index">
+</head>
+
+<body>
+  <!--HOMEPAGE-->
+  <div class="homepage">
+    <header class="homepage-header">
       <h1 class="homepage-title">Order Inn</h1>
-			<nav role="navigation">
+      <nav role="navigation">
         <ul>
-      	<li class="login-link"><i><a>LOGIN</a></i></li>
-        <li class="register-link"><i><a>REGISTER</a></i></li>
-        <li class="about-link"><i><a>ABOUT</a></i></li>
+          <li class="login-link"><i><a>LOGIN</a></i></li>
+          <li class="register-link"><i><a>REGISTER</a></i></li>
+          <li class="about-link"><i><a>ABOUT</a></i></li>
         </ul>
-    	</nav>
+      </nav>
     </header>
-    </div>
-    <!-- REGISTER FORM-->
-    <div class="register-form">
-      <header role="header">
+  </div>
+  <!-- REGISTER FORM-->
+  <div class="register-form">
+    <header role="header">
       <img class="logo" src="../cutlery-icon.svg" alt="Cutlery" />
     </header>
 
-      <main role="main" aria-live="assertive">
+    <main role="main" aria-live="assertive">
       <form role="form" accept-charset="UTF-8" method="POST">
         <fieldset>
           <legend class="register-legend">Register</legend>
           <label for="user-name">Name</label>
-          <input type="name" placeholder="" name="user-name" id="user-name" required/>
+          <input type="name" placeholder="" name="user-name" id="user-name" required />
           <label for="user-email">Email</label>
-          <input type="email" placeholder="" name="user-email" id="user-email-reg" required/>
+          <input type="email" placeholder="" name="user-email" id="user-email-reg" required />
           <label for="user-password">Password</label>
-          <input type="password" placeholder="" name="user-password" id="user-password-reg" required/>
+          <input type="password" placeholder="" name="user-password" id="user-password-reg" required />
           <label for="psw-repeat">Repeat Password</label>
           <input type="password-repeat" placeholder="" name="psw-repeat" id="psw-repeat" required>
           <button type="submit" id="register-btn">SUBMIT</button>
         </fieldset>
       </form>
-      </main>
+    </main>
 
     <footer role="contentinfo" class="footer-register">
       <p>Already have an account? <a class="login-footer" href="">Log in</a></p>
     </footer>
-    </div>
-    <!--LOGIN FORM-->
-    <div class="login-form">
-      <header role="banner" aria-live="assertive">
-        <img class="logo" src="../cutlery-icon.svg" alt="Cutlery" />
-      </header>
+  </div>
+  <!--LOGIN FORM-->
+  <div class="login-form">
+    <header role="banner" aria-live="assertive">
+      <img class="logo" src="../cutlery-icon.svg" alt="Cutlery" />
+    </header>
 
-      <main role="main" aria-live="assertive">
+    <main role="main" aria-live="assertive">
       <form role="form" accept-charset="UTF-8" method="POST">
         <fieldset>
           <legend class="login-legend">Log In</legend>
           <label for="user-email">Email</label>
-          <input type="email" placeholder="" name="user-email" id="user-email" required/>
+          <input type="email" placeholder="" name="user-email" id="user-email" required />
           <label for="user-password">Password</label>
-          <input placeholder="" type="password" name="user-password" id="user-password" required/>
+          <input placeholder="" type="password" name="user-password" id="user-password" required />
           <button type="submit">SUBMIT</button>
         </fieldset>
       </form>
-      </main>
-      
-      <footer class="footer">
-        <p>Don't have an account? <a class="signup-footer" href="">Sign Up</a></p>
-      </footer>
-    </div>
-    <!--ORDER PAGE-->
-    <div class="make-order">
+    </main>
+
+    <footer class="footer">
+      <p>Don't have an account? <a class="signup-footer" href="">Sign Up</a></p>
+    </footer>
+  </div>
+  <!--ORDER PAGE-->
+  <div class="make-order">
     <header role="header" class="order-header">
       <h1 class="order-title">DISH SPECIALS</h1>
     </header>
@@ -118,7 +120,7 @@
         </div>
       </div>
     </main>
-    </div>
+  </div>
   <!--ORDER FEEDBACK PAGE-->
   <div class="order-feedback">
   </div>
@@ -127,17 +129,21 @@
     <header role="header">
       <img class="logo" src="../cutlery-icon.svg" alt="Cutlery" />
     </header>
-    
+
     <main role="main" aria-live="assertive">
-    <div class="description">
-      <p>Welcome to Order Inn!</p>
-      <p>Order Inn is the Sublime Hotel's in house app which allows guests to reserve speical dishes from our award winning food lab at prime social hubs inside the hotel.</p>
-      <p>Whether you want breakfast at the pool or simply a small pick me up on our rooftop, Order Inn makes it easy to sample new food and enjoy our first class amenties. </p>
-    </div>
-    </main> 
+      <div class="description">
+        <p>Welcome to Order Inn!</p>
+        <p>Order Inn is the Sublime Hotel's in house app which allows guests to reserve speical dishes from our award
+          winning food lab at prime social hubs inside the hotel.</p>
+        <p>Whether you want breakfast at the pool or simply a small pick me up on our rooftop, Order Inn makes it easy
+          to sample new food and enjoy our first class amenties. </p>
+      </div>
+    </main>
   </div>
-  
-	  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="crossorigin="anonymous"></script>
-    <script type="text/javascript" src="../app.js"></script>
-  </body>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+  <script type="text/javascript" src="../app.js"></script>
+</body>
+
 </html>

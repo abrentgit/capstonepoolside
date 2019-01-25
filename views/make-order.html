@@ -1,57 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Create Order</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://fonts.googleapis.com/css?family=Barlow+Condensed|Notable|Roboto" rel="stylesheet">
-    <link href="../css/make-order.css" rel="stylesheet" type="text/css" />
-    <meta name="description" content="Order Inn Order Creator">
-  </head>
 
-  <body>
-    <header role="header" class="order-header">
-      <h1 class="order-title">DISH SPECIALS</h1>
-    </header>
+<head>
+  <title>Create Order</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Barlow+Condensed|Notable|Roboto" rel="stylesheet">
+  <link href="../css/make-order.css" rel="stylesheet" type="text/css" />
+  <meta name="description" content="Order Inn Order Creator">
+</head>
 
-    <div class="order-form">
-      <div class="container">
-        <div class="dishes">
-        </div>
+<body>
+  <header role="header" class="order-header">
+    <h1 class="order-title">DISH SPECIALS</h1>
+  </header>
 
-        <div class="order-summary">
-          <ul class="summary-items">
-          </ul>
-          <div class="price-adder">
-            <p class="total-price"></p>
-          </div>
-        </div>
-
+  <div class="order-form">
+    <div class="container">
+      <div class="dishes">
       </div>
 
-      <div class="container">
-        <div class="order-date">
-          <label for="order-date-field" class=order-date-field> Date: </label>
-          <input type="datetime-local" class="date-input">
-        </div>
-
-        <div class="location-choice">
-          <label for="location" class="location"> Location: </label>
-          <select class="location-select" id="location-select">
-            <option value="">--Please choose an option--</option>
-            <option value="Pool-Bar">Pool Bar</option>
-            <option value="Lobby Lounge">Lobby Lounge</option>
-            <option value="Rooftop">Rooftop</option>
-          </select>
-        </div>
-        <div class="checkout-button">
-          <button type="button" role="button" class="checkout-btn">Checkout</button>
+      <div class="order-summary">
+        <ul class="summary-items">
+        </ul>
+        <div class="price-adder">
+          <p class="total-price"></p>
         </div>
       </div>
 
     </div>
 
-    <script src="https://code.jquery.com/jquery.min.js"></script>
-    <script type="text/javascript" src="../app.js"></script>
-  </body>
+    <div class="container">
+      <div class="order-date">
+        <label for="order-date-field" class=order-date-field> Date: </label>
+        <input type="datetime-local" class="date-input">
+      </div>
+
+      <div class="location-choice">
+        <label for="location" class="location"> Location: </label>
+        <select class="location-select" id="location-select">
+          <option value="">--Please choose an option--</option>
+          <option value="Pool-Bar">Pool Bar</option>
+          <option value="Lobby Lounge">Lobby Lounge</option>
+          <option value="Rooftop">Rooftop</option>
+        </select>
+      </div>
+      <div class="checkout-button">
+        <button type="button" role="button" class="checkout-btn">Checkout</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://code.jquery.com/jquery.min.js"></script>
+  <script type="text/javascript" src="../app.js"></script>
+</body>
+
 </html>
