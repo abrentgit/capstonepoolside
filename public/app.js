@@ -461,25 +461,6 @@ function orderDone() {
     $('.order-feedback').on('click', '.done-btn', function(event) {
         event.preventDefault();
         location.reload();
-
-    //     const token = localStorage.getItem('token');
-    //     const userId = localStorage.getItem('userId');
-        
-    //     return fetch('https://orderinn.herokuapp.com/', { 
-    //     }).then(response => {
-    //         console.log('request worked', response);
-    //         let nullToken = localStorage.removeItem('token');
-    //         let nullUser = localStorage.removeItem('userId')
-    //         console.log(nullToken, 'this is token')
-    //         console.log(nullUser, 'this is user')
-    //         // location.reload();
-    //         // $('.login-link').show(); 
-    //         // $('.register-link').show();
-    //         // $('.about-link').show();
-    //         // $('.homepage-title').css('color', '#FFFFFF');
-    //         // $('body').css({'background-image': ''});
-    //     })
-    // })
     })
 }
 
@@ -487,14 +468,8 @@ function orderDone() {
 
 function restart() {    
     $('.order-feedback').on('click', '.done-deleted-btn', function(event) {
-        event.preventDefault()
+        event.preventDefault(event);
         location.reload();
-        // localStorage.removeItem('token');
-        // $('.login-link').show(); 
-        // $('.register-link').show();
-        // $('.about-link').show();
-        // $('.homepage-title').css('color', '#FFFFFF');
-        // $('body').css({'background-image': ''});
     });
 }
 
