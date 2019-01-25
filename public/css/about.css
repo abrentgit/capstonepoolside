@@ -1,44 +1,46 @@
-* {box-sizing: border-box}
+* {
+  box-sizing: border-box
+}
 
 body {
-	background-color: #FAF7F3;
+  background-color: #FAF7F3;
 }
 
 label {
-	margin-top: 20px;
+  margin-top: 20px;
 }
 
 .logo {
-	display: block;
-    color: white;
-    width: auto;
-    height: 70px;
-    margin: 0 auto 30px;
+  display: block;
+  color: white;
+  width: auto;
+  height: 70px;
+  margin: 0 auto 30px;
 }
 
 .description {
-	color: black;
-	font-family: 'Inconsolata', monospace;
-	font-size: 30px;
-	margin: 40px;
-	padding: 40px;
-	padding-top: 10px;
+  color: black;
+  font-family: 'Inconsolata', monospace;
+  font-size: 30px;
+  margin: 40px;
+  padding: 40px;
+  padding-top: 10px;
 }
 
 @media screen and (max-width: 640px) {
 
-.logo-title {
-	margin-left: -20px;
-}
+  .logo-title {
+    margin-left: -20px;
+  }
 
-.order-id {
-	font-size: 30px;
-	margin-left: 15px;
-	font-style: italic;
-}
+  .order-id {
+    font-size: 30px;
+    margin-left: 15px;
+    font-style: italic;
+  }
 
-.homepage-header {
-	font-size: 45px;
-}
+  .homepage-header {
+    font-size: 45px;
+  }
 
 }
