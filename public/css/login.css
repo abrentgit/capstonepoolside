@@ -10,6 +10,14 @@ body {
   font-size: 18px;
 }
 
+.hidden {
+  display: none;
+}
+
+.unhidden {
+  display: block;
+}
+
 .title {
   text-align: center;
   font-family: 'Notable', sans-serif;

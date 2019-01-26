@@ -1,33 +1,39 @@
 function main() {
-    getLoginPage();
-    orderDone();
+    console.log('client is loaded');
     getHomePage();
-    deleteOrder();
-    restart();
-    registerGuest();
-    logoHome();
+    getLoginPage();
     getRegisterPage();
-    addDish();
-    deleteDish();
+    signUpLink();
+    loginLink();
+    getAboutPage();
 }
 
 orderDone();
-signUpLink();
-loginLink();
-getAboutPage();
 performLogin();
 postOrder();
-getLoginPage();
+registerGuest();
+logoHome();
+restart();
+deleteOrder();
+addDish();
+deleteDish();
 
 $(main);
 
+// $(function() {
+//     if (window.history && window.history.pushState) {
+//         window.history.pushState('', null, './');
+//         $(window).on('popstate', function() {
+//             // alert('Back button was pressed.');
+//             document.location.href = '#';
+
+//         });
+//     }
+// });
+
 function getHomePage() {
     $('.homepage').show();
-    $('.register-form').hide();
-    $('.login-form').hide();
-    $('.make-order').hide();
-    $('.about').hide();
-    $('.order-feedback').hide();
+    $('.hidden').hide();
 }
 
 function performLogin() {
@@ -53,16 +59,25 @@ function performLogin() {
         }).then(rawResponse => {
             return rawResponse.json();
         }).then(response => {
-            const {authToken} = response;
+            const {
+                authToken
+            } = response;
             localStorage.setItem('token', authToken);
             localStorage.setItem('userId', response.user_id);
-            getMakeOrderPage();
+
+            if (!authToken === undefined || response.user_id === undefined) {
+                alert('Invalid Login');
+                event.preventDefault();
+            } else {
+                getMakeOrderPage();
+            }
             return response;
         }).catch(error => {
             console.log('an error occured', error);
         });
     });
 }
+
 
 function getMakeOrderPage() {
     $('.login-form').hide();
@@ -99,7 +114,9 @@ function registerGuest() {
         }).then(rawResponse => {
             return rawResponse.json();
         }).then(response => {
-            const {authToken} = response;
+            const {
+                authToken
+            } = response;
             localStorage.setItem('token', authToken);
             loginAfterRegister(); // CALL LOGIN PAGE AFTER REGISTRATION
             return response;
@@ -158,7 +175,7 @@ function getDishes() {
             let dishHtml = renderDish(dish);
             dishesHtml = dishesHtml.concat(dishHtml);
         });
-        $('.dishes').append(dishesHtml); 
+        $('.dishes').append(dishesHtml);
         return response.dishes;
     }).catch(error => {
         console.log('an error occurred', error);
@@ -307,6 +324,7 @@ function postOrder() {
             return rawResponse.json();
         }).then(response => {
             const newOrder = response;
+            $('order-feedback').show();
             orderFeedback(newOrder);
         }).catch(error => {
             console.log('an error occured', error);
@@ -387,6 +405,7 @@ function deleteOrder() {
     })
 
 }
+
 function deleteOrderFeedback() {
     $('.order-title').hide();
     $('.order-feedback').html(`<div role="region" class="delete-feedback">
@@ -398,15 +417,13 @@ function deleteOrderFeedback() {
 }
 
 function orderDone() {
-    $('.order-feedback').on('click', '.done-btn', function (event) {
-        event.preventDefault();
+    $('.order-feedback').on('click', '.done-btn', function () {
         location.reload();
     })
 }
 
 function restart() {
     $('.order-feedback').on('click', '.done-deleted-btn', function (event) {
-        event.preventDefault()
         location.reload();
     });
 }
