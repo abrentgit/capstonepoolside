@@ -221,14 +221,14 @@ app.post('/login', (req, res) => {
 			});
 		}
 
-		if (!user) { // if no guest found
+		if (!user) {
 			res.status(404).json({
 				error: 'Invalid credentials'
 			});
 		} else {
 			let validPassword = bcrypt.compareSync(req.body.password, user.password);
 
-			if (!validPassword) { //if pass doesn't match
+			if (!validPassword) {
 				res.status(401).json({
 					error: 'Invalid credentials'
 				});

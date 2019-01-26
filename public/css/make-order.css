@@ -6,6 +6,14 @@ body {
   padding-bottom: 90px;
 }
 
+.hidden {
+  display: none;
+}
+
+.unhidden {
+  display: block;
+}
+
 .make-order {
   margin-bottom: 100px;
 }

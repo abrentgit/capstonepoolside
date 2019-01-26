@@ -2,6 +2,14 @@
   box-sizing: border-box
 }
 
+.hidden {
+  display: none;
+}
+
+.unhidden {
+  display: block;
+}
+
 body {
   background-color: #FAF7F3;
   font-family: "Barlow Condensed", helvetica, sans-serif;
