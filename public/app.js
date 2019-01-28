@@ -17,23 +17,20 @@ restart();
 deleteOrder();
 addDish();
 deleteDish();
+createOrder();
+cutleryLogoHome();
 
 $(main);
-
-// $(function() {
-//     if (window.history && window.history.pushState) {
-//         window.history.pushState('', null, './');
-//         $(window).on('popstate', function() {
-//             // alert('Back button was pressed.');
-//             document.location.href = '#';
-
-//         });
-//     }
-// });
 
 function getHomePage() {
     $('.homepage').show();
     $('.hidden').hide();
+}
+
+function cutleryLogoHome() {
+    $('.logo-menu').on('click', function() {
+        getHomePage();
+    })
 }
 
 function performLogin() {
@@ -77,7 +74,6 @@ function performLogin() {
         });
     });
 }
-
 
 function getMakeOrderPage() {
     $('.login-form').hide();
@@ -413,7 +409,18 @@ function deleteOrderFeedback() {
                                 <p class="cancel-text"><i>Your order has been canceled.</i></p>
                                 <p class="cancel-text"><i>Thanks for using Order Inn.</i></p>
                                 <button type="button" class="done-deleted-btn">Logout</button>
+                                <button type="button" class="new-order-btn">New Order</button>
                            </div>`);
+}
+
+function createOrder() {
+    $('.order-feedback').on('click', '.new-order-btn', function () {
+        getMakeOrderPage();
+        if (cartVal > 0) {
+            cartVal = 0;
+            newOrder = {};
+        }
+    })
 }
 
 function orderDone() {
