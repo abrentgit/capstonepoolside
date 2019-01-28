@@ -17,7 +17,6 @@ restart();
 deleteOrder();
 addDish();
 deleteDish();
-createOrder();
 cutleryLogoHome();
 
 $(main);
@@ -63,7 +62,7 @@ function performLogin() {
             localStorage.setItem('userId', response.user_id);
 
             if (!authToken === undefined || response.user_id === undefined) {
-                alert('Invalid Login');
+                alert('Invalid Login. Please try again');
                 event.preventDefault();
             } else {
                 getMakeOrderPage();
@@ -409,18 +408,7 @@ function deleteOrderFeedback() {
                                 <p class="cancel-text"><i>Your order has been canceled.</i></p>
                                 <p class="cancel-text"><i>Thanks for using Order Inn.</i></p>
                                 <button type="button" class="done-deleted-btn">Logout</button>
-                                <button type="button" class="new-order-btn">New Order</button>
                            </div>`);
-}
-
-function createOrder() {
-    $('.order-feedback').on('click', '.new-order-btn', function () {
-        getMakeOrderPage();
-        if (cartVal > 0) {
-            cartVal = 0;
-            newOrder = {};
-        }
-    })
 }
 
 function orderDone() {

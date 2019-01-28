@@ -281,24 +281,6 @@ form {
   display: flexbox;
 }
 
-.new-order-btn {
-  border-radius: 100px;
-  color: white;
-  left: 80px;
-  margin-top: -60px;
-  margin-bottom: 80px;
-  margin-left: 250px;
-  padding-top: 10px;
-  padding-bottom: 15px;
-  width: 250px;
-  font-family: "Barlow Condensed", helvetica, sans-serif;
-  background-color: green;
-  font-size: 30px;
-  display: flexbox;
-}
-
-
-
 @media only screen and (max-width: 1024px) {
   /* ORDER FORM */
 
