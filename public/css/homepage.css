@@ -11,6 +11,13 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
+.hidden {
+  display: none;
+}
+
+.unhidden {
+  display: block;
+}
 
 .homepage-title {
   color: whitesmoke;

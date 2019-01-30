@@ -21,7 +21,8 @@ deleteDish();
 $(main);
 
 function getHomePage() {
-    $('.homepage').show();
+    $('.homepage').fadeIn('slow');
+    $('.unhidden').fadeIn('slow');
     $('.hidden').hide();
 }
 
@@ -447,8 +448,7 @@ function getRegisterPage() {
 }
 
 function getAboutPage() {
-    $('.about-link').on('click', 'a', function (event) {
-        event.preventDefault();
+    $('.about-link').on('click', 'a', function () {
         $('.about').fadeIn('slow');
         $('.homepage-title').css('color', '#000000');
         $('.register-form').hide();
@@ -465,12 +465,8 @@ function getAboutPage() {
 
 function logoHome() {
     $('.homepage-header').on('click', '.homepage-title', function () {
-        getHomePage();
-        $('.login-link').show();
-        $('.register-link').show();
-        $('.about-link').show();
-        $('body').css('background-image', '');
-        $('.homepage-title').css('color', '#FFFFFF');
+        console.log('orderInn logo clicked');
+        location.reload();
     })
 }
 
