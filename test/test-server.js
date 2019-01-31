@@ -126,7 +126,7 @@ describe('Order Inn API', () => {
 			.delete('/orders/' + orderId)
 			.set('Authorization', 'Bearer ' + newToken)
 			.end(function (err, res) {
-				expect(res).to.have.status(200);
+				expect(res).to.have.status(204);
 				done();
 			})
 	});

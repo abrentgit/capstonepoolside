@@ -247,13 +247,13 @@ app.post('/login/admin', (req, res) => {
 	User.findOne({
 		email: req.body.email
 	}, function (err, user) {
-		if (err) { //if error finding email
+		if (err) { 
 			res.status(401).json({
 				error: 'Invalid credentials'
 			});
 		}
 
-		if (!user) { // if no guest found
+		if (!user) { 
 			res.status(404).json({
 				error: 'Invalid credentials'
 			});
@@ -281,7 +281,7 @@ app.get('/orders', verifyAdminUser, (req, res) => {
 
 	Order.find()
 		.skip(perPage * currentPage - perPage)
-		.limit(perPage) // limit it to per page number, then take orders
+		.limit(perPage) 
 		.then(orders => {
 			res.json({
 				orders: orders.map(order => order.serialize())
@@ -483,7 +483,7 @@ app.put('/orders/:id', verifyUser, (req, res) => {
 
 app.delete('/orders/:id', verifyUser, (req, res) => {
 	Order.findByIdAndRemove(req.params.id)
-		.then(order => res.status(200).send())
+		.then(order => res.status(204).end())
 		.catch(err => res.status(500).json({
 			message: 'Internal server error'
 		}));

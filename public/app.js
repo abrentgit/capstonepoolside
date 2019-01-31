@@ -99,32 +99,32 @@ function registerGuest() {
             alert('Register Error: Passwords do not match');
         } else {
 
-        return fetch('https://orderinn.herokuapp.com/guests', {
-            method: 'POST',
-            body: JSON.stringify(session),
-            headers: headers
-        }).then(rawResponse => {
-            console.log(rawResponse, 'this is json re')
-            return rawResponse.json();
-        }).then(response => {
-            const {
-                authToken
-            } = response;
-            localStorage.setItem('token', authToken);
-            console.log(response, 'this is response register')
-            loginAfterRegister(); 
-            return response;
-        }).catch(error => {
-            console.log('an error occured', error);
-        });
-    }
+            return fetch('https://orderinn.herokuapp.com/guests', {
+                method: 'POST',
+                body: JSON.stringify(session),
+                headers: headers
+            }).then(rawResponse => {
+                console.log(rawResponse, 'this is json re')
+                return rawResponse.json();
+            }).then(response => {
+                const {
+                    authToken
+                } = response;
+                localStorage.setItem('token', authToken);
+                console.log(response, 'this is response register')
+                loginAfterRegister();
+                return response;
+            }).catch(error => {
+                console.log('an error occured', error);
+            });
+        }
     });
 }
 
 function loginAfterRegister() {
     $('.register-form').hide();
     $('.login-form').fadeIn('slow');
-    $('.login-link').hide(); 
+    $('.login-link').hide();
     $('.register-link').hide();
     $('.about-link').hide();
     $('body').css('background-image', 'none');
@@ -137,7 +137,7 @@ function getLoginPage() {
     $('.login-link').on('click', 'a', function (event) {
         event.preventDefault();
         $('.register-form').hide();
-        $('.login-link').hide(); 
+        $('.login-link').hide();
         $('.register-link').hide();
         $('.about-link').hide();
         $('body').css('background-image', 'none');
@@ -373,7 +373,7 @@ function orderFeedback(newOrder) {
 
 function cancelConfirm() {
     if (confirm('Are you sure you want to cancel your order?') === true) {
-        $('.order-feedback').hide();
+        // $('.order-feedback').hide();
         deleteOrderFeedback();
     } else {
         return false;
@@ -441,7 +441,7 @@ function getRegisterPage() {
         $('.login-link').hide();
         $('.register-link').hide();
         $('.about-link').hide();
-        $('body').css('background-image', 'none');  
+        $('body').css('background-image', 'none');
         $('body').css('background-color', 'FAF7F3');
         $('.logo').show();
     })
@@ -465,7 +465,6 @@ function getAboutPage() {
 
 function logoHome() {
     $('.homepage-header').on('click', '.homepage-title', function () {
-        console.log('orderInn logo clicked');
         location.reload();
     })
 }
