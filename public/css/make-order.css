@@ -177,6 +177,13 @@ ul {
   font-size: 20px;
 }
 
+.container-details {
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  font-size: 20px;
+}
+
 .order-header {
   font-family: "Barlow Condensed", helvetica, sans-serif;
 }
