@@ -422,16 +422,8 @@ function orderDone() {
     })
 }
 
-<<<<<<< HEAD
-// AFTER ORDER IS DELETED RETURN TO HOMEPAGE
-
-function restart() {    
-    $('.order-feedback').on('click', '.done-deleted-btn', function(event) {
-        event.preventDefault(event);
-=======
 function restart() {
     $('.order-feedback').on('click', '.done-deleted-btn', function (event) {
->>>>>>> fa45a76b600ba512fb77db08f0d581e66154de7a
         location.reload();
     });
 }
