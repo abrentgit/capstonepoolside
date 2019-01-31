@@ -220,7 +220,7 @@ app.post('/login', (req, res) => {
 				error: 'Invalid credentials'
 			});
 		}
-		
+
 		if (!user) {
 			res.status(404).json({
 				error: 'Invalid credentials'
@@ -550,6 +550,7 @@ app.delete('/orders/:id/beverages/:beverage_id', verifyUser, (req, res) => {
 					});
 				} else {
 					res.status(200).json(updatedOrder); 
+				}
 			});
 		}
 	});
