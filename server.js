@@ -220,7 +220,7 @@ app.post('/login', (req, res) => {
 				error: 'Invalid credentials'
 			});
 		}
-
+		
 		if (!user) {
 			res.status(404).json({
 				error: 'Invalid credentials'
@@ -260,7 +260,7 @@ app.post('/login/admin', (req, res) => {
 		} else {
 			let validPassword = bcrypt.compareSync(req.body.password, user.password);
 
-			if (!validPassword) { //if pass doesn't match
+			if (!validPassword) { 
 				res.status(401).json({
 					error: 'Invalid credentials'
 				});
@@ -512,7 +512,7 @@ app.delete('/orders/:id/dishes/:dish_id', verifyUser, (req, res) => {
 				if (errSave) {
 					res.status(422).json({
 						message: 'Can not save order'
-					}); //
+					}); 
 				} else {
 					res.status(200).json(updatedOrder);
 				}
@@ -540,18 +540,16 @@ app.delete('/orders/:id/beverages/:beverage_id', verifyUser, (req, res) => {
 				const filtered = order.beverages.filter(
 					beverage => beverage.id !== req.params.beverage_id
 				);
-				order.beverages = filtered; //filters the beverages that are not the id
+				order.beverages = filtered; 
 			}
 
 			order.save(function (errSave, updatedOrder) {
-				// related to order save
 				if (errSave) {
 					res.status(422).json({
 						message: 'Could not save order'
 					});
 				} else {
-					res.status(200).json(updatedOrder); // new order is saved and updated
-				}
+					res.status(200).json(updatedOrder); 
 			});
 		}
 	});
@@ -792,7 +790,7 @@ app.get('/menus/:id/beverages/:beverage_id', verifyUser, (req, res) => {
 			} else {
 				const filtered = menu.beverages.filter(
 					beverage => beverage.id === req.params.beverage_id
-				); // filter out dishes that aren't the req. dish id
+				); 
 				menu.beverages = filtered;
 				res.status(200).json(filtered);
 			}
@@ -959,7 +957,7 @@ app.delete('/menus/:id/beverages/:beverage_id', verifyAdminUser, (req, res) => {
 				const filtered = menu.beverages.filter(beverage => beverage.id !== req.params.beverage_id);
 				menu.beverages = filtered;
 			}
-			menu.save(function (errSave, updatedOrder) { // save the new menu with non req bev items
+			menu.save(function (errSave, updatedOrder) { 
 				if (errSave) {
 					res.status(422).json({
 						message: 'Can not update order'

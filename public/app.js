@@ -373,7 +373,6 @@ function orderFeedback(newOrder) {
 
 function cancelConfirm() {
     if (confirm('Are you sure you want to cancel your order?') === true) {
-        // $('.order-feedback').hide();
         deleteOrderFeedback();
     } else {
         return false;
@@ -394,7 +393,7 @@ function deleteOrder() {
             'Content-Type': 'application/json',
         };
 
-        return fetch(`https://orderinn.herokuapp.com/${orderId}`, {
+        return fetch(`https://orderinn.herokuapp.com/orders/${orderId}`, {
             method: 'DELETE',
             headers: headers
         }).then(response => {
