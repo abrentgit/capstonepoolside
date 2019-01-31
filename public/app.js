@@ -1,52 +1,39 @@
 function main() {
-    console.log('loading app.js');
-    getLoginPage();
-    orderDone();
+    console.log('client is loaded');
     getHomePage();
-    deleteOrder();
-    restart();
-    registerGuest();
-    logoHome();
+    getLoginPage();
     getRegisterPage();
-    addDish();
-    deleteDish();
+    signUpLink();
+    loginLink();
+    getAboutPage();
 }
 
 orderDone();
-signUpLink();
-loginLink();
-getAboutPage();
 performLogin();
 postOrder();
-getLoginPage();
-
+registerGuest();
+logoHome();
+restart();
+deleteOrder();
+addDish();
+deleteDish();
 
 $(main);
 
-// GET HOME PAGE
-
 function getHomePage() {
-    $('.homepage').show();
-    $('.register-form').hide();
-    $('.login-form').hide();
-    $('.make-order').hide();
-    $('.about').hide();
-    $('.order-feedback').hide();
+    $('.homepage').fadeIn('slow');
+    $('.unhidden').fadeIn('slow');
+    $('.hidden').hide();
 }
 
-// LOGIN 
-
-let session;
-
 function performLogin() {
-    $('.login-form').on('submit', function(event) {
+    $('.login-form').on('submit', function (event) {
         event.preventDefault();
-        console.log('working');
 
         const email = $('#user-email-login').val();
         const password = $('#user-password-login').val();
-        
-        session = {
+
+        let session = {
             'email': `${email}`,
             'password': `${password}`,
         };
@@ -54,19 +41,26 @@ function performLogin() {
         const headers = {
             'Content-Type': 'application/json'
         };
-    
-        return fetch('https://orderinn.herokuapp.com/login', { 
+
+        return fetch('https://orderinn.herokuapp.com/login', {
             method: 'POST',
             body: JSON.stringify(session),
             headers: headers
         }).then(rawResponse => {
-            return rawResponse.json(); 
+            return rawResponse.json();
         }).then(response => {
-            console.log('request worked', response);
-            const { authToken } = response;
+            const {
+                authToken
+            } = response;
             localStorage.setItem('token', authToken);
             localStorage.setItem('userId', response.user_id);
-            getMakeOrderPage(); 
+
+            if (!authToken === undefined || response.user_id === undefined) {
+                alert('Invalid Login. Please try again');
+                event.preventDefault();
+            } else {
+                getMakeOrderPage();
+            }
             return response;
         }).catch(error => {
             console.log('an error occured', error);
@@ -74,26 +68,22 @@ function performLogin() {
     });
 }
 
-// GET MAKE ORDER PAGE
 function getMakeOrderPage() {
     $('.login-form').hide();
     $('.homepage').hide();
-    $('.make-order').show();
-    $('.order-feedback').show();
     getDishes();
+    $('.make-order').fadeIn('slow');
 }
 
-// REGISTER GUEST
 function registerGuest() {
-    $('.register-form').on('submit', function(event) {
+    $('.register-form').on('submit', function (event) {
         event.preventDefault();
-        console.log('working');
 
         const name = $('#user-name').val();
         const email = $('#user-email-reg').val();
         const password = $('#user-password-reg').val();
         const pswRepeat = $('#psw-repeat').val();
-        
+
         const session = {
             'name': `${name}`,
             'email': `${email}`,
@@ -104,56 +94,62 @@ function registerGuest() {
         const headers = {
             'Content-Type': 'application/json'
         };
-    
-        return fetch('https://orderinn.herokuapp.com/guests', { 
-            method: 'POST',
-            body: JSON.stringify(session),
-            headers: headers
-        }).then(rawResponse => {
-            return rawResponse.json(); 
-        }).then(response => {
-            console.log('request worked', response);
-            const { authToken } = response;
-            localStorage.setItem('token', authToken);
-            console.log('user is registered');       
-            loginAfterRegister(); // CALL LOGIN PAGE AFTER REGISTRATION
-            return response;
-        }).catch(error => {
-            console.log('an error occured', error);
-        });
+
+        if (session.password !== session.pswRepeat) {
+            alert('Register Error: Passwords do not match');
+        } else {
+
+            return fetch('https://orderinn.herokuapp.com/guests', {
+                method: 'POST',
+                body: JSON.stringify(session),
+                headers: headers
+            }).then(rawResponse => {
+                console.log(rawResponse, 'this is json re')
+                return rawResponse.json();
+            }).then(response => {
+                const {
+                    authToken
+                } = response;
+                localStorage.setItem('token', authToken);
+                console.log(response, 'this is response register')
+                loginAfterRegister();
+                return response;
+            }).catch(error => {
+                console.log('an error occured', error);
+            });
+        }
     });
 }
 
 function loginAfterRegister() {
     $('.register-form').hide();
-    $('.login-form').show();
-    $('.login-link').hide(); // hide the nav
+    $('.login-form').fadeIn('slow');
+    $('.login-link').hide();
     $('.register-link').hide();
     $('.about-link').hide();
-    $('body').css('background-image', 'none');    
-    $('body').css('background-color', 'FAF7F3'); 
+    $('body').css('background-image', 'none');
+    $('body').css('background-color', 'FAF7F3');
     $('.logo').show();
     $('.homepage-title').css('color', '#000000');
 }
-
-// GET LOGIN PAGE
 
 function getLoginPage() {
-    $('.login-link').on('click', 'a', function(event) {
-    event.preventDefault();
-    $('.register-form').hide();
-    $('.login-form').show();
-    $('.login-link').hide(); // hide the nav
-    $('.register-link').hide();
-    $('.about-link').hide();
-    $('body').css('background-image', 'none');    
-    $('body').css('background-color', 'FAF7F3'); 
-    $('.logo').show();
-    $('.homepage-title').css('color', '#000000');
-})
+    $('.login-link').on('click', 'a', function (event) {
+        event.preventDefault();
+        $('.register-form').hide();
+        $('.login-link').hide();
+        $('.register-link').hide();
+        $('.about-link').hide();
+        $('body').css('background-image', 'none');
+        $('body').fadeIn('fast');
+        $('body').css('background-color', 'FAF7F3');
+        $('.logo').fadeIn();
+        $('.homepage-title').hide();
+        $('.homepage-title').fadeIn('fast');
+        $('.homepage-title').css('color', '#000000');
+        $('.login-form').fadeIn('10000');
+    })
 }
-
-// GET DISHES FROM API
 
 let dishes = [];
 
@@ -172,53 +168,51 @@ function getDishes() {
         return rawResponse.json();
     }).then(response => {
         let dishesHtml = '';
-        console.log(response.dishes);
         dishes = response.dishes;
         response.dishes.forEach(dish => {
-            let dishHtml = renderDish(dish); 
+            let dishHtml = renderDish(dish);
             dishesHtml = dishesHtml.concat(dishHtml);
         });
-        console.log(dishesHtml);
-        console.log('request worked', response.dishes);
-        $('.dishes').append(dishesHtml); //display
+        $('.dishes').append(dishesHtml);
         return response.dishes;
     }).catch(error => {
         console.log('an error occurred', error);
     });
 }
 
-function renderDish(dish) { 
+function renderDish(dish) {
     const orderDiv = `<div class="dish-choice"><p><b>${dish.name}</b></p>
                         <p>${dish.description}</p>
                         <p class="dish-price">$${dish.price}</p>
                         <button data-dish="${dish._id}" 
                         class="add-dish-button">Add Dish</button>
                         <button data-dish="${dish._id}" class="delete-dish-button">Delete Dish</button>
-                        </div>`
-    return orderDiv;     
+                      </div>`
+    return orderDiv;
 }
-
-// ADD DISHES TO ORDER
 
 let cart = [];
 
-let cartTotal = ''; 
+let cartTotal = '';
 
 function addDish() {
 
-    $('.dishes').on('click','.add-dish-button', function(event) {
+    $('.dishes').on('click', '.add-dish-button', function (event) {
         let dishId = $(event.currentTarget).data('dish');
-        console.log(dishId);
-  
+
         const itemPresent = cart.find(item => {
             return item.item._id === dishId;
         });
 
         for (let i = 0; i < dishes.length; i++) {
             let dish = dishes[i];
-            console.log(dish);
+
             if (dishId === dish._id && !itemPresent) {
-                cart.push({ item: dish, quantity: 1, price: dish.price });
+                cart.push({
+                    item: dish,
+                    quantity: 1,
+                    price: dish.price
+                });
             }
         }
 
@@ -228,62 +222,48 @@ function addDish() {
 
         let cartPrice = 0;
 
-        // loop through cart to check the price 
         for (let i = 0; i < cart.length; i++) {
             let dish = cart[i];
             let price = dish.quantity * dish.price;
             cartPrice += price;
             cartTotal = cartPrice;
-            console.log(cartPrice, 'this is final cart total from add button');
-            console.log(cartTotal, 'outside cartTotal working');
-            console.log(cart, 'these are my cart items');
         }
 
         renderCart();
         return cart;
     });
-} 
-
-// DELETE DISHES FROM ORDER
+}
 
 function deleteDish() {
-    $('.dishes').on('click', '.delete-dish-button', function(event) {
+    $('.dishes').on('click', '.delete-dish-button', function (event) {
         let dishId = $(event.currentTarget).data('dish');
-        // gets ID from the click
-        
+
         const dishPresent = cart.find(item => {
             return item.item._id === dishId;
         });
 
-        let dishIdx = cart.findIndex(dish => dish === dishPresent); 
-        
-        let cartPrice = 0; 
+        let dishIdx = cart.findIndex(dish => dish === dishPresent);
+
+        let cartPrice = 0;
 
         for (let i = 0; i < cart.length; i++) {
             let dish = cart[i];
             let dishPrice = dish.quantity * dish.price;
             cartPrice += dishPrice;
             cartTotal = cartPrice;
-            console.log(cartPrice, 'this is current cart price from delete button');
-            console.log(cartTotal, 'this is outside cartTotal');
         }
 
-        // if dish exists and quantity is greater than 1, splice it out, delete from price
         if (dishPresent && dishPresent.quantity === 1) {
             cart.splice(dishIdx, 1);
-            
+
             let dishPrice = dishPresent.quantity * dishPresent.price;
             cartPrice -= dishPrice;
             cartTotal = cartPrice;
-            console.log(cartTotal, 'this is outside cartTotal');
-            console.log(cartPrice, 'dish was deleted, this is current cartPrice');
         } else if (dishPresent && dishPresent.quantity > 1) {
-            dishPresent.quantity -= 1; 
+            dishPresent.quantity -= 1;
             let dishPrice = dishPresent.quantity * dishPresent.price;
             cartPrice -= dishPrice;
             cartTotal = cartPrice;
-            console.log(cartTotal, 'this is outside cartTotal');
-            console.log(cartPrice, 'dish was deleted, this is current cartPrice');
         }
 
         renderCart();
@@ -296,36 +276,30 @@ function renderCart() {
     $('.total-price').html('');
     $('.price-adder').hide();
 
-    cart.forEach(function(item) {
-    let newItem = $(".summary-items").append(`<li class="order-item"> ${item.item.name} - ${item.quantity} </li>`);
-    
-    $('.price-adder').show();
-    $('.total-price').html(`<h3 class="price"> Total: $${cartTotal} </h3>`);
+    cart.forEach(function (item) {
+        let newItem = $(".summary-items").append(`<li class="order-item"> ${item.item.name} - ${item.quantity} </li>`);
+
+        $('.price-adder').show();
+        $('.total-price').html(`<h3 class="price"> Total: $${cartTotal} </h3>`);
     });
 }
 
-// POST AN ORDER TO API
-
-let newOrder = {}; 
+let newOrder = {};
 
 function postOrder() {
-    $('.checkout-btn').on('click', function() {
-        console.log('HELLO, I AM CLICKED');
-                
+    $('.checkout-btn').on('click', function () {
+
         const date = $('.date-input').val();
         const location = $('#location').val();
 
         const token = localStorage.getItem('token');
         const userId = localStorage.getItem('userId');
-        console.log(userId, 'this is user ID');
-        
-        let dishIds = []; 
+
+        let dishIds = [];
 
         cart.forEach(dish => {
-            dishIds.push(dish.item._id); 
+            dishIds.push(dish.item._id);
         });
-
-        console.log(dishIds, 'these are the cart dishes');
 
         let order = {
             'guests': `${userId}`,
@@ -334,22 +308,21 @@ function postOrder() {
             'location': `${location}`,
             'notes': '',
         };
-        
+
         const headers = {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
         };
 
-     return fetch('https://orderinn.herokuapp.com/orders', {
+        return fetch('https://orderinn.herokuapp.com/orders', {
             method: 'POST',
             body: JSON.stringify(order),
             headers: headers
         }).then(rawResponse => {
-            return rawResponse.json(); 
+            return rawResponse.json();
         }).then(response => {
-            console.log('request worked', response);
             const newOrder = response;
-            console.log(newOrder, 'NEW ORDER COMPLETED HERE');
+            $('order-feedback').show();
             orderFeedback(newOrder);
         }).catch(error => {
             console.log('an error occured', error);
@@ -357,22 +330,14 @@ function postOrder() {
     });
 }
 
-//AFTER ORDER IS POSTED, GIVE AN ORDER SUMMARY
-
 function orderFeedback(newOrder) {
     $('.make-order').hide();
     $('header').remove('h1');
-    
+
     let dishList = '';
-    let date = new Date (newOrder.deliveryDate);
+    let date = new Date(newOrder.deliveryDate);
     let location = newOrder.location;
 
-    console.log(date, 'DATE CONVERTED');
-    console.log(newOrder, 'this is the new order');
-    console.log(newOrder.dishes._id, "this is dish id inside new order");
-
-    // NEED TO ACCESS QUANTITY OF DISHES, THEN DISPLAY ******** 
-    
     newOrder.dishes.forEach(dish => {
         dishList = dishList.concat(`<li>
          <div class="dishOrder"> 
@@ -384,6 +349,7 @@ function orderFeedback(newOrder) {
 
     let cartVal = `${cartTotal}`;
 
+    $('.order-feedback').fadeIn('slow');
     $('.order-feedback').append(`<nav class="feedback-header">
                                     <p class="order-id"> Order#: ${newOrder._id} </p>
                                     <ul>${dishList}</ul>
@@ -405,8 +371,6 @@ function orderFeedback(newOrder) {
                                 </div>`)
 }
 
-// CONFIRM ORDER CANCEL
-
 function cancelConfirm() {
     if (confirm('Are you sure you want to cancel your order?') === true) {
         deleteOrderFeedback();
@@ -415,38 +379,35 @@ function cancelConfirm() {
     }
 }
 
-// DELETE ORDER
-
 function deleteOrder() {
-    $('.order-feedback').on('click', '.cancel-btn', function(event) {
+    $('.order-feedback').on('click', '.cancel-btn', function (event) {
 
-    cancelConfirm();
-    
-    let orderId = $(event.currentTarget).data('order');
-        console.log(orderId, 'this is current orderId');
-    
-    const token = localStorage.getItem('token');
+        cancelConfirm();
 
-    const headers = {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-    };
+        let orderId = $(event.currentTarget).data('order');
 
-    return fetch(`https://orderinn.herokuapp.com/${orderId}`, {
-        method: 'DELETE',
-        headers: headers
-    }).then(response => {
-        return response;
-    }).catch(error => {
-        console.log('an error occured', error);
-    });  
-})
+        const token = localStorage.getItem('token');
+
+        const headers = {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        };
+
+        return fetch(`https://orderinn.herokuapp.com/orders/${orderId}`, {
+            method: 'DELETE',
+            headers: headers
+        }).then(response => {
+            return response;
+        }).catch(error => {
+            console.log('an error occured', error);
+        });
+    })
 
 }
 
-// AFTER ORDER DELETED, func to take back to homepage
 function deleteOrderFeedback() {
-    $('.order-title').hide();    
+    $('.order-title').hide();
+    $('.order-feedback').fadeIn('slow');
     $('.order-feedback').html(`<div role="region" class="delete-feedback">
                                 <img role="img" class="logo-order-delete" src="../cutlery-icon.svg" alt="Cutlery" /> 
                                 <p class="cancel-text"><i>Your order has been canceled.</i></p>
@@ -455,90 +416,78 @@ function deleteOrderFeedback() {
                            </div>`);
 }
 
-
-// IF DONE AND GOOD WITH ORDER - GO BACK TO LOGIN PAGE, USER LOGGED OUT
-function orderDone() {    
-    $('.order-feedback').on('click', '.done-btn', function(event) {
-        event.preventDefault();
+function orderDone() {
+    $('.order-feedback').on('click', '.done-btn', function () {
         location.reload();
     })
 }
 
+<<<<<<< HEAD
 // AFTER ORDER IS DELETED RETURN TO HOMEPAGE
 
 function restart() {    
     $('.order-feedback').on('click', '.done-deleted-btn', function(event) {
         event.preventDefault(event);
+=======
+function restart() {
+    $('.order-feedback').on('click', '.done-deleted-btn', function (event) {
+>>>>>>> fa45a76b600ba512fb77db08f0d581e66154de7a
         location.reload();
     });
 }
 
-// GET REGISTER PAGE FROM HOMEPAGE
-
 function getRegisterPage() {
-    $('.register-link').on('click', 'a', function(event) {
+    $('.register-link').on('click', 'a', function (event) {
         event.preventDefault();
-        $('.register-form').show();
+        $('body').fadeIn('slow');
+        $('.register-form').fadeIn('slow');
         $('.footer-register').append(`<p>Already have an account? <a class="login-footer" href="">Log in</a></p>`)
         $('.homepage-title').css('color', '#000000');
         $('.login-form').hide();
         $('.make-order').hide();
-        $('.login-link').hide(); // hide the nav
+        $('.login-link').hide();
         $('.register-link').hide();
         $('.about-link').hide();
-        $('body').css('background-image', 'none'); // empty BG    
-        $('body').css('background-color', 'FAF7F3'); 
+        $('body').css('background-image', 'none');
+        $('body').css('background-color', 'FAF7F3');
         $('.logo').show();
     })
 }
 
-// GET ABOUT PAGE FROM HOMEPAGE
-
 function getAboutPage() {
-    $('.about-link').on('click', 'a', function(event) {
-        event.preventDefault();
-        $('.about').show();
+    $('.about-link').on('click', 'a', function () {
+        $('.about').fadeIn('slow');
         $('.homepage-title').css('color', '#000000');
         $('.register-form').hide();
         $('.login-form').hide();
         $('.make-order').hide();
-        $('.login-link').hide(); 
+        $('.login-link').hide();
         $('.register-link').hide();
         $('.about-link').hide();
-        $('body').css('background-image', 'none');     
-        $('body').css('background-color', 'FAF7F3'); 
+        $('body').css('background-image', 'none');
+        $('body').css('background-color', 'FAF7F3');
         $('.logo').show();
     })
 }
 
-// CLICK ON LOGO ON ABOUT PAGE - GO TO HOMEPAGE
 function logoHome() {
-    $('.homepage-header').on('click', '.homepage-title', function() {
-        getHomePage();
-        $('.login-link').show(); 
-        $('.register-link').show();
-        $('.about-link').show();
-        $('body').css('background-image', '');   
-        $('.homepage-title').css('color', '#FFFFFF');
+    $('.homepage-header').on('click', '.homepage-title', function () {
+        location.reload();
     })
 }
 
-// FOOTER ON LOGIN PAGE
 function signUpLink() {
-    $('.footer').on('click', '.register-footer', function(event) {
+    $('.footer').on('click', '.register-footer', function (event) {
         event.preventDefault();
-        $('.register-form').show();
+        $('.register-form').fadeIn('slow');
         $('.login-form').hide();
     })
 }
 
-// FOOTER ON REGISTER PAGE
 function loginLink() {
-    $('.footer-register').on('click', '.login-footer', function(event) {
+    $('.footer-register').on('click', '.login-footer', function (event) {
         event.preventDefault();
         $('.register-form').hide();
-        $('.login-form').show();
+        $('.login-form').fadeIn('slow');
     })
 }
-
-

@@ -7,7 +7,6 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 const config = require('./config');
-console.log('importing config', config); 
 mongoose.Promise = global.Promise;
 
 const { DATABASE_URL, PORT } = require('./config');
@@ -24,10 +23,8 @@ app.use(cors());
 app.use(express.static(__dirname + '/public'));
 app.use(express.static('public'));
 
-// HOMEPAGE 
-
 app.get('/', (req, res) => {
-	if(!req) {
+	if (!req) {
 		res.status(404).message('Content not found');
 	} else {
 		res.status(200).sendFile(__dirname + '/public/index.html');
@@ -35,52 +32,47 @@ app.get('/', (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-	if(!req) {
+	if (!req) {
 		res.status(404).message('Content not found');
 	} else {
 		res.status(200).render('/login');
 	};
 });
 
-// ABOUT PAGE 
 app.get('/orderinn/about', (req, res) => {
-	if(!req) {
+	if (!req) {
 		res.status(404).message('Content not found');
 	} else {
 		res.status(200).sendFile(__dirname + '/views/about.html');
 	};
 });
 
-// MAKE ORDER PAGE
 app.get('/orderinn/neworder', (req, res) => {
-	if(!req) {
+	if (!req) {
 		res.status(404).message('Content not found');
 	} else {
 		res.status(200).sendFile(__dirname + '/views/make-order.html');
 	};
 });
 
-/// LOGIN 
 app.get('/orderinn/login', (req, res) => {
-	if(!req) {
+	if (!req) {
 		res.status(404).message('Content not found');
 	} else {
 		res.status(200).sendFile(__dirname + '/views/login.html');
 	};
 });
 
-// REGISTER
 app.get('/orderinn/register', (req, res) => {
-	if(!req) {
+	if (!req) {
 		res.status(404).message('Content not found');
 	} else {
 		res.status(200).sendFile(__dirname + '/views/register.html');
 	};
 });
 
-// CREATE TOKEN FOR GUEST
-const createAuthToken = function(user) {
-	return jwt.sign({ user }, config.JWT_SECRET, {
+const createAuthToken = function (user) {
+	return jwt.sign({user}, config.JWT_SECRET, {
 		subject: user.email,
 		audience: user.role,
 		expiresIn: config.JWT_EXPIRY,
@@ -88,47 +80,55 @@ const createAuthToken = function(user) {
 	});
 };
 
-// MIDDLEWARE FOR GUEST AUTH
+// VERIFY GUEST USER MIDDLEWARE
+
 const verifyUser = function (req, res, next) {
-	if(!req.headers.authorization) {
-		res.status(401).json({ message: 'Invalid credentials'});
+	if (!req.headers.authorization) {
+		res.status(401).json({
+			message: 'Invalid credentials'
+		});
 		return;
 	}
 
-	const tokenSplit = req.headers.authorization.split(' '); 
-	const token = tokenSplit[1]; 
+	const tokenSplit = req.headers.authorization.split(' ');
+	const token = tokenSplit[1];
 
 	if (token) {
-		jwt.verify(token, config.JWT_SECRET, function(error, decoded) {
+		jwt.verify(token, config.JWT_SECRET, function (error, decoded) {
 			if (!error) {
 				req.decoded = decoded;
 
 				if (req.decoded.aud === 'Guest') {
 					next();
 				} else {
-					res.status(401).json({ message: 'Invalid credentials' });
+					res.status(401).json({
+						message: 'Invalid credentials'
+					});
 				}
 			} else {
-				res.status(401).json({ message: 'Invalid credentials'});
+				res.status(401).json({
+					message: 'Invalid credentials'
+				});
 			};
-		}
-	);
-};
+		});
+	};
 };
 
-// MIDDLEWARE FOR ADMIN
+// VERIFY ADMIN USER MIDDLEWARE
 
 const verifyAdminUser = function (req, res, next) {
-	if(!req.headers.authorization) {
-		res.status(401).json({ message: 'Invalid credentials'});
+	if (!req.headers.authorization) {
+		res.status(401).json({
+			message: 'Invalid credentials'
+		});
 		return;
 	}
 
-	const tokenSplit = req.headers.authorization.split(' '); 
-	const token = tokenSplit[1]; 
+	const tokenSplit = req.headers.authorization.split(' ');
+	const token = tokenSplit[1];
 
 	if (token) {
-		jwt.verify(token, config.JWT_SECRET, function(error, decoded) {
+		jwt.verify(token, config.JWT_SECRET, function (error, decoded) {
 			if (!error) {
 				req.decoded = decoded;
 				if (req.decoded.aud === 'admin') {
@@ -136,14 +136,13 @@ const verifyAdminUser = function (req, res, next) {
 					console.log(req.decoded);
 				}
 			} else {
-				res.status(401).json({ message: 'Invalid credentials'});
+				res.status(401).json({
+					message: 'Invalid credentials'
+				});
 			}
-		}
-	);
+		});
+	}
 }
-}
-
-// REGISTER ADMIN 
 
 app.post('/admin', (req, res) => {
 	const requiredFields = ['name', 'email', 'password'];
@@ -159,21 +158,24 @@ app.post('/admin', (req, res) => {
 	let hashed = bcrypt.hashSync(req.body.password, saltRounds);
 
 	User.create({
-		name: req.body.name,
-		email: req.body.email,
-		role: 'admin',
-		password: hashed
-	})
+			name: req.body.name,
+			email: req.body.email,
+			role: 'admin',
+			password: hashed
+		})
 		.then(user => {
 			const authToken = createAuthToken(user.serialize());
-			res.status(201).json({ authToken });
+			res.status(201).json({
+				authToken
+			});
 		}).catch(err => {
 			console.log(err);
-			res.status(422).json({ message: 'Something went wrong' });
+			res.status(422).json({
+				message: 'Something went wrong'
+			});
 		});
 });
 
-// REGISTER FOR GUEST
 app.post('/guests', (req, res) => {
 	const requiredFields = ['name', 'password', 'email'];
 	for (let i = 0; i < requiredFields.length; i++) {
@@ -188,112 +190,118 @@ app.post('/guests', (req, res) => {
 	let hashed = bcrypt.hashSync(req.body.password, saltRounds);
 
 	User.create({
-		name: req.body.name,
-		email: req.body.email,
-		password: hashed
-	})
+			name: req.body.name,
+			email: req.body.email,
+			password: hashed
+		})
 		.then(guest => {
 			const authToken = createAuthToken(guest.serialize());
-			res.status(201).json({ authToken });
+			res.status(201).json({
+				authToken
+			});
 		})
 		.catch(err => {
 			console.log(err);
-			res.status(422).json({ message: 'Something went wrong' });
+			res.status(422).json({
+				message: 'Something went wrong'
+			});
 		});
 });
 
-// GUEST USER login
-
 app.post('/login', (req, res) => {
-	User.findOne({email: req.body.email}, function(err, user) {
+	User.findOne({
+		email: req.body.email
+	}, function (err, user) {
 		console.log('error', err);
 		console.log('user', user);
 		console.log(req.body.email);
+		if (err) {
+			res.status(401).json({
+				error: 'Invalid credentials'
+			});
+		}
+
+		if (!user) {
+			res.status(404).json({
+				error: 'Invalid credentials'
+			});
+		} else {
+			let validPassword = bcrypt.compareSync(req.body.password, user.password);
+
+			if (!validPassword) {
+				res.status(401).json({
+					error: 'Invalid credentials'
+				});
+			} else {
+				const authToken = createAuthToken(user.serialize());
+				res.status(200).json({
+					authToken,
+					user_id: user._id
+				});
+			};
+		};
+	});
+});
+
+app.post('/login/admin', (req, res) => {
+	User.findOne({
+		email: req.body.email
+	}, function (err, user) {
 		if (err) { 
 			res.status(401).json({
 				error: 'Invalid credentials'
 			});
 		}
 
-		if (!user) { // if no guest found
+		if (!user) { 
 			res.status(404).json({
 				error: 'Invalid credentials'
 			});
 		} else {
 			let validPassword = bcrypt.compareSync(req.body.password, user.password);
 
-			if (!validPassword) { //if pass doesn't match
+			if (!validPassword) { 
 				res.status(401).json({
 					error: 'Invalid credentials'
 				});
 			} else {
 				const authToken = createAuthToken(user.serialize());
-				res.status(200).json({authToken, user_id: user._id});
-			};
-		};
-	});
-});
-
-// LOGIN ADMIN
-
-app.post('/login/admin', (req, res) => {
-	User.findOne({email: req.body.email}, function(err, user) {
-		if (err) { //if error finding email
-			res.status(401).json({
-				error: 'Invalid credentials'
-			});
-		}
-
-		if (!user) { // if no guest found
-			res.status(404).json({
-				error: 'Invalid credentials'
-			});
-		} else {
-			let validPassword = bcrypt.compareSync(req.body.password, user.password);
-
-			if (!validPassword) { //if pass doesn't match
-				res.status(401).json({
-					error: 'Invalid credentials'
+				res.status(201).json({
+					authToken,
+					user_id: user._id
 				});
-			} else {
-				const authToken = createAuthToken(user.serialize());
-				res.status(201).json({authToken, user_id: user._id});
 			};
 		};
 	});
 });
-
-// get all orders
-// FOR STAFF
-// WORKS!!*
-
-// PLEASE PUT BACK VERIFY ADMIN MIDDLEWARE
 
 app.get('/orders', verifyAdminUser, (req, res) => {
-		const perPage = 3;
-		const currentPage = req.query.page || 1;
-	
-		Order.find()
-			.skip(perPage * currentPage - perPage) 
-			.limit(perPage) // limit it to per page number, then take orders
-			.then(orders => {
-				res.json({
-					orders: orders.map(order => order.serialize())
-				});
-			})
-			.catch(err => {
-				res.status(500).json({ message: 'Internal server error' });
-			});
-	});
+	const perPage = 3;
+	const currentPage = req.query.page || 1;
 
-// WORKS!!*
+	Order.find()
+		.skip(perPage * currentPage - perPage)
+		.limit(perPage) 
+		.then(orders => {
+			res.json({
+				orders: orders.map(order => order.serialize())
+			});
+		})
+		.catch(err => {
+			res.status(500).json({
+				message: 'Internal server error'
+			});
+		});
+});
 
 app.get('/orders/:id', verifyUser, (req, res) => {
 	Order.findById(req.params.id)
 		.then(order => res.json(order.serialize()))
 		.catch(err => {
 			console.error(err);
-			res.status(500).json({ error: 'Something went horribly wrong' });
+			res.status(500).json({
+				error: 'Something went horribly wrong'
+			});
 		});
 });
 
@@ -302,8 +310,10 @@ app.get('/dishes/:id', verifyUser, (req, res) => {
 		.then(dish => res.json(dish.serialize()))
 		.catch(err => {
 			console.error(err);
-			res.status(500).json({ error: 'Something went horribly wrong' });
-	});
+			res.status(500).json({
+				error: 'Something went horribly wrong'
+			});
+		});
 });
 
 app.get('/beverages/:id', verifyUser, (req, res) => {
@@ -311,17 +321,18 @@ app.get('/beverages/:id', verifyUser, (req, res) => {
 		.then(beverage => res.json(beverage.serialize()))
 		.catch(err => {
 			console.error(err);
-			res.status(500).json({ error: 'Something went horribly wrong' });
+			res.status(500).json({
+				error: 'Something went horribly wrong'
+			});
 		});
 });
 
-// GET AN ORDER'S BEVS
-// WORKS!!!*
-
 app.get('/orders/:id/beverages', verifyUser, (req, res) => {
-	Order.findById(req.params.id, function(errOrder, order) {
+	Order.findById(req.params.id, function (errOrder, order) {
 		if (errOrder) {
-			res.status(404).json({ message: 'Can not find order' });
+			res.status(404).json({
+				message: 'Can not find order'
+			});
 		} else {
 			res.json({
 				beverages: order.beverages.map(beverage => beverage.serialize())
@@ -330,13 +341,12 @@ app.get('/orders/:id/beverages', verifyUser, (req, res) => {
 	});
 });
 
-// GET ALL DISHES IN AN ORDER
-// WORKS!!*
-
 app.get('/orders/:id/dishes', verifyUser, (req, res) => {
-	Order.findById(req.params.id, function(errOrder, order) {
+	Order.findById(req.params.id, function (errOrder, order) {
 		if (errOrder) {
-			res.status(404).json({ message: 'Can not find order' });
+			res.status(404).json({
+				message: 'Can not find order'
+			});
 		} else {
 			res.json({
 				dishes: order.dishes.map(dish => dish.serialize())
@@ -345,19 +355,19 @@ app.get('/orders/:id/dishes', verifyUser, (req, res) => {
 	});
 });
 
-// GET DISH BY ID IN ORDER
-// STAFF
-// WORKS!!!!*
-
 app.get('/orders/:id/dishes/:dish_id', verifyUser, (req, res) => {
-	Order.findById(req.params.id, function(errOrder, order) {
+	Order.findById(req.params.id, function (errOrder, order) {
 		if (errOrder) {
-			res.status(404).json({ message: 'can not find order' });
+			res.status(404).json({
+				message: 'can not find order'
+			});
 		} else {
 			let found = order.dishes.find(dish => dish.id === req.params.dish_id);
 
 			if (found === false) {
-				res.status(404).json({ message: 'Can not find dish' });
+				res.status(404).json({
+					message: 'Can not find dish'
+				});
 			} else {
 				const filtered = order.dishes.filter(
 					dish => dish.id === req.params.dish_id
@@ -369,20 +379,21 @@ app.get('/orders/:id/dishes/:dish_id', verifyUser, (req, res) => {
 	});
 });
 
-// get a beverage in a order
-// WORKS!!!!*
-
 app.get('/orders/:id/beverages/:beverage_id', verifyUser, (req, res) => {
-	Order.findById(req.params.id, function(errOrder, order) {
+	Order.findById(req.params.id, function (errOrder, order) {
 		if (errOrder) {
-			res.status(404).json({ message: 'Can not find order' });
+			res.status(404).json({
+				message: 'Can not find order'
+			});
 		} else {
 			let found = order.beverages.find(
 				beverage => beverage.id === req.params.beverage_id
 			);
 
 			if (found === false) {
-				res.status(404).json({ message: 'Can not find dish' });
+				res.status(404).json({
+					message: 'Can not find dish'
+				});
 			} else {
 				const filtered = order.beverages.filter(
 					beverage => beverage.id === req.params.beverage_id
@@ -393,10 +404,6 @@ app.get('/orders/:id/beverages/:beverage_id', verifyUser, (req, res) => {
 		}
 	});
 });
-
-//  POST  ORDER W/ GUEST IMPLEMENTATION and protected endpoint implementation
-// GUEST ONLY 
-// WORKS!!**
 
 app.post('/orders', verifyUser, (req, res) => {
 	const requiredFields = ['guests', 'dishes', 'deliveryDate', 'location', 'notes'];
@@ -409,43 +416,48 @@ app.post('/orders', verifyUser, (req, res) => {
 		}
 	}
 
-	const firstGuestId = req.body.guests.split(',')[0]; //guests is a string, split into array of strings
-	
-	let dishIds = req.body.dishes; // array of dishIds
-	console.log(dishIds, 'these are dish Ids');
+	const firstGuestId = req.body.guests.split(',')[0]; 
+
+	let dishIds = req.body.dishes; 
 
 	User.findById(firstGuestId, (err, guest) => {
 		if (err) {
-			res.status(422).send({ message: 'Can not find user' });
-		} else { 
-			Dish.find({'_id': { $in: dishIds }}, function(err, dishData) {
-					if (err) {
-						console.log(dishData, 'failing dishes');		
-						res.status(422).send({ message: 'Can not find dishes' });
-					} else {	
-					
+			res.status(422).send({
+				message: 'Can not find user'
+			});
+		} else {
+			Dish.find({
+				'_id': {
+					$in: dishIds
+				}
+			}, function (err, dishData) {
+				if (err) {
+					console.log(dishData, 'failing dishes');
+					res.status(422).send({
+						message: 'Can not find dishes'
+					});
+				} else {
+
 					Order.create({
-						guests: [guest._id],
-						dishes: dishData,
-						deliveryDate: req.body.deliveryDate,
-						location: req.body.location,
-						notes: req.body.notes,
-					})
-	
-				.then(order => res.status(201).json(order.serialize()))
-				.catch(err => {
-					console.error(err);
-					res.status(500).json({ error: 'Something went wrong' });
-				});
-			};
+							guests: [guest._id],
+							dishes: dishData,
+							deliveryDate: req.body.deliveryDate,
+							location: req.body.location,
+							notes: req.body.notes,
+						})
+
+						.then(order => res.status(201).json(order.serialize()))
+						.catch(err => {
+							console.error(err);
+							res.status(500).json({
+								error: 'Something went wrong'
+							});
+						});
+				};
 			});
 		};
 	});
 });
-
-// UPDATE AN ORDER BY ID
-// GUEST 
-// WORKS !!!*
 
 app.put('/orders/:id', verifyUser, (req, res) => {
 	if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
@@ -464,39 +476,43 @@ app.put('/orders/:id', verifyUser, (req, res) => {
 
 	Order.findByIdAndUpdate(req.params.id, updated)
 		.then(updatedOrder => res.status(204).end())
-		.catch(err => res.status(500).json({ message: 'Something went wrong' }));
+		.catch(err => res.status(500).json({
+			message: 'Something went wrong'
+		}));
 });
-
-// DELETE ORDER BY ID
-/// WORKS!!*
 
 app.delete('/orders/:id', verifyUser, (req, res) => {
 	Order.findByIdAndRemove(req.params.id)
-		.then(order => res.status(200).send())
-		.catch(err => res.status(500).json({ message: 'Internal server error' }));
+		.then(order => res.status(204).end())
+		.catch(err => res.status(500).json({
+			message: 'Internal server error'
+		}));
 });
 
-// DELETE DISH ORDER BY ID
-// WORKING!!!!!!*
-
 app.delete('/orders/:id/dishes/:dish_id', verifyUser, (req, res) => {
-	Order.findById(req.params.id, function(errOrder, order) {
+	Order.findById(req.params.id, function (errOrder, order) {
 		if (errOrder) {
-			res.status(404).json({ message: 'Can not find order' });
+			res.status(404).json({
+				message: 'Can not find order'
+			});
 		} else {
 			let found = order.dishes.find(dish => dish.id === req.params.dish_id);
 
 			if (found === false) {
-				res.status(422).json({ message: 'Can not find dish' });
+				res.status(422).json({
+					message: 'Can not find dish'
+				});
 			} else {
 				const filtered = order.dishes.filter(
 					dish => dish.id !== req.params.dish_id
 				);
 				order.dishes = filtered;
 			}
-			order.save(function(errSave, updatedOrder) {
+			order.save(function (errSave, updatedOrder) {
 				if (errSave) {
-					res.status(422).json({ message: 'Can not save order' }); //
+					res.status(422).json({
+						message: 'Can not save order'
+					}); 
 				} else {
 					res.status(200).json(updatedOrder);
 				}
@@ -505,42 +521,40 @@ app.delete('/orders/:id/dishes/:dish_id', verifyUser, (req, res) => {
 	});
 });
 
-// DELETE BEVERAGE ORDER BY ID
-// WORKS !!!!*
-
 app.delete('/orders/:id/beverages/:beverage_id', verifyUser, (req, res) => {
-	console.log('request handler arrived');
-	Order.findById(req.params.id, function(errOrder, order) {
+	Order.findById(req.params.id, function (errOrder, order) {
 		if (errOrder) {
-			res.status(404).json({ message: 'Can not find order' });
+			res.status(404).json({
+				message: 'Can not find order'
+			});
 		} else {
 			let found = order.beverages.find(
 				beverage => beverage.id === req.params.beverage_id
 			);
 
 			if (found === false) {
-				res.status(422).json({ message: 'Can not find beverage' });
+				res.status(422).json({
+					message: 'Can not find beverage'
+				});
 			} else {
 				const filtered = order.beverages.filter(
 					beverage => beverage.id !== req.params.beverage_id
 				);
-				order.beverages = filtered; //filters the beverages that are not the id
+				order.beverages = filtered; 
 			}
 
-			order.save(function(errSave, updatedOrder) {
-				// related to order save
+			order.save(function (errSave, updatedOrder) {
 				if (errSave) {
-					res.status(422).json({ message: 'Could not save order' });
+					res.status(422).json({
+						message: 'Could not save order'
+					});
 				} else {
-					res.status(200).json(updatedOrder); // new order is saved and updated
+					res.status(200).json(updatedOrder); 
 				}
 			});
 		}
 	});
 });
-
-// UPDATE ORDER WITH A BEVERAGE
-//  WORKS!!!***
 
 app.put('/orders/:id/beverages/:beverage_id', verifyUser, (req, res) => {
 	if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
@@ -550,33 +564,38 @@ app.put('/orders/:id/beverages/:beverage_id', verifyUser, (req, res) => {
 	}
 
 	if (!(req.params.beverage_id && req.body.beverage_id && req.params.beverage_id === req.body.beverage_id)) {
-		res.status(400).json({error: 'Request path beverage id and request beverage body id values must match'});
+		res.status(400).json({
+			error: 'Request path beverage id and request beverage body id values must match'
+		});
 	}
 
-	Order.findById(req.params.id, function(errOrder, order) {
+	Order.findById(req.params.id, function (errOrder, order) {
 		if (!errOrder) {
-			Beverage.findById(req.params.beverage_id, function(errBeverage,beverage) {
+			Beverage.findById(req.params.beverage_id, function (errBeverage, beverage) {
 				if (!errBeverage) {
 					order.beverages.push(beverage);
-					order.save(function(errSave, updatedOrder) {
+					order.save(function (errSave, updatedOrder) {
 						if (errSave) {
-							res.status(422).json({ message: 'Could not add beverage' });
+							res.status(422).json({
+								message: 'Could not add beverage'
+							});
 						} else {
 							res.status(200).json(updatedOrder);
 						}
 					});
 				} else {
-					res.status(404).json({ message: 'Could not find beverage' });
+					res.status(404).json({
+						message: 'Could not find beverage'
+					});
 				}
 			});
 		} else {
-			res.status(404).json({ message: 'Could not find order' });
+			res.status(404).json({
+				message: 'Could not find order'
+			});
 		}
 	});
 });
-
-/// update a order with a dish
-// THIS WORKS!***
 
 app.put('/orders/:id/dishes/:dish_id', verifyUser, (req, res) => {
 	if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
@@ -586,35 +605,38 @@ app.put('/orders/:id/dishes/:dish_id', verifyUser, (req, res) => {
 	}
 
 	if (!(req.params.dish_id && req.body.dish_id && req.params.dish_id === req.body.dish_id)) {
-		res.status(400).json({ error: 'Request path dish id and request body dish id values must match' });
+		res.status(400).json({
+			error: 'Request path dish id and request body dish id values must match'
+		});
 	}
 
-	Order.findById(req.params.id, function(errOrder, order) {
+	Order.findById(req.params.id, function (errOrder, order) {
 		if (!errOrder) {
-			Dish.findById(req.params.dish_id, function(errDish, dish) {
+			Dish.findById(req.params.dish_id, function (errDish, dish) {
 				if (!errDish) {
 					order.dishes.push(dish);
-					order.save(function(errSave, updatedOrder) {
+					order.save(function (errSave, updatedOrder) {
 						if (errSave) {
-							res.status(422).json({ message: 'Could not add dish' });
+							res.status(422).json({
+								message: 'Could not add dish'
+							});
 						} else {
 							res.status(200).json(updatedOrder);
 						}
 					});
 				} else {
-					res.status(404).json({ message: 'Could not find dish' });
+					res.status(404).json({
+						message: 'Could not find dish'
+					});
 				}
 			});
 		} else {
-			res.status(404).json({ message: 'Could not find order' });
+			res.status(404).json({
+				message: 'Could not find order'
+			});
 		}
 	});
 });
-
-// get menus
-// WORKS*
-
-// TOOK OUT VERIFY USER - MUST PUT BACK IN
 
 app.get('/dishes', verifyUser, (req, res) => {
 	const perPage = 10;
@@ -630,7 +652,9 @@ app.get('/dishes', verifyUser, (req, res) => {
 		})
 		.catch(err => {
 			console.error(err);
-			res.status(500).json({ message: 'Internal server error' });
+			res.status(500).json({
+				message: 'Internal server error'
+			});
 		});
 });
 
@@ -648,7 +672,9 @@ app.get('/beverages', verifyUser, (req, res) => {
 		})
 		.catch(err => {
 			console.error(err);
-			res.status(500).json({ message: 'Internal server error' });
+			res.status(500).json({
+				message: 'Internal server error'
+			});
 		});
 });
 
@@ -666,29 +692,25 @@ app.get('/menus', verifyUser, (req, res) => {
 		})
 		.catch(err => {
 			console.error(err);
-			res.status(500).json({ message: 'Internal server error' });
+			res.status(500).json({
+				message: 'Internal server error'
+			});
 		});
 });
-
-// get menus by ID
-// WORKS*
 
 app.get('/menus/menu_id/:id', verifyUser, (req, res) => {
 	Menu.findById(req.params.id)
 		.then(menu => res.json(menu.serialize()))
 		.catch(err => {
 			console.error(err);
-			res.status(500).json({ error: 'something went horribly awry' });
+			res.status(500).json({
+				error: 'Something went horribly awry'
+			});
 		});
 });
 
-// for a staff member
-
-// GET ALL DISHES IN A MENU
-// WORKS ****
-
 app.get('/menus/:id/dishes', verifyUser, (req, res) => {
-	Menu.findById(req.params.id, function(errMenu, menu) {
+	Menu.findById(req.params.id, function (errMenu, menu) {
 		if (!errMenu) {
 			const perPage = 2;
 			const currentPage = req.query.page || 1;
@@ -700,18 +722,15 @@ app.get('/menus/:id/dishes', verifyUser, (req, res) => {
 				dishes: dishes.map(dish => dish.serialize())
 			});
 		} else {
-			res.status(404).json({ message: 'can not find menu' });
+			res.status(404).json({
+				message: 'Can not find menu'
+			});
 		}
 	});
 });
 
-// get all beverages that exist in menu
-// BOTH?
-
-// WORKING***
-
 app.get('/menus/:id/beverages', verifyUser, (req, res) => {
-	Menu.findById(req.params.id, function(errMenu, menu) {
+	Menu.findById(req.params.id, function (errMenu, menu) {
 		if (!errMenu) {
 			const perPage = 2;
 			const currentPage = req.query.page || 1;
@@ -723,72 +742,62 @@ app.get('/menus/:id/beverages', verifyUser, (req, res) => {
 				beverages: beverages.map(beverage => beverage.serialize())
 			});
 		} else {
-			res.json(404).json({ message: 'can not find menu' });
+			res.json(404).json({
+				message: 'Can not find menu'
+			});
 		}
 	});
 });
 
-// GET A MENU DISH BY ID
-// BOTH?
-
-// WORKING !!!!!***
-
 app.get('/menus/:id/dishes/:dish_id', verifyUser, (req, res) => {
-	Menu.findById(req.params.id, function(errMenu, menu) {
+	Menu.findById(req.params.id, function (errMenu, menu) {
 		if (errMenu) {
-			res.status(404).json({ message: 'can not find menu' }); // no menu found
+			res.status(404).json({
+				message: 'Can not find menu'
+			}); 
 		} else {
-			// if no error and menu exists, find the dish id in the menu
 			let found = menu.dishes.find(dish => dish.id === req.params.dish_id);
 
 			if (found === false) {
-				// if can't find the dish in the mneu
-				res.status(404).json({ message: 'can not find dish' });
+				res.status(404).json({
+					message: 'Can not find dish'
+				});
 			} else {
-				// if you do find the dish in the menu
-				// we want to get the dish_id so filter it out
 				const filtered = menu.dishes.filter(
 					dish => dish.id === req.params.dish_id
-				); // filter out dishes that aren't the req. dish id
+				); 
 				menu.dishes = filtered;
-				res.status(200).json(filtered); // its giving me all the DISHES BESIDES THE ONE I WANT
+				res.status(200).json(filtered); 
 			}
 		}
 	});
 });
 
-// get menu beverage by id
-// BOTH? 
-
-// WORKS!!!!***
-
 app.get('/menus/:id/beverages/:beverage_id', verifyUser, (req, res) => {
-	Menu.findById(req.params.id, function(errMenu, menu) {
+	Menu.findById(req.params.id, function (errMenu, menu) {
 		if (errMenu) {
-			res.status(404).json({ message: 'can not find menu' }); // no menu found
+			res.status(404).json({
+				message: 'Can not find menu'
+			}); 
 		} else {
-			// if no error and menu exists, find the bev id in the menu
 			let found = menu.beverages.find(
 				beverage => beverage.id === req.params.beverage_id
 			);
 
 			if (found === false) {
-				// if can't find the dish in the mneu
-				res.status(404).json({ message: 'can not find beverage' });
+				res.status(404).json({
+					message: 'Can not find beverage'
+				});
 			} else {
 				const filtered = menu.beverages.filter(
 					beverage => beverage.id === req.params.beverage_id
-				); // filter out dishes that aren't the req. dish id
+				); 
 				menu.beverages = filtered;
 				res.status(200).json(filtered);
 			}
 		}
 	});
 });
-
-// WORKS!!***
-// STAFF ONLY++
-// put menus by ID , can use to update individual items to menu
 
 app.put('/menus/:id', verifyAdminUser, (req, res) => {
 	if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
@@ -807,14 +816,10 @@ app.put('/menus/:id', verifyAdminUser, (req, res) => {
 
 	Menu.findByIdAndUpdate(req.params.id, updated)
 		.then(updatedMenu => res.status(204).end())
-		.catch(err => res.status(500).json({ message: 'Something went wrong' }));
+		.catch(err => res.status(500).json({
+			message: 'Something went wrong'
+		}));
 });
-
-// UPDATE AND ADD A DISH BY ID TO MENU
-
-// STAFF ONLY++
-// WORKS!!
-
 
 app.put('/menus/:id/dishes/:dish_id', verifyAdminUser, (req, res) => {
 	if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
@@ -829,134 +834,142 @@ app.put('/menus/:id/dishes/:dish_id', verifyAdminUser, (req, res) => {
 		});
 	}
 
-	Menu.findById(req.params.id, function(errMenu, menu) {
+	Menu.findById(req.params.id, function (errMenu, menu) {
 		if (!errMenu) {
-			Dish.findById(req.params.dish_id, function(errDish, dish) {
+			Dish.findById(req.params.dish_id, function (errDish, dish) {
 				if (!errDish) {
 					menu.dishes.push(dish);
-					menu.save(function(errSave, updatedMenu) {
+					menu.save(function (errSave, updatedMenu) {
 						if (errSave) {
-							res.status(422).json({ message: 'Could not add dish' });
+							res.status(422).json({
+								message: 'Could not add dish'
+							});
 						} else {
 							res.status(200).json(updatedMenu);
 						}
 					});
 				} else {
-					res.status(404).json({ message: 'Could not find dish' });
+					res.status(404).json({
+						message: 'Could not find dish'
+					});
 				}
 			});
 		} else {
-			res.status(404).json({ message: 'Could not find menu' });
+			res.status(404).json({
+				message: 'Could not find menu'
+			});
 		}
 	});
 });
-
-// PUT update MENU BEVERAGES BY ID
-// STAFF ONLY++
-// WORKS!!**
 
 app.put('/menus/:id/beverages/:beverage_id', verifyAdminUser, (req, res) => {
 	if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
-		res.status(400).json({ error: 'Request path id and request body id values must match' });
+		res.status(400).json({
+			error: 'Request path id and request body id values must match'
+		});
 	}
 
 	if (!(req.params.beverage_id && req.body.beverage_id && req.params.beverage_id === req.body.beverage_id)) {
-		res.status(400).json({ error: 'Request path beverage id and request body beverage id values must match' });
+		res.status(400).json({
+			error: 'Request path beverage id and request body beverage id values must match'
+		});
 	}
 
-	Menu.findById(req.params.id, function(errMenu, menu) {
+	Menu.findById(req.params.id, function (errMenu, menu) {
 		if (!errMenu) {
-			Beverage.findById(req.params.beverage_id, function(errBeverage,beverage) {
+			Beverage.findById(req.params.beverage_id, function (errBeverage, beverage) {
 				if (!errBeverage) {
 					menu.beverages.push(beverage);
-					menu.save(function(errSave, updatedMenu) {
+					menu.save(function (errSave, updatedMenu) {
 						if (errSave) {
-							res.status(422).json({ message: 'Could not add beverage' });
+							res.status(422).json({
+								message: 'Could not add beverage'
+							});
 						} else {
 							res.status(200).json(updatedMenu);
 						}
 					});
 				} else {
-					res.status(404).json({ message: 'Could not find beverage' });
+					res.status(404).json({
+						message: 'Could not find beverage'
+					});
 				}
 			});
 		} else {
-			res.status(404).json({ message: 'Could not find menu' });
+			res.status(404).json({
+				message: 'Could not find menu'
+			});
 		}
 	});
 });
-
-// DELETE MENU BY ID
-// STAFF ONLY++
-// WORKS!****
 
 app.delete('/menus/:id', verifyAdminUser, (req, res) => {
 	Menu.findByIdAndRemove(req.params.id)
 		.then(menu => res.status(204).end())
-		.catch(err => res.status(500).json({ message: 'Internal server error' }));
+		.catch(err => res.status(500).json({
+			message: 'Internal server error'
+		}));
 });
 
-// DELETE DISH BY ID IN A MENU
-// STAFF ONLY++
-// WORKING**
-
 app.delete('/menus/:id/dishes/:dish_id', verifyAdminUser, (req, res) => {
-	Menu.findById(req.params.id, function(errMenu, menu) {
+	Menu.findById(req.params.id, function (errMenu, menu) {
 		if (errMenu) {
-			res.status(404).json({ message: 'can not find menu' });
+			res.status(404).json({
+				message: 'Can not find menu'
+			});
 		} else {
 			let found = menu.dishes.find(dish => dish.id === req.params.dish_id);
 
 			if (found === false) {
-				res.status(422).json({ message: 'can not find dish' });
+				res.status(422).json({
+					message: 'Can not find dish'
+				});
 			} else {
 				const filtered = menu.dishes.filter(dish => dish.id !== req.params.dish_id);
 				menu.dishes = filtered;
 			}
-		menu.save(function(errSave, updatedOrder) {
-			if (errSave) {
-				res.status(422).json({ message: 'can not save order' });
-			} else {
-			} res.status(200).json(updatedOrder);
-		});
-	}
+			menu.save(function (errSave, updatedOrder) {
+				if (errSave) {
+					res.status(422).json({
+						message: 'Can not save order'
+					});
+				} else {}
+				res.status(200).json(updatedOrder);
+			});
+		}
+	});
 });
-});
-	
 
-// DELETE MENU BEVERAGE BY ID
-// STAFF ONLY++
-// WORKING**
 app.delete('/menus/:id/beverages/:beverage_id', verifyAdminUser, (req, res) => {
-	Menu.findById(req.params.id, function(errMenu, menu) {
+	Menu.findById(req.params.id, function (errMenu, menu) {
 		if (errMenu) {
-			res.status(404).json({ message: 'can not find menu' });
+			res.status(404).json({
+				message: 'can not find menu'
+			});
 		} else {
 			let found = menu.beverages.find(
 				beverage => beverage.id === req.params.beverage_id);
 
 			if (found === false) {
-				// if no beverage found
-				res.status(422).json({ message: 'beverage not found' });
+				res.status(422).json({
+					message: 'Beverage not found'
+				});
 			} else {
-				// if bev is found then I filter , if its not the bev id im trying to delete, put in new arr
 				const filtered = menu.beverages.filter(beverage => beverage.id !== req.params.beverage_id);
 				menu.beverages = filtered;
 			}
-		menu.save(function(errSave, updatedOrder) { // save the new menu with non req bev items
-			if (errSave) {
-				res.status(422).json({ message: 'can not update order' }); 
-			} else {
-				res.status(200).json(updatedOrder); 
-			}
-		});
-	}
+			menu.save(function (errSave, updatedOrder) { 
+				if (errSave) {
+					res.status(422).json({
+						message: 'Can not update order'
+					});
+				} else {
+					res.status(200).json(updatedOrder);
+				}
+			});
+		}
+	});
 });
-});
-
-// POST MENU
-// STAFF ONLY++
-// WORKS!!**
 
 app.post('/menus', verifyAdminUser, (req, res) => {
 	const requiredFields = ['name'];
@@ -970,18 +983,16 @@ app.post('/menus', verifyAdminUser, (req, res) => {
 	}
 
 	Menu.create({
-		name: req.body.name
-	})
+			name: req.body.name
+		})
 		.then(menu => res.status(201).json(menu.serialize()))
 		.catch(err => {
 			console.error(err);
-			res.status(500).json({ error: 'Something went wrong' });
+			res.status(500).json({
+				error: 'Something went wrong'
+			});
 		});
 });
-
-// POST A NEW BEVERAGE
-// STAFF ONLY++
-// WORKS!!**
 
 app.post('/beverages', verifyAdminUser, (req, res) => {
 	const requiredFields = ['name', 'description', 'price'];
@@ -995,20 +1006,18 @@ app.post('/beverages', verifyAdminUser, (req, res) => {
 	}
 
 	Beverage.create({
-		name: req.body.name,
-		description: req.body.description,
-		price: req.body.price
-	})
+			name: req.body.name,
+			description: req.body.description,
+			price: req.body.price
+		})
 		.then(beverage => res.status(201).json(beverage.serialize()))
 		.catch(err => {
 			console.error(err);
-			res.status(500).json({ error: 'Something went wrong' });
+			res.status(500).json({
+				error: 'Something went wrong'
+			});
 		});
 });
-
-// POST A NEW DISH
-// STAFF ONLY++
-// WORKS!!**
 
 app.post('/dishes', verifyAdminUser, (req, res) => {
 	const requiredFields = ['name', 'description', 'price'];
@@ -1022,19 +1031,23 @@ app.post('/dishes', verifyAdminUser, (req, res) => {
 	}
 
 	Dish.create({
-		name: req.body.name,
-		description: req.body.description,
-		price: req.body.price
-	})
+			name: req.body.name,
+			description: req.body.description,
+			price: req.body.price
+		})
 		.then(dish => res.status(201).json(dish.serialize()))
 		.catch(err => {
 			console.error(err);
-			res.status(500).json({ error: 'Something went wrong' });
+			res.status(500).json({
+				error: 'Something went wrong'
+			});
 		});
 });
 
-app.use('*', function(req, res) {
-	res.status(404).json({ message: 'Not Found' });
+app.use('*', function (req, res) {
+	res.status(404).json({
+		message: 'Not Found'
+	});
 });
 
 let server;
@@ -1042,20 +1055,21 @@ let server;
 function runServer(database_url, port = PORT) {
 	console.log('server is running on', database_url);
 	return new Promise((resolve, reject) => {
-		mongoose.connect(database_url,{ useNewUrlParser: true },err => {
-				if (err) {
-					return reject(err);
-				}
-				server = app.listen(port, () => {
-						console.log(`Your app is listening on port ${port}`);
-						resolve();
-					})
-					.on('error', err => {
-						mongoose.disconnect();
-						reject(err);
-					});
+		mongoose.connect(database_url, {
+			useNewUrlParser: true
+		}, err => {
+			if (err) {
+				return reject(err);
 			}
-		);
+			server = app.listen(port, () => {
+					console.log(`Your app is listening on port ${port}`);
+					resolve();
+				})
+				.on('error', err => {
+					mongoose.disconnect();
+					reject(err);
+				});
+		});
 	});
 }
 

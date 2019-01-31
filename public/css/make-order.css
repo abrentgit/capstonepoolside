@@ -1,132 +1,139 @@
-
 body {
-    font-family: "Barlow Condensed", helvetica, sans-serif;
-    background-repeat: no-repeat;
-    background-color: #FAF7F3;
-    font-size: 18px;
-    padding-bottom: 90px;
+  font-family: "Barlow Condensed", helvetica, sans-serif;
+  background-repeat: no-repeat;
+  background-color: #faf7f3;
+  font-size: 18px;
+  padding-bottom: 90px;
+}
+
+.hidden {
+  display: none;
+}
+
+.unhidden {
+  display: block;
 }
 
 .make-order {
-    margin-bottom: 100px;
+  margin-bottom: 100px;
 }
 
 .create-order {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 .order-feedback {
-    display: flex;
-    flex-direction: column;
-    width: 92%;
-    margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  width: 92%;
+  margin: 0 auto;
 }
 
 li.order-item {
-    font-size: 25px;
+  font-size: 25px;
 }
 
 p.order-id {
-    font-size: 50px;
-    font-style: normal;
-    font-weight: bold;
-    font-family: "Barlow Condensed", helvetica, sans-serif;
+  font-size: 50px;
+  font-style: normal;
+  font-weight: bold;
+  font-family: "Barlow Condensed", helvetica, sans-serif;
 }
 
 ul {
-    list-style-type: none;
-    margin-top: 10px;
+  list-style-type: none;
+  margin-top: 10px;
 }
 
 .dishOrder {
-    font-family: "Barlow Condensed", helvetica, sans-serif;
-    font-size: 30px;
+  font-family: "Barlow Condensed", helvetica, sans-serif;
+  font-size: 30px;
 }
 
 .cancel-text {
-    font-size: 35px;
-    color: black;
-    margin-bottom: 5px;
-    margin-left: -70px;
-    font-family: "Barlow Condensed", helvetica, sans-serif;
+  font-size: 35px;
+  color: black;
+  margin-bottom: 5px;
+  margin-left: -70px;
+  font-family: "Barlow Condensed", helvetica, sans-serif;
 }
 
 .new-order-btn {
-    display: block;
-    margin-left: 165px;
-    border-radius: 100px;
-    color: white;
-    left: 80px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    width: 250px;
-    font-family: "Barlow Condensed", helvetica, sans-serif;
-    background-color:rgb(150, 211, 93);    ;
-    font-size: 30px;
+  display: block;
+  margin-left: 165px;
+  border-radius: 100px;
+  color: white;
+  left: 80px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 250px;
+  font-family: "Barlow Condensed", helvetica, sans-serif;
+  background-color: rgb(150, 211, 93);
+  font-size: 30px;
 }
 
 .order-feedback {
-    text-align: center;
-    font-size: 70px;
+  text-align: center;
+  font-size: 70px;
 }
 
 .dishes {
-    width: 30%;
-    font-size: 30px;
+  width: 30%;
+  font-size: 30px;
 }
 
 .order-details {
-    font-size: 30px;
-    margin-left: 40px;
+  font-size: 30px;
+  margin-left: 40px;
 }
 
 .order-form {
-    display: flex;
-    flex-direction: column;
-    width: 92%;
-    margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  width: 92%;
+  margin: 0 auto;
 }
 
 .order-summary {
-    width: 40%;
-    margin-left: 5%;
-    background-color: white;
-    border: 1px solid #cdaf87; 
-    font-size: 30px;
+  width: 40%;
+  margin-left: 5%;
+  background-color: white;
+  border: 1px solid #cdaf87;
+  font-size: 30px;
 }
 
 .cancel-btn {
-    border-radius: 500px;
-    left: 80px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    width: 200px;
-    font-family: "Barlow Condensed", helvetica, sans-serif;
-    font-size: 30px;
-    color: red;
+  border-radius: 500px;
+  left: 80px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 200px;
+  font-family: "Barlow Condensed", helvetica, sans-serif;
+  font-size: 30px;
+  color: red;
 }
 
 .done-btn {
-    margin-top: -68px;
-    border-radius: 500px;
-    left: 80px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    width: 200px;
-    font-family: "Barlow Condensed", helvetica, sans-serif;
-    font-size: 30px;
-    color: red;
-    margin-bottom: 10px; 
+  margin-top: -68px;
+  border-radius: 500px;
+  left: 80px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 200px;
+  font-family: "Barlow Condensed", helvetica, sans-serif;
+  font-size: 30px;
+  color: red;
+  margin-bottom: 10px;
 }
-  
+
 .cancel-btn:hover {
-    background: #f44336;
-    color: white;
+  background: #f44336;
+  color: white;
 }
 
 .done-btn:hover {
-    background:grey;
-    color: white;
+  background: grey;
+  color: white;
 }
 
 .thanks {
@@ -135,248 +142,246 @@ ul {
 }
 
 .summary-items {
-    margin-top: 50px;
-    margin-left: 20px;
+  margin-top: 50px;
+  margin-left: 20px;
 }
 
 .price-adder {
-    position: relative;
-    width: 20%;
-    padding-bottom: 0%;
-    margin-left: 10%;
-    background-color: white;
-    font-size: 25px;
+  position: relative;
+  width: 20%;
+  padding-bottom: 0%;
+  margin-left: 10%;
+  background-color: white;
+  font-size: 25px;
 }
 
 .cart-total {
-   margin-top: 40px; 
+  margin-top: 40px;
 }
 
 .cart-cost {
-    font-size: 30px;
-    font-weight: bold;
-    margin-left: 35px;
+  font-size: 30px;
+  font-weight: bold;
+  margin-left: 35px;
 }
 
 .total-price {
-    text-align: center;
-    font-weight: bold;
+  text-align: center;
+  font-weight: bold;
 }
 
 .container {
-    width: 100%;
-    margin-top: 20px;
-    display: flex;
-    font-size: 20px;
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  font-size: 20px;
 }
 
 .order-header {
-    font-family: "Barlow Condensed", helvetica, sans-serif; 
+  font-family: "Barlow Condensed", helvetica, sans-serif;
 }
 
 .order-title {
-    font-size: 60px;
+  font-size: 60px;
 }
 
 .logo-menu {
-    color: white;
-    width: auto;
-    height: 70px;
+  color: white;
+  width: auto;
+  height: 70px;
 }
 
 h4 {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 fieldset {
-    border: 0;
+  border: 0;
 }
 
 form {
-    font-size: 30px;
+  font-size: 30px;
 }
 
 .logo-feedback {
-    height: 60px;
-    margin-left: 40px;
+  height: 60px;
+  margin-left: 40px;
 }
 
 .feedback-btns {
-    margin-bottom: 100px;
+  margin-bottom: 100px;
 }
 
 .location-choice {
-    padding-top: 80px;
-    display: flexbox;
-    margin-left: -304px;
+  padding-top: 80px;
+  display: flexbox;
+  margin-left: -304px;
 }
 
 .location {
-    font-family: "Barlow Condensed", helvetica, sans-serif;
-    font-size: 20px;
-    margin-left: 10px;
-    margin-top: 10px;
-    margin-bottom: 20px;
+  font-family: "Barlow Condensed", helvetica, sans-serif;
+  font-size: 20px;
+  margin-left: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
 .locations {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 .logo-order-delete {
-    height: 100px;
-    margin-left: -60px;
+  height: 100px;
+  margin-left: -60px;
 }
 
 .date-input {
-    margin-top: 20px;
-    margin-left: 10px;
-    font-size: 20px;
-    font-family: "Barlow Condensed", helvetica, sans-serif;
-    text-align: center;
+  margin-top: 20px;
+  margin-left: 10px;
+  font-size: 20px;
+  font-family: "Barlow Condensed", helvetica, sans-serif;
+  text-align: center;
 }
 
 .submit {
-    margin-top: 20px;
-    margin-bottom: 50px;
-    font-size: 20px;
+  margin-top: 20px;
+  margin-bottom: 50px;
+  font-size: 20px;
 }
 
 .checkout-btn {
-    border-radius: 100px;
-    color: white;
-    left: 80px;
-    margin-top: 160px;
-    margin-bottom: 80px; 
-    margin-left: -300px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    width: 250px;
-    font-family: "Barlow Condensed", helvetica, sans-serif;
-    background-color:green;
-    font-size: 30px;
-    display: flexbox;
+  border-radius: 100px;
+  color: white;
+  left: 80px;
+  margin-top: 160px;
+  margin-bottom: 80px;
+  margin-left: -300px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 250px;
+  font-family: "Barlow Condensed", helvetica, sans-serif;
+  background-color: green;
+  font-size: 30px;
+  display: flexbox;
 }
 
 .done-deleted-btn {
-    border-radius: 100px;  
-    color: white;
-    left: 80px;
-    margin-top: 10px;
-    margin-bottom: 80px; 
-    margin-left: -65px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    width: 250px;
-    font-family: "Barlow Condensed", helvetica, sans-serif;
-    background-color: green;
-    font-size: 30px;
-    display: flexbox;
+  border-radius: 100px;
+  color: white;
+  left: 80px;
+  margin-top: 10px;
+  margin-bottom: 80px;
+  margin-left: -65px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 250px;
+  font-family: "Barlow Condensed", helvetica, sans-serif;
+  background-color: green;
+  font-size: 30px;
+  display: flexbox;
 }
 
- @media only screen and (max-width: 1024px) { 
+@media only screen and (max-width: 1024px) {
+  /* ORDER FORM */
 
-/* ORDER FORM */
-
-.container {
+  .container {
     margin-left: 40px;
-}
+  }
 
-.make-order {
+  .make-order {
     margin-top: 60px;
-}
+  }
 
-.order-summary {
+  .order-summary {
     margin-left: 50px;
     margin-top: 35px;
     width: 50%;
-}
+  }
 
-li.order-item {
+  li.order-item {
     margin-top: 40px;
     padding: 10px;
-}
+  }
 
-.order-date {
+  .order-date {
     font-family: "Barlow Condensed", helvetica, sans-serif;
     font-size: 20px;
     margin-top: 20px;
-}
+  }
 
-.pride-adder {
+  .pride-adder {
     margin-left: 36%;
-}
+  }
 
-.order-summary {
-  margin-left: 50px; 
-}
+  .order-summary {
+    margin-left: 50px;
+  }
 
-.dishOrder {
-  margin-left: -30px;
-}
+  .dishOrder {
+    margin-left: -30px;
+  }
 
-.order-details {
-  margin-left: 0px;
-  margin-top: -50px;
-}
-
-.cart-total {
-  margin-left: -40px;
-}
-
-.cancel-text {
-  color: black;
-  font-size: 25px; 
-  margin: 0px;
-}
-
-.cancel-btn {
-    background-color: white;
-}
-
-.done-btn {
-    background-color: white;
-}
-
-.done-deleted-btn {
-  margin-left: 0px; 
-}
-
-.logo-order-delete {
-  margin-left: 0px; 
-}
-
-.total-price {
-    margin-left: 44px;
-}
-
-ul {
-    margin-right: 35px; 
-}
-
-.dishes {
-    font-size: 20px;
-}
-
-.location {
+  .order-details {
     margin-left: 0px;
-}
+    margin-top: -50px;
+  }
 
-.location-choice {
+  .cart-total {
+    margin-left: -40px;
+  }
+
+  .cancel-text {
+    color: black;
+    font-size: 25px;
+    margin: 0px;
+  }
+
+  .cancel-btn {
+    background-color: white;
+  }
+
+  .done-btn {
+    background-color: white;
+  }
+
+  .done-deleted-btn {
+    margin-left: 0px;
+  }
+
+  .logo-order-delete {
+    margin-left: 0px;
+  }
+
+  .total-price {
+    margin-left: 44px;
+  }
+
+  ul {
+    margin-right: 35px;
+  }
+
+  .dishes {
+    font-size: 20px;
+  }
+
+  .location {
+    margin-left: 0px;
+  }
+
+  .location-choice {
     margin-left: -284px;
-}
+  }
 
-.checkout-btn {
+  .checkout-btn {
     margin-left: -272px;
-}
+  }
 
-.pride-adder {
+  .pride-adder {
     margin-left: 15%;
-}
+  }
 
-.thanks {
+  .thanks {
     margin-left: 40px;
     font-style: italic;
-}
-
+  }
 }
