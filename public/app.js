@@ -20,19 +20,9 @@ deleteDish();
 
 $(main);
 
-// $(function() {
-//     if (window.history && window.history.pushState) {
-//         window.history.pushState('', null, './');
-//         $(window).on('popstate', function() {
-//             // alert('Back button was pressed.');
-//             document.location.href = '#';
-
-//         });
-//     }
-// });
-
 function getHomePage() {
-    $('.homepage').show();
+    $('.homepage').fadeIn('slow');
+    $('.unhidden').fadeIn('slow');
     $('.hidden').hide();
 }
 
@@ -66,7 +56,7 @@ function performLogin() {
             localStorage.setItem('userId', response.user_id);
 
             if (!authToken === undefined || response.user_id === undefined) {
-                alert('Invalid Login');
+                alert('Invalid Login. Please try again');
                 event.preventDefault();
             } else {
                 getMakeOrderPage();
@@ -78,13 +68,11 @@ function performLogin() {
     });
 }
 
-
 function getMakeOrderPage() {
     $('.login-form').hide();
     $('.homepage').hide();
-    $('.make-order').show();
-    $('.order-feedback').show();
     getDishes();
+    $('.make-order').fadeIn('slow');
 }
 
 function registerGuest() {
@@ -107,29 +95,36 @@ function registerGuest() {
             'Content-Type': 'application/json'
         };
 
-        return fetch('https://orderinn.herokuapp.com/guests', {
-            method: 'POST',
-            body: JSON.stringify(session),
-            headers: headers
-        }).then(rawResponse => {
-            return rawResponse.json();
-        }).then(response => {
-            const {
-                authToken
-            } = response;
-            localStorage.setItem('token', authToken);
-            loginAfterRegister(); // CALL LOGIN PAGE AFTER REGISTRATION
-            return response;
-        }).catch(error => {
-            console.log('an error occured', error);
-        });
+        if (session.password !== session.pswRepeat) {
+            alert('Register Error: Passwords do not match');
+        } else {
+
+            return fetch('https://orderinn.herokuapp.com/guests', {
+                method: 'POST',
+                body: JSON.stringify(session),
+                headers: headers
+            }).then(rawResponse => {
+                console.log(rawResponse, 'this is json re')
+                return rawResponse.json();
+            }).then(response => {
+                const {
+                    authToken
+                } = response;
+                localStorage.setItem('token', authToken);
+                console.log(response, 'this is response register')
+                loginAfterRegister();
+                return response;
+            }).catch(error => {
+                console.log('an error occured', error);
+            });
+        }
     });
 }
 
 function loginAfterRegister() {
     $('.register-form').hide();
-    $('.login-form').show();
-    $('.login-link').hide(); // hide the nav
+    $('.login-form').fadeIn('slow');
+    $('.login-link').hide();
     $('.register-link').hide();
     $('.about-link').hide();
     $('body').css('background-image', 'none');
@@ -142,14 +137,17 @@ function getLoginPage() {
     $('.login-link').on('click', 'a', function (event) {
         event.preventDefault();
         $('.register-form').hide();
-        $('.login-form').show();
-        $('.login-link').hide(); // hide the nav
+        $('.login-link').hide();
         $('.register-link').hide();
         $('.about-link').hide();
         $('body').css('background-image', 'none');
+        $('body').fadeIn('fast');
         $('body').css('background-color', 'FAF7F3');
-        $('.logo').show();
+        $('.logo').fadeIn();
+        $('.homepage-title').hide();
+        $('.homepage-title').fadeIn('fast');
         $('.homepage-title').css('color', '#000000');
+        $('.login-form').fadeIn('10000');
     })
 }
 
@@ -351,6 +349,7 @@ function orderFeedback(newOrder) {
 
     let cartVal = `${cartTotal}`;
 
+    $('.order-feedback').fadeIn('slow');
     $('.order-feedback').append(`<nav class="feedback-header">
                                     <p class="order-id"> Order#: ${newOrder._id} </p>
                                     <ul>${dishList}</ul>
@@ -394,7 +393,7 @@ function deleteOrder() {
             'Content-Type': 'application/json',
         };
 
-        return fetch(`https://orderinn.herokuapp.com/${orderId}`, {
+        return fetch(`https://orderinn.herokuapp.com/orders/${orderId}`, {
             method: 'DELETE',
             headers: headers
         }).then(response => {
@@ -408,6 +407,7 @@ function deleteOrder() {
 
 function deleteOrderFeedback() {
     $('.order-title').hide();
+    $('.order-feedback').fadeIn('slow');
     $('.order-feedback').html(`<div role="region" class="delete-feedback">
                                 <img role="img" class="logo-order-delete" src="../cutlery-icon.svg" alt="Cutlery" /> 
                                 <p class="cancel-text"><i>Your order has been canceled.</i></p>
@@ -431,24 +431,24 @@ function restart() {
 function getRegisterPage() {
     $('.register-link').on('click', 'a', function (event) {
         event.preventDefault();
-        $('.register-form').show();
+        $('body').fadeIn('slow');
+        $('.register-form').fadeIn('slow');
         $('.footer-register').append(`<p>Already have an account? <a class="login-footer" href="">Log in</a></p>`)
         $('.homepage-title').css('color', '#000000');
         $('.login-form').hide();
         $('.make-order').hide();
-        $('.login-link').hide(); // hide the nav
+        $('.login-link').hide();
         $('.register-link').hide();
         $('.about-link').hide();
-        $('body').css('background-image', 'none'); // empty BG    
+        $('body').css('background-image', 'none');
         $('body').css('background-color', 'FAF7F3');
         $('.logo').show();
     })
 }
 
 function getAboutPage() {
-    $('.about-link').on('click', 'a', function (event) {
-        event.preventDefault();
-        $('.about').show();
+    $('.about-link').on('click', 'a', function () {
+        $('.about').fadeIn('slow');
         $('.homepage-title').css('color', '#000000');
         $('.register-form').hide();
         $('.login-form').hide();
@@ -464,19 +464,14 @@ function getAboutPage() {
 
 function logoHome() {
     $('.homepage-header').on('click', '.homepage-title', function () {
-        getHomePage();
-        $('.login-link').show();
-        $('.register-link').show();
-        $('.about-link').show();
-        $('body').css('background-image', '');
-        $('.homepage-title').css('color', '#FFFFFF');
+        location.reload();
     })
 }
 
 function signUpLink() {
     $('.footer').on('click', '.register-footer', function (event) {
         event.preventDefault();
-        $('.register-form').show();
+        $('.register-form').fadeIn('slow');
         $('.login-form').hide();
     })
 }
@@ -485,6 +480,6 @@ function loginLink() {
     $('.footer-register').on('click', '.login-footer', function (event) {
         event.preventDefault();
         $('.register-form').hide();
-        $('.login-form').show();
+        $('.login-form').fadeIn('slow');
     })
 }

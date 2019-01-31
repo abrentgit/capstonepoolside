@@ -247,20 +247,20 @@ app.post('/login/admin', (req, res) => {
 	User.findOne({
 		email: req.body.email
 	}, function (err, user) {
-		if (err) { //if error finding email
+		if (err) { 
 			res.status(401).json({
 				error: 'Invalid credentials'
 			});
 		}
 
-		if (!user) { // if no guest found
+		if (!user) { 
 			res.status(404).json({
 				error: 'Invalid credentials'
 			});
 		} else {
 			let validPassword = bcrypt.compareSync(req.body.password, user.password);
 
-			if (!validPassword) { //if pass doesn't match
+			if (!validPassword) { 
 				res.status(401).json({
 					error: 'Invalid credentials'
 				});
@@ -281,7 +281,7 @@ app.get('/orders', verifyAdminUser, (req, res) => {
 
 	Order.find()
 		.skip(perPage * currentPage - perPage)
-		.limit(perPage) // limit it to per page number, then take orders
+		.limit(perPage) 
 		.then(orders => {
 			res.json({
 				orders: orders.map(order => order.serialize())
@@ -483,7 +483,7 @@ app.put('/orders/:id', verifyUser, (req, res) => {
 
 app.delete('/orders/:id', verifyUser, (req, res) => {
 	Order.findByIdAndRemove(req.params.id)
-		.then(order => res.status(200).send())
+		.then(order => res.status(204).end())
 		.catch(err => res.status(500).json({
 			message: 'Internal server error'
 		}));
@@ -512,7 +512,7 @@ app.delete('/orders/:id/dishes/:dish_id', verifyUser, (req, res) => {
 				if (errSave) {
 					res.status(422).json({
 						message: 'Can not save order'
-					}); //
+					}); 
 				} else {
 					res.status(200).json(updatedOrder);
 				}
@@ -540,17 +540,16 @@ app.delete('/orders/:id/beverages/:beverage_id', verifyUser, (req, res) => {
 				const filtered = order.beverages.filter(
 					beverage => beverage.id !== req.params.beverage_id
 				);
-				order.beverages = filtered; //filters the beverages that are not the id
+				order.beverages = filtered; 
 			}
 
 			order.save(function (errSave, updatedOrder) {
-				// related to order save
 				if (errSave) {
 					res.status(422).json({
 						message: 'Could not save order'
 					});
 				} else {
-					res.status(200).json(updatedOrder); // new order is saved and updated
+					res.status(200).json(updatedOrder); 
 				}
 			});
 		}
@@ -792,7 +791,7 @@ app.get('/menus/:id/beverages/:beverage_id', verifyUser, (req, res) => {
 			} else {
 				const filtered = menu.beverages.filter(
 					beverage => beverage.id === req.params.beverage_id
-				); // filter out dishes that aren't the req. dish id
+				); 
 				menu.beverages = filtered;
 				res.status(200).json(filtered);
 			}
@@ -959,7 +958,7 @@ app.delete('/menus/:id/beverages/:beverage_id', verifyAdminUser, (req, res) => {
 				const filtered = menu.beverages.filter(beverage => beverage.id !== req.params.beverage_id);
 				menu.beverages = filtered;
 			}
-			menu.save(function (errSave, updatedOrder) { // save the new menu with non req bev items
+			menu.save(function (errSave, updatedOrder) { 
 				if (errSave) {
 					res.status(422).json({
 						message: 'Can not update order'
