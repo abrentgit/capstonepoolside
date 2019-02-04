@@ -291,6 +291,7 @@ function postOrder() {
 
         const date = $('.date-input').val();
         const location = $('#location').val();
+        const time = $('.time-input').val();
 
         const token = localStorage.getItem('token');
         const userId = localStorage.getItem('userId');
@@ -306,7 +307,7 @@ function postOrder() {
             'dishes': `${dishIds}`,
             'deliveryDate': `${date}`,
             'location': `${location}`,
-            'time': '',
+            'time': `${time}`,
         };
 
         const headers = {
@@ -337,6 +338,8 @@ function orderFeedback(newOrder) {
     let dishList = '';
     let date = new Date(newOrder.deliveryDate);
     let location = newOrder.location;
+    let time = newOrder.time;
+    console.log('time', 'this is time'); 
 
     newOrder.dishes.forEach(dish => {
         dishList = dishList.concat(`<li>
@@ -356,7 +359,7 @@ function orderFeedback(newOrder) {
                                 </nav>
 
                                 <div role="region" class="order-details"> 
-                                    <p><i>Reservation: </i> ${date} at ${location}</p>
+                                    <p><i>Reservation: </i> ${date} at ${time} in ${location}</p>
                                 </div>
 
                                 <div role="region" class="cart-total">
