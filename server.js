@@ -406,7 +406,7 @@ app.get('/orders/:id/beverages/:beverage_id', verifyUser, (req, res) => {
 });
 
 app.post('/orders', verifyUser, (req, res) => {
-	const requiredFields = ['guests', 'dishes', 'deliveryDate', 'location', 'notes'];
+	const requiredFields = ['guests', 'dishes', 'deliveryDate', 'location', 'time'];
 	for (let i = 0; i < requiredFields.length; i++) {
 		const field = requiredFields[i];
 		if (!(field in req.body)) {
@@ -443,7 +443,7 @@ app.post('/orders', verifyUser, (req, res) => {
 							dishes: dishData,
 							deliveryDate: req.body.deliveryDate,
 							location: req.body.location,
-							notes: req.body.notes,
+							time: req.body.time,
 						})
 
 						.then(order => res.status(201).json(order.serialize()))
@@ -467,7 +467,7 @@ app.put('/orders/:id', verifyUser, (req, res) => {
 	};
 
 	const updated = {};
-	const updateableFields = ['deliveryDate', 'location', 'notes'];
+	const updateableFields = ['deliveryDate', 'location', 'time'];
 	updateableFields.forEach(field => {
 		if (field in req.body) {
 			updated[field] = req.body[field];

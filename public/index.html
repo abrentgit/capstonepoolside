@@ -6,6 +6,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <link href="https://fonts.googleapis.com/css?family=Barlow+Condensed|Notable|Roboto" rel="stylesheet">
+  <link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css">
   <link href="../css/homepage.css" rel="stylesheet" type="text/css" />
   <link href="../css/make-order.css" rel="stylesheet" type="text/css" />
   <link href="../css/login.css" rel="stylesheet" type="text/css" />
@@ -102,8 +103,11 @@
 
         <div class="booking">
           <div class="order-date">
-            <label for="datetime-local">Date:</label>
-            <input type="datetime-local" step="any" name="datetime-local" id="datetime-local" class="date-input" value="2019-07-01T12:00" min="2019-01-01T00:00" max="2030-01-01T00:00">
+            <label for="date-pick">Date:</label>
+            <input type="text" name="date-pick" id="date-pick" class="date-input" required>
+            <br>
+            <label for="time-pick">Time:</label>
+            <input type="time" name="time-pick" id="time-pick" class="time-input" placeholder="9:30PM" required>
           </div>
 
           <div class="location-choice">
@@ -119,6 +123,8 @@
           <div class="checkout-button">
             <button type="button" class="checkout-btn">Checkout</button>
           </div>
+          <br>
+            <span class="note">* Kitchen hours are from 9:30am-11pm. Please book times in 30 minute intervals.</span>
         </div>
 
       </div>
@@ -145,6 +151,15 @@
 
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
+  <script
+  src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+  crossorigin="anonymous"></script>
+  <script>
+  $(function() {
+    $('#date-pick').datepicker();
+  });
+  </script>
   <script type="text/javascript" src="../app.js"></script>
 </body>
 

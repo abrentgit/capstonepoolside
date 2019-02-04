@@ -306,7 +306,7 @@ function postOrder() {
             'dishes': `${dishIds}`,
             'deliveryDate': `${date}`,
             'location': `${location}`,
-            'notes': '',
+            'time': '',
         };
 
         const headers = {

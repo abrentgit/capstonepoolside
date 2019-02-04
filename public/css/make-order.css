@@ -180,7 +180,6 @@ ul {
 .booking {
   width: 100%;
   margin-top: 20px;
-  /* display: flex; */
   font-size: 20px;
 }
 
@@ -221,13 +220,8 @@ form {
 
 .order-date {
   padding-left: 10px;
+  padding-bottom: 5px;
 }
-
-/* .location-choice {
-  /* padding-top: 80px; */
-  /* display: flexbox; */
-  /* padding-left: 44px; 
-}*/
 
 .location {
   font-family: "Barlow Condensed", helvetica, sans-serif;
@@ -252,6 +246,20 @@ form {
   font-size: 20px;
   font-family: "Barlow Condensed", helvetica, sans-serif;
   text-align: center;
+  border: 10px;
+}
+
+.time-input {
+  margin-top: 10px;
+  margin-left: 8px;
+  font-size: 20px;
+  font-family: "Barlow Condensed", helvetica, sans-serif;
+  text-align: center;
+  border: 10px;
+}
+
+.note {
+  padding: 5px;
 }
 
 .submit {
@@ -293,11 +301,15 @@ form {
   display: flexbox;
 }
 
-@media only screen and (max-width: 1024px) {
+@media only screen and (max-width: 640px) {
   /* ORDER FORM */
 
   .container {
-    margin-left: 40px;
+    margin: 40px;
+  }
+
+  .order-title {
+    margin: 20px;
   }
 
   .make-order {
@@ -318,8 +330,7 @@ form {
   .order-date {
     font-family: "Barlow Condensed", helvetica, sans-serif;
     font-size: 20px;
-    margin-top: 20px;
-    margin-left: 40px;
+    margin-left: 30px;
   }
 
   .pride-adder {
@@ -381,16 +392,21 @@ form {
     margin-left: 0px;
   }
 
+  .pride-adder {
+    margin-left: 15%;
+  }
+
   .location-choice {
-    margin-left: -284px;
+    margin-left: 40px
   }
 
   .checkout-btn {
-    margin-left: -272px;
+    margin-left: 40px;
   }
 
-  .pride-adder {
-    margin-left: 15%;
+  .note {
+    margin-left: 40px;
+    font-size: 14px;
   }
 
   .thanks {
