@@ -337,7 +337,10 @@ function orderFeedback(newOrder) {
     }
 
     let dishList = '';
-    let date = new Date(newOrder.deliveryDate);
+    
+    let event = new Date(newOrder.deliveryDate);
+    let date = event.toDateString();
+    
     let location = newOrder.location;
     let time = newOrder.time;
 
@@ -351,6 +354,8 @@ function orderFeedback(newOrder) {
     })
 
     let cartVal = `${cartTotal}`;
+
+    console.log(date, 'this is date')
 
     $('.make-order').hide();
     $('header').remove('h1');
