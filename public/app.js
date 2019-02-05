@@ -293,9 +293,6 @@ function postOrder() {
         const location = $('#location').val();
         const time = $('.time-input').val();
 
-        console.log(time, 'this is time');
-        console.log(date, 'this is date');
-
         const token = localStorage.getItem('token');
         const userId = localStorage.getItem('userId');
 
@@ -323,11 +320,9 @@ function postOrder() {
             body: JSON.stringify(order),
             headers: headers
         }).then(rawResponse => {
-            console.log('AAA')
             return rawResponse.json();
         }).then(response => {
             const newOrder = response;
-            console.log(newOrder, 'this is the order')
             $('order-feedback').show();
             orderFeedback(newOrder);
         }).catch(error => {
@@ -337,8 +332,9 @@ function postOrder() {
 }
 
 function orderFeedback(newOrder) {
-    $('.make-order').hide();
-    $('header').remove('h1');
+    if (newOrder.dishes === undefined) {
+        alert('Please choose dishes');
+    }
 
     let dishList = '';
     let date = new Date(newOrder.deliveryDate);
@@ -356,6 +352,8 @@ function orderFeedback(newOrder) {
 
     let cartVal = `${cartTotal}`;
 
+    $('.make-order').hide();
+    $('header').remove('h1');
     $('.order-feedback').fadeIn('slow');
     $('.order-feedback').append(`<nav class="feedback-header">
                                     <p class="order-id"> Order#: ${newOrder._id} </p>
