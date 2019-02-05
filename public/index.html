@@ -107,7 +107,7 @@
             <input type="text" name="date-pick" id="date-pick" class="date-input" required>
             <br>
             <label for="time-pick">Time:</label>
-            <input type="time" name="time-pick" id="time-pick" class="time-input" placeholder="9:30PM" required>
+            <input type="time" name="time-pick" id="time-pick" class="time-input" placeholder="9:30AM" required>
           </div>
 
           <div class="location-choice">
@@ -157,7 +157,7 @@
   crossorigin="anonymous"></script>
   <script>
   $(function() {
-    $('#date-pick').datepicker();
+    $('#date-pick').datepicker({ dateFormat: 'yy-mm-dd' });
   });
   </script>
   <script type="text/javascript" src="../app.js"></script>

@@ -293,6 +293,9 @@ function postOrder() {
         const location = $('#location').val();
         const time = $('.time-input').val();
 
+        console.log(time, 'this is time');
+        console.log(date, 'this is date');
+
         const token = localStorage.getItem('token');
         const userId = localStorage.getItem('userId');
 
@@ -320,9 +323,11 @@ function postOrder() {
             body: JSON.stringify(order),
             headers: headers
         }).then(rawResponse => {
+            console.log('AAA')
             return rawResponse.json();
         }).then(response => {
             const newOrder = response;
+            console.log(newOrder, 'this is the order')
             $('order-feedback').show();
             orderFeedback(newOrder);
         }).catch(error => {
@@ -339,7 +344,6 @@ function orderFeedback(newOrder) {
     let date = new Date(newOrder.deliveryDate);
     let location = newOrder.location;
     let time = newOrder.time;
-    console.log('time', 'this is time'); 
 
     newOrder.dishes.forEach(dish => {
         dishList = dishList.concat(`<li>
