@@ -299,6 +299,7 @@ form {
   background-color: green;
   font-size: 30px;
   display: flexbox;
+  border: 0;
 }
 
 @media only screen and (max-width: 640px) {
@@ -306,6 +307,23 @@ form {
 
   .container {
     margin: 40px;
+  }
+
+  p.order-id {
+    font-size: 40px;
+    margin-left: 15px;
+  }
+
+  .dishOrder {
+    font-size: 30px;
+  }
+
+  .order-details {
+    font-size: 30px;
+  }
+
+  .cart-total {
+    font-size: 30px;
   }
 
   .order-title {
