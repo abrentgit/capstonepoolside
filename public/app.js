@@ -291,6 +291,7 @@ function postOrder() {
 
         const date = $('.date-input').val();
         const location = $('#location').val();
+        const time = $('.time-input').val();
 
         const token = localStorage.getItem('token');
         const userId = localStorage.getItem('userId');
@@ -306,7 +307,7 @@ function postOrder() {
             'dishes': `${dishIds}`,
             'deliveryDate': `${date}`,
             'location': `${location}`,
-            'notes': '',
+            'time': `${time}`,
         };
 
         const headers = {
@@ -331,12 +332,17 @@ function postOrder() {
 }
 
 function orderFeedback(newOrder) {
-    $('.make-order').hide();
-    $('header').remove('h1');
+    if (newOrder.dishes === undefined) {
+        alert('Please choose dishes');
+    }
 
     let dishList = '';
-    let date = new Date(newOrder.deliveryDate);
+    
+    let event = new Date(newOrder.deliveryDate);
+    let date = event.toDateString();
+    
     let location = newOrder.location;
+    let time = newOrder.time;
 
     newOrder.dishes.forEach(dish => {
         dishList = dishList.concat(`<li>
@@ -349,6 +355,10 @@ function orderFeedback(newOrder) {
 
     let cartVal = `${cartTotal}`;
 
+    console.log(date, 'this is date')
+
+    $('.make-order').hide();
+    $('header').remove('h1');
     $('.order-feedback').fadeIn('slow');
     $('.order-feedback').append(`<nav class="feedback-header">
                                     <p class="order-id"> Order#: ${newOrder._id} </p>
@@ -356,7 +366,7 @@ function orderFeedback(newOrder) {
                                 </nav>
 
                                 <div role="region" class="order-details"> 
-                                    <p><i>Reservation: </i> ${date} at ${location}</p>
+                                    <p><i>Reservation: </i> ${date} at ${time} in ${location}</p>
                                 </div>
 
                                 <div role="region" class="cart-total">

@@ -106,7 +106,7 @@ describe('Order Inn API', () => {
 			dishes: [dish._id],
 			deliveryDate: Date.now(),
 			location: 'Rooftop',
-			notes: 'More hot sauce'
+			time: '11:00am'
 		}
 
 		chai.request(app)

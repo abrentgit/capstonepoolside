@@ -91,11 +91,12 @@ ul {
   display: flex;
   flex-direction: column;
   width: 92%;
-  margin: 0 auto;
+  margin: 50px;
+  margin-top: 5px;
 }
 
 .order-summary {
-  width: 40%;
+  width: 55%;
   margin-left: 5%;
   background-color: white;
   border: 1px solid #cdaf87;
@@ -111,6 +112,8 @@ ul {
   font-family: "Barlow Condensed", helvetica, sans-serif;
   font-size: 30px;
   color: red;
+  border: 0;
+  background-color: white;
 }
 
 .done-btn {
@@ -124,6 +127,8 @@ ul {
   font-size: 30px;
   color: red;
   margin-bottom: 10px;
+  border: 0;
+  background-color: white;
 }
 
 .cancel-btn:hover {
@@ -177,6 +182,12 @@ ul {
   font-size: 20px;
 }
 
+.booking {
+  width: 100%;
+  margin-top: 20px;
+  font-size: 20px;
+}
+
 .order-header {
   font-family: "Barlow Condensed", helvetica, sans-serif;
 }
@@ -212,10 +223,9 @@ form {
   margin-bottom: 100px;
 }
 
-.location-choice {
-  padding-top: 80px;
-  display: flexbox;
-  margin-left: -304px;
+.order-date {
+  padding-left: 10px;
+  padding-bottom: 5px;
 }
 
 .location {
@@ -236,11 +246,24 @@ form {
 }
 
 .date-input {
-  margin-top: 20px;
+  margin-top: 10px;
   margin-left: 10px;
+  margin-bottom: 10px;
   font-size: 20px;
   font-family: "Barlow Condensed", helvetica, sans-serif;
   text-align: center;
+  border: 10px;
+}
+
+.time-input {
+  font-family: "Barlow Condensed", helvetica, sans-serif;
+  font-size: 20px;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+.note {
+  padding: 5px;
 }
 
 .submit {
@@ -253,15 +276,13 @@ form {
   border-radius: 100px;
   color: white;
   left: 80px;
-  margin-top: 160px;
-  margin-bottom: 80px;
-  margin-left: -300px;
   padding-top: 10px;
   padding-bottom: 10px;
   width: 250px;
   font-family: "Barlow Condensed", helvetica, sans-serif;
   background-color: green;
   font-size: 30px;
+  border: 0;
   display: flexbox;
 }
 
@@ -279,13 +300,39 @@ form {
   background-color: green;
   font-size: 30px;
   display: flexbox;
+  border: 0;
 }
 
-@media only screen and (max-width: 1024px) {
+@media only screen and (max-width: 640px) {
   /* ORDER FORM */
 
   .container {
-    margin-left: 40px;
+    margin: 40px;
+  }
+
+  .order-form {
+    margin: auto;
+  }
+
+  p.order-id {
+    font-size: 40px;
+    margin-left: 15px;
+  }
+
+  .dishOrder {
+    font-size: 30px;
+  }
+
+  .order-details {
+    font-size: 30px;
+  }
+
+  .cart-total {
+    font-size: 30px;
+  }
+
+  .order-title {
+    margin: 20px;
   }
 
   .make-order {
@@ -306,7 +353,7 @@ form {
   .order-date {
     font-family: "Barlow Condensed", helvetica, sans-serif;
     font-size: 20px;
-    margin-top: 20px;
+    margin-left: 30px;
   }
 
   .pride-adder {
@@ -368,16 +415,21 @@ form {
     margin-left: 0px;
   }
 
+  .pride-adder {
+    margin-left: 15%;
+  }
+
   .location-choice {
-    margin-left: -284px;
+    margin-left: 40px
   }
 
   .checkout-btn {
-    margin-left: -272px;
+    margin-left: 40px;
   }
 
-  .pride-adder {
-    margin-left: 15%;
+  .note {
+    margin-left: 40px;
+    font-size: 16px;
   }
 
   .thanks {
