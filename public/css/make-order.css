@@ -91,11 +91,12 @@ ul {
   display: flex;
   flex-direction: column;
   width: 92%;
-  margin: 0 auto;
+  margin: 50px;
+  margin-top: 5px;
 }
 
 .order-summary {
-  width: 40%;
+  width: 55%;
   margin-left: 5%;
   background-color: white;
   border: 1px solid #cdaf87;
@@ -309,6 +310,10 @@ form {
     margin: 40px;
   }
 
+  .order-form {
+    margin: auto;
+  }
+
   p.order-id {
     font-size: 40px;
     margin-left: 15px;
@@ -424,7 +429,7 @@ form {
 
   .note {
     margin-left: 40px;
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .thanks {
