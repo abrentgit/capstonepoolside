@@ -51,10 +51,8 @@ ul {
 }
 
 .cancel-text {
-  font-size: 35px;
+  font-size: 40px;
   color: black;
-  margin-bottom: 5px;
-  margin-left: -70px;
   font-family: "Barlow Condensed", helvetica, sans-serif;
 }
 
@@ -241,8 +239,8 @@ form {
 }
 
 .logo-order-delete {
-  height: 100px;
-  margin-left: -60px;
+  height: 70px;
+  margin-top: 20px;
 }
 
 .date-input {
@@ -290,16 +288,14 @@ form {
   border-radius: 100px;
   color: white;
   left: 80px;
-  margin-top: 10px;
-  margin-bottom: 80px;
-  margin-left: -65px;
+  margin: auto;
   padding-top: 10px;
   padding-bottom: 10px;
   width: 250px;
   font-family: "Barlow Condensed", helvetica, sans-serif;
   background-color: green;
   font-size: 30px;
-  display: flexbox;
+  display: block;
   border: 0;
 }
 
@@ -380,7 +376,6 @@ form {
   .cancel-text {
     color: black;
     font-size: 25px;
-    margin: 0px;
   }
 
   .cancel-btn {
@@ -389,14 +384,6 @@ form {
 
   .done-btn {
     background-color: white;
-  }
-
-  .done-deleted-btn {
-    margin-left: 0px;
-  }
-
-  .logo-order-delete {
-    margin-left: 0px;
   }
 
   .total-price {
