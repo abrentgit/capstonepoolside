@@ -355,8 +355,6 @@ function orderFeedback(newOrder) {
 
     let cartVal = `${cartTotal}`;
 
-    console.log(date, 'this is date')
-
     $('.make-order').hide();
     $('header').remove('h1');
     $('.order-feedback').fadeIn('slow');
@@ -417,13 +415,11 @@ function deleteOrder() {
 
 function deleteOrderFeedback() {
     $('.order-title').hide();
-    $('.order-feedback').fadeIn('slow');
     $('.order-feedback').html(`<div role="region" class="delete-feedback">
-                                <img role="img" class="logo-order-delete" src="../cutlery-icon.svg" alt="Cutlery" /> 
-                                <p class="cancel-text"><i>Your order has been canceled.</i></p>
-                                <p class="cancel-text"><i>Thanks for using Order Inn.</i></p>
+                                <p class="cancel-text"><i>Your order has been canceled. Thanks for using Order Inn.</i></p>
                                 <button type="button" class="done-deleted-btn">Logout</button>
-                           </div>`);
+                                <img role="img" class="logo-order-delete" src="../cutlery-icon.svg" alt="Cutlery" /> 
+                               </div>`);
 }
 
 function orderDone() {
