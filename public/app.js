@@ -315,6 +315,8 @@ function postOrder() {
             'Content-Type': 'application/json',
         };
 
+        console.log(cart, 'this is cart')
+
         return fetch('https://orderinn.herokuapp.com/orders', {
             method: 'POST',
             body: JSON.stringify(order),
@@ -323,8 +325,9 @@ function postOrder() {
             return rawResponse.json();
         }).then(response => {
             const newOrder = response;
-            $('order-feedback').show();
+            console.log(newOrder, 'this is re')
             orderFeedback(newOrder);
+            $('order-feedback').show();
         }).catch(error => {
             console.log('an error occured', error);
         });
@@ -343,6 +346,9 @@ function orderFeedback(newOrder) {
     
     let location = newOrder.location;
     let time = newOrder.time;
+
+    console.log(newOrder, 'this is the new order');
+    console.log(newOrder.dishes._id, "this is dish id inside new order");
 
     newOrder.dishes.forEach(dish => {
         dishList = dishList.concat(`<li>
@@ -415,6 +421,7 @@ function deleteOrder() {
 
 function deleteOrderFeedback() {
     $('.order-title').hide();
+    $('.order-feedback').fadeIn('slow');
     $('.order-feedback').html(`<div role="region" class="delete-feedback">
                                 <p class="cancel-text"><i>Your order has been canceled. Thanks for using Order Inn.</i></p>
                                 <button type="button" class="done-deleted-btn">Logout</button>
