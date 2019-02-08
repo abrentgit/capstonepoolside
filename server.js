@@ -4,6 +4,7 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+mongoose.set('useCreateIndex', true);
 const cors = require('cors');
 
 const config = require('./config');
@@ -419,6 +420,7 @@ app.post('/orders', verifyUser, (req, res) => {
 	const firstGuestId = req.body.guests.split(',')[0]; 
 
 	let dishIds = req.body.dishes; 
+	console.log(dishIds, 'these are dish Ids');
 
 	User.findById(firstGuestId, (err, guest) => {
 		if (err) {
