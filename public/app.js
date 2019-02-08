@@ -1,5 +1,5 @@
 function main() {
-    console.log('client is ready');
+    console.log('app is loaded');
     getHomePage();
     getLoginPage();
     getRegisterPage();
@@ -377,20 +377,23 @@ function orderFeedback(newOrder) {
                                 </div>`)
 }
 
-function cancelConfirm() {
-    if (confirm('Are you sure you want to cancel your order?') === true) {
-        deleteOrder();
-        deleteOrderFeedback();
-        $('.order-feedback').fadeIn('slow');
-    } else {
-        return false;
-    }
-}
+// function cancelConfirm() {
+//     if (confirm('Are you sure you want to cancel your order?') === true) {
+//         deleteOrder();
+//         deleteOrderFeedback();
+//     } else {
+//         return false;
+//     }
+// }
 
 function deleteOrder() {
     $('.order-feedback').on('click', '.cancel-btn', function (event) {
 
-        cancelConfirm();
+        if(confirm('Are you sure you want to cancel your order') === true) 
+
+        $('.order-title').hide();
+        $('.order-feedback').hide();
+        deleteOrderFeedback();
 
         let orderId = $(event.currentTarget).data('order');
 
@@ -410,17 +413,18 @@ function deleteOrder() {
             throw error;
         });
     })
-
 }
+
+
+
 
 function deleteOrderFeedback() {
     $('.order-feedback').fadeIn('slow');
-    $('.order-title').hide();
     $('.order-feedback').html(`<div role="region" class="delete-feedback">
                                 <p class="cancel-text"><i>Your order has been canceled. Thanks for using Order Inn.</i></p>
                                 <button type="button" class="done-deleted-btn">Logout</button>
                                 <img role="img" class="logo-order-delete" src="../cutlery-icon.svg" alt="Cutlery" /> 
-                               </div>`).fadeIn();
+                               </div>`);
 }
 
 function orderDone() {
