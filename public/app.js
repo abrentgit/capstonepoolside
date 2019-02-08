@@ -206,6 +206,7 @@ function addDish() {
 
         for (let i = 0; i < dishes.length; i++) {
             let dish = dishes[i];
+            console.log(dish, 'this is dish going into cart')
 
             if (dishId === dish._id && !itemPresent) {
                 cart.push({
@@ -227,6 +228,9 @@ function addDish() {
             let price = dish.quantity * dish.price;
             cartPrice += price;
             cartTotal = cartPrice;
+            console.log(cartPrice, 'this is final cart total from add button');
+            console.log(cartTotal, 'outside cartTotal working');
+            console.log(cart, 'these are my cart items');
         }
 
         renderCart();
@@ -277,7 +281,7 @@ function renderCart() {
     $('.price-adder').hide();
 
     cart.forEach(function (item) {
-        let newItem = $(".summary-items").append(`<li class="order-item"> ${item.item.name} - ${item.quantity} </li>`);
+        let newItem = $('.summary-items').append(`<li class="order-item"> ${item.item.name} - ${item.quantity} </li>`);
 
         $('.price-adder').show();
         $('.total-price').html(`<h3 class="price"> Total: $${cartTotal} </h3>`);
@@ -287,7 +291,7 @@ function renderCart() {
 let newOrder = {};
 
 function postOrder() {
-    $('.checkout-btn').on('click', function () {
+    $('.checkout-btn').on('click', function() {
 
         const date = $('.date-input').val();
         const location = $('#location').val();
@@ -302,6 +306,8 @@ function postOrder() {
             dishIds.push(dish.item._id);
         });
 
+        console.log(dishIds, 'these are the cart dishes');
+
         let order = {
             'guests': `${userId}`,
             'dishes': `${dishIds}`,
@@ -315,8 +321,6 @@ function postOrder() {
             'Content-Type': 'application/json',
         };
 
-        console.log(cart, 'this is cart')
-
         return fetch('https://orderinn.herokuapp.com/orders', {
             method: 'POST',
             body: JSON.stringify(order),
@@ -325,7 +329,6 @@ function postOrder() {
             return rawResponse.json();
         }).then(response => {
             const newOrder = response;
-            console.log(newOrder, 'this is re')
             orderFeedback(newOrder);
             $('order-feedback').show();
         }).catch(error => {
@@ -346,9 +349,6 @@ function orderFeedback(newOrder) {
     
     let location = newOrder.location;
     let time = newOrder.time;
-
-    console.log(newOrder, 'this is the new order');
-    console.log(newOrder.dishes._id, "this is dish id inside new order");
 
     newOrder.dishes.forEach(dish => {
         dishList = dishList.concat(`<li>

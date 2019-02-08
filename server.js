@@ -419,8 +419,7 @@ app.post('/orders', verifyUser, (req, res) => {
 
 	const firstGuestId = req.body.guests.split(',')[0]; 
 
-	let dishIds = req.body.dishes; 
-	console.log(dishIds, 'these are dish Ids');
+	let dishIds = req.body.dishes.split(','); 
 
 	User.findById(firstGuestId, (err, guest) => {
 		if (err) {
