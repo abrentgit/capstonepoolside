@@ -13,36 +13,36 @@ const { Order, Menu, User, Dish, Beverage } = require('../models');
 
 chai.use(chaiHttp);
 
-let user, userId, newToken, dish, orderId;
+let userId, newToken, orderId;
 
-user = new User({
+let newUser = new User({
 	name: 'fake',
 	email: 'fake@test.com',
 	password: 'password'
-});
+})
 
-dish = new Dish({
-	name: 'Fish Tacos',
-	description: 'Served with special hot sauce',
-	price: faker.commerce.price()
-});
+function generateDishData() {
+	return {
+		name: faker.commerce.product(),
+		description: faker.commerce.productAdjective(),
+		price: faker.commerce.price()
+	}
+}
 
 function seedDishData() {
 	console.log('seeding dish data');
 	const seedData = [];
 
 	for (let i = 0; i <= 1; i++) {
-		seedData.push(dish);
+		seedData.push(generateDishData());
 	}
 	return Dish.insertMany(seedData);
 }
-
 
 function tearDownDb() {
 	console.warn('Deleting database');
 	return mongoose.connection.dropDatabase();
 }
-
 
 describe('Order Inn API', () => {
 
@@ -58,7 +58,7 @@ describe('Order Inn API', () => {
 
 		chai.request(app)
 			.post('/guests')
-			.send(user)
+			.send(newUser)
 			.end(function (err, res) {
 				newToken = res.body.authToken;
 				done();
@@ -77,8 +77,8 @@ describe('Order Inn API', () => {
 		chai.request(app)
 			.post('/login')
 			.send({
-				email: user.email,
-				password: user.password
+				email: newUser.email,
+				password: newUser.password
 			})
 			.end(function (err, res) {
 				userId = res.body.user_id;
@@ -87,12 +87,19 @@ describe('Order Inn API', () => {
 			});
 	});
 
+	let dishIds = '';
+
 	it('should /GET dishes', function (done) {
 
 		chai.request(app)
 			.get('/dishes')
 			.set('Authorization', 'Bearer ' + newToken)
-			.end(function (err, res) {
+			.end(function (err, res) {				
+				
+				res.body.dishes.forEach(dish => {
+					dishIds = dish._id;
+				})
+
 				expect(res).to.have.status(200);
 				expect(res).to.be.json;
 				done();
@@ -103,7 +110,7 @@ describe('Order Inn API', () => {
 
 		let newOrder = {
 			guests: userId,
-			dishes: [dish._id],
+			dishes: dishIds,
 			deliveryDate: Date.now(),
 			location: 'Rooftop',
 			time: '11:00am'
