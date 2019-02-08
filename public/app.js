@@ -1,5 +1,5 @@
 function main() {
-    console.log('client is loaded');
+    console.log('client is ready');
     getHomePage();
     getLoginPage();
     getRegisterPage();
@@ -405,7 +405,6 @@ function deleteOrder() {
             method: 'DELETE',
             headers: headers
         }).then(response => {
-            $('.order-feedback').fadeIn('slow');
             return response;
         }).catch(error => {
             throw error;
@@ -421,7 +420,7 @@ function deleteOrderFeedback() {
                                 <p class="cancel-text"><i>Your order has been canceled. Thanks for using Order Inn.</i></p>
                                 <button type="button" class="done-deleted-btn">Logout</button>
                                 <img role="img" class="logo-order-delete" src="../cutlery-icon.svg" alt="Cutlery" /> 
-                               </div>`);
+                               </div>`).fadeIn();
 }
 
 function orderDone() {
