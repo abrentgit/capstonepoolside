@@ -405,6 +405,7 @@ function deleteOrder() {
             method: 'DELETE',
             headers: headers
         }).then(response => {
+            $('.order-feedback').fadeIn('slow');
             return response;
         }).catch(error => {
             throw error;
