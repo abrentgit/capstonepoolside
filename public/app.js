@@ -63,7 +63,7 @@ function performLogin() {
             }
             return response;
         }).catch(error => {
-            console.log('an error occured', error);
+            throw error;
         });
     });
 }
@@ -104,18 +104,16 @@ function registerGuest() {
                 body: JSON.stringify(session),
                 headers: headers
             }).then(rawResponse => {
-                console.log(rawResponse, 'this is json re')
                 return rawResponse.json();
             }).then(response => {
                 const {
                     authToken
                 } = response;
                 localStorage.setItem('token', authToken);
-                console.log(response, 'this is response register')
                 loginAfterRegister();
                 return response;
             }).catch(error => {
-                console.log('an error occured', error);
+                throw error;
             });
         }
     });
@@ -176,7 +174,7 @@ function getDishes() {
         $('.dishes').append(dishesHtml);
         return response.dishes;
     }).catch(error => {
-        console.log('an error occurred', error);
+        throw error;
     });
 }
 
@@ -206,7 +204,6 @@ function addDish() {
 
         for (let i = 0; i < dishes.length; i++) {
             let dish = dishes[i];
-            console.log(dish, 'this is dish going into cart')
 
             if (dishId === dish._id && !itemPresent) {
                 cart.push({
@@ -228,9 +225,6 @@ function addDish() {
             let price = dish.quantity * dish.price;
             cartPrice += price;
             cartTotal = cartPrice;
-            console.log(cartPrice, 'this is final cart total from add button');
-            console.log(cartTotal, 'outside cartTotal working');
-            console.log(cart, 'these are my cart items');
         }
 
         renderCart();
@@ -306,8 +300,6 @@ function postOrder() {
             dishIds.push(dish.item._id);
         });
 
-        console.log(dishIds, 'these are the cart dishes');
-
         let order = {
             'guests': `${userId}`,
             'dishes': `${dishIds}`,
@@ -332,7 +324,7 @@ function postOrder() {
             orderFeedback(newOrder);
             $('order-feedback').show();
         }).catch(error => {
-            console.log('an error occured', error);
+            throw error;
         });
     });
 }
@@ -387,7 +379,9 @@ function orderFeedback(newOrder) {
 
 function cancelConfirm() {
     if (confirm('Are you sure you want to cancel your order?') === true) {
+        deleteOrder();
         deleteOrderFeedback();
+        $('.order-feedback').fadeIn('slow');
     } else {
         return false;
     }
@@ -413,15 +407,15 @@ function deleteOrder() {
         }).then(response => {
             return response;
         }).catch(error => {
-            console.log('an error occured', error);
+            throw error;
         });
     })
 
 }
 
 function deleteOrderFeedback() {
-    $('.order-title').hide();
     $('.order-feedback').fadeIn('slow');
+    $('.order-title').hide();
     $('.order-feedback').html(`<div role="region" class="delete-feedback">
                                 <p class="cancel-text"><i>Your order has been canceled. Thanks for using Order Inn.</i></p>
                                 <button type="button" class="done-deleted-btn">Logout</button>
