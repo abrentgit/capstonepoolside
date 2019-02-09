@@ -38,7 +38,6 @@ p.order-id {
   font-style: normal;
   font-weight: bold;
   font-family: "Barlow Condensed", helvetica, sans-serif;
-  margin: auto;
 }
 
 ul {
@@ -321,6 +320,9 @@ form {
 
   .order-details {
     font-size: 30px;
+    padding-top: 30px;
+    margin-left: 0px;
+    margin-top: -50px;
   }
 
   .cart-total {
@@ -362,11 +364,6 @@ form {
 
   .dishOrder {
     margin-left: -30px;
-  }
-
-  .order-details {
-    margin-left: 0px;
-    margin-top: -50px;
   }
 
   .cart-total {
