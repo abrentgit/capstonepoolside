@@ -285,7 +285,7 @@ function renderCart() {
 let newOrder = {};
 
 function postOrder() {
-    $('.checkout-btn').on('click', function() {
+    $('.checkout-btn').on('click', function () {
 
         const date = $('.date-input').val();
         const location = $('#location').val();
@@ -335,10 +335,10 @@ function orderFeedback(newOrder) {
     }
 
     let dishList = '';
-    
+
     let event = new Date(newOrder.deliveryDate);
     let date = event.toDateString();
-    
+
     let location = newOrder.location;
     let time = newOrder.time;
 
@@ -377,21 +377,12 @@ function orderFeedback(newOrder) {
                                 </div>`)
 }
 
-// function cancelConfirm() {
-//     if (confirm('Are you sure you want to cancel your order?') === true) {
-//         deleteOrder();
-//         deleteOrderFeedback();
-//     } else {
-//         return false;
-//     }
-// }
-
 function deleteOrder() {
     $('.order-feedback').on('click', '.cancel-btn', function (event) {
 
-        if(confirm('Are you sure you want to cancel your order') === true) 
+        if (confirm('Are you sure you want to cancel your order') === true)
 
-        $('.order-title').hide();
+            $('.order-title').hide();
         $('.order-feedback').hide();
         deleteOrderFeedback();
 
@@ -421,9 +412,9 @@ function deleteOrder() {
 function deleteOrderFeedback() {
     $('.order-feedback').fadeIn('slow');
     $('.order-feedback').html(`<div role="region" class="delete-feedback">
-                                <p class="cancel-text"><i>Your order has been canceled. Thanks for using Order Inn.</i></p>
-                                <button type="button" class="done-deleted-btn">Logout</button>
-                                <img role="img" class="logo-order-delete" src="../cutlery-icon.svg" alt="Cutlery" /> 
+                                    <p class="cancel-text"><i>Your order has been canceled. Thanks for using Order Inn.</i></p>
+                                    <button type="button" class="done-deleted-btn">Logout</button>
+                                    <img role="img" class="logo-order-delete" src="../cutlery-icon.svg" alt="Cutlery" /> 
                                </div>`);
 }
 
