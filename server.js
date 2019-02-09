@@ -433,7 +433,8 @@ app.post('/orders', verifyUser, (req, res) => {
 				}
 			}, function (err, dishData) {
 				if (err) {
-\					res.status(422).send({
+					console.log(dishData, 'failing dishes');
+					res.status(422).send({
 						message: 'Can not find dishes'
 					});
 				} else {
