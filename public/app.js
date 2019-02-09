@@ -362,7 +362,7 @@ function orderFeedback(newOrder) {
                                 </nav>
 
                                 <div role="region" class="order-details"> 
-                                    <p><i>Reservation: </i> ${date} at ${time} in ${location}</p>
+                                    <span><i>Reservation:</i> ${date} at ${time} in ${location}</span>
                                 </div>
 
                                 <div role="region" class="cart-total">
