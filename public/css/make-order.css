@@ -353,6 +353,10 @@ form {
     margin-left: 30px;
   }
 
+  .order-item {
+    padding-bottom: 15px;
+  }
+
   .pride-adder {
     font-size: 20px;
   }
