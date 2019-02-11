@@ -29,20 +29,11 @@ body {
   margin: 0 auto;
 }
 
-li.order-item {
-  font-size: 25px;
-}
-
 p.order-id {
   font-size: 40px;
   font-style: normal;
   font-weight: bold;
   font-family: "Barlow Condensed", helvetica, sans-serif;
-}
-
-ul {
-  list-style-type: none;
-  padding: 43px;
 }
 
 .dishOrder {
@@ -144,16 +135,13 @@ ul {
   margin-left: 25px;
 }
 
-/* .summary-items {
-  margin-top: 50px;
-  margin-left: 20px;
-} */
+.summary-items {
+  list-style: none;
+  padding: 25px;
+}
 
 .price-adder {
   position: relative;
-  width: 20%;
-  padding-bottom: 0%;
-  margin-left: 10%;
   background-color: white;
   font-size: 25px;
 }
@@ -190,12 +178,14 @@ ul {
 
 .order-title {
   font-size: 60px;
+  text-align: center;
 }
 
 .logo-menu {
   color: white;
   width: auto;
   height: 70px;
+  margin-left: 45%;
 }
 
 h4 {
@@ -256,6 +246,10 @@ form {
   font-size: 20px;
   margin-left: 10px;
   margin-top: 10px;
+}
+
+.order-item {
+  font-size: 20px;
 }
 
 .note {
@@ -343,10 +337,6 @@ form {
     font-size: 30px;
   }
 
-  .order-title {
-    margin: 20px;
-  }
-
   .make-order {
     margin-top: 60px;
   }
@@ -357,12 +347,6 @@ form {
     width: 50%;
   }
 
-  li.order-item {
-    margin-top: 40px;
-    padding: 10px;
-    font-size: 20px;
-  }
-
   .order-date {
     font-family: "Barlow Condensed", helvetica, sans-serif;
     font-size: 20px;
@@ -370,7 +354,7 @@ form {
   }
 
   .pride-adder {
-    margin-left: 36%;
+    font-size: 20px;
   }
 
   .order-summary {
@@ -410,22 +394,33 @@ form {
     margin-left: 15%;
   }
 
+  .logo-menu {
+    margin-left: 40%;
+}
+  
+
   .location-choice {
     margin-left: 40px
   }
 
   .checkout-btn {
-    margin-left: 40px;
+    margin-left: 30px;
   }
 
   .note {
-    margin-left: 40px;
+    margin-left: 30px;
     font-size: 16px;
   }
 
   .thanks {
     margin-left: 40px;
     font-style: italic;
+  }
+
+  @media only screen and (max-width: 360px) {
+    .price-adder {
+      font-size: 20px;
+    }
   }
 
 }

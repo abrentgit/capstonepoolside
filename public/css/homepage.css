@@ -31,10 +31,12 @@ body {
   margin-top: 20px;
 }
 
-nav {
-  padding-bottom: 10px;
-  font-family: "Roboto", helvetica, sans-serif;
-  text-align: center;
+.homepage-links {
+  list-style-type: none;
+  margin-left: 80px;
+}
+
+.homepage-nav {
   font-size: 30px;
   display: block;
 }
@@ -58,7 +60,6 @@ a {
 }
 
 .register-link {
-  padding: 30px;
   list-style: none;
   font-size: 40px;
 }
@@ -182,7 +183,7 @@ button[type="submit"]:focus {
 @media only screen and (max-width: 640px) {
 
   nav {
-    margin-top: 0px;
+    margin-top: 50px;
   }
 
   .homepage-title {
