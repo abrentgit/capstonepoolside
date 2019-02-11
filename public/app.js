@@ -142,9 +142,8 @@ function getLoginPage() {
         $('body').fadeIn('fast');
         $('body').css('background-color', 'FAF7F3');
         $('.logo').fadeIn();
-        $('.homepage-title').hide();
-        $('.homepage-title').fadeIn('fast');
-        $('.homepage-title').css('color', '#000000');
+        $('.homepage').hide();
+        $('.login-title').fadeIn('slow')
         $('.login-form').fadeIn('10000');
     })
 }

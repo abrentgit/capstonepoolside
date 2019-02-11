@@ -42,7 +42,7 @@ p.order-id {
 
 ul {
   list-style-type: none;
-  margin-top: 10px;
+  padding: 43px;
 }
 
 .dishOrder {
@@ -144,10 +144,10 @@ ul {
   margin-left: 25px;
 }
 
-.summary-items {
+/* .summary-items {
   margin-top: 50px;
   margin-left: 20px;
-}
+} */
 
 .price-adder {
   position: relative;
@@ -174,8 +174,6 @@ ul {
 }
 
 .container {
-  width: 100%;
-  margin-top: 20px;
   display: flex;
   font-size: 20px;
 }
@@ -303,7 +301,15 @@ form {
   /* ORDER FORM */
 
   .container {
-    margin: 40px;
+    margin: 20px;
+  }
+
+  li {
+    font-size: 20px;
+  }
+
+  .logo-feedback {
+    height: 50px; 
   }
 
   .order-form {
@@ -311,7 +317,15 @@ form {
   }
 
   p.order-id {
-    font-size: 40px;
+    font-size: 30px;
+  }
+
+  .thanks {
+    font-size: 25px;
+  }
+
+  .cart-cost {
+    font-size: 25px;
   }
 
   .dishOrder {
@@ -346,6 +360,7 @@ form {
   li.order-item {
     margin-top: 40px;
     padding: 10px;
+    font-size: 20px;
   }
 
   .order-date {
@@ -383,14 +398,6 @@ form {
     background-color: white;
   }
 
-  .total-price {
-    margin-left: 44px;
-  }
-
-  ul {
-    margin-right: 35px;
-  }
-
   .dishes {
     font-size: 20px;
   }
@@ -420,4 +427,5 @@ form {
     margin-left: 40px;
     font-style: italic;
   }
+
 }

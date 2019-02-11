@@ -18,6 +18,12 @@ body {
   display: block;
 }
 
+.login-title {
+  font-family: 'Notable', sans-serif;
+  font-size: 50px;
+  text-align: center;
+}
+
 .title {
   text-align: center;
   font-family: 'Notable', sans-serif;

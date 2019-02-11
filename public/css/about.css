@@ -21,7 +21,7 @@ label {
 .description {
   color: black;
   font-family: 'Inconsolata', monospace;
-  font-size: 30px;
+  font-size: 25px;
   margin: 40px;
   padding: 40px;
   padding-top: 10px;
@@ -33,8 +33,8 @@ label {
     margin-left: -20px;
   }
 
-  .homepage-header {
+  /* .homepage-header {
     font-size: 45px;
-  }
+  } */
 
 }

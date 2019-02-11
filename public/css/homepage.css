@@ -23,11 +23,11 @@ body {
   color: whitesmoke;
   text-align: center;
   font-family: "Notable", helvetica, sans-serif;
+  margin: auto;
 }
 
 .homepage-header {
-  font-size: 50px;
-  font-weight: bold;
+  font-size: 40px;
   margin-top: 20px;
 }
 
@@ -181,22 +181,13 @@ button[type="submit"]:focus {
 
 @media only screen and (max-width: 640px) {
 
-  /* HOMEPAGE */
-
-  body {
-    background-position: center;
-    background-attachment: fixed;
-  }
-
   nav {
-    margin-top: 60px;
+    margin-top: 0px;
   }
 
   .homepage-title {
     color: #f9f9f9;
-    font-size: 70px;
-    padding: 20px;
-    margin-bottom: -30px;
+    text-align: center;
   }
 
   .login-link {
@@ -205,19 +196,6 @@ button[type="submit"]:focus {
 
   .about-link {
     padding: 0px;
-  }
-
-  @media only screen and (max-width: 900px) {
-
-    .register-form {
-      background: none;
-    }
-
-    input[type="name"],
-    input[type="password-repeat"] {
-      background: none;
-    }
-
   }
 
 }
