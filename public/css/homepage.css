@@ -20,25 +20,27 @@ body {
 }
 
 .homepage-title {
-  color: whitesmoke;
+  color:#f9f9f9;
+  font-size: 120px;
   text-align: center;
   font-family: "Notable", helvetica, sans-serif;
   margin: auto;
+  padding: 50px;
 }
 
 .homepage-header {
   font-size: 40px;
-  margin-top: 20px;
+  display: inline;
 }
 
 .homepage-links {
   list-style-type: none;
-  margin-left: 80px;
+  text-align: center;
+  display: inline;
 }
 
 .homepage-nav {
-  font-size: 30px;
-  display: block;
+  display: inline;
 }
 
 a {
@@ -47,21 +49,23 @@ a {
 
 .login-link {
   display: inline;
-  padding: 30px;
   list-style: none;
-  font-size: 40px;
+  font-size: 80px;
+  padding: 20px;
 }
 
 .about-link {
   display: inline;
-  padding: 30px;
   list-style: none;
-  font-size: 40px;
+  font-size: 80px;
+  padding: 20px;
 }
 
 .register-link {
   list-style: none;
-  font-size: 40px;
+  font-size: 80px;
+  display: inline;
+  padding: 20px;
 }
 
 /*  Register Form CSS */
@@ -183,20 +187,50 @@ button[type="submit"]:focus {
 @media only screen and (max-width: 640px) {
 
   nav {
-    margin-top: 50px;
+    margin: auto;
+    text-align: center;
   }
 
   .homepage-title {
     color: #f9f9f9;
     text-align: center;
+    padding: 10px;
+    font-size: 40px;
   }
 
   .login-link {
-    padding: 0px;
+    font-size: 30px;
+  }
+
+  .register-link {
+    font-size: 30px;
   }
 
   .about-link {
-    padding: 0px;
+    font-size: 30px;
   }
+
+@media only screen and (max-width: 639px) {
+  .homepage-title {
+    padding: 50px;
+    font-size: 60px;
+  }
+
+  .login-link {
+    font-size: 40px;
+    padding: 30px;
+  }
+
+  .register-link {
+    font-size: 40px;
+    padding: 30px;
+  }
+
+  .about-link {
+    font-size: 40px;
+    padding: 30px;
+  }
+
+}
 
 }
