@@ -27,6 +27,9 @@ body {
   flex-direction: column;
   width: 92%;
   margin: 0 auto;
+  text-align: center;
+  font-size: 70px;
+  margin-top: 150px;
 }
 
 p.order-id {
@@ -59,11 +62,6 @@ p.order-id {
   font-family: "Barlow Condensed", helvetica, sans-serif;
   background-color: rgb(150, 211, 93);
   font-size: 30px;
-}
-
-.order-feedback {
-  text-align: center;
-  font-size: 70px;
 }
 
 .dishes {
@@ -174,6 +172,7 @@ p.order-id {
 
 .order-header {
   font-family: "Barlow Condensed", helvetica, sans-serif;
+  text-align: center;
 }
 
 .order-title {
@@ -183,9 +182,7 @@ p.order-id {
 
 .logo-menu {
   color: white;
-  width: auto;
   height: 70px;
-  margin-left: 45%;
 }
 
 h4 {
@@ -300,6 +297,7 @@ form {
 
   li {
     font-size: 20px;
+    list-style: none;
   }
 
   .logo-feedback {
@@ -308,10 +306,6 @@ form {
 
   .order-form {
     margin: auto;
-  }
-
-  p.order-id {
-    font-size: 30px;
   }
 
   .thanks {
@@ -397,11 +391,6 @@ form {
   .pride-adder {
     margin-left: 15%;
   }
-
-  .logo-menu {
-    margin-left: 40%;
-}
-  
 
   .location-choice {
     margin-left: 40px
