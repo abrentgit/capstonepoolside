@@ -77,6 +77,7 @@ a {
   background: white;
   margin: 0 auto;
   margin-bottom: 100px;
+  margin-top: 70px;
 }
 
 .register-legend {
@@ -104,8 +105,9 @@ input[type="name"] {
   border: 0;
   outline: none;
   border-bottom: 1px solid #aaa;
-  font-size: 16px;
+  font-size: 20px;
   transition: 0.2s ease;
+  background: none;
 }
 
 button[type="submit"] {
@@ -229,6 +231,10 @@ button[type="submit"]:focus {
   .about-link {
     font-size: 40px;
     padding: 30px;
+  }
+
+  .register-form {
+    background: none;
   }
 
 }

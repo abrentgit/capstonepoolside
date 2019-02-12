@@ -20,8 +20,9 @@ body {
 
 .login-title {
   font-family: 'Notable', sans-serif;
-  font-size: 50px;
+  font-size: 80px;
   text-align: center;
+  font-style: italic;
 }
 
 .title {
@@ -36,6 +37,14 @@ fieldset {
   margin: 0;
 }
 
+.form {
+  font-size: 30px;
+}
+
+.homepage-title {
+  font-style: italic;
+}
+
 .logo {
   display: block;
   color: white;
@@ -45,12 +54,13 @@ fieldset {
 }
 
 .login-form {
-  width: 400px;
-  padding: 40px;
+  width: 500px;
+  padding: 60px;
   border-radius: 20px;
   background: white;
-  margin: 0 auto;
-  margin-bottom: 80px;
+  margin: auto;
+  margin-bottom: 100px;
+  margin-top: 150px;
 }
 
 .login-legend {
@@ -80,7 +90,7 @@ input[type="password"] {
   border: none;
   outline: none;
   border-bottom: 1px solid #aaa;
-  font-size: 16px;
+  font-size: 20px;
   transition: 0.2s ease;
 }
 
@@ -88,11 +98,11 @@ button[type="submit"] {
   display: block;
   width: 100%;
   height: auto;
-  font-size: 24px;
+  font-size: 40px;
   text-align: left;
   padding: 15px;
   border: 2px solid #e7e7e7;
-  border-radius: 3px;
+  border-radius: 40px;
   background: #fcfcfc;
   margin: 10px auto 20px;
   transition: opacity 0.4s;
@@ -123,7 +133,7 @@ button[type="submit"]:focus {
 }
 
 .login-form p {
-  font-size: 16px;
+  font-size: 25px;
   text-align: center;
   margin: 10px 0 0;
   color: #696969;

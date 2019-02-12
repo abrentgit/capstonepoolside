@@ -17,6 +17,7 @@ restart();
 deleteOrder();
 addDish();
 deleteDish();
+homeRegister();
 
 $(main);
 
@@ -432,6 +433,7 @@ function restart() {
 function getRegisterPage() {
     $('.register-link').on('click', 'a', function (event) {
         event.preventDefault();
+        $('.homepage-title').hide();
         $('body').fadeIn('slow');
         $('.register-form').fadeIn('slow');
         $('.footer-register').append(`<p>Already have an account? <a class="login-footer" href="">Log in</a></p>`)
@@ -465,6 +467,13 @@ function getAboutPage() {
 
 function logoHome() {
     $('.homepage-header').on('click', '.homepage-title', function () {
+        location.reload();
+    })
+}
+
+function homeRegister() {
+    $('.register-nav').on('click', '.register-title', function() {
+        console.log('register home is working');
         location.reload();
     })
 }

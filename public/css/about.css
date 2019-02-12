@@ -18,6 +18,13 @@ label {
   margin: 0 auto 30px;
 }
 
+.register-title {
+  color: black;
+  font-size: 60px;
+  text-align: center;
+  font-family: "Notable", helvetica, sans-serif;
+}
+
 .description {
   color: black;
   font-family: 'Inconsolata', monospace;
@@ -32,9 +39,5 @@ label {
   .logo-title {
     margin-left: -20px;
   }
-
-  /* .homepage-header {
-    font-size: 45px;
-  } */
 
 }
