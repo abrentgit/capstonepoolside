@@ -146,6 +146,7 @@ body {
 .summary-items {
   list-style: none;
   padding: 25px;
+  text-align: center;
 }
 
 .price-adder {
@@ -324,7 +325,6 @@ form {
 
   .order-details {
     font-size: 30px;
-    padding-top: 30px;
     margin-left: 0px;
     margin-top: -50px;
   }
@@ -378,6 +378,10 @@ form {
     background-color: white;
   }
 
+  .feedback-order {
+    margin-top: 20px;
+  }
+
   .dishes {
     font-size: 20px;
   }
@@ -403,8 +407,13 @@ form {
     font-size: 16px;
   }
 
+  .dish-name {
+    font-size: 25px;
+  }
+
   .reservation {
     text-align: center;
+    white-space: pre;
   }
 
   .thanks {
@@ -423,6 +432,7 @@ form {
 
     .dish-order {
       font-size: 20px;
+      margin-right: 30px;
     }
 
     .reservation {
