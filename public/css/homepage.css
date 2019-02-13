@@ -208,8 +208,8 @@ button[type="submit"]:focus {
 
 @media only screen and (max-width: 639px) {
   .homepage-title {
-    padding: 50px;
-    font-size: 60px;
+    padding: 25px;
+    font-size: 50px;
   }
 
   .login-link {

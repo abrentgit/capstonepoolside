@@ -344,9 +344,9 @@ function orderFeedback(newOrder) {
 
     newOrder.dishes.forEach(dish => {
         dishList = dishList.concat(`<li>
-         <div class="dishOrder"> 
+         <div class="dish-order"> 
             <h4>${dish.name}</h4>
-            <p>${dish.description}<p>
+            <p class="dish-description">${dish.description}<p>
          </div>
          </li>`);
     })
@@ -358,11 +358,11 @@ function orderFeedback(newOrder) {
     $('.order-feedback').fadeIn('slow');
     $('.order-feedback').append(`<nav class="feedback-header">
                                     <p class="order-id"> Order#: ${newOrder._id} </p>
-                                    <ul>${dishList}</ul>
+                                    <ul class="dish-item">${dishList}</ul>
                                 </nav>
 
                                 <div role="region" class="order-details"> 
-                                    <span><i>Reservation:</i> ${date} at ${time} in ${location}</span>
+                                    <span class="reservation"><i>Reservation:</i> ${date} at ${time} in ${location}</span>
                                 </div>
 
                                 <div role="region" class="cart-total">
