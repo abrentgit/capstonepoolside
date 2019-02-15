@@ -43,10 +43,12 @@ body {
   font-family: "Barlow Condensed", helvetica, sans-serif;
   font-size: 30px;
   list-style: none;
+  margin-right: 40px;
 }
 
 .dish-item {
   list-style: none;
+  margin-top: 10px;
 }
 
 .dish-description {
@@ -81,7 +83,6 @@ body {
 
 .order-details {
   font-size: 30px;
-  margin-left: 40px;
 }
 
 .order-form {
@@ -140,7 +141,6 @@ body {
 
 .thanks {
   font-size: 35px;
-  margin-left: 25px;
 }
 
 .summary-items {
@@ -155,14 +155,10 @@ body {
   font-size: 25px;
 }
 
-.cart-total {
-  margin-top: 40px;
-}
-
 .cart-cost {
   font-size: 30px;
   font-weight: bold;
-  margin-left: 35px;
+  display: inline-block;
 }
 
 .total-price {
@@ -172,7 +168,6 @@ body {
 
 .container {
   display: flex;
-  font-size: 20px;
 }
 
 .booking {
@@ -210,7 +205,6 @@ form {
 
 .logo-feedback {
   height: 60px;
-  margin-left: 40px;
 }
 
 .feedback-btns {
@@ -257,7 +251,7 @@ form {
 }
 
 .order-item {
-  font-size: 20px;
+  font-size: 30px;
 }
 
 .note {
@@ -299,11 +293,19 @@ form {
   border: 0;
 }
 
+.reservation {
+  font-size: 30px;
+  white-space: pre;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
 @media only screen and (max-width: 640px) {
   /* ORDER FORM */
 
   .container {
     margin: 20px;
+    font-size: 20px;
   }
 
   li {
@@ -361,10 +363,6 @@ form {
     margin-left: 50px;
   }
 
-  .cart-total {
-    margin-left: -40px;
-  }
-
   .cancel-text {
     color: black;
     font-size: 25px;
@@ -395,7 +393,7 @@ form {
   }
 
   .location-choice {
-    margin-left: 40px
+    margin-left: 40px;
   }
 
   .checkout-btn {
@@ -408,21 +406,20 @@ form {
   }
 
   .dish-name {
-    font-size: 25px;
-  }
-
-  .reservation {
-    text-align: center;
-    white-space: pre;
+    font-size: 20px;
   }
 
   .thanks {
-    margin-left: 40px;
     font-style: italic;
+    display: block;
   }
 
   @media only screen and (max-width: 640px) {
     .price-adder {
+      font-size: 20px;
+    }
+
+    .order-item {
       font-size: 20px;
     }
 
@@ -436,7 +433,11 @@ form {
     }
 
     .reservation {
-      font-size: 20px;
+      font-size: 18px; 
+    }
+
+    .cart-total {
+      margin-top: 30px;
     }
 
   }
@@ -451,10 +452,6 @@ form {
       font-size: 16px;
     }
 
-    .reservation {
-      font-size: 16px;
-    }
-
     .logo-feedback {
       height: 50px;
     }
@@ -466,8 +463,8 @@ form {
     .cancel-btn {
       border-radius: 400px;
       left: 40px;
-      padding-top: 15px;
-      padding-bottom: 15px;
+      padding-top: 20px;
+      padding-bottom: 20px;
       width: 200px;
       font-family: "Barlow Condensed", helvetica, sans-serif;
       font-size: 16px;
@@ -478,8 +475,8 @@ form {
     .done-btn {
       border-radius: 400px;
       left: 40px;
-      padding-top: 15px;
-      padding-bottom: 15px;
+      padding-top: 20px;
+      padding-bottom: 20px;
       width: 200px;
       font-family: "Barlow Condensed", helvetica, sans-serif;
       font-size: 16px;
@@ -505,6 +502,10 @@ form {
 
     .time-input {
       font-size: 15px;
+    }
+
+    .reservation {
+      font-size: 16px;
     }
 
   }

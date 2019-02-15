@@ -17,6 +17,7 @@ body {
 
 .unhidden {
   display: block;
+  margin-bottom: 60px;
 }
 
 .homepage-title {
@@ -26,6 +27,7 @@ body {
   font-family: "Notable", helvetica, sans-serif;
   margin: auto;
   padding: 50px;
+  font-style: italic;
 }
 
 .homepage-header {
@@ -74,9 +76,13 @@ a {
   width: 400px;
   padding: 40px;
   border-radius: 20px;
-  background: white;
   margin: 0 auto;
   margin-bottom: 100px;
+  margin-top: 50px;
+}
+
+.register-title {
+  font-style: italic;
 }
 
 .register-legend {

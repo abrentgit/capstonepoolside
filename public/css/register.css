@@ -1,4 +1,4 @@
-* {
+/* * {
   box-sizing: border-box
 }
 
@@ -43,7 +43,6 @@ fieldset {
   width: 500;
   padding: 60px;
   border-radius: 20px;
-  background: white;
   margin: auto;
   margin-bottom: 150px;
 }
@@ -58,10 +57,6 @@ fieldset {
   letter-spacing: 0;
   margin: 0 auto 45px;
   padding-bottom: 20px;
-}
-
-.register-form {
-  background: none;
 }
 
 input[type="email"],
@@ -155,4 +150,4 @@ button[type="submit"]:focus {
 
 .footer-register a:hover {
   color: #E7F1F9;
-}
+} */

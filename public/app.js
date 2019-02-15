@@ -345,7 +345,7 @@ function orderFeedback(newOrder) {
     newOrder.dishes.forEach(dish => {
         dishList = dishList.concat(`<li>
          <div class="dish-order"> 
-            <p class="dish-name">${dish.name}</p>
+            <p class="dish-name"><strong>${dish.name}</strong></p>
             <p class="dish-description">${dish.description}<p>
          </div>
          </li>`);
@@ -357,16 +357,17 @@ function orderFeedback(newOrder) {
     $('header').remove('h1');
     $('.order-feedback').fadeIn('slow');
     $('.order-feedback').append(`<div class="feedback-order">
-                                    <p class="order-id"> Order#: ${newOrder._id} </p>
+                                    <h3 class="order-id"> Order#: ${newOrder._id} </h3>
                                     <ul class="dish-item">${dishList}</ul>
                                 </div>
 
                                 <div role="region" class="order-details"> 
-                                    <span class="reservation"><i>Reservation: </i> ${date} at ${time} in ${location}</span>
+                                    <span class="reservation"><i><strong>Reservation: </strong></i> ${date} at ${time}</span>
+                                    <br> 
+                                    <span class="reservation">at ${location}</span>
                                 </div>
 
                                 <div role="region" class="cart-total">
-                                    <img role="img" class="logo-feedback" src="../cutlery-icon.svg" alt="Cutlery" />
                                     <p class="cart-cost">Total Cost: $${cartVal}</p>
                                     <p class="thanks">Thanks for Your Order!</p>
                                 </div>
