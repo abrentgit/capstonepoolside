@@ -19,8 +19,6 @@ label {
   text-align: center;
   margin: auto;
   padding: 50px;
-  font-family: 'Notable', sans-serif;
-  font-style: italic;
 }
 
 .description {
@@ -34,8 +32,8 @@ label {
 
 @media screen and (max-width: 640px) {
 
-  .logo-title {
-    margin-left: -20px;
+  .about-title {
+    font-size: 50px;
   }
   
 }

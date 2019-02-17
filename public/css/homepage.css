@@ -10,7 +10,7 @@ body {
   display: block;
   color: white;
   width: auto;
-  height: 120px;
+  height: 110px;
   margin: 0 auto 30px;
 }
 
@@ -28,8 +28,6 @@ body {
   text-align: center;
   margin: auto;
   padding: 50px;
-  font-family: 'Notable', sans-serif;
-  font-style: italic;
 }
 
 .homepage-header {
@@ -85,11 +83,9 @@ a {
 }
 
 .register-title {
-  font-style: italic;
   color: black;
-  font-size: 80px;
+  font-size: 120px;
   text-align: center;
-  font-family: 'Notable', sans-serif;
 }
 
 .register-legend {

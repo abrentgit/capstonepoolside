@@ -433,7 +433,8 @@ function restart() {
 function getRegisterPage() {
     $('.register-link').on('click', 'a', function (event) {
         event.preventDefault();
-        $('.homepage-title').hide();
+        $('.homepage').hide();
+        // $('.homepage-title').hide();
         $('body').fadeIn('slow');
         $('.register-form').fadeIn('slow');
         $('.footer-register').append(`<p>Already have an account? <a class="login-footer" href="">Log in</a></p>`)
