@@ -14,8 +14,18 @@ label {
   margin: 0 auto 30px;
 }
 
+.about-title {
+  font-size: 110px;
+  text-align: center;
+  margin: auto;
+  padding: 50px;
+  font-family: 'Notable', sans-serif;
+  font-style: italic;
+}
+
 .description {
   color: black;
+  font-family: 'Inconsolata', monospace;
   font-size: 25px;
   margin: 40px;
   padding: 40px;

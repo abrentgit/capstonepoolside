@@ -19,6 +19,7 @@ addDish();
 deleteDish();
 homeRegister();    
 loginHome();
+aboutHome();
 
 $(main);
 
@@ -451,6 +452,7 @@ function getRegisterPage() {
 function getAboutPage() {
     $('.about-link').on('click', 'a', function () {
         $('.about').fadeIn('slow');
+        $('.homepage').hide();
         $('.homepage-title').css('color', '#000000');
         $('.register-form').hide();
         $('.login-form').hide();
@@ -472,6 +474,13 @@ function logoHome() {
 
 function loginHome() {
     $('.login-form').on('click', '.login-title', function () {
+        location.reload();
+    })
+}
+
+function aboutHome() {
+    $('.about').on('click', '.about-title', function () {
+        console.log('hey');
         location.reload();
     })
 }
