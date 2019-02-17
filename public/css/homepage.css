@@ -3,14 +3,17 @@
 }
 
 body {
-  font-family: "Notable", helvetica, sans-serif;
-  background-image:
-    linear-gradient(rgba(0, 0, 0, 0.5),
-    rgba(0, 0, 0, 0.5)), url('../toast-homepage.jpeg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  font-family: 'Barlow Semi Condensed', sans-serif;
 }
+
+.logo-home {
+  display: block;
+  color: white;
+  width: auto;
+  height: 120px;
+  margin: 0 auto 30px;
+}
+
 .hidden {
   display: none;
 }
@@ -21,12 +24,11 @@ body {
 }
 
 .homepage-title {
-  color:white;
-  font-size: 120px;
+  font-size: 110px;
   text-align: center;
-  font-family: "Notable", helvetica, sans-serif;
   margin: auto;
   padding: 50px;
+  font-family: 'Notable', sans-serif;
   font-style: italic;
 }
 
@@ -39,6 +41,7 @@ body {
   list-style-type: none;
   text-align: center;
   display: inline;
+  font-family: 'Cedarville Cursive', cursive;
 }
 
 .homepage-nav {
@@ -46,7 +49,7 @@ body {
 }
 
 a {
-  color: #fffdd0;
+  color: black;
 }
 
 .login-link {
@@ -83,6 +86,10 @@ a {
 
 .register-title {
   font-style: italic;
+  color: black;
+  font-size: 80px;
+  text-align: center;
+  font-family: 'Notable', sans-serif;
 }
 
 .register-legend {
@@ -194,7 +201,6 @@ button[type="submit"]:focus {
 @media only screen and (max-width: 640px) {
 
   .homepage-title {
-    color: #f9f9f9;
     text-align: center;
     padding: 10px;
     font-size: 40px;

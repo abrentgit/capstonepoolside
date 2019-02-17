@@ -2,10 +2,6 @@
   box-sizing: border-box
 }
 
-body {
-  background-color: #FAF7F3;
-}
-
 label {
   margin-top: 20px;
 }
@@ -18,16 +14,8 @@ label {
   margin: 0 auto 30px;
 }
 
-.register-title {
-  color: black;
-  font-size: 60px;
-  text-align: center;
-  font-family: "Notable", helvetica, sans-serif;
-}
-
 .description {
   color: black;
-  font-family: 'Inconsolata', monospace;
   font-size: 25px;
   margin: 40px;
   padding: 40px;
@@ -39,7 +27,5 @@ label {
   .logo-title {
     margin-left: -20px;
   }
-
   
-
 }

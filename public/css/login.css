@@ -3,11 +3,11 @@
 }
 
 body {
-  background-color: #FAF7F3;
-  font-family: "Barlow Condensed", helvetica, sans-serif;
   padding: 60px 0 0;
   margin: 0;
   font-size: 18px;
+  font-family: 'Raleway', sans-serif;
+  background: #dcf8ec;
 }
 
 .hidden {
@@ -20,16 +20,15 @@ body {
 
 .login-title {
   font-family: 'Notable', sans-serif;
-  font-size: 80px;
   text-align: center;
   font-style: italic;
-}
-
-.title {
-  text-align: center;
-  font-family: 'Notable', sans-serif;
   font-size: 80px;
 }
+
+/* .title {
+  text-align: center;
+  font-size: 80px;
+} */
 
 fieldset {
   padding: 0;
@@ -39,10 +38,6 @@ fieldset {
 
 .form {
   font-size: 30px;
-}
-
-.homepage-title {
-  font-style: italic;
 }
 
 .logo {
@@ -72,6 +67,7 @@ fieldset {
   letter-spacing: 0;
   margin: 0 auto 45px;
   padding-bottom: 20px;
+  font-family: 'Cedarville Cursive', cursive;
 }
 
 legend {
@@ -172,16 +168,10 @@ h2.order-id {
   font-family: "Barlow Condensed", helvetica, sans-serif;
 }
 
-
 @media only screen and (max-width: 640px) {
 
-  input[type="email"],
-  input[type="password"] {
-    background-color: #FAF7F3;
-  }
-
-  .login-form {
-    background: none;
+  .login-title {
+    font-size: 50px;
   }
 
 }

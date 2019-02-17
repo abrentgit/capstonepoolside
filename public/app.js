@@ -17,7 +17,8 @@ restart();
 deleteOrder();
 addDish();
 deleteDish();
-homeRegister();
+homeRegister();    
+loginHome();
 
 $(main);
 
@@ -407,9 +408,6 @@ function deleteOrder() {
     })
 }
 
-
-
-
 function deleteOrderFeedback() {
     $('.order-feedback').fadeIn('slow');
     $('.order-feedback').html(`<div role="region" class="delete-feedback">
@@ -468,6 +466,12 @@ function getAboutPage() {
 
 function logoHome() {
     $('.homepage-header').on('click', '.homepage-title', function () {
+        location.reload();
+    })
+}
+
+function loginHome() {
+    $('.login-form').on('click', '.login-title', function () {
         location.reload();
     })
 }
