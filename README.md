@@ -1,7 +1,5 @@
 # Order Inn App
 
-Order Inn
-
 Working Prototype
 Find a working prototype with Node at http://orderinn.herokuapp.com/ . 
 
