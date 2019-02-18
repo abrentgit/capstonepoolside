@@ -72,7 +72,8 @@ API endpoints for the back end include:
 - DELETE to '/orders/:id' to delete order
 
 **DEVELOPMENTAL ROADMAP**
-Possible additional features, functionality and improvements:
+
+*Possible additional features, functionality and improvements:
 
 - Add a dashboard that shows a list of pending user orders.
 - Add in that dashboard an ability to update and edit the order
