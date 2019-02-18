@@ -62,6 +62,7 @@ Add dashboard of user orders at a later time.
 Add in that dashboard an ability to update and edit the order
 Add feature so that order times can be limited according to amount of bookings. 
 Add feature so you can register legit emails,  and only harder password combinations. 
+Add photos of guest and meals to pages. 
  
 
 
