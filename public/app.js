@@ -20,6 +20,7 @@ deleteDish();
 homeRegister();    
 loginHome();
 aboutHome();
+menuHome();
 
 $(main);
 
@@ -481,14 +482,18 @@ function loginHome() {
 
 function aboutHome() {
     $('.about').on('click', '.about-title', function () {
-        console.log('hey');
         location.reload();
     })
 }
 
 function homeRegister() {
     $('.register-nav').on('click', '.register-title', function() {
-        console.log('register home is working');
+        location.reload();
+    })
+}
+
+function menuHome() {
+    $('.order-header').on('click', '.logo-menu', function() {
         location.reload();
     })
 }
