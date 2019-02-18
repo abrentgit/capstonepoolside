@@ -410,33 +410,32 @@ form {
     display: block;
   }
 
-  @media only screen and (max-width: 640px) {
-    .price-adder {
-      font-size: 20px;
-    }
-
-    .order-item {
-      font-size: 20px;
-    }
-
-    .order-id {
-      font-size: 30px;
-    }
-
-    .dish-order {
-      font-size: 20px;
-      margin-right: 30px;
-    }
-
-    .reservation {
-      font-size: 18px; 
-    }
-
-    .cart-total {
-      margin-top: 30px;
-    }
-
+  .price-adder {
+    font-size: 20px;
   }
+
+  .order-item {
+    font-size: 20px;
+  }
+
+  .order-id {
+    font-size: 30px;
+  }
+
+  .dish-order {
+    font-size: 20px;
+    margin-right: 30px;
+  }
+
+  .reservation {
+    font-size: 18px; 
+  }
+
+  .cart-total {
+    margin-top: 30px;
+  }
+
+}
 
   @media only screen and (max-width: 360px) {
 
