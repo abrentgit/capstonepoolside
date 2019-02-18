@@ -224,10 +224,6 @@ form {
   margin-bottom: 20px;
 }
 
-.locations {
-  font-size: 20px;
-}
-
 .logo-order-delete {
   height: 70px;
   margin-top: 20px;
@@ -390,7 +386,7 @@ form {
 
   .location-choice {
     margin-left: 30px;
-  }
+  } 
 
   .checkout-btn {
     margin-left: 30px;
@@ -503,6 +499,5 @@ form {
       font-size: 16px;
     }
 
-  }
-
 }
+
