@@ -1,15 +1,15 @@
 # Order Inn App
 
-PROTOYPE LINK:
+**PROTOYPE LINK:**
 
 Find a working prototype with Node at http://orderinn.herokuapp.com/ . 
 
-SUMMARY:  
+**SUMMARY:**  
 
 The Order Inn app is a food ordering app designed for lifestyle and concept driven hotels.
 Depending on the partnering hotel’s amenities and communal spaces, users can order special dishes or limited time “pop up” menu items offered by the kitchen and book to eat them at several locations within the hotel. 
 
-FUNCTIONALITY:
+**FUNCTIONALITY:**
 
 When users land on the homepage they are given an option to login and register up front.
 
@@ -42,7 +42,7 @@ Once the order is submitted, the user receives a summary of the order. If it is 
 ![Order View 2](public/order-page-2.png)
 
   
-TECHNICAL:
+**TECHNICAL:**
 
 Front End
 HTML5
@@ -61,7 +61,7 @@ The app is responsive and optimized for both desktop and mobile viewing and use.
 Security
 User passwords are encrypted using bcrypt.js.
 
-API DOCUMENTATION:
+**API DOCUMENTATION:**
 
 API endpoints for the back end include:
 POST to '/guests' for creating a new user
@@ -70,7 +70,7 @@ POST to '/orders' to create a user order
 GET to '/dishes' to access available dishes
 DELETE to '/orders/:id' to delete order
 
-DEVELOPMENTAL ROADMAP
+**DEVELOPMENTAL ROADMAP**
 Possible additional features, functionality and improvements:
 
 Add a dashboard that shows a list of pending user orders.
