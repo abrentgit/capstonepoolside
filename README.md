@@ -65,7 +65,15 @@ Add feature so you can register legit emails,  and only harder password combinat
 Add photos of guest and meals to pages. 
 
 SCREENSHOTS: 
-![A screenshot of my great app](public/homepage.png)
+![Homepage](public/homepage.png)
+![Login Page](public/login.png)
+![Register Page](public/register-page.png)
+![Order View 1](public/order-page-1.png)
+![Order View 2](public/order-page-2.png)
+![Order View 3](public/order-page-3.png)
+![Confirmation Page](public/order-confirm.png)
+
+
  
 
 
