@@ -348,7 +348,7 @@ form {
   .order-date {
     font-family: "Barlow Condensed", helvetica, sans-serif;
     font-size: 20px;
-    margin-left: 29px;
+    margin-left: 30px;
   }
 
   .order-item {
@@ -384,16 +384,12 @@ form {
     font-size: 20px;
   }
 
-  .location {
-    margin-left: 0px;
-  }
-
   .pride-adder {
     margin-left: 15%;
   }
 
   .location-choice {
-    margin-left: 40px;
+    margin-left: 30px;
   }
 
   .checkout-btn {
