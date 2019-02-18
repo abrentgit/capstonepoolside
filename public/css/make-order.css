@@ -1,8 +1,6 @@
 body {
   font-family: "Barlow Condensed", helvetica, sans-serif;
   background-repeat: no-repeat;
-  background-color: #faf7f3;
-  font-size: 18px;
   padding-bottom: 90px;
 }
 
@@ -27,27 +25,33 @@ body {
   flex-direction: column;
   width: 92%;
   margin: 0 auto;
+  text-align: center;
+  font-size: 70px;
+  padding: 10px;
 }
 
-li.order-item {
-  font-size: 25px;
-}
-
-p.order-id {
+.order-id {
   font-size: 40px;
-  font-style: normal;
+  font-style: italic;
   font-weight: bold;
   font-family: "Barlow Condensed", helvetica, sans-serif;
 }
 
-ul {
-  list-style-type: none;
+.dish-order {
+  font-family: "Barlow Condensed", helvetica, sans-serif;
+  font-size: 30px;
+  list-style: none;
+  margin-right: 40px;
+}
+
+.dish-item {
+  list-style: none;
   margin-top: 10px;
 }
 
-.dishOrder {
-  font-family: "Barlow Condensed", helvetica, sans-serif;
-  font-size: 30px;
+.dish-description {
+  margin: auto;
+  padding: 5px;
 }
 
 .cancel-text {
@@ -70,11 +74,6 @@ ul {
   font-size: 30px;
 }
 
-.order-feedback {
-  text-align: center;
-  font-size: 70px;
-}
-
 .dishes {
   width: 30%;
   font-size: 30px;
@@ -82,7 +81,6 @@ ul {
 
 .order-details {
   font-size: 30px;
-  margin-left: 40px;
 }
 
 .order-form {
@@ -141,31 +139,24 @@ ul {
 
 .thanks {
   font-size: 35px;
-  margin-left: 25px;
 }
 
 .summary-items {
-  margin-top: 50px;
-  margin-left: 20px;
+  list-style: none;
+  padding: 25px;
+  text-align: center;
 }
 
 .price-adder {
   position: relative;
-  width: 20%;
-  padding-bottom: 0%;
-  margin-left: 10%;
   background-color: white;
   font-size: 25px;
-}
-
-.cart-total {
-  margin-top: 40px;
 }
 
 .cart-cost {
   font-size: 30px;
   font-weight: bold;
-  margin-left: 35px;
+  display: inline-block;
 }
 
 .total-price {
@@ -174,10 +165,7 @@ ul {
 }
 
 .container {
-  width: 100%;
-  margin-top: 20px;
   display: flex;
-  font-size: 20px;
 }
 
 .booking {
@@ -188,15 +176,17 @@ ul {
 
 .order-header {
   font-family: "Barlow Condensed", helvetica, sans-serif;
+  text-align: center;
 }
 
 .order-title {
   font-size: 60px;
+  text-align: center;
+  font-family: 'Cedarville Cursive', 'helvetica', sans-serif;
 }
 
 .logo-menu {
   color: white;
-  width: auto;
   height: 70px;
 }
 
@@ -214,7 +204,6 @@ form {
 
 .logo-feedback {
   height: 60px;
-  margin-left: 40px;
 }
 
 .feedback-btns {
@@ -232,10 +221,6 @@ form {
   margin-left: 10px;
   margin-top: 10px;
   margin-bottom: 20px;
-}
-
-.locations {
-  font-size: 20px;
 }
 
 .logo-order-delete {
@@ -258,6 +243,10 @@ form {
   font-size: 20px;
   margin-left: 10px;
   margin-top: 10px;
+}
+
+.order-item {
+  font-size: 30px;
 }
 
 .note {
@@ -299,38 +288,46 @@ form {
   border: 0;
 }
 
+.reservation {
+  font-size: 30px;
+  white-space: pre;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
 @media only screen and (max-width: 640px) {
   /* ORDER FORM */
 
   .container {
-    margin: 40px;
+    margin: 20px;
+    font-size: 20px;
+  }
+
+  li {
+    font-size: 20px;
+    list-style: none;
   }
 
   .order-form {
     margin: auto;
   }
 
-  p.order-id {
-    font-size: 40px;
+  .thanks {
+    font-size: 25px;
   }
 
-  .dishOrder {
-    font-size: 30px;
+  .cart-cost {
+    font-size: 25px;
   }
 
   .order-details {
     font-size: 30px;
-    padding-top: 30px;
     margin-left: 0px;
     margin-top: -50px;
   }
 
   .cart-total {
     font-size: 30px;
-  }
-
-  .order-title {
-    margin: 20px;
   }
 
   .make-order {
@@ -343,31 +340,22 @@ form {
     width: 50%;
   }
 
-  li.order-item {
-    margin-top: 40px;
-    padding: 10px;
-  }
-
   .order-date {
     font-family: "Barlow Condensed", helvetica, sans-serif;
     font-size: 20px;
     margin-left: 30px;
   }
 
+  .order-item {
+    padding-bottom: 15px;
+  }
+
   .pride-adder {
-    margin-left: 36%;
+    font-size: 20px;
   }
 
   .order-summary {
     margin-left: 50px;
-  }
-
-  .dishOrder {
-    margin-left: -30px;
-  }
-
-  .cart-total {
-    margin-left: -40px;
   }
 
   .cancel-text {
@@ -383,20 +371,12 @@ form {
     background-color: white;
   }
 
-  .total-price {
-    margin-left: 44px;
-  }
-
-  ul {
-    margin-right: 35px;
+  .feedback-order {
+    margin-top: 20px;
   }
 
   .dishes {
     font-size: 20px;
-  }
-
-  .location {
-    margin-left: 0px;
   }
 
   .pride-adder {
@@ -404,20 +384,119 @@ form {
   }
 
   .location-choice {
-    margin-left: 40px
-  }
+    margin-left: 30px;
+  } 
 
   .checkout-btn {
-    margin-left: 40px;
+    margin-left: 30px;
   }
 
   .note {
-    margin-left: 40px;
+    margin-left: 30px;
     font-size: 16px;
   }
 
-  .thanks {
-    margin-left: 40px;
-    font-style: italic;
+  .dish-name {
+    font-size: 20px;
   }
+
+  .thanks {
+    font-style: italic;
+    display: block;
+  }
+
+  .price-adder {
+    font-size: 20px;
+  }
+
+  .order-item {
+    font-size: 20px;
+  }
+
+  .order-id {
+    font-size: 25px;
+  }
+
+  .dish-order {
+    font-size: 20px;
+    margin-right: 30px;
+  }
+
+  .reservation {
+    font-size: 18px; 
+  }
+
+  .cart-total {
+    margin-top: 30px;
+  }
+
 }
+
+  @media only screen and (max-width: 360px) {
+
+    .order-id {
+      font-size: 20px;
+    }
+
+    .dish-order {
+      font-size: 16px;
+    }
+
+    .logo-feedback {
+      height: 50px;
+    }
+
+    .cart-cost {
+      font-size: 20px;
+    }
+
+    .cancel-btn {
+      border-radius: 400px;
+      left: 40px;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      width: 200px;
+      font-family: "Barlow Condensed", helvetica, sans-serif;
+      font-size: 16px;
+      color: red;
+      border: 0;
+    }
+
+    .done-btn {
+      border-radius: 400px;
+      left: 40px;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      width: 200px;
+      font-family: "Barlow Condensed", helvetica, sans-serif;
+      font-size: 16px;
+      color: red;
+      border: 0;
+    }
+
+    .order-date {
+      font-size: 15px;
+    }
+
+    .location {
+      font-size: 15px;
+    }
+
+    .location-choice {
+      font-size: 15px;
+    }
+
+    .date-input {
+      font-size: 15px;
+    }
+
+    .time-input {
+      font-size: 15px;
+    }
+
+    .reservation {
+      font-size: 16px;
+    }
+
+}
+

@@ -3,31 +3,25 @@
 }
 
 body {
-  background-color: #FAF7F3;
-  font-family: "Barlow Condensed", helvetica, sans-serif;
   padding: 60px 0 0;
   margin: 0;
   font-size: 18px;
+  background: #dcf8ec;
 }
 
-.hidden {
-  display: none;
-}
-
-.unhidden {
-  display: block;
-}
-
-.title {
+.login-title {
   text-align: center;
-  font-family: 'Notable', sans-serif;
-  font-size: 80px;
+  font-size: 120px;
 }
 
 fieldset {
   padding: 0;
   border: 0;
   margin: 0;
+}
+
+.form {
+  font-size: 30px;
 }
 
 .logo {
@@ -39,12 +33,12 @@ fieldset {
 }
 
 .login-form {
-  width: 400px;
-  padding: 40px;
+  width: 500px;
+  padding: 60px;
   border-radius: 20px;
-  background: white;
-  margin: 0 auto;
-  margin-bottom: 80px;
+  margin: auto;
+  margin-bottom: 100px;
+  margin-top: 50px;
 }
 
 .login-legend {
@@ -57,6 +51,7 @@ fieldset {
   letter-spacing: 0;
   margin: 0 auto 45px;
   padding-bottom: 20px;
+  font-family: 'Cedarville Cursive', 'helvetica', sans-serif;
 }
 
 legend {
@@ -74,7 +69,7 @@ input[type="password"] {
   border: none;
   outline: none;
   border-bottom: 1px solid #aaa;
-  font-size: 16px;
+  font-size: 20px;
   transition: 0.2s ease;
 }
 
@@ -82,11 +77,11 @@ button[type="submit"] {
   display: block;
   width: 100%;
   height: auto;
-  font-size: 24px;
+  font-size: 40px;
   text-align: left;
   padding: 15px;
   border: 2px solid #e7e7e7;
-  border-radius: 3px;
+  border-radius: 40px;
   background: #fcfcfc;
   margin: 10px auto 20px;
   transition: opacity 0.4s;
@@ -117,7 +112,7 @@ button[type="submit"]:focus {
 }
 
 .login-form p {
-  font-size: 16px;
+  font-size: 25px;
   text-align: center;
   margin: 10px 0 0;
   color: #696969;
@@ -151,26 +146,18 @@ button[type="submit"]:focus {
   color: #E7F1F9;
 }
 
-li.order-item {
-  font-size: 25px;
+.register-legend {
+  font-family: 'Cedarville Cursive', 'helvetica', sans-serif;
 }
-
-h2.order-id {
-  font-size: 60px;
-  font-style: normal;
-  font-family: "Barlow Condensed", helvetica, sans-serif;
-}
-
 
 @media only screen and (max-width: 640px) {
 
-  input[type="email"],
-  input[type="password"] {
-    background-color: #FAF7F3;
+  .login-title {
+    font-size: 50px;
   }
 
-  .login-form {
-    background: none;
+  .register-title {
+    font-size: 50px;
   }
 
 }
