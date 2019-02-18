@@ -9,14 +9,6 @@ body {
   background: #dcf8ec;
 }
 
-.hidden {
-  display: none;
-}
-
-.unhidden {
-  display: block;
-}
-
 .login-title {
   text-align: center;
   font-size: 120px;
@@ -152,12 +144,6 @@ button[type="submit"]:focus {
 
 .footer a:hover {
   color: #E7F1F9;
-}
-
-h2.order-id {
-  font-size: 60px;
-  font-style: normal;
-  font-family: "Barlow Condensed", helvetica, sans-serif;
 }
 
 .register-legend {
