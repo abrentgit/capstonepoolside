@@ -17,6 +17,10 @@ restart();
 deleteOrder();
 addDish();
 deleteDish();
+homeRegister();    
+loginHome();
+aboutHome();
+menuHome();
 
 $(main);
 
@@ -142,9 +146,8 @@ function getLoginPage() {
         $('body').fadeIn('fast');
         $('body').css('background-color', 'FAF7F3');
         $('.logo').fadeIn();
-        $('.homepage-title').hide();
-        $('.homepage-title').fadeIn('fast');
-        $('.homepage-title').css('color', '#000000');
+        $('.homepage').hide();
+        $('.login-title').fadeIn('slow')
         $('.login-form').fadeIn('10000');
     })
 }
@@ -275,7 +278,7 @@ function renderCart() {
     $('.price-adder').hide();
 
     cart.forEach(function (item) {
-        let newItem = $('.summary-items').append(`<li class="order-item"> ${item.item.name} - ${item.quantity} </li>`);
+        let newItem = $('.summary-items').append(`<li class="order-item"> ${item.item.name} (${item.quantity}) </li>`);
 
         $('.price-adder').show();
         $('.total-price').html(`<h3 class="price"> Total: $${cartTotal} </h3>`);
@@ -344,9 +347,9 @@ function orderFeedback(newOrder) {
 
     newOrder.dishes.forEach(dish => {
         dishList = dishList.concat(`<li>
-         <div class="dishOrder"> 
-            <h4>${dish.name}</h4>
-            <p>${dish.description}<p>
+         <div class="dish-order"> 
+            <p class="dish-name"><strong>${dish.name}</strong></p>
+            <p class="dish-description">${dish.description}<p>
          </div>
          </li>`);
     })
@@ -356,17 +359,18 @@ function orderFeedback(newOrder) {
     $('.make-order').hide();
     $('header').remove('h1');
     $('.order-feedback').fadeIn('slow');
-    $('.order-feedback').append(`<nav class="feedback-header">
-                                    <p class="order-id"> Order#: ${newOrder._id} </p>
-                                    <ul>${dishList}</ul>
-                                </nav>
+    $('.order-feedback').append(`<div class="feedback-order">
+                                    <h3 class="order-id"> Order#: ${newOrder._id} </h3>
+                                    <ul class="dish-item">${dishList}</ul>
+                                </div>
 
                                 <div role="region" class="order-details"> 
-                                    <span><i>Reservation:</i> ${date} at ${time} in ${location}</span>
+                                    <span class="reservation"><i><strong>Reservation: </strong></i> ${date} at ${time}</span>
+                                    <br> 
+                                    <span class="reservation">at ${location}</span>
                                 </div>
 
                                 <div role="region" class="cart-total">
-                                    <img role="img" class="logo-feedback" src="../cutlery-icon.svg" alt="Cutlery" />
                                     <p class="cart-cost">Total Cost: $${cartVal}</p>
                                     <p class="thanks">Thanks for Your Order!</p>
                                 </div>
@@ -406,9 +410,6 @@ function deleteOrder() {
     })
 }
 
-
-
-
 function deleteOrderFeedback() {
     $('.order-feedback').fadeIn('slow');
     $('.order-feedback').html(`<div role="region" class="delete-feedback">
@@ -433,6 +434,7 @@ function restart() {
 function getRegisterPage() {
     $('.register-link').on('click', 'a', function (event) {
         event.preventDefault();
+        $('.homepage').hide();
         $('body').fadeIn('slow');
         $('.register-form').fadeIn('slow');
         $('.footer-register').append(`<p>Already have an account? <a class="login-footer" href="">Log in</a></p>`)
@@ -451,6 +453,7 @@ function getRegisterPage() {
 function getAboutPage() {
     $('.about-link').on('click', 'a', function () {
         $('.about').fadeIn('slow');
+        $('.homepage').hide();
         $('.homepage-title').css('color', '#000000');
         $('.register-form').hide();
         $('.login-form').hide();
@@ -466,6 +469,30 @@ function getAboutPage() {
 
 function logoHome() {
     $('.homepage-header').on('click', '.homepage-title', function () {
+        location.reload();
+    })
+}
+
+function loginHome() {
+    $('.login-form').on('click', '.login-title', function () {
+        location.reload();
+    })
+}
+
+function aboutHome() {
+    $('.about').on('click', '.about-title', function () {
+        location.reload();
+    })
+}
+
+function homeRegister() {
+    $('.register-nav').on('click', '.register-title', function() {
+        location.reload();
+    })
+}
+
+function menuHome() {
+    $('.order-header').on('click', '.logo-menu', function() {
         location.reload();
     })
 }

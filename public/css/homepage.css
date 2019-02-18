@@ -3,64 +3,72 @@
 }
 
 body {
-  font-family: "Notable", helvetica, sans-serif;
-  background-image:
-    linear-gradient(rgba(0, 0, 0, 0.5),
-    rgba(0, 0, 0, 0.5)), url('../toast-homepage.jpeg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  font-family: 'Barlow Semi Condensed', sans-serif;
 }
+
+.logo-home {
+  display: block;
+  color: white;
+  width: auto;
+  height: 110px;
+  margin: 0 auto 30px;
+}
+
 .hidden {
   display: none;
 }
 
 .unhidden {
   display: block;
+  margin-bottom: 60px;
 }
 
 .homepage-title {
-  color: whitesmoke;
+  font-size: 110px;
   text-align: center;
-  font-family: "Notable", helvetica, sans-serif;
+  margin: auto;
+  padding: 50px;
 }
 
 .homepage-header {
-  font-size: 50px;
-  font-weight: bold;
-  margin-top: 20px;
+  font-size: 40px;
+  display: inline;
 }
 
-nav {
-  padding-bottom: 10px;
-  font-family: "Roboto", helvetica, sans-serif;
+.homepage-links {
+  list-style-type: none;
   text-align: center;
-  font-size: 30px;
-  display: block;
+  display: inline;
+  font-family: 'Cedarville Cursive', 'helvetica', sans-serif;
+}
+
+.homepage-nav {
+  display: inline;
 }
 
 a {
-  color: #fffdd0;
+  color: black;
 }
 
 .login-link {
   display: inline;
-  padding: 30px;
   list-style: none;
-  font-size: 40px;
+  font-size: 80px;
+  padding: 20px;
 }
 
 .about-link {
   display: inline;
-  padding: 30px;
   list-style: none;
-  font-size: 40px;
+  font-size: 80px;
+  padding: 20px;
 }
 
 .register-link {
-  padding: 30px;
   list-style: none;
-  font-size: 40px;
+  font-size: 80px;
+  display: inline;
+  padding: 20px;
 }
 
 /*  Register Form CSS */
@@ -69,9 +77,15 @@ a {
   width: 400px;
   padding: 40px;
   border-radius: 20px;
-  background: white;
   margin: 0 auto;
   margin-bottom: 100px;
+  margin-top: 50px;
+}
+
+.register-title {
+  color: black;
+  font-size: 120px;
+  text-align: center;
 }
 
 .register-legend {
@@ -99,8 +113,9 @@ input[type="name"] {
   border: 0;
   outline: none;
   border-bottom: 1px solid #aaa;
-  font-size: 16px;
+  font-size: 20px;
   transition: 0.2s ease;
+  background: none;
 }
 
 button[type="submit"] {
@@ -181,43 +196,49 @@ button[type="submit"]:focus {
 
 @media only screen and (max-width: 640px) {
 
-  /* HOMEPAGE */
-
-  body {
-    background-position: center;
-    background-attachment: fixed;
-  }
-
-  nav {
-    margin-top: 60px;
-  }
-
   .homepage-title {
-    color: #f9f9f9;
-    font-size: 70px;
-    padding: 20px;
-    margin-bottom: -30px;
+    text-align: center;
+    padding: 10px;
+    font-size: 40px;
   }
 
   .login-link {
-    padding: 0px;
+    font-size: 30px;
+  }
+
+  .register-link {
+    font-size: 30px;
   }
 
   .about-link {
-    padding: 0px;
+    font-size: 30px;
   }
 
-  @media only screen and (max-width: 900px) {
-
-    .register-form {
-      background: none;
-    }
-
-    input[type="name"],
-    input[type="password-repeat"] {
-      background: none;
-    }
-
+@media only screen and (max-width: 639px) {
+  .homepage-title {
+    padding: 25px;
+    font-size: 50px;
   }
+
+  .login-link {
+    font-size: 40px;
+    padding: 30px;
+  }
+
+  .register-link {
+    font-size: 40px;
+    padding: 30px;
+  }
+
+  .about-link {
+    font-size: 40px;
+    padding: 30px;
+  }
+
+  .register-form {
+    background: none;
+  }
+
+}
 
 }

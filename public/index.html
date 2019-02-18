@@ -5,7 +5,7 @@
   <title>Order Inn</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <link href="https://fonts.googleapis.com/css?family=Barlow+Condensed|Notable|Roboto" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Barlow+Condensed|Notable|Cedarville+Cursive" rel="stylesheet">
   <link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css">
   <link href="../css/homepage.css" rel="stylesheet" type="text/css" />
   <link href="../css/make-order.css" rel="stylesheet" type="text/css" />
@@ -19,18 +19,20 @@
   <div class="homepage unhidden">
     <header class="homepage-header">
       <h1 class="homepage-title">Order Inn</h1>
-      <nav>
-        <ul>
-          <li class="login-link unhidden"><i><a>LOGIN</a></i></li>
-          <li class="register-link unhidden"><i><a>REGISTER</a></i></li>
-          <li class="about-link unhidden"><i><a>ABOUT</a></i></li>
+      <img class="logo-home" src="../cutlery-icon.svg" alt="Cutlery" />
+      <nav class="homepage-nav">
+        <ul class="homepage-links">
+          <li class="login-link unhidden"><a>Login</a></li>
+          <li class="register-link unhidden"><a>Register</a></li>
+          <li class="about-link unhidden"><a>About</a></li>
         </ul>
       </nav>
     </header>
   </div>
   <!-- REGISTER FORM-->
   <div class="register-form hidden">
-    <nav>
+    <nav class="register-nav">
+      <h2 class="register-title">Order Inn</h2>
       <img class="logo" src="../cutlery-icon.svg" alt="Cutlery" />
     </nav>
     <div role="region" class="register-inputs">
@@ -56,13 +58,14 @@
   </div>
   <!--LOGIN FORM-->
   <div class="login-form hidden">
+      <h3 class="login-title">Order Inn</h3>
     <nav>
       <img class="logo" src="../cutlery-icon.svg" alt="Cutlery" />
     </nav>
     <div role="region" class="login-inputs">
       <form accept-charset="UTF-8">
         <fieldset>
-          <legend class="login-legend">Log In</legend>
+          <legend class="login-legend">Login</legend>
           <label for="user-email-login">Email</label>
           <input name="user-email-login" id="user-email-login" aria-label="email" placeholder="you@email.com" type="email"
             required />
@@ -181,7 +184,7 @@
             <button type="button" class="checkout-btn">Checkout</button>
           </div>
           <br>
-          <span class="note">* Kitchen hours are from 9:00am-3:30pm and 5pm-11pm, Monday-Sunday.</span>
+          <p class="note">* Kitchen hours are from 9am-3:30pm, 5pm-11pm M-Sun.</p>
         </div>
 
       </div>
@@ -192,16 +195,15 @@
   </div>
   <!--ABOUT PAGE-->
   <div class="about hidden">
+    <h3 class="about-title">Order Inn</h3>
     <nav>
       <img class="logo" src="../cutlery-icon.svg" alt="Cutlery" />
     </nav>
 
     <div role="region" class="description">
       <p>Welcome to Order Inn!</p>
-      <p>Order Inn is the Sublime Hotel's in house app which allows guests to reserve speical dishes from our award
-        winning food lab at prime social hubs inside the hotel.</p>
-      <p>Whether you want breakfast at the pool or simply a small pick me up on our rooftop, Order Inn makes it easy to
-        sample new food and enjoy our first class amenties. </p>
+      <p>Whether you want breakfast at the pool or simply a small pick me up on our beautiful rooftop, the 'Order Inn' app makes it easy to book special menu meals at prime social hubs inside the Sublime Hotel.</p>
+      <p>Make your stay and order from our award-winning food lab today!</p> 
     </div>
 
   </div>
