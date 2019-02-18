@@ -183,7 +183,7 @@ body {
 .order-title {
   font-size: 60px;
   text-align: center;
-  font-family: 'Cedarville Cursive', cursive;
+  font-family: 'Cedarville Cursive', 'helvetica', sans-serif;
 }
 
 .logo-menu {
@@ -348,7 +348,7 @@ form {
   .order-date {
     font-family: "Barlow Condensed", helvetica, sans-serif;
     font-size: 20px;
-    margin-left: 30px;
+    margin-left: 29px;
   }
 
   .order-item {

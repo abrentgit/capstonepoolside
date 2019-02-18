@@ -59,7 +59,8 @@ fieldset {
   letter-spacing: 0;
   margin: 0 auto 45px;
   padding-bottom: 20px;
-  font-family: 'Cedarville Cursive', cursive;
+  /* font-family: 'Cedarville Cursive', cursive; */
+  font-family: 'Cedarville Cursive', 'helvetica', sans-serif;
 }
 
 legend {
@@ -161,7 +162,8 @@ h2.order-id {
 }
 
 .register-legend {
-  font-family: 'Cedarville Cursive', cursive;
+  /* font-family: 'Cedarville Cursive', cursive; */
+  font-family: 'Cedarville Cursive', 'helvetica', sans-serif;
 }
 
 @media only screen and (max-width: 640px) {
