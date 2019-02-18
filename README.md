@@ -15,7 +15,7 @@ When users land on the homepage they are given an option to login and register u
 ![Homepage](public/homepage.png)
 
 There is also a link to an about page where users can click to find out more about the app itself.
-![About Page](public/about.png)
+![About Page](public/about-page.png)
 
 
 In order to register,  a user supplies an email and a password. After that, they are free to login and begin to book dishes.
@@ -76,12 +76,6 @@ Add the ability to book multiple orders in one session.
 Add feature so that order times can be limited according to amount of bookings. 
 Add feature that limits registration to legit emails, and only secure password combinations. 
 Add photo page of individual meals to pages. 
-
-SCREENSHOTS:
-
-![Order View 1](public/order-page-1.png)
-![Order View 2](public/order-page-2.png)
-![Confirmation Page](public/order-confirm.png)
 
 
  
