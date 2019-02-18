@@ -11,21 +11,32 @@ Depending on the partnering hotel’s amenities and communal spaces, users can o
 
 FUNCTIONALITY:
 
-When users land on the homepage they are given an option to login and register up front. 
+When users land on the homepage they are given an option to login and register up front.
+![Homepage](public/homepage.png)
 
-There is also a link to an about page where users can click to find out more about the app itself. 
+There is also a link to an about page where users can click to find out more about the app itself.
+![About Page](public/about.png)
 
-In order to register,  a user supplies an email and a password.
+
+In order to register,  a user supplies an email and a password. After that, they are free to login and begin to book dishes.
+![Register Page](public/register-page.png)
+![Login Page](public/login.png)
+
 
 Once a user logs on, it is provided with a menu of available dishes from which they can create an order. 
 Using the “add dish” and “delete dish” buttons, a user can adapt its selections.
+![Order View 1](public/order-page-1.png)
 
 If a dish is added, it is shown inside the order box along with the quantity of the dishes selected and total price of the order. 
 
 If a dish is deleted, it is reflected in both the total order price and in the quantity. 
 
-A user is asked to choose the time, date, and hotel selection of their order. 
-Once the order is submitted, the user can choose to cancel the order. 
+Once a user decides what dishes it wants, the user is asked to choose the time, date, and available hotel location where they can dine. 
+
+Once the order is submitted, the user receives a summary of the order. If it is unhappy with the order it can choose to cancel the order.
+
+![Order View 2](public/order-page-2.png)
+
   
 TECHNICAL:
 
@@ -58,17 +69,16 @@ DELETE to '/orders/:id' to delete order
 DEVELOPMENTAL ROADMAP
 Possible additional features, functionality and improvements:
 
-Add dashboard of user orders at a later time.
+Add a dashboard that shows a list of pending user orders.
 Add in that dashboard an ability to update and edit the order
+
+Add the ability to book multiple orders in one session. 
 Add feature so that order times can be limited according to amount of bookings. 
-Add feature so you can register legit emails,  and only harder password combinations. 
-Add photos of guest and meals to pages. 
+Add feature that limits registration to legit emails, and only secure password combinations. 
+Add photo page of individual meals to pages. 
 
 SCREENSHOTS:
 
-<img src="public/homepage.png" width="100" height="10"
-![Login Page](public/login.png)
-![Register Page](public/register-page.png)
 ![Order View 1](public/order-page-1.png)
 ![Order View 2](public/order-page-2.png)
 ![Confirmation Page](public/order-confirm.png)
