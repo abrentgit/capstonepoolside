@@ -64,8 +64,9 @@ Add feature so that order times can be limited according to amount of bookings.
 Add feature so you can register legit emails,  and only harder password combinations. 
 Add photos of guest and meals to pages. 
 
-SCREENSHOTS: 
-![Homepage](public/homepage.png)
+SCREENSHOTS:
+
+<img src="public/homepage.png" width="100" height="10"
 ![Login Page](public/login.png)
 ![Register Page](public/register-page.png)
 ![Order View 1](public/order-page-1.png)
