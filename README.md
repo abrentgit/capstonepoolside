@@ -70,7 +70,6 @@ SCREENSHOTS:
 ![Register Page](public/register-page.png)
 ![Order View 1](public/order-page-1.png)
 ![Order View 2](public/order-page-2.png)
-![Order View 3](public/order-page-3.png)
 ![Confirmation Page](public/order-confirm.png)
 
 
