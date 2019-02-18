@@ -39,7 +39,7 @@ body {
   list-style-type: none;
   text-align: center;
   display: inline;
-  font-family: 'Cedarville Cursive', cursive;
+  font-family: 'Cedarville Cursive', 'helvetica', sans-serif;
 }
 
 .homepage-nav {
