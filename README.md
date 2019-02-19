@@ -31,13 +31,13 @@ Depending on the partnering hotel’s amenities and communal spaces, users can o
 
 ![Order View 1](public/order-page-1.png)
 
-- If a dish is added, it is shown inside the order box along with the quantity of the dishes selected and total price of the order. 
+- If a dish is added, it is shown inside the order box along with the quantity of the dishes selected and the total price of the order. 
 
 - If a dish is deleted, it is reflected in both the total order price and in the quantity. 
 
 - Once a user decides what dishes it wants, the user is asked to choose the time, date, and available hotel location where they can dine. 
 
-- Once the order is submitted, the user receives a summary of the order. If it is unhappy with the order it can choose to cancel the order.
+- Once the order is submitted, the user receives a summary of the order. If it is unhappy with the order, the user is given the option to cancel the order on the page.
 
 ![Order View 2](public/order-page-2.png)
 
@@ -76,12 +76,11 @@ API endpoints for the back end include:
 *Possible additional features, functionality and improvements:
 
 - Add a dashboard that shows a list of pending user orders.
-- Add in that dashboard an ability to update and edit the order
+- Add in that dashboard an ability to update and edit the order.
 
 - Add the ability to book multiple orders in one session. 
 - Add feature so that order times can be limited according to amount of bookings. 
-- Add feature that limits registration to legit emails, and only secure password combinations. 
-- Add photo page of individual meals to pages. 
+- Add a feature that limits registration to legit emails, and only secure password combinations. 
 
 
  
